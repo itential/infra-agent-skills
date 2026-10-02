@@ -1,8 +1,8 @@
 # Contributing to Infrastructure Agent Skills
 
 <!-- PLACEHOLDER — adapted from itential-mcp's CONTRIBUTING.md. Sections marked [PLACEHOLDER]
-below depend on decisions not yet made (license, CI/lint tooling if any). See TODO.md (untracked,
-local) for the open items. -->
+below depend on decisions not yet made (CI/lint tooling if any). License is now Apache-2.0, see
+LICENSE. See TODO.md (untracked, local) for remaining open items. -->
 
 Thank you for your interest in contributing to Infrastructure Agent Skills! This document provides
 guidelines and instructions for contributing to this project.

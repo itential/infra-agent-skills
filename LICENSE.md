@@ -1,1 +1,1 @@
-<!-- PLACEHOLDER — license not yet decided. Repo is private; do not make public until this is filled in. See TODO.md (untracked, local) for the open decision. -->
+This project is licensed under the [Apache License, Version 2.0](./LICENSE).

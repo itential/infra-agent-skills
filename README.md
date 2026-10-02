@@ -131,7 +131,6 @@ Contributions require agreement to the [CLA](CLA.md).
 
 ## 📄 License
 
-<!-- PLACEHOLDER — license not yet decided; repo is private until this is settled. -->
-Not yet finalized — see [LICENSE.md](LICENSE.md).
+[Apache License, Version 2.0](./LICENSE).
 
 Copyright (c) 2026 Itential, Inc.
