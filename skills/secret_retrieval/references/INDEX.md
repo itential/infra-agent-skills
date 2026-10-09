@@ -5,7 +5,7 @@ step-by-step) plus wire-level `endpoints.md`.
 
 | Vendor / Platform | Directory | Scope | Notes |
 |---|---|---|---|
-| HashiCorp Vault | `hashicorp_vault/` | Read/write a secret in the KV v1 or KV v2 secrets engine; delete/undelete/destroy a KV v2 version | Token-based auth (`X-Vault-Token`); KV v2 is versioned and soft-delete capable, KV v1 is not |
+| HashiCorp Vault | `hashicorp_vault/` | Read/write/list a secret in KV v1 or KV v2; inspect KV v2 version metadata; delete/undelete/destroy a KV v2 version | Token-based auth (`X-Vault-Token`); KV v2 is versioned and soft-delete capable, KV v1 is not |
 | 1Password (Connect API) | `1password/` | Read/create/update/delete a vault item and its field values | Requires a self-hosted 1Password Connect server plus a scoped Connect access token; items hold multiple typed fields, not one bare value |
 | CyberArk Conjur | `cyberark_conjur/` | Retrieve/set the value of a `variable` resource (a "secret") | Two-step auth (login for API key, then authenticate for a short-lived access token); the variable resource itself must already exist via policy before a value can be set |
 | CyberArk Privilege Cloud | `cyberark_privilege_cloud/` | Retrieve/change a privileged account's credential value; trigger verify/reconcile | Session-token auth via Logon; "accounts" are the addressable unit, not bare key/value secrets; retrieval is documented as intended for human/interactive use, not high-volume automation |

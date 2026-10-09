@@ -104,3 +104,15 @@ Locations, groups, departments, users, and time windows each have their own list
 ZIA (separate service packages in the same SDK) — resolve caller-supplied names against those before
 building a URL Filtering rule payload; this procedure does not restate each one's own wire format
 since they are outside this rule family's endpoint.
+
+## Activation bindings
+
+Verified against the publisher's [Python activation client](https://github.com/zscaler/zscaler-sdk-python/blob/master/zscaler/zia/activate.py) and [activation model](https://github.com/zscaler/zscaler-sdk-python/blob/master/zscaler/zia/models/activation.py), retrieved 2026-10-09. The existing OneAPI base and bearer authentication apply.
+
+| Operation | Method and path | Body | Result |
+|---|---|---|---|
+| Read activation status | `GET /zia/api/v1/status` | None | Activation record containing `status` string |
+| Activate configuration | `POST /zia/api/v1/status/activate` | `{}` | Activation record containing `status` string |
+
+The request has no rule identifier. The cited model does not enumerate all status values or specify
+a completion timeout. Client/API failures remain failures even after a successful rule write.

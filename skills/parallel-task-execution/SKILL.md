@@ -1,16 +1,16 @@
 ---
 name: parallel-task-execution
-description: Run independent callable invocations concurrently and collect their ordered results. Use when this operation is requested on Cisco pyATS. Assumes a Python environment with pyATS and an already-defined callable. This procedure does not determine whether device changes are independent or supply the operation executed by each worker.
+description: >-
+  Run independent tasks concurrently and collect their platform-native results. Use for pyATS independent callable execution or Nornir host-scoped read-only task execution. Covers Cisco pyATS and Nornir. Assumes the selected Python framework, an already defined task, and any required inventory and connections are available.
 ---
 
 # Parallel Task Execution
 
-Run independent callable invocations concurrently and collect their ordered results using the selected platform's documented procedure.
+Run independent tasks concurrently and collect their platform-native results.
 
 ## When to use this skill
 
-Use for run independent callable invocations concurrently and collect their ordered results, on Cisco pyATS.
-The supported modes are listed in [references/INDEX.md](references/INDEX.md).
+Use for pyATS independent callable execution or Nornir host-scoped read-only task execution. Supported platforms: Cisco pyATS and Nornir.
 
 ## Universal concepts
 
@@ -35,7 +35,7 @@ Vendor details belong in that vendor's references. Recheck shared claims before 
 
 ## Tools
 
-Assumes a Python environment with pyATS and an already-defined callable. The platform procedure lists the required operations or execution mechanism.
+Assumes the selected Python framework, an already defined task, and any required inventory and connections are available. The selected procedure lists required operations and bindings.
 
 ## Verification checklist
 

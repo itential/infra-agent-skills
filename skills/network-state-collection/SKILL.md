@@ -1,16 +1,16 @@
 ---
 name: network-state-collection
-description: Parse command output, learn feature state, and compare saved network snapshots. Use when this operation is requested on Cisco pyATS / Genie. Assumes pyATS, Genie, and an authenticated testbed or captured command output. Collection and comparison report observed data; they do not diagnose root causes or approve a network change.
+description: >-
+  Collect structured network state and perform supported snapshot comparisons. Use for pyATS/Genie command parsing, feature learning and comparisons, NAPALM read-only getters, or Linux iproute2 link/address/route inspection. Covers Cisco pyATS / Genie, NAPALM, and Linux iproute2. Assumes the selected collector or CLI and its required device access or captured input are available.
 ---
 
 # Network State Collection
 
-Parse command output, learn feature state, and compare saved network snapshots using the selected platform's documented procedure.
+Collect structured network state and perform supported snapshot comparisons.
 
 ## When to use this skill
 
-Use for parse command output, learn feature state, and compare saved network snapshots, on Cisco pyATS / Genie.
-The supported modes are listed in [references/INDEX.md](references/INDEX.md).
+Use for pyATS/Genie command parsing, feature learning and comparisons, NAPALM read-only getters, or Linux iproute2 link/address/route inspection. Supported platforms: Cisco pyATS / Genie, NAPALM, and Linux iproute2.
 
 ## Universal concepts
 
@@ -35,7 +35,7 @@ Vendor details belong in that vendor's references. Recheck shared claims before 
 
 ## Tools
 
-Assumes pyATS, Genie, and an authenticated testbed or captured command output. The platform procedure lists the required operations or execution mechanism.
+Assumes the selected collector or CLI and its required device access or captured input are available. The selected procedure lists required operations and bindings.
 
 ## Verification checklist
 

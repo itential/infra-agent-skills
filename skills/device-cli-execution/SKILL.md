@@ -1,16 +1,16 @@
 ---
 name: device-cli-execution
-description: Execute approved CLI commands or apply an approved configuration through a device session. Use when this operation is requested on Cisco pyATS / Unicon. Assumes a pyATS environment with the matching Unicon plugin and device credentials. The caller supplies platform-documented commands and verification criteria. This is a transport procedure, not a generic configuration design or rollback recipe.
+description: >-
+  Execute approved device commands or transport an approved configuration through a supported session. Use for platform-supported CLI execution, including read-only Netmiko and Junos inspection and the documented pyATS/Unicon or RADKit transport modes. Covers Cisco pyATS / Unicon, Cisco RADKit, Netmiko, and Juniper Junos CLI. Assumes the selected session client, matching platform support, credentials and caller-supplied approved commands are available.
 ---
 
 # Device CLI Execution
 
-Execute approved CLI commands or apply an approved configuration through a device session using the selected platform's documented procedure.
+Execute approved device commands or transport an approved configuration through a supported session.
 
 ## When to use this skill
 
-Use for execute approved CLI commands or apply an approved configuration through a device session, on Cisco pyATS / Unicon.
-The supported modes are listed in [references/INDEX.md](references/INDEX.md).
+Use for platform-supported CLI execution, including read-only Netmiko and Junos inspection and the documented pyATS/Unicon or RADKit transport modes. Supported platforms: Cisco pyATS / Unicon, Cisco RADKit, Netmiko, and Juniper Junos CLI.
 
 ## Universal concepts
 
@@ -35,7 +35,7 @@ Vendor details belong in that vendor's references. Recheck shared claims before 
 
 ## Tools
 
-Assumes a pyATS environment with the matching Unicon plugin and device credentials. The platform procedure lists the required operations or execution mechanism.
+Assumes the selected session client, matching platform support, credentials and caller-supplied approved commands are available. The selected procedure lists required operations and bindings.
 
 ## Verification checklist
 

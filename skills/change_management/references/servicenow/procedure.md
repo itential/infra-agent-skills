@@ -39,7 +39,7 @@ the prior one actually returned a usable record.
 
 ### Create
 
-Create a change request with the given fields, **plus `chg_model` and/or `type`** — the source strongly
+**Stop and confirm with the operator before proceeding.** The creation operation creates a change request with the given fields, **plus `chg_model` and/or `type`** — the source strongly
 advises setting at least one (omitting both silently applies a release-dependent default).
 
 Confirm success: the response record includes a change `number` and `sys_id`. New records default to
@@ -47,8 +47,7 @@ state "New" and approval "Not Yet Requested" unless overridden.
 
 ### Update
 
-Update the given fields on the change record. Use for any non-close change (priority, description,
-assignment, implementation plan, etc.).
+For a state-changing update, Check Gates runs first and the current record is re-read immediately before the write. **Stop and confirm with the operator before proceeding.** The update operation applies the given non-close fields to the selected change record. A subsequent read confirms that the requested values took effect; an unchanged or unexpected value is reported as an unsuccessful update rather than retried automatically.
 
 ### Check Gates (required before Close, and before any state-changing Update)
 
@@ -76,7 +75,7 @@ fields.
 
 ### Approve / Reject
 
-Submit the approval decision (approved or rejected) for the change record.
+**Stop and confirm with the operator before proceeding**, including the exact approved or rejected decision. The approval operation submits that decision for the selected change record.
 
 - A comment is required when rejecting — submit no rejection without a reason.
 - A denied-authority error is a documented, specific failure mode distinct from a generic bad request —

@@ -18,6 +18,14 @@ same date since the page itself did not render outside a browser session.
 Assumes an authenticated REST client already holding a valid OneAPI access token for the target ZIA
 tenant (see `endpoints.md` for how that token is obtained and applied) is available.
 
+Activation correction verified against the publisher's [URL-filtering tool implementation](https://github.com/zscaler/zscaler-mcp-server/blob/master/src/zscaler_mcp/tools/zia/url_filtering_rules.py), [activation tools](https://github.com/zscaler/zscaler-mcp-server/blob/master/src/zscaler_mcp/tools/zia/activation.py), and [Python activation client](https://github.com/zscaler/zscaler-sdk-python/blob/master/zscaler/zia/activate.py), retrieved 2026-10-09. A successful rule write persists a change; the publisher requires a separate activation operation before that change takes effect.
+
+## Common Sequences
+
+- Create: scope and reference resolution → placement and payload validation → confirmed create → persisted-rule verification → confirmed activation → activation-status verification.
+- Update: current rule and order read → replacement payload preserving intended fields → confirmed update → persisted-rule verification → confirmed activation → activation-status verification.
+- Delete: current rule read → confirmed delete → deletion-result verification → confirmed activation → activation-status verification.
+
 ## Operational procedure
 
 1. **Confirm the rule action and scope are within this procedure's coverage** — this procedure
@@ -53,18 +61,27 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
    meaningful — the source does not state ZIA enforces this at the API layer, so do not assume a
    missing profile reference will be rejected outright, but flag it to the caller as likely
    non-functional if omitted.
-7. **Stop and confirm with the operator before submitting create, update, or delete** — every one of
-   these operations changes live enforcement for real user traffic the moment it is applied (see
-   Universal concepts in `SKILL.md`). This applies equally to a rule reorder, since reordering can
-   change which rule matches first for existing traffic without changing either rule's own fields.
+7. **The rule write requires a confirmation gate: stop and confirm with the operator before proceeding**
+   with create, update, delete, or reorder. The resulting configuration is staged for activation.
+   A replacement update carries all fields intended to remain; a partial replacement can remove
+   settings that were omitted from the payload.
 8. **Submit the call** — create, update against the rule's `id`, or delete against the rule's `id`,
    per `endpoints.md`.
-9. **Confirm the outcome.** A create/update returning the rule object (with a populated `id` for
+9. **Verify the persisted change.** A create/update returning the rule object (with a populated `id` for
    create) is the success signal; a delete returning a success status with no body is the success
    signal for delete. If the calling tool needs a separate confirmation read, fetch the rule by `id`
-   and compare the fields just submitted against what was persisted — report CREATED, UPDATED, or
-   DELETED accordingly.
-10. **Handle failures verbatim.** The source does not document specific error codes/strings for this
+   and compare the fields just submitted against what was persisted. This confirms the record
+   operation, not active enforcement.
+10. **Activate configuration.** Activation affects live enforcement: stop and confirm with the
+    operator before proceeding. The publisher exposes a tenant configuration activation operation,
+    not an operation restricted to this rule ID; approval therefore covers the pending configuration
+    being activated. Activation failure leaves the record change distinct from its enforcement state.
+11. **Read activation status.** The activation response and a subsequent status read carry the
+    platform's native status string. The cited client does not define a complete status enumeration
+    or completion timeout; an unfamiliar or pending status remains unverified and requires
+    platform-specific guidance. The outcome reports CREATED, UPDATED, or DELETED for the record
+    together with the actual activation status, never equating record persistence with enforcement.
+12. **Handle failures verbatim.** The source does not document specific error codes/strings for this
     endpoint family beyond the general shape of the SDK returning the HTTP status and response body
     on a non-2xx result. Report FAILED with the underlying response's actual status and body rather
     than inferring a cause not stated in the source.
@@ -82,6 +99,8 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
 - **`rank` is a distinct concept from `order`.** The source describes `rank` as an administrative
   authority/priority level on the rule, separate from its position in the evaluation sequence — do
   not conflate the two when a caller says "priority."
+- Rule writes and activation are separate operations. The activation request contains no rule ID;
+  the procedure cannot promise isolation from other pending tenant changes.
 
 ## Known limitations
 
@@ -112,6 +131,8 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
 | Create URL Filtering Rule | Create a new rule | URL Filtering |
 | Update URL Filtering Rule | Update an existing rule by ID | URL Filtering |
 | Delete URL Filtering Rule | Remove a rule by ID | URL Filtering |
+| Activate configuration | Apply pending ZIA configuration | Activation |
+| Read activation status | Return the current platform activation status | Activation |
 | Locations / Groups / Departments / Users / Time Windows lookup | Resolve caller-supplied names to the ID-object references the rule body requires | Reference objects |
 
 ## Verification checklist
@@ -123,5 +144,6 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
       request, not left unset
 - [ ] CIPA-compliance mutual-exclusion checked before enabling `enableCIPACompliance` alongside any
       of the four conflicting fields
-- [ ] Operator confirmed before create, update, delete, or reorder — all four affect live enforcement
+- [ ] Operator confirmed before create, update, delete, or reorder and again before activation
 - [ ] Outcome confirmed via the response body (create/update) or success status (delete), not assumed
+- [ ] Activation status reported separately; an unrecognized status was not treated as completed enforcement

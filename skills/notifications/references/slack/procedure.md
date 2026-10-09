@@ -36,7 +36,8 @@ limits page (https://docs.slack.dev/apis/web-api/rate-limits, retrieved 2026-09-
    token without that scope will have these fields silently ignored, so don't rely on them to
    confirm identity-override behavior actually worked without checking the app's granted scopes
    first.
-5. **Submit the call** against `chat.postMessage` with an authenticated token carrying `chat:write`
+5. **Submit the call. Before posting to the resolved audience: stop and confirm with the operator
+   before proceeding.** The call uses an authenticated token carrying `chat:write`
    (plus `chat:write.customize` if step 4 applies). See `endpoints.md` for the literal request shape.
 6. **Confirm delivery using the `ok` field, not just a 2xx HTTP status.** A response can be HTTP 200
    and still carry `"ok": false` with an `error` string — treat that as the authoritative pass/fail

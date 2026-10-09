@@ -30,3 +30,9 @@ vendor's own `procedure.md` "Known limitations" for the precise boundary.
    contradicts it, and note the correction here.
 5. Do NOT add vendor-specific procedure content to the top-level `SKILL.md` — see that file's own
    contribution note.
+
+## Shared-concept correction
+
+ZIA requires configuration activation after supported rule mutations. The router no longer claims
+that every listed platform applies saved rules immediately or has no staged state. The ZIA procedure
+separates saved configuration, activation and verification.

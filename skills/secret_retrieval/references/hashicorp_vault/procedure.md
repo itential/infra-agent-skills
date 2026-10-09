@@ -1,134 +1,67 @@
-# HashiCorp Vault — Secret Retrieval Procedure
+# Vault KV secret lifecycle
 
-Reads or writes a secret's value in Vault's Key/Value secrets engine, covering both the older KV
-version 1 (unversioned) and the current KV version 2 (versioned) mount types. Assumes an
-authenticated Vault client already holding a valid client token — obtaining that token via a Vault
-auth method (userpass, AppRole, cloud auth, etc.) is out of scope here.
+Read, replace, list, inspect metadata, or remove a secret in an existing Vault KV mount.
 
-Source: HashiCorp's own Vault API documentation for the KV v2 secrets engine and the KV v1
-secrets engine (developer.hashicorp.com/vault/api-docs/secret/kv/kv-v2 and .../kv-v1), retrieved
-2026-09-29.
+Sources: HashiCorp current [KV v1](https://developer.hashicorp.com/vault/api-docs/secret/kv/kv-v1), [KV v2](https://developer.hashicorp.com/vault/api-docs/secret/kv/kv-v2), [mounts](https://developer.hashicorp.com/vault/api-docs/system/mounts), and [HTTP API](https://developer.hashicorp.com/vault/api-docs), retrieved 2026-10-09. Bindings are in [endpoints.md](endpoints.md).
 
-## Operational procedure
+## Common Sequences
 
-### 1. Determine the KV engine version in use
+- Retrieve: Identify engine → Read value.
+- Inspect without values: Identify engine → List names or Read version metadata.
+- Change lifecycle: Identify engine → Read version metadata (v2) → Replace or Remove/restore → Read version metadata (v2).
 
-**KV v1 and v2 are not interchangeable — the request shape and the URL path differ.** If the caller
-doesn't already know which version the target mount uses, this must be established first (e.g. by
-checking how the mount was enabled, or by attempting a v2-style metadata read and treating a
-not-found/format mismatch as a signal to fall back to v1 semantics). Never assume v2 just because
-it's the newer default — plenty of long-lived mounts are still v1.
+## Identify engine
 
-- **KV v1**: every request path is `/{mount}/{path}` directly — no `data`/`metadata` segment, no
-  version concept.
-- **KV v2**: the actual secret data lives under `/{mount}/data/{path}`; a separate
-  `/{mount}/metadata/{path}` space holds version history and configuration. Treat these as two
-  different logical resources sharing one secret name.
+The mount configuration establishes whether the engine is KV v1 or KV v2. A failed metadata read does not prove the mount is v1: absent keys and insufficient permissions can also produce not-found responses. If mount information is unavailable, the version remains unknown and the operation is blocked until confirmed.
 
-See `endpoints.md` for the exact paths of each.
+## Read value
 
-### 2. Read a secret
+KV v1 returns the current value map. KV v2 returns a value map plus metadata for the requested version; omitting the version selects the latest version, even when that version has been deleted or destroyed. There is no automatic fallback to an older readable version. A value response contains secrets and is not safe to echo into a report. Only an approved secret-capable consumer receives the requested value; the report records nonsecret outcome metadata.
 
-- **KV v1**: issue a read against the mount+path directly. The response body's `data` map is the
-  secret's full contents (whatever keys were written) — there is no separate `version` in the
-  payload, since v1 has none.
-- **KV v2**: issue a read against the `data` sub-path. To read a specific historical version rather
-  than the latest, supply the `version` query parameter — omitting it returns the newest,
-  non-destroyed version. The response separates the secret's own key/value map (under `data.data`)
-  from Vault-managed version metadata (under `data.metadata`: `created_time`, `version`,
-  `destroyed`, and deletion state).
-- If the read returns nothing where a value was expected, check whether the KV v2 version was
-  soft-deleted (see step 4) before concluding the secret doesn't exist — a soft-deleted version
-  still shows up in metadata history but returns no data on a plain read.
+## List names or Read version metadata
 
-### 3. Create or overwrite a secret's value
+A directory listing returns immediate child names; folder names have a trailing slash. KV v2 listing requires metadata-list permission and does not filter each returned name by its own policy, so names can themselves reveal sensitive information. The per-secret metadata read returns version history and deletion/destruction state without secret values. A successful empty LIST can be reported as 404; a generic 404 also permits absent or inaccessible resources, so its context matters.
 
-- **Before overwriting an existing secret's value, stop and confirm with the operator** — this is a
-  destructive, hard-to-reverse-without-history action on KV v1 (no version history exists to recover
-  the prior value), and a version-creating action with real operational impact on KV v2 (the prior
-  version becomes non-current, though it's still recoverable unless later destroyed).
-- **KV v1**: write the full desired key/value map to the mount+path. This is a full replace, not a
-  merge — any key not included in the write is dropped from the stored secret.
-- **KV v2**: write the desired key/value map inside a `data` wrapper to the `data` sub-path. Like v1,
-  this replaces the entire contents at that path (it is not a per-key patch). Optionally include an
-  `options.cas` (check-and-set) value to make the write conditional on the secret's current version
-  number — pass `0` to require the secret not already exist, or the exact current version number to
-  require no intervening write happened. Use `cas` whenever there's a real risk of a concurrent
-  writer, since Vault's own semantics make this the documented way to detect that race rather than
-  silently clobbering another writer's version.
-- On success, KV v2 returns the new version's number and creation time; KV v1 returns no body
-  (success is signaled by the response status alone).
+## Replace
 
-### 4. Delete, undelete, or destroy a KV v2 version (KV v1 has no equivalent — see below)
+Before writing a secret consumed by live systems, **stop and confirm with the operator before proceeding**. Both versions replace the entire value map; v2 creates a new version. The v2 check-and-set condition can require a nonexistent key or an exact current version. When required by the engine or key, it must be supplied. A mismatch is a failed conditional write: metadata must be read again before a new reviewed attempt. Success is a successful status for v1 or the new version metadata for v2.
 
-KV v2 draws a real distinction between three levels of removal; KV v1 has only one (permanent
-delete, since it has no version history to soft-delete from):
+## Remove/restore
 
-- **Soft delete** (a version's data becomes unreadable but recoverable) — targets either the latest
-  version (delete against the `data` path) or a specific list of version numbers (`delete` sub-path
-  with a `versions` array in the body). **Confirm with the operator before this step** even though
-  it's recoverable, since a caller depending on that secret loses access immediately.
-- **Undelete** (reverse a soft delete) — same `versions` array shape, against the `undelete`
-  sub-path. Restores read access to those specific versions.
-- **Destroy** (irreversible; the underlying data is actually removed) — same `versions` array shape,
-  against the `destroy` sub-path. **This step always needs explicit operator confirmation before
-  submission** — the source is explicit that this is not recoverable, unlike a soft delete.
-- **KV v1 delete**: removes the value at the path outright, with no soft-delete/undelete tier at
-  all. Treat every KV v1 delete as equivalent in severity to a KV v2 destroy, and gate it the same
-  way.
+Each operation below requires **stop and confirm with the operator before proceeding**, including the exact path and version selection.
 
-### 5. Handle documented conditions
+- KV v1 removal permanently deletes the value.
+- KV v2 soft deletion marks the latest or explicitly named versions unreadable; metadata records deletion state.
+- KV v2 restoration makes specified soft-deleted versions readable again; it cannot restore destroyed data.
+- KV v2 destruction permanently removes specified version contents; metadata records destruction.
 
-- A `cas` mismatch on a KV v2 write (the secret's current version doesn't match what was supplied)
-  is a concurrency signal, not a generic failure — re-read the current version and let the operator
-  decide whether to retry with the fresh version number or abandon the write.
-- A read against a path that was never written, or that belongs to a mount that doesn't exist,
-  returns a not-found condition — don't interpret this as "the secret has an empty value," they are
-  different states.
-- Every request requires the `X-Vault-Token` header; a missing or expired token is an authentication
-  failure the caller must resolve (re-authenticate via whatever Vault auth method issued the
-  original token) before retrying — this skill does not manage that token lifecycle itself.
+A successful response followed by the metadata state confirms a v2 lifecycle change. A not-found response alone is insufficient evidence of a completed removal.
+
+## Error handling
+
+For every operation, invalid requests require corrected inputs; forbidden responses require authentication/policy review; unsupported operations require the correct engine binding. Not-found may mean hidden access, not just absence. Enterprise consistency preconditions can be retried with backoff. A sealed/uninitialized/unavailable server blocks execution. After a write timeout or server failure, read-back is needed before a repeat because completion is unknown. Exact common statuses are in the binding.
 
 ## Patterns
 
-- **KV v2's `data`/`metadata` split is the single most important structural fact to get right.**
-  Reading and writing secret content always goes through `data`; version history, soft-delete
-  state, and per-secret configuration (like max version count) always goes through `metadata`.
-  Confusing the two produces a request that looks superficially correct but targets the wrong
-  resource.
-- **A version number is only meaningful on KV v2.** Don't ask a KV v1 mount for "version 3 of this
-  secret" — the concept doesn't exist there; the only state is "whatever was last written."
+Metadata inspection is a different operation from reading a value. NetClaw's claim that its read wrapper never returns values is not a property of the Vault read API. Secret injection into an integration is that integration's separate binding; Vault does not expose the source wrapper's generic inject operation.
 
 ## Known limitations
 
-- Covers the KV v1 and v2 secrets engines only — Vault's other secret-producing engines (database
-  dynamic credentials, cloud provider dynamic credentials, Transit encryption keys) are a
-  structurally different kind of "secret" (generated on demand, often leased/expiring) and are out
-  of scope for this skill.
-- Does not cover Vault PKI (certificate issuance) — see `certificate_management`.
-- Does not cover enabling a new KV mount or configuring engine-level settings (max versions,
-  cas-required enforcement) — this skill assumes the mount already exists with whatever
-  configuration the operator has set.
+Mount enablement, engine-wide retention configuration, and non-KV secret engines are outside scope. Reducing retention can permanently remove history; this procedure does not modify retention. KV v1 has no version metadata or version-based recovery in this API.
 
 ## Tools
 
-Every operation maps to the Vault HTTP API — see `endpoints.md` for literal request/response shape.
-
 | Operation | Description | Category |
 |---|---|---|
-| KV v1 read | `GET` a secret's current (only) value | Secret Read |
-| KV v2 read | `GET` a secret's latest or a specific version's value plus metadata | Secret Read |
-| KV v1 write | `POST` to fully replace a secret's stored key/value map | Secret Write |
-| KV v2 write | `POST` to create a new version with a fully replaced key/value map | Secret Write |
-| KV v1 delete | `DELETE` to permanently remove the secret | Secret Delete |
-| KV v2 soft delete | `DELETE`/`POST` to mark version(s) deleted, recoverable | Secret Delete |
-| KV v2 undelete | `POST` to restore soft-deleted version(s) | Secret Delete |
-| KV v2 destroy | `POST` to permanently remove version(s) | Secret Delete |
+| Identify engine | Reads the mount's type/version | Read |
+| Read value | Retrieves the current or selected version | Secret read |
+| List names/read metadata | Retrieves names or version state without values | Read |
+| Replace | Replaces a value; v2 creates a version | Secret write |
+| Remove/restore | Deletes, undeletes, or destroys selected data | Lifecycle write |
 
 ## Verification checklist
 
-- [ ] KV engine version (v1 vs v2) for the target mount was confirmed, not assumed
-- [ ] For KV v2 reads, whether a specific version or the latest was intended was made explicit
-- [ ] Any overwrite, delete, or destroy of an existing value was confirmed with the operator first
-- [ ] A `cas` value was used on KV v2 writes where a concurrent writer was a realistic risk
-- [ ] The retrieved secret value was not written into any log, report, or status message
+- Engine version was confirmed from mount configuration.
+- A latest-version read was not misreported as fallback to older data.
+- Confirmation covered the exact mutation and version selection.
+- Values were kept out of logs/reports; metadata was used where values were unnecessary.
