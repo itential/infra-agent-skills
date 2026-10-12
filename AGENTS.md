@@ -361,6 +361,10 @@ Reject or send back:
 - **Tool-named capabilities.** A capability named after a framework instead of an operation.
 - **Anything failing the "two engineers at two companies" test**, or sitting outside the
   infrastructure-operations scope above.
+- **Capability sprawl.** One capability per query type, per vendor feature, or per source tool. The
+  repo keeps few, stable capabilities with vendors underneath; fold a new read or write operation
+  into the existing capability it belongs to (for example firewall rules into `firewall_management`)
+  instead of creating a sibling.
 - **Out-of-shape content.** Extra files outside the repository shape, `SKILL.md` edits to existing
   skills beyond rule 5's two reasons, or changes to unrelated existing skills.
 
@@ -416,8 +420,43 @@ how to report a suspected instance of this in already-merged content.
   audited after the fact against this file, and the follow-up fixes ship as a normal reviewed PR.
 - **The PR description is a claim, not evidence.** Verify counts, sources, and scope statements
   against the diff.
+- **Rebase first.** Content review starts only when the branch is current with `main`. If `main`
+  renamed, removed, or restructured something the PR touches, the author rebases and resolves that
+  before review; do not review against a stale base.
+- **Large PRs are split, not reviewed whole.** More than about five new capabilities, a diff GitHub
+  cannot render, or several unrelated domains in one PR: ask the author to split it by domain (one
+  capability family per PR) and ship corrections to existing skills as their own small PR. Run the
+  mechanical checks (names, file shape, literals, hidden content, base freshness) across everything,
+  and review content per slice by reading in full rather than sampling a few lines.
+- **Check the automated review too.** A reviewer agent's finding is a claim like any other: confirm
+  it in the file before relying on it or forwarding it (a reviewer once reported a missing
+  confirmation gate that existed). Re-run the reviewer after the rules or the code change, and use
+  an isolated checkout or worktree when reviewing a PR so the working copy stays untouched.
 - **Prefer cutting to polishing.** If the applicability screen leaves little worth keeping, say so
   and recommend reducing or closing the PR rather than rewriting every file.
+
+## Review comments
+
+Review comments are read and acted on by the contributor's agent, so each one must stand alone with
+no conversation context.
+
+- **One finding per item**, numbered, with: severity (`BLOCKING`, `FIX`, `ADVISORY`), the file path
+  and line, the rule number, what is wrong in one sentence, the exact change to make, and a command
+  or check that proves it is fixed (for example `ls skills | grep -c -- -` returns `0`).
+- **Name repeated problems once** and list every affected path, instead of repeating the comment.
+- **Plain imperative wording.** Say what to do ("rename X to Y", "delete this file"), not what the
+  reviewer felt. Quote the offending text when it matters.
+- **Phase large reviews.** Post phases in order and say not to start a later phase until the earlier
+  one is resolved, since earlier phases can delete the work later ones would polish:
+  1. **PR-level blockers:** stale base, naming, size and split, out-of-shape files, bundled
+     corrections to existing skills.
+  2. **Applicability per capability:** `KEEP`, `MERGE-INTO <existing capability>`, or `CUT`, each
+     with the rule 13 or 14 reason.
+  3. **Hard gates and rule violations** on what remains: wording (rule 1), injection (rule 10),
+     literals (rule 6), gates (rule 7), structure.
+  4. **Polish:** terse style, scope consistency, advisory items.
+- **Say what is fine** and what to leave alone, so the author does not rework passing content.
+- **Never approve or merge** from a review comment; it recommends, a human decides.
 
 ## Review checklist
 
