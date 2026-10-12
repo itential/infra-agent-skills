@@ -26,11 +26,11 @@ reported as unsupported, without substituting another platform's schema.
 
 ## Capture commands
 
-**Before live connection initialization that changes device settings: stop and confirm with the
-operator before proceeding.** Unicon initialization is configurable; read-only command intent
-does not make its default configuration initialization read-only.
+**Before any live connection: stop and confirm with the operator before proceeding.** Unicon
+initialization can run configuration commands even for read-only intent (Cisco's own example sets
+terminal and logging options).
 
-For an approved connection initialization, Cisco's CLI sequence is:
+Cisco's CLI sequence is:
 
 ```bash
 genie parse "show version" --testbed-file testbed.yaml --devices dut --output snapshot_before
@@ -43,15 +43,14 @@ not evidence of a healthy network. Captured-text parsing bindings are in [endpoi
 
 ## Parse captured text
 
-The parser consumes saved command output for the selected platform rather than executing the
-command. The wrapper binding and its explicit version assumption are in [endpoints.md](endpoints.md).
-Success is the returned structure for the selected parser; a parsing or schema error leaves the
-capture unparsed. This local path establishes no current device state and opens no live session.
+The parser reads saved output for the selected platform; no command runs and no session opens.
+The binding and its version assumption are in [endpoints.md](endpoints.md). Success is the
+returned structure; a parsing or schema error leaves the capture unparsed. It says nothing about
+current device state.
 
 ## Capture features
 
-After the same live-initialization gate — **stop and confirm with the operator before proceeding
-if initialization changes device settings** — the selected feature is collected with:
+After the same live-connection gate, the selected feature is collected with:
 
 ```bash
 genie learn interface --testbed-file testbed.yaml --devices dut --output snapshot_before
@@ -71,8 +70,8 @@ genie diff snapshot_before snapshot_after --output comparison
 Cisco supplies default exclusions for changing fields. Additional exclusions are optional and
 must match the requested comparison; this procedure does not invent an exclude list that hides
 state being checked. `--no-default-exclusion` disables those defaults when explicitly requested.
-Success is the comparison artifact for the matching snapshots. Minus/plus entries represent
-previous/current values or removed/added keys; missing source artifacts leave the comparison
+Success is the comparison artifact for the matching snapshots. A leading minus or plus marks the
+before or after side of a changed or absent key; missing source artifacts leave the comparison
 incomplete, not unchanged.
 
 ## Inspect artifacts
@@ -86,17 +85,13 @@ for the successfully collected fields included in that comparison.
 
 - Without device selection, learning targets all devices in the testbed and normally runs in
   parallel. `--single-process` selects sequential collection.
-- Cisco's Ops comparison example omits learning the second object in one snippet; both objects
-  need collected state, as the same page's complete comparison example demonstrates.
-- The CLI supports optional fuzzy parsing and unambiguous prefixes; exact-only matching is not
-  a universal statement about all Genie entry points.
+- Both objects in an Ops comparison must be learned before comparing.
 
 ## Known limitations
 
 - This is collection/comparison, not a root-cause decision tree or a health policy.
 - Feature schemas aim at a common structure; populated fields and implementation coverage vary.
-- Custom parser development and the source import's unverified generic offline-learn keyword
-  are excluded. Offline command parsing is documented separately in the binding reference.
+- Custom parser development is excluded. Offline parsing of captured text is in the binding reference.
 
 ## Tools
 

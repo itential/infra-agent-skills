@@ -126,6 +126,14 @@ Examples:
 
 ### Before Submitting
 
+- [ ] The change passes the applicability screen in AGENTS.md rule 13: an infrastructure-operations
+      procedure that carries something a capable agent lacks — not a tool manual, generic
+      command/transport wrapper, or developer tooling
+- [ ] Capability, `name`, and vendor/tool directories are lowercase snake_case, and the capability is
+      named for the operation, not a tool (AGENTS.md rule 2). A tool, API, or MCP server fits as a
+      vendor only under AGENTS.md rule 14
+- [ ] The diff touches only `skills/` and root governance/README files — no adaptation maps,
+      provenance write-ups, or validation logs in the repo (put that in the PR description)
 - [ ] Ensure your branch is up to date with `main`
 - [ ] New/changed vendor content lives under that vendor's own `references/<vendor>/` files, not
       in the shared `SKILL.md` — unless this PR is specifically fixing a bug in the shared/router
@@ -147,11 +155,13 @@ Your pull request should include:
    - Which skill(s) and vendor(s) it affects
    - The source documentation it was built or verified from
 3. **References to related issues** (if applicable)
-4. **Any corrections to shared "universal concepts"** — called out explicitly, not folded silently
+4. **Why it belongs here:** which infrastructure operation this is, and what it carries that a
+   capable agent with the vendor's docs would not already do safely
+5. **Any corrections to shared "universal concepts"** — called out explicitly, not folded silently
    into a vendor's own file
-5. **Every secondary source used** (anything other than the vendor's own approved documentation),
+6. **Every secondary source used** (anything other than the vendor's own approved documentation),
    and any explicit scope decisions (what you deliberately left out and why)
-6. **Counts that match** — the number of capabilities and vendors named in the title and body must
+7. **Counts that match** — the number of capabilities and vendors named in the title and body must
    agree with the diff and with the README's "Current Skills" table
 
 Use the [PR template](.github/PULL_REQUEST_TEMPLATE.md) — it already reflects this structure.
@@ -162,6 +172,10 @@ If a contribution stalls after review — for example, the contributor is unresp
 corrections remain — a maintainer may push additive fix-up commits to the contributor's branch,
 provided the branch is in this repository. Fix-ups are plain new commits on top of the existing
 ones: no rebase and no force-push, so the contributor's history and authorship are preserved.
+
+Every pull request is reviewed under AGENTS.md's review checklist before it merges, whoever opens
+it. Maintainers and admins do not approve or merge their own changes, and a change merged without
+review is audited afterwards and corrected through a normal reviewed PR.
 
 Changes authored by an agent on a PR branch are treated the same as any other change: they still
 require a human approval and a human merge.

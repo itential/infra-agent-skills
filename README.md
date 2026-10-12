@@ -40,6 +40,11 @@ skills/<capability>/
       endpoints.md                 # literal wire-level calls
 ```
 
+Capability, `name`, and vendor/tool directories are lowercase snake_case, and a capability is named
+for the operation rather than a tool. A vendor can be a platform's API, a CLI/SDK framework, or an MCP
+server, as long as the operation is a real infrastructure process and the router stays tool-neutral
+— see [AGENTS.md](AGENTS.md) rules 13 and 14.
+
 For a large permutation space (e.g. software upgrades, where one vendor spans several platform
 families and install modes), the same shape holds one level deeper:
 `references/<vendor>/<platform-family>.md` — grouped by platform family/version line, not by every
@@ -82,7 +87,7 @@ one vendor's behavior from ever touching the shared file.
 | `container_workload_deployment` | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub |
 | `zero_trust_access_policy_management` | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
 | `network_state_collection` | Cisco pyATS / Genie (parse commands, learn features, compare snapshots) |
-| `network_test_execution` | Cisco pyATS (AEtest, Blitz, Robot Framework, Genie harness, integrated Health Check), Cisco XPRESSO (single registered job requests) |
+| `network_health_verification` | Cisco pyATS (Health Check, integrated job mode) |
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 

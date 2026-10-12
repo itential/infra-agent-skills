@@ -6,9 +6,8 @@ Sources (Cisco rolling documentation; retrieved 2026-10-09):
 
 ## health.yaml
 
-Original CPU example using the documented criterion form. `90` illustrates Cisco's documented
-example/default criterion; it is not a recommended universal operational threshold. A different
-requested criterion belongs in the corresponding expression, not a nonexistent CPU threshold argument.
+Adapted from the usage page's CPU example. `90` is the documented example criterion, not a
+recommended threshold; a different criterion goes in the `include` expression.
 
 ```yaml
 pyats_health_processors:
@@ -29,8 +28,8 @@ pyats_health_processors:
 | Binding | Effect |
 |---|---|
 | `--health-clear-logging` | Clears device logs before checks |
+| `--health-remote-device` | Core files are copied to a remote server (documented option) |
 | `health_crashinfo` argument `copy_files` | Defaults true; copies newly detected crashinfo to the run directory |
 | `health_crashinfo` argument `delete_files` | Defaults false; true requests deletion, including the documented no-copy case |
 
-Processor result overrides such as `failed_result_status: passx` alter reporting. They do not make
-an existing crash disappear; any override remains visible when reporting observed evidence.
+A result override such as `failed_result_status: passx` changes reporting only; report it alongside the evidence.

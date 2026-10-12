@@ -7,7 +7,7 @@ labels: new-capability
 
 ## Proposed Capability Name
 
-<!-- e.g. `certificate_lifecycle_management` -->
+<!-- snake_case, named for the operation (not a tool), e.g. `certificate_management` -->
 
 ## Why This Is a Distinct Capability
 
@@ -15,7 +15,17 @@ Explain why this doesn't fit under an existing skill (see README's "How It's Org
 A new capability should be a genuinely different operation, not a different vendor or a variant of
 one already covered.
 
-## Vendors/Platforms in Scope (at least one to start)
+## Infrastructure Operation and Applicability
+
+Which infrastructure operation (network, compute, load balancing, provisioning, troubleshooting, or
+an associated process) is this, and what would the skill carry that a capable agent with the vendor's
+docs would not already do safely? See AGENTS.md rule 13. Tool manuals, generic command wrappers, and
+developer tooling are out of scope.
+
+## Vendors/Platforms/Tools in Scope (at least one to start)
+
+If a tool, API, or MCP server is the vendor, confirm the capability still makes sense without it
+(AGENTS.md rule 14).
 
 ## Grounding
 

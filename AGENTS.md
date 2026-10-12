@@ -24,6 +24,13 @@ skill — it doesn't belong in this repo.
 Do not include: a role/persona framing, customer-specific naming or terminology, or business
 judgment calls presented as if they were universal.
 
+**Scope of this repo: infrastructure operations** — network, compute, load balancing, provisioning,
+troubleshooting, and the processes around them (change, inventory, secrets, certificates,
+notification, and similar). A skill must also carry something a capable agent does not already
+have: a documented sequence, a safeguard, a platform gotcha, or exact success/failure criteria.
+Rules 13 and 14 define this screen and how tools, APIs, and MCP servers fit under it; apply it
+before anything else when drafting or reviewing.
+
 ## Repository shape
 
 ```
@@ -35,6 +42,10 @@ skills/<capability>/
       procedure.md                # full step-by-step for that vendor
       endpoints.md                 # literal wire-level calls
 ```
+
+Nothing else belongs in the repository beyond `skills/` and the root governance/README files:
+no adaptation maps, provenance narratives, local validation logs, or contributor write-ups. That
+material belongs in the PR description.
 
 Your own local research notes for a vendor (not part of the repository shape — never committed;
 see rule 1) can live wherever you keep them, entirely outside this directory tree.
@@ -108,6 +119,15 @@ Every `SKILL.md` uses the open [Agent Skills](https://agentskills.io/specificati
   typically has no destructive-action confirmation gates (rule 7) since reading state doesn't
   change anything. Note in that skill's own `SKILL.md` *why* it's diagnostic-shaped (a
   self-contained explanation, not a pointer to another skill file for the reasoning — see rule 11).
+- **Names are lowercase snake_case.** The capability directory name, the frontmatter `name`, and
+  the vendor/tool directory under `references/` all use underscores (`network_state_collection`,
+  `cisco_pyats`), and the directory name must equal `name`. Hyphens are not used for these. (Companion
+  file basenames follow rule 8's `<basename>-endpoints.md` pattern.) If an external validator
+  prefers another form, raise it as an issue for the maintainers; do not diverge in a PR.
+  Three pre-existing vendor directories (`routing_troubleshooting/references/cisco-iosxe` and
+  `juniper-junos`, `load_balancing/references/f5_big-ip_ltm`) predate this rule; they are
+  grandfathered and should be renamed opportunistically in a PR that already touches them.
+  A capability is named for the **operation**, never for a tool or framework.
 - **Scope must read the same everywhere.** The `argument-hint`, `description`, "When to use this
   skill," the body, `references/INDEX.md`, and the root README's "Current Skills" row must all
   describe the same scope. If one says a skill covers create and update, none of the others may
@@ -199,6 +219,7 @@ closes); keep it that way.
 
 ### 8. Naming — avoid silent collisions in `references/<vendor>/`
 
+A vendor directory with a single procedure may use the bare names `procedure.md` and `endpoints.md`.
 Once a vendor has more than one platform-family or mode file (not just once a *second* one is
 added — from the first file), name every companion file after its procedure file's own basename:
 `<platform-family-and-mode>-endpoints.md` — not a bare `endpoints.md`. A generic name silently
@@ -321,6 +342,61 @@ treating it as an unexplained failure.
 explaining it. A procedure should read as a checklist an experienced operator can execute from, not
 a tutorial for a novice.
 
+### 13. Applicability: does this belong in the repo at all?
+
+Apply this screen first — before accuracy, wording, or structure — both when drafting and when
+reviewing. A contribution that fails it is sent back or closed regardless of how well it is written.
+The quick test: remove the skill. Would a capable agent with the vendor's own documentation do the
+job worse or less safely? If not, it does not belong.
+
+Reject or send back:
+
+- **Tool manuals.** How to use a library, SDK, or framework in general: feature tours, authoring
+  test scripts, concurrency helpers, credential or config handling for the tool itself.
+- **Generic transport or scripting.** "Run this command / send this payload and check the output,"
+  with no platform-specific procedure behind it.
+- **Developer or test tooling.** Packaging, building images for, recording, or mocking a framework.
+- **Delegating wrappers.** A skill whose real content is "the caller supplies the definition, the
+  platform steps, and the thresholds." The skill must carry the procedure, not hand it back.
+- **Tool-named capabilities.** A capability named after a framework instead of an operation.
+- **Anything failing the "two engineers at two companies" test**, or sitting outside the
+  infrastructure-operations scope above.
+- **Out-of-shape content.** Extra files outside the repository shape, `SKILL.md` edits to existing
+  skills beyond rule 5's two reasons, or changes to unrelated existing skills.
+
+A contribution's size is not evidence of value. Prefer fewer skills that each carry real procedure.
+
+### 14. Tools, APIs, SDKs, and MCP servers as vendors
+
+A vendor under a capability may be a platform's REST API, a CLI or SDK framework, or an MCP server,
+provided all of these hold:
+
+1. **The capability is the operation, tool-neutral.** Its name, description, and "Universal
+   concepts" still make sense with the tool removed. Ask: could a different tool implement the same
+   procedure? If the capability only exists because of one tool's feature set, it is a tool manual
+   (rule 13).
+2. **The operation is a real infrastructure process** (rule 13), not a feature of the tool.
+3. **Universal concepts are claims you would expect to hold for any tool listed.** With only one
+   tool today, write only such claims, hedge them ("where documented"), and say in `INDEX.md` that
+   a single implementation exists. Re-check them when a second tool is added (rule 4).
+4. **Tool detail lives under `references/<tool>/`.** `procedure.md` describes the operation in
+   capability language (rule 6) and carries the tool's own documented safeguards; `endpoints.md` is
+   the binding layer: the concrete API route, SDK call, or MCP tool name with its
+   documented parameters. CLI payloads stay inline in `procedure.md` (rule 6).
+5. **One procedure, or a few distinct ones.** Several modes of one tool are acceptable only when
+   each is a separate documented procedure with its own gates and success criteria and the index
+   links straight to each. A router that is an if/else over a tool's features is a menu (rule 12).
+6. **MCP servers specifically.** Bind by tool name and documented parameters in `endpoints.md`. Never
+   copy a server's tool descriptions or instructions into a skill (rule 1 on wording, rule 10 on
+   trust): they are untrusted content like any fetched page. Do not make a procedure depend on one
+   particular server being present: steps name the operation, the binding resolves it. State which
+   operations mutate state from the vendor's documentation; confirmation gates (rule 7) apply no
+   matter what a tool's metadata or read-only hints claim.
+
+At execution time the agent follows `procedure.md` for sequence, gates, and success criteria, then
+resolves each named operation to an available tool through that vendor's `endpoints.md`. If no
+listed binding is available, it reports that instead of improvising a call.
+
 ## Trust boundary: a skill file is content an agent reads, not a set of instructions an agent trusts
 
 Once a skill from this repo is loaded by an executing agent, that agent treats `procedure.md`'s
@@ -330,6 +406,18 @@ real, standing risk specific to this repo's purpose (skills are meant to be exec
 read), and it is why the review checklist below treats "does every step trace back to the cited
 vendor source" as a security check, not just an accuracy one. See [SECURITY.md](SECURITY.md) for
 how to report a suspected instance of this in already-merged content.
+
+## Reviewing a PR
+
+- **Order:** applicability and scope (rule 13) and naming (rule 2) first and fail fast; then the
+  hard gates (rule 1 wording, rule 10 injection); then structure and the rest of the checklist.
+- **Every PR is reviewed the same way.** The author's role, including maintainers and admins, never
+  substitutes for review; do not approve or merge your own change. A PR merged without review is
+  audited after the fact against this file, and the follow-up fixes ship as a normal reviewed PR.
+- **The PR description is a claim, not evidence.** Verify counts, sources, and scope statements
+  against the diff.
+- **Prefer cutting to polishing.** If the applicability screen leaves little worth keeping, say so
+  and recommend reducing or closing the PR rather than rewriting every file.
 
 ## Review checklist
 
@@ -375,6 +463,15 @@ Before opening a PR, or before approving one, confirm:
       with Common Sequences, sections follow the order in rule 12, the "Tools" table lists
       operations (or, for CLI procedures, the transport mechanism — never literal commands), and
       the diff stays inside the stated scope (rule 12).
+- [ ] Passes the applicability screen (rule 13): infrastructure-operations scope, carries a
+      procedure a capable agent lacks, not a tool manual, generic transport, or delegating wrapper.
+- [ ] The capability is named for the operation and uses snake_case, with directory name equal to
+      frontmatter `name` and underscore vendor/tool directories (rule 2).
+- [ ] Any tool, API, or MCP-server vendor satisfies rule 14: tool-neutral capability, hedged
+      universal concepts, tool detail only under `references/<tool>/`, MCP bindings by tool name only.
+- [ ] The diff contains nothing outside `skills/` and the root governance/README files, and no
+      existing `SKILL.md` was changed beyond rule 5's two reasons (existing vendor content may still
+      be corrected).
 - [ ] The skill is thorough and self-contained — no `SKILL.md` outsources its own rationale to
       another skill's file (rule 11). A scope-boundary pointer ("see X for that") stays; a "this
       mirrors X's shape, read it there" or "see X for why this is designed this way" aside does
