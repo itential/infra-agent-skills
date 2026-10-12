@@ -9,7 +9,7 @@ Parse command output, learn feature state, and compare saved network snapshots u
 
 ## When to use this skill
 
-Use to capture device state before and after a change, or to gather structured evidence while troubleshooting, on Cisco pyATS / Genie: parse command output, learn a feature's state, and diff two snapshots. It reports observed data only; running commands that change devices belongs to `device_cli_execution`, and pass/fail test runs to `network_test_execution`.
+Use to capture device state before and after a change, or to gather structured evidence while troubleshooting, on Cisco pyATS / Genie: parse command output, learn a feature's state, and diff two snapshots. It reports observed data only; applying changes to devices is outside it, and pass/fail test runs belong to `network_test_execution`.
 The supported modes are listed in [references/INDEX.md](references/INDEX.md).
 
 ## Universal concepts

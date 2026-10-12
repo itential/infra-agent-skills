@@ -9,7 +9,7 @@ Validate and execute an approved staged device reset or baseline restoration usi
 
 ## When to use this skill
 
-Use to reset a network device to a known baseline through a pre-approved, platform-specific staged Clean definition, on Cisco pyATS Clean. It is destructive: it needs a written definition, image inputs and a recovery plan before it starts. For ordinary software upgrades see `software_upgrade_lifecycle`; for command-level changes see `device_cli_execution`.
+Use to reset a network device to a known baseline through a pre-approved, platform-specific staged Clean definition, on Cisco pyATS Clean. It is destructive: it needs a written definition, image inputs and a recovery plan before it starts. For ordinary software upgrades see `software_upgrade_lifecycle`.
 The supported modes are listed in [references/INDEX.md](references/INDEX.md).
 
 ## Universal concepts
