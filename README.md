@@ -79,7 +79,7 @@ one vendor's behavior from ever touching the shared file.
 | `notifications` | Slack, Cisco Webex, Microsoft Teams |
 | `secret_retrieval` | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault |
 | `repository_pull_request_management` | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
-| `container_workload_deployment` | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub, Cisco pyATS (published Docker image and existing test-job execution) |
+| `container_workload_deployment` | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub |
 | `zero_trust_access_policy_management` | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
 | `network_state_collection` | Cisco pyATS / Genie (parse commands, learn features, compare snapshots) |
 | `device_cli_execution` | Cisco pyATS / Unicon (approved command execution and configuration transport) |

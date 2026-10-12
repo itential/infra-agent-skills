@@ -1,6 +1,6 @@
 ---
 name: container_workload_deployment
-description: Create, scale, update, or remove a containerized workload — and manage the images that back it — on Kubernetes (apps/v1 Deployments, including the scale subresource), Docker Engine (the Container API for creating/starting/stopping/removing containers and for pulling/pushing/tagging images locally), Cisco pyATS (running its published Docker image and an existing test job), or Docker Hub (the registry-side v2 REST API for authenticating, creating/browsing repositories, and reading/listing image tags). Use when a Deployment or container needs to be created, scaled, rolled forward, or torn down on one of these platforms, or when a repository/tag on Docker Hub needs to be inspected or created as part of getting an image ready to deploy. Assumes an authenticated client is already available for the target platform (a Kubernetes API server bearer token or client certificate, a Docker Engine API socket or TLS client, or a Docker Hub bearer token; the Cisco pyATS mode assumes a Docker CLI and an existing job/testbed) — this skill does not provision or authenticate that client. Does not cover building a container image (Dockerfile/BuildKit), Kubernetes objects other than Deployments (StatefulSet, DaemonSet, Job, bare Pod), Docker Swarm services, or Docker Compose orchestration — see references/INDEX.md.
+description: Create, scale, update, or remove a containerized workload — and manage the images that back it — on Kubernetes (apps/v1 Deployments, including the scale subresource), Docker Engine (the Container API for creating/starting/stopping/removing containers and for pulling/pushing/tagging images locally), or Docker Hub (the registry-side v2 REST API for authenticating, creating/browsing repositories, and reading/listing image tags). Use when a Deployment or container needs to be created, scaled, rolled forward, or torn down on one of these platforms, or when a repository/tag on Docker Hub needs to be inspected or created as part of getting an image ready to deploy. Assumes an authenticated client is already available for the target platform (a Kubernetes API server bearer token or client certificate, a Docker Engine API socket or TLS client, or a Docker Hub bearer token) — this skill does not provision or authenticate that client. Does not cover building a container image (Dockerfile/BuildKit), Kubernetes objects other than Deployments (StatefulSet, DaemonSet, Job, bare Pod), Docker Swarm services, or Docker Compose orchestration — see references/INDEX.md.
 argument-hint: "[platform] [action] [workload_name] [image] [replicas]"
 ---
 
@@ -16,8 +16,6 @@ handling live in `references/<platform>/procedure.md`.
 - A workload needs to be deployed, scaled up/down, rolled forward to a new image, or removed on
   Kubernetes (as an `apps/v1` Deployment), Docker Engine (as a container), or when Docker Hub's own
   repository/tag API needs to be used to prepare or verify an image before/after that deployment.
-- Running Cisco's published pyATS Docker image and an existing test job, using the
-  [Cisco pyATS procedure](references/cisco_pyats/procedure.md).
 - Not for building the image itself (Dockerfile builds, BuildKit) — this skill assumes the image
   already exists somewhere pullable. Not for Kubernetes workload types other than Deployment
   (StatefulSet, DaemonSet, Job, or a bare Pod each have different semantics this skill doesn't
@@ -30,7 +28,7 @@ handling live in `references/<platform>/procedure.md`.
   agrees identifies "what to run."** Kubernetes and Docker Engine both actually run it; Docker Hub is
   the registry that stores and serves that reference rather than a runtime — its role in this skill
   is preparing/verifying the reference the other two consume, not deploying anything itself.
-- **There is no single wire-level standard spanning the listed platforms**, unlike DNS's RFC 1035 —
+- **There is no single wire-level standard spanning all three platforms**, unlike DNS's RFC 1035 —
   treat every endpoint, field name, and status code as platform-specific unless stated otherwise here.
   Kubernetes is the one outlier with unusually rigorous, centrally documented API behavior: a set of
   API conventions apply uniformly across every Kubernetes resource type, not just Deployments — see
@@ -73,7 +71,7 @@ handling live in `references/<platform>/procedure.md`.
 - Docker Hub's currently documented v2 REST API does not include a delete-tag or delete-repository
   endpoint — confirmed absent during research, not omitted by oversight. See
   `references/docker_hub/procedure.md` for how this is handled.
-- Platform coverage is exactly the implementations in `references/INDEX.md` — a platform not listed
+- Platform coverage is exactly the three platforms in `references/INDEX.md` — a platform not listed
   there needs a new `references/<platform>/procedure.md` before this skill can be used for it (see
   that file's "Adding a new vendor" section).
 
@@ -88,8 +86,8 @@ vendor-specific detail to this file, put it in the platform's reference file ins
 ## Tools
 
 Each platform assumes its own authenticated client (Kubernetes API server client, Docker Engine API
-client, Docker Hub REST client, or Docker CLI for Cisco pyATS) — see `references/INDEX.md` for which,
-and that platform's `procedure.md` for the specific operations/mechanisms.
+client, Docker Hub REST client) — see `references/INDEX.md` for which, and that platform's
+`procedure.md` for the specific operations/mechanisms.
 
 ## Verification checklist
 
