@@ -1,5 +1,5 @@
 ---
-name: network-test-execution
+name: network_test_execution
 description: Prepare and run network tests and inspect their reported results. Use when this operation is requested on Cisco pyATS (AEtest, Blitz, Robot Framework, Genie harness, Health Check) and Cisco XPRESSO (single registered job requests). Assumes the chosen pyATS test libraries and testbed, or an authenticated XPRESSO session with a registered job. Framework execution is covered; expected network state remains an input. XPRESSO deployment, scheduling, bundles, and resource administration are excluded.
 ---
 
@@ -9,7 +9,7 @@ Prepare and run network tests and inspect their reported results using the selec
 
 ## When to use this skill
 
-Use for prepare and run network tests and inspect their reported results, on Cisco pyATS (AEtest, Blitz, Robot Framework, Genie harness, Health Check) and Cisco XPRESSO (single registered job requests).
+Use to run pre- or post-change validation or health checks against network devices and read the results, on Cisco pyATS (AEtest, Blitz, Robot Framework, Genie harness, Health Check) or Cisco XPRESSO. Pick the mode that matches the test format you already have. Gathering raw state without assertions belongs to `network_state_collection`.
 The supported modes are listed in [references/INDEX.md](references/INDEX.md).
 
 ## Universal concepts

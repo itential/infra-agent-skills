@@ -1,5 +1,5 @@
 ---
-name: device-cli-execution
+name: device_cli_execution
 description: Execute approved CLI commands or apply an approved configuration through a device session. Use when this operation is requested on Cisco pyATS / Unicon. Assumes a pyATS environment with the matching Unicon plugin and device credentials. The caller supplies platform-documented commands and verification criteria. This is a transport procedure, not a generic configuration design or rollback recipe.
 ---
 
@@ -9,7 +9,7 @@ Execute approved CLI commands or apply an approved configuration through a devic
 
 ## When to use this skill
 
-Use for execute approved CLI commands or apply an approved configuration through a device session, on Cisco pyATS / Unicon.
+Use to run an approved show/exec command or push an approved configuration to a network device over its CLI session and capture the output, on Cisco pyATS / Unicon. Pair it with a platform procedure that supplies the commands and the expected post-change state. For parsing or comparing the output see `network_state_collection`; for staged resets see `device_reprovisioning`.
 The supported modes are listed in [references/INDEX.md](references/INDEX.md).
 
 ## Universal concepts

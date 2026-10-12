@@ -1,15 +1,15 @@
 ---
-name: device-session-recording
-description: Record and replay device interactions or convert a recording into a mock CLI session. Use when this operation is requested on Cisco pyATS / Unicon. Assumes pyATS / Unicon and a test job; recording additionally needs an authenticated testbed. Playback reproduces recorded interactions; it does not emulate routing protocols or prove behavior of a live device.
+name: network_state_collection
+description: Parse command output, learn feature state, and compare saved network snapshots. Use when this operation is requested on Cisco pyATS / Genie. Assumes pyATS, Genie, and an authenticated testbed or captured command output. Collection and comparison report observed data; they do not diagnose root causes or approve a network change.
 ---
 
-# Device Session Recording
+# Network State Collection
 
-Record and replay device interactions or convert a recording into a mock CLI session using the selected platform's documented procedure.
+Parse command output, learn feature state, and compare saved network snapshots using the selected platform's documented procedure.
 
 ## When to use this skill
 
-Use for record and replay device interactions or convert a recording into a mock CLI session, on Cisco pyATS / Unicon.
+Use to capture device state before and after a change, or to gather structured evidence while troubleshooting, on Cisco pyATS / Genie: parse command output, learn a feature's state, and diff two snapshots. It reports observed data only; running commands that change devices belongs to `device_cli_execution`, and pass/fail test runs to `network_test_execution`.
 The supported modes are listed in [references/INDEX.md](references/INDEX.md).
 
 ## Universal concepts
@@ -26,7 +26,7 @@ A completed operation and the suitability of its result for a particular network
 
 ## Known limitations
 
-Playback reproduces recorded interactions; it does not emulate routing protocols or prove behavior of a live device.
+Collection and comparison report observed data; they do not diagnose root causes or approve a network change.
 
 ## Contributing to this skill
 
@@ -35,7 +35,7 @@ Vendor details belong in that vendor's references. Recheck shared claims before 
 
 ## Tools
 
-Assumes pyATS / Unicon and a test job; recording additionally needs an authenticated testbed. The platform procedure lists the required operations or execution mechanism.
+Assumes pyATS, Genie, and an authenticated testbed or captured command output. The platform procedure lists the required operations or execution mechanism.
 
 ## Verification checklist
 

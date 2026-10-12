@@ -39,7 +39,7 @@ A request ID connects submission to its results; retries create separate runs an
 ## Known limitations
 
 Deployment, job registration, scheduling, bundles, baselines, and group administration are excluded.
-No private Cisco-only defect or approval workflow is needed.
+
 
 ## Tools
 

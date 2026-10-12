@@ -11,25 +11,6 @@ reference (https://developer.webex.com/docs/api/v1/messages/create-a-message, re
 and Cisco's own Webex Developers blog post on rate limiting
 (https://developer.webex.com/blog/rate-limiting-and-the-webex-api, retrieved 2026-09-29).
 
-## Common Sequences
-
-- **Caller-provided message:** Operational procedure, steps 1–7.
-- **pyATS run report:** Prepare pyATS result → Operational procedure, steps 1–7.
-
-## Prepare pyATS result
-
-Cisco's [Easypy Plugin System](https://pubhub.devnetcloud.com/media/pyats/docs/easypy/plugins.html)
-(rolling documentation, retrieved 2026-10-09) provides a post-job hook and a reporter-details
-operation after job completion. The result-preparation binding is in
-[endpoints.md](endpoints.md#pyats-result-preparation).
-Success is the completed run's actual reporter data and the caller's intended summary/destination.
-This is a custom integration of two documented operations, not a claimed built-in Webex notifier.
-
-A plugin exception is registered by Easypy; it is not successful message delivery. Exceptions in a
-pre-job hook can prevent the job from running, and pre-task exceptions can prevent that task. This
-integration uses post-job result preparation and retains notification failures separately from test
-results. No failure-only posting rule, recipient selection policy, or recurring schedule is imposed.
-
 ## Operational procedure
 
 1. **Resolve the destination — a room, or a specific person.** Webex messages address a destination
@@ -51,8 +32,7 @@ results. No failure-only posting rule, recipient selection policy, or recurring 
 4. **Decide whether this is a new message or a threaded reply.** To reply within an existing
    conversation thread in a room, set `parentId` to the identifier of the message being replied to.
    Omit it for a new, top-level message.
-5. **Submit the call. Before posting to the resolved audience: stop and confirm with the operator
-   before proceeding.** The call uses a Bearer token authorized for the target Webex org/user. See
+5. **Submit the call** with a Bearer token authorized for the target Webex org/user. See
    `endpoints.md` for the literal request shape.
 6. **Confirm delivery from the HTTP status and response body.** A successful create returns the full
    message object, including the server-assigned message `id` — treat receipt of that object as
@@ -98,13 +78,10 @@ results. No failure-only posting rule, recipient selection policy, or recurring 
 
 | Operation | Description | Category |
 |---|---|---|
-| Prepare pyATS result | Read completed job reporter data for an explicitly requested summary | Local Python |
 | Create a Message | Post a new message (or threaded reply) to a room, or directly to a person | Messaging |
 
 ## Verification checklist
 
-- [ ] For a pyATS report, the summary reflects actual completed reporter data and notification
-      failures are distinguished from test failures
 - [ ] Exactly one destination field (`roomId`, `toPersonId`, or `toPersonEmail`) was set, matching
       the caller's intended target
 - [ ] `text` and/or `markdown` populated with content within the documented length limit

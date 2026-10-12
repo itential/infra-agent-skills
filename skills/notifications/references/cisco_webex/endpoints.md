@@ -55,19 +55,3 @@ Retry-After: 3600
 Cisco's guidance describes most REST endpoints as limited to roughly 300 requests per minute, while
 noting the Messages and People resources are given a separate, dynamically-adjusted allowance rather
 than sharing that flat figure exactly.
-
-## pyATS result preparation
-
-Source: Cisco [Easypy Plugin System](https://pubhub.devnetcloud.com/media/pyats/docs/easypy/plugins.html),
-rolling documentation retrieved 2026-10-09.
-
-| Operation | Binding | Completion evidence |
-|---|---|---|
-| Read completed job results | `self.runtime.details()` inside a `BasePlugin.post_job(self, job)` hook | Reporter data for the completed job |
-| Register a local plugin | `plugins.<PluginClass>` with `enabled`, `module`, and `order` in Easypy configuration | Plugin loaded for the requested run |
-| Select configuration | `pyats run job job.py --configuration easypy_config.yaml` | Requested local configuration selected |
-| Create result message | The Create a Message binding above, using the approved summary as `text` or `markdown` | HTTP response and created message ID |
-
-The plugin base is `pyats.easypy.plugins.bases.BasePlugin`. Summary formatting remains caller input;
-the reporter's raw structure is not automatically sent to Webex. No new endpoint or guessed CLI
-notification flag is introduced. The procedure's audience confirmation applies before the send.

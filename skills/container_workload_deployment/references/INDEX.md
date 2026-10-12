@@ -10,10 +10,6 @@ step-by-step) plus wire-level `endpoints.md` for API implementations. CLI implem
 | Docker Hub | `docker_hub/` | Authenticate; create/list/read a repository; list/read an image tag; manage personal access tokens | Registry *metadata* API only — actual image byte transfer (push/pull) happens through Docker Engine's image endpoints (see `docker_engine/procedure.md`), authenticated with credentials obtained here. No documented delete-tag or delete-repository endpoint as of research — flagged as an explicit gap, not fabricated |
 | Cisco pyATS on Docker | [cisco_pyats/](cisco_pyats/procedure.md) | Pull the published pyATS image, start a container, run an existing test job, and inspect results | CLI execution; no new scale API or image build behavior. Image references and destructive-removal constraints are unchanged. |
 
-Adding pyATS introduces a documented Docker workload recipe. The shared image-reference concept
-still applies; runtime, scaling, and registry behavior remain those of the existing platforms.
-The router changed to add this implementation and its CLI assumption, not to inline its procedure.
-
 ## Adding a new vendor
 
 1. Create `references/<vendor>/procedure.md` following the shape of an existing vendor file
