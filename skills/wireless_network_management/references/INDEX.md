@@ -13,15 +13,3 @@ One row per supported wireless-management platform. Each platform directory hold
 provisioning; Aruba currently doesn't (publicly). This isn't a gap in this skill's coverage — it's an
 accurate reflection of what each vendor's public API actually exposes today. Re-check Aruba's docs
 periodically; if a write endpoint is published later, this is the file to update.
-
-## Adding a new platform
-
-1. Create `references/<platform>/procedure.md` in capability language (no literal HTTP method+path —
-   see `endpoints.md` convention), following the shape of `meraki/procedure.md` (Operational
-   procedure → Patterns → Known limitations → Tools → Verification checklist).
-2. Add `endpoints.md` with the literal wiring for every capability named in `procedure.md`.
-3. Add one row to the table above. If the platform's public API doesn't support write operations for
-   the relevant capability, say so explicitly rather than silently building a thinner skill — that's a
-   real, useful finding in itself (see Aruba).
-4. Do NOT add platform-specific procedure content to the top-level `SKILL.md` — see that file's own
-   contribution note.

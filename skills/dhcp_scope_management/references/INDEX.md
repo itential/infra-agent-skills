@@ -23,20 +23,3 @@ Kea is a JSON command/response envelope over HTTP (not literal HTTP-method-per-o
 and Microsoft DHCP Server is PowerShell/CIM cmdlets with no wire-level API surface documented here at
 all. `SKILL.md`'s "Tools" section and this table state the mechanism per-platform rather than
 assuming REST.
-
-## Adding a new vendor
-
-1. Create `references/<vendor>/procedure.md` following the shape of an existing single-vendor
-   capability (e.g. `skills/cmdb_asset_management/references/servicenow/procedure.md`) as a template:
-   Operational procedure → Patterns → Known limitations → Tools → Verification checklist.
-2. Add `endpoints.md` (wire-level calls) alongside it, if the platform is REST/API-driven — CLI-driven
-   platforms keep commands inline in `procedure.md` instead (see `AGENTS.md` rule 6).
-3. Add one row to the table above, replacing the placeholder row.
-4. If this vendor also appears in `ipam_allocation`'s `INDEX.md`, note that in this row's Notes column
-   — the two skills often share vendors but are separate procedures (address-space allocation vs.
-   DHCP service configuration), never merge their reference files.
-5. Check every existing claim in `SKILL.md`'s "Universal concepts" section against this vendor's actual
-   behavior before assuming it holds — correct that section explicitly if it doesn't (see `AGENTS.md`
-   rule 4).
-6. Do NOT add vendor-specific procedure content to the top-level `SKILL.md` — see that file's own
-   contribution note.

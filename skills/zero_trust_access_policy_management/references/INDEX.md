@@ -21,12 +21,4 @@ vendor's own `procedure.md` "Known limitations" for the precise boundary.
 
 ## Adding a new vendor
 
-1. Create `references/<vendor>/procedure.md` following the shape of an existing vendor file
-   (Operational procedure → Patterns → Known limitations → Tools → Verification checklist).
-2. Add `endpoints.md` (wire-level calls) alongside it.
-3. Add one row to the table above.
-4. Re-check every claim in `SKILL.md`'s "Universal concepts" section against the new vendor's actual
-   documented behavior before assuming it still holds — correct `SKILL.md` if the new vendor
-   contradicts it, and note the correction here.
-5. Do NOT add vendor-specific procedure content to the top-level `SKILL.md` — see that file's own
-   contribution note.
+See `AGENTS.md`, "Adding a vendor to an existing capability."

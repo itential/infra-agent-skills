@@ -9,16 +9,5 @@ One row per supported CMDB/asset-management platform. Each platform directory ho
 
 **Distinct from `change_management`'s ServiceNow procedure, despite being the same vendor:** that skill
 covers change *requests* (`sn_chg_rest`); this one covers the configuration-item inventory those
-changes reference. Same product, genuinely different object model and API surface — this is the
-grouping rule from `software_upgrade_lifecycle` applied at the category level: split by what's actually
-being managed, not by vendor name alone.
-
-## Adding a new platform
-
-1. Create `references/<platform>/procedure.md` in capability language (no literal HTTP method+path —
-   see `endpoints.md` convention), following the shape of `servicenow/procedure.md` (Operational
-   procedure → Patterns → Known limitations → Tools → Verification checklist).
-2. Add `endpoints.md` with the literal wiring for every capability named in `procedure.md`.
-3. Add one row to the table above.
-4. Do NOT add platform-specific procedure content to the top-level `SKILL.md` — see that file's own
-   contribution note.
+changes reference. Same product, genuinely different object model and API surface — split by what's
+actually being managed, not by vendor name alone.

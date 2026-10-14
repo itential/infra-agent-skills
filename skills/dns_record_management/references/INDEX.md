@@ -35,10 +35,4 @@ requires" (in scope where a platform's own record-change procedure requires it).
 
 ## Adding a new vendor
 
-1. Create `references/<vendor>/procedure.md` following the shape of an existing vendor file (Operational
-   procedure → Patterns → Known limitations → Tools → Verification checklist).
-2. Add `endpoints.md` (wire-level calls) and `record-fields.md` (if the vendor has per-type field rules
-   worth a dedicated table) alongside it.
-3. Add one row to the table above.
-4. Do NOT add vendor-specific procedure content to the top-level `SKILL.md` — see that file's own
-   contribution note.
+See `AGENTS.md`, "Adding a vendor to an existing capability."

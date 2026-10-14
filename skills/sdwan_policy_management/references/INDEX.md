@@ -16,22 +16,3 @@ stack to a site is what makes it live. The concepts on saved versus effective st
 asynchronous completion, were reworded so they no longer assume an activation step. In the
 `activate_policy` and `deactivate_policy` arguments, "activate" and "deactivate" mean bind and unbind
 a stack to sites on Prisma SD-WAN.
-
-## Adding a new vendor
-
-1. Create `references/<vendor>/procedure.md` following the shape of an existing single-vendor
-   capability (e.g. `skills/cmdb_asset_management/references/servicenow/procedure.md`) as a
-   template: Common Sequences → Status vocabulary → Operations → Patterns → Known limitations → Tools →
-   Verification checklist (`AGENTS.md` rule 12).
-2. Add `endpoints.md` (wire-level calls) alongside it, if the platform is REST/API-driven — CLI-driven
-   platforms keep commands inline in `procedure.md` instead (see `AGENTS.md` rule 6).
-3. If this vendor also appears in `wireless_network_management`'s, `firewall_management`'s, or
-   `vpn_tunnel_management`'s `INDEX.md` (a common case for vendors with converged products), note
-   that in this row's Notes column. Never merge reference files across skills even for the same
-   vendor — the object models differ.
-4. Add one row to the table above.
-5. Check every existing claim in `SKILL.md`'s "Universal concepts" section against this vendor's
-   actual behavior before assuming it holds — correct that section explicitly if it doesn't (see
-   `AGENTS.md` rule 4). Each added vendor re-tests those claims; a second vendor is the first real test of them.
-6. Do NOT add vendor-specific procedure content to the top-level `SKILL.md` — see that file's own
-   contribution note.

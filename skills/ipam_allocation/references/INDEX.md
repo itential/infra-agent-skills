@@ -21,14 +21,3 @@ reservation, pool exhaustion) rather than RFC-derived rules.
 against. `SKILL.md`'s "Tools" section states this per-platform rather than assuming REST universally,
 and `solarwinds/procedure.md` says so explicitly up front rather than forcing REST-shaped language onto
 a non-REST API.
-
-## Adding a new platform
-
-1. Create `references/<platform>/procedure.md` following the shape of `netbox/procedure.md`
-   (Operational procedure → Patterns → Known limitations → Tools → Verification checklist).
-2. Add `endpoints.md` (REST platforms) or fold literal wire syntax inline (non-REST platforms, as
-   `solarwinds/procedure.md` does) — whichever fits the platform's actual call mechanism; don't force a
-   REST-shaped `endpoints.md` onto a non-REST API.
-3. Add one row to the table above, and state the platform's call mechanism explicitly if it isn't REST.
-4. Do NOT add platform-specific procedure content to the top-level `SKILL.md` — see that file's own
-   contribution note.

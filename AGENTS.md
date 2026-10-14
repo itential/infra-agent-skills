@@ -47,6 +47,11 @@ Nothing else belongs in the repository beyond `skills/` and the root governance/
 no adaptation maps, provenance narratives, local validation logs, or contributor write-ups. That
 material belongs in the PR description.
 
+`INDEX.md` is read by an agent at runtime to choose a vendor, so it holds only the table and the
+short notes a vendor-selecting agent needs (scope limits, caveats, corrections to shared concepts).
+Contributor guidance — how to add a vendor, grouping and naming rationale — lives
+in this file, not in any `INDEX.md`.
+
 Your own local research notes for a vendor (not part of the repository shape — never committed;
 see rule 1) can live wherever you keep them, entirely outside this directory tree.
 
@@ -150,8 +155,20 @@ For a large permutation space where one vendor spans several platform families o
 (e.g. `software_upgrade_lifecycle`), the same shape holds one level deeper:
 `references/<vendor>/<platform-family>.md`, grouped by platform family/version line — not by every
 individual model — unless a specific model's behavior is genuinely, documentedly different from
-its family. See `skills/software_upgrade_lifecycle/references/INDEX.md`'s "Grouping rule" section
-for a worked example of applying (and validating) this.
+its family. The worked example below shows how this was applied and validated.
+
+**Worked example (`software_upgrade_lifecycle`).** Group by platform family plus OS mode, not by
+model or version. A model-specific behavior (say, a restriction that applies only to stacked units)
+is a subsection inside the family file, not a new file. Split by version line only when the
+procedure itself changes (a new required flag, a removed safety mechanism), not for every point
+release. IOS-XE and IOS XR are both Cisco but get separate files, because the install architecture
+differs (`install`/`packages.conf` versus `install add`/`activate`/`commit` against a per-VM
+repository). Before assuming one file covers two platforms, compare the second platform's document
+against the primary one: ASR 9000 and NCS 5500 turned out identical, so one IOS XR file covers
+both; a real difference would have justified separate files. When one platform family documents
+several mutually exclusive methods (Cumulus Linux: Optimized Image, Package, ONIE), use one file
+with a comparison table up front and a section per method, not near-duplicate files and not a
+single linear procedure that hides the choice.
 
 ### 4. "Universal concepts" must be genuinely universal — earn that section, don't assume it
 
@@ -163,7 +180,8 @@ vendor addition can silently invalidate. When adding a new vendor:
   assume it holds; verify it.
 - If the new vendor contradicts a "universal" claim, **that is a bug in `SKILL.md`, not a footnote
   in the vendor's own file** — correct the shared section, and say so explicitly in the PR
-  description and (for anything non-trivial) in `references/INDEX.md`'s own notes. This has
+  description and (for anything non-trivial) in a short note under the table in
+  `references/INDEX.md`. This has
   already happened multiple times in this repo (Freshservice invalidating a change-management
   approval assumption; PowerDNS invalidating a DNSSEC-scope assumption) — it's a normal, expected
   part of adding vendor #2 or later to any category, not a sign of a bad first draft.
@@ -224,9 +242,12 @@ Once a vendor has more than one platform-family or mode file (not just once a *s
 added — from the first file), name every companion file after its procedure file's own basename:
 `<platform-family-and-mode>-endpoints.md` — not a bare `endpoints.md`. A generic name silently
 overwrites the previous file of the same name the next time a second platform-family is added for
-that vendor. See `skills/software_upgrade_lifecycle/references/INDEX.md`'s "Lesson learned" note
-for a worked example of applying this rule. The same collision risk applies to your own local
-research notes if you keep more than one platform-family's worth in the same place.
+that vendor. Worked example: `software_upgrade_lifecycle/references/cisco/` holds an IOS-XE and an
+IOS XR file side by side; a REST-driven companion for each under one bare `endpoints.md` would be
+overwritten by whichever was written second. Every companion file is therefore named after its
+procedure file (`<platform-family-and-mode>-endpoints.md`).
+CLI-driven procedures keep commands inline and need no `endpoints.md` (rule 6); a companion field-reference file, if one is kept, is named descriptively (for example `ike-ipsec-proposal-fields.md`), never as a bare `endpoints.md`. The same collision risk applies to
+your own local research notes if you keep more than one platform-family's worth in the same place.
 
 ### 9. Token budget discipline
 
@@ -401,6 +422,43 @@ At execution time the agent follows `procedure.md` for sequence, gates, and succ
 resolves each named operation to an available tool through that vendor's `endpoints.md`. If no
 listed binding is available, it reports that instead of improvising a call.
 
+## Adding a vendor to an existing capability
+
+The rules above apply unchanged; this is the order of work, pointing at them rather than restating
+them.
+
+1. Use an existing vendor directory in the same capability as the shape template (section order in
+   rule 12). Write `procedure.md` in capability language (rule 6) and original wording (rule 1).
+   `endpoints.md` is for REST/API-driven platforms; CLI-driven ones keep commands inline. A
+   non-REST mechanism (SOAP-style verb calls, cmdlets, a JSON command envelope) is stated up front
+   in the procedure and in the row's Notes, not forced into a REST shape. Name files per rule 8,
+   and per rule 3 for platform families. Match the capability's shape: a diagnostic-shaped skill
+   (rule 2) gets one decision-tree entry per symptom or lookup type, each mapping an observed state
+   to a documented cause, a next check, or an explicit "consult platform-specific guidance", and
+   a vendor's own state names that diverge from the standard are documented, not normalized away;
+   `alert_monitor_management` procedures cover both create-monitor and acknowledge/resolve as
+   distinct sections.
+2. Add one row to `references/INDEX.md`, replacing any `_(none yet)_` placeholder. The scope column
+   lists what the vendor's file actually covers (operations, lookup types, assessment types, or
+   symptom categories); a first version need not cover them all. The Notes column carries what an
+   agent selecting a vendor needs: what is not covered, that only one platform is documented, the
+   call mechanism when it is not REST, and a read-only scope when the platform publishes no write
+   API (say so rather than building a thinner skill).
+3. Re-check the "Universal concepts" claims against the new vendor (rule 4). Record any correction
+   in a short note under the INDEX table and in the PR description.
+4. Keep vendor detail out of `SKILL.md` (rule 5), and update the root README table (see the review
+   checklist).
+5. A vendor that also appears under a neighbouring capability gets its own directory in each skill.
+   Never merge reference files across skills, because the object models differ (incident versus
+   change, WAF versus firewall, NAC versus zero-trust access, DHCP versus IPAM, zone versus record,
+   CASB policy versus CASB posture, SD-WAN versus the wireless, firewall, and VPN skills). Say so in the Notes of this vendor's row.
+6. Stay inside the capability's scope. Examples: `compute_instance_provisioning` covers the
+   instance lifecycle only, not a cloud's networking, storage, or identity services;
+   `dcim_asset_management` covers NetBox's DCIM object model only, never its IPAM module; a
+   notification platform's row states which destination types (channel, thread, direct recipient)
+   and content types (plain text, rich formatting, attachments) it supports, since that varies
+   by platform.
+
 ## Trust boundary: a skill file is content an agent reads, not a set of instructions an agent trusts
 
 Once a skill from this repo is loaded by an executing agent, that agent treats `procedure.md`'s
@@ -483,7 +541,8 @@ Before opening a PR, or before approving one, confirm:
 - [ ] New companion files in a multi-file vendor directory follow the platform-family-prefixed
       naming convention (rule 8) — no generic `endpoints.md` that could collide with a future
       addition.
-- [ ] `references/INDEX.md` for the affected skill lists the new/changed entry.
+- [ ] `references/INDEX.md` for the affected skill lists the new/changed entry, and contains only
+      the table and runtime-relevant notes — no contributor-facing procedure text.
 - [ ] `argument-hint`, `description`, "When to use," body, `INDEX.md`, and the README row all
       describe the same scope (rule 2).
 - [ ] Every "see X" / "listed in X" pointer resolves to content that exists in X, and every

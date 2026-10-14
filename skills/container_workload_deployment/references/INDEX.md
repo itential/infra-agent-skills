@@ -11,15 +11,4 @@ step-by-step) plus wire-level `endpoints.md`.
 
 ## Adding a new vendor
 
-1. Create `references/<vendor>/procedure.md` following the shape of an existing vendor file
-   (Operational procedure → Patterns → Known limitations → Tools → Verification checklist).
-2. Add `endpoints.md` (wire-level calls) alongside it. If the vendor ever grows a second
-   platform-family or install mode, name both files after that family (e.g.
-   `<platform-family-and-mode>-procedure.md` / `-endpoints.md`) instead of the bare names used today —
-   see `AGENTS.md` rule 8.
-3. Add one row to the table above.
-4. Check every claim in `SKILL.md`'s "Universal concepts" against the new vendor's actual documented
-   behavior before assuming it still holds — correct `SKILL.md` if the new vendor contradicts it, and
-   note the correction here (see `AGENTS.md` rule 4).
-5. Do NOT add vendor-specific procedure content to the top-level `SKILL.md` — see that file's own
-   contribution note.
+See `AGENTS.md`, "Adding a vendor to an existing capability."

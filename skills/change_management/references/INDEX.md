@@ -37,12 +37,3 @@ actual capabilities before assuming they hold.
   strictly assignee-only and one-shot — no re-decision, no approve-on-behalf) are three meaningfully
   different capability shapes, not a binary "can/can't." Check the specific platform's row, not a
   generalized assumption from any other platform in this table.
-
-## Adding a new platform
-
-1. Create `references/<platform>/procedure.md` following the shape of `servicenow/procedure.md`
-   (Operational procedure → Patterns → Known limitations → Tools → Verification checklist).
-2. Add `endpoints.md` (wire-level calls) alongside it.
-3. Add one row to the table above.
-4. Do NOT add platform-specific procedure content to the top-level `SKILL.md` — see that file's own
-   contribution note.

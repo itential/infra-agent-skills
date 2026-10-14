@@ -17,16 +17,4 @@ task, dashboards, log-pipeline configuration, and synthetic/browser-check script
 
 ## Adding a new vendor
 
-1. Create `references/<vendor>/procedure.md` following the shape of an existing vendor file
-   (Operational procedure → Patterns → Known limitations → Tools → Verification checklist), covering
-   both create-monitor and acknowledge/resolve as distinct procedure sections.
-2. Add `endpoints.md` (wire-level calls) alongside it. If the vendor spans more than one platform
-   family or API generation (e.g. a legacy vs. current API, the way PRTG does), name companion files
-   after their own platform-family basename rather than a bare `endpoints.md` for each — see
-   `AGENTS.md` rule 8.
-3. Add one row to the table above.
-4. Re-check every claim in `SKILL.md`'s "Universal concepts" against the new vendor's actual
-   documented behavior before assuming it still holds — correct `SKILL.md` explicitly if it doesn't
-   (see `AGENTS.md` rule 4), and note the correction here.
-5. Do NOT add vendor-specific procedure content to the top-level `SKILL.md` — see that file's own
-   contribution note.
+See `AGENTS.md`, "Adding a vendor to an existing capability."

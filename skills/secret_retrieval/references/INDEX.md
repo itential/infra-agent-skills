@@ -20,13 +20,4 @@ already done and a specific secret/path/item/account already exists to read or w
 
 ## Adding a new vendor
 
-1. Create `references/<vendor>/procedure.md` following the shape of an existing vendor file
-   (Operational procedure → Patterns → Known limitations → Tools → Verification checklist).
-2. Add `endpoints.md` (wire-level calls) alongside it.
-3. Add one row to the table above.
-4. Do NOT add vendor-specific procedure content to the top-level `SKILL.md` — see that file's own
-   contribution note.
-5. Re-check `SKILL.md`'s "Universal concepts" section against the new vendor's actual behavior
-   before merging — if the new vendor contradicts a claim there (e.g. a platform with no
-   authenticated-identity model, or one that doesn't generate any access record), that's a bug in
-   `SKILL.md` to fix, not a footnote to add here.
+See `AGENTS.md`, "Adding a vendor to an existing capability."
