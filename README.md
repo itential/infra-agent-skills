@@ -88,6 +88,10 @@ one vendor's behavior from ever touching the shared file.
 | `zero_trust_access_policy_management` | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
 | `network_state_collection` | Cisco pyATS / Genie (parse commands, learn features, compare snapshots) |
 | `network_health_verification` | Cisco pyATS (Health Check, integrated job mode) |
+| `incident_management` | _(scaffolded — no vendor coverage yet)_ |
+| `compute_instance_provisioning` | _(scaffolded — no vendor coverage yet)_ |
+| `sdwan_policy_management` | _(scaffolded — no vendor coverage yet)_ |
+| `network_access_control_management` | _(scaffolded — no vendor coverage yet)_ |
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
