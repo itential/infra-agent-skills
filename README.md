@@ -91,6 +91,7 @@ one vendor's behavior from ever touching the shared file.
 | `incident_management` | ServiceNow *(incident create, update, assign, hold, resolve, reopen, close)* |
 | `compute_instance_provisioning` | Amazon EC2 *(launch, start/stop/reboot, resize, snapshot/image, terminate)* |
 | `sdwan_policy_management` | Cisco Catalyst SD-WAN Manager *(centralized policy, original template-policy model)*, Palo Alto Networks Prisma SD-WAN *(stacked path and QoS policy sets, rules, and stacks; bind to sites)* |
+| `config_backup_management` | Prisma SD-WAN *(site snapshot capture, retrieve, and redeploy as YAML)* |
 | `network_access_control_management` | _(scaffolded — no vendor coverage yet)_ |
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
