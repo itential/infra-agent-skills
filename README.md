@@ -64,7 +64,7 @@ one vendor's behavior from ever touching the shared file.
 | `dns_record_management` | Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat Horizon, BlueCat Address Manager, PowerDNS |
 | `dns_zone_management` | Route 53, Cloudflare, PowerDNS |
 | `change_management` | ServiceNow, Freshservice, Jira Service Management, BMC Helix ITSM |
-| `software_upgrade_lifecycle` | Cisco IOS-XE, Cisco IOS XR, Arista EOS, Juniper Junos EX, Extreme EXOS, NVIDIA Cumulus Linux |
+| `software_upgrade_lifecycle` | Cisco IOS-XE, Cisco IOS XR, Arista EOS, Juniper Junos EX, Extreme EXOS, NVIDIA Cumulus Linux, Palo Alto Prisma SD-WAN |
 | `ipam_allocation` | NetBox, Infoblox NIOS, SolarWinds IPAM |
 | `dhcp_scope_management` | Infoblox NIOS, ISC Kea, Microsoft DHCP Server |
 | `cmdb_asset_management` | ServiceNow CMDB |
