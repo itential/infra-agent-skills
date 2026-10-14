@@ -90,7 +90,7 @@ one vendor's behavior from ever touching the shared file.
 | `network_health_verification` | Cisco pyATS (Health Check, integrated job mode) |
 | `incident_management` | ServiceNow *(incident create, update, assign, hold, resolve, reopen, close)* |
 | `compute_instance_provisioning` | Amazon EC2 *(launch, start/stop/reboot, resize, snapshot/image, terminate)* |
-| `sdwan_policy_management` | Cisco Catalyst SD-WAN Manager *(centralized policy, original template-policy model)* |
+| `sdwan_policy_management` | Cisco Catalyst SD-WAN Manager *(centralized policy, original template-policy model)*, Palo Alto Networks Prisma SD-WAN *(stacked path and QoS policy sets, rules, and stacks; bind to sites)* |
 | `network_access_control_management` | _(scaffolded — no vendor coverage yet)_ |
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
