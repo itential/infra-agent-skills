@@ -15,7 +15,7 @@ caller is targeting, following that platform's own documented procedure exactly.
   template, policy, or application/path-steering rule on a supported SD-WAN orchestrator.
 - Not for security rules on a firewall — see `firewall_management`.
 - Not for building a point-to-point VPN tunnel on a gateway — see `vpn_tunnel_management`.
-- Not for wireless or campus-switch management, even where one vendor offers both — see
+- Not for wireless SSID/WLAN management, even where one vendor offers both — see
   `wireless_network_management`.
 
 ## Universal concepts (shared SD-WAN vocabulary, not a wire standard)
@@ -41,7 +41,7 @@ implements this shape concretely.
 
 - No vendor coverage yet — see `references/INDEX.md`. A platform not listed there needs a new
   reference file before this skill can be used for it.
-- Does not cover firewall rules, point-to-point VPN tunnels, or wireless management, even where the
+- Does not cover firewall rules, point-to-point VPN tunnels, or wireless SSID/WLAN management, even where the
   same vendor offers them in one product.
 
 ## Contributing to this skill

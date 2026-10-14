@@ -1,18 +1,18 @@
 ---
 name: network_access_control_management
-description: Register, authorize, quarantine, release, and remove network endpoints, assign them to groups or profiles, and read their session state on a supported network access control (NAC/AAA) platform. Port- and network-level admission, distinct from zero_trust_access_policy_management's application-access policy. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
+description: Register, quarantine, release, and remove network endpoints, assign them to groups or profiles, and read their session state on a supported network access control (NAC/AAA) platform. Port- and network-level admission, distinct from zero_trust_access_policy_management's application-access policy. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
 argument-hint: "[platform] [action: read_endpoint|register_endpoint|assign_group|quarantine|release|delete_endpoint|read_session] [endpoint identifier, fields]"
 ---
 
 # Network Access Control Management
 
 Manages endpoint admission on whichever network access control platform the caller is targeting —
-registering, authorizing, quarantining, releasing, and removing endpoints and their group or profile
+registering, quarantining, releasing, and removing endpoints and their group or profile
 assignment — following that platform's own documented procedure exactly.
 
 ## When to use this skill
 
-- Reading, registering, authorizing, assigning to a group or profile, quarantining, releasing, or
+- Reading, registering, assigning to a group or profile, quarantining, releasing, or
   deleting an endpoint, or reading its session state, on a supported NAC/AAA platform.
 - Not for application-access or internet-access policy in a cloud security service — see
   `zero_trust_access_policy_management`.
@@ -62,5 +62,5 @@ platform's `procedure.md` for the specific operations.
 
 - [ ] Target platform confirmed against `references/INDEX.md` before proceeding
 - [ ] That platform's own `procedure.md` was followed, including its own confirmation gates on
-      quarantine or disconnect of a live endpoint, endpoint deletion, and any change that alters access for an existing group
+      quarantine of a live endpoint, endpoint deletion, and group changes that alter existing access
 - [ ] Outcome reported using the platform procedure's own status vocabulary

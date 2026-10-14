@@ -63,5 +63,5 @@ platform's `procedure.md` for the specific operations.
 
 - [ ] Target platform confirmed against `references/INDEX.md` before proceeding
 - [ ] That platform's own `procedure.md` was followed, including its own confirmation gates on
-      deletion, snapshot revert, resize that restarts the instance, and power-off of a running instance
+      deletion, resize (where the platform documents a restart), and power-off of a running instance
 - [ ] Outcome reported using the platform procedure's own status vocabulary

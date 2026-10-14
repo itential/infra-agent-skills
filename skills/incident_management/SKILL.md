@@ -1,6 +1,6 @@
 ---
 name: incident_management
-description: Create, read, update, assign, acknowledge, resolve, and close incident records (and, where a platform models them separately, problem records) on a supported ITSM or on-call platform. The break/fix counterpart to change_management: it covers unplanned-disruption records and their lifecycle, not planned changes. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
+description: Create, read, update, assign, acknowledge, resolve, and close incident records on a supported ITSM or on-call platform. The break/fix counterpart to change_management: it covers unplanned-disruption records and their lifecycle, not planned changes. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
 argument-hint: "[platform] [action: create|read|update|assign|acknowledge|resolve|close] [record id or fields]"
 ---
 
@@ -11,15 +11,16 @@ caller is targeting, following that platform's own documented state model and re
 
 ## When to use this skill
 
-- Opening, reading, updating, assigning, acknowledging, resolving, or closing an incident (or problem)
-  record on a supported platform. Which of those actions a platform exposes is platform-dependent; see
+- Opening, reading, updating, assigning, acknowledging, resolving, or closing an incident record on a supported platform. Which of those actions a platform exposes is platform-dependent; see
   `references/INDEX.md`.
 - Not for planned changes — see `change_management`. Linking an incident to a change is a
   platform-specific field or relation and is documented in that platform's own procedure.
 - Not for delivering a message to a channel or person — see `notifications`. An on-call platform's
   paging of a responder is part of its incident record lifecycle and belongs here; a plain chat or
   email message does not.
-- Not for monitor, threshold, or alert-rule definitions — see `alert_monitor_management`.
+- Not for monitor, threshold, or alert-rule definitions, or for acknowledging or resolving an alert
+  raised by an observability platform — see `alert_monitor_management`. This skill covers incident
+  records on an ITSM or on-call platform.
 
 ## Universal concepts (shared incident-handling vocabulary, not a wire standard)
 
