@@ -9,7 +9,7 @@ version for these operations is listed. Values are placeholders.
 
 ## Base and authentication
 
-Gateway host (from the specification's server entry): `https://api.sase.paloaltonetworks.com`. Routes
+Gateway host (from the specification's server entry): `<api_gateway_host>`. Routes
 below are relative to it.
 
 Authentication is a bearer token from the Prisma SASE token endpoint using a service account, with a
