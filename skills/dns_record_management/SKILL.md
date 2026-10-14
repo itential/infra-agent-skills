@@ -60,8 +60,7 @@ are RFC-derived vs. platform-specific).
   type being created.
 - Does not cover NetBox or other IPAM (IP address space allocation) — see `references/INDEX.md`.
 - Platform coverage is exactly the seven vendors in `references/INDEX.md` — a platform not listed there
-  needs a new `references/<platform>/procedure.md` before this skill can be used for it (see that file's
-  "Adding a new vendor" section).
+  needs a new `references/<platform>/procedure.md` before this skill can be used for it.
 
 ## Contributing to this skill
 

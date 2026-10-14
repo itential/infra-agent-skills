@@ -14,7 +14,3 @@ step-by-step for creating a monitor/check and acknowledging/resolving an alert) 
 **Not in scope for this skill:** notification-channel/escalation-chain creation as a standalone
 task, dashboards, log-pipeline configuration, and synthetic/browser-check script authoring — see
 `SKILL.md`'s "Known limitations."
-
-## Adding a new vendor
-
-See `AGENTS.md`, "Adding a vendor to an existing capability."

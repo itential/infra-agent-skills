@@ -74,8 +74,7 @@ platform's own documented API and alert lifecycle.
 - Does not cover dashboards, log-pipeline/processing configuration, or synthetic/browser-check
   script authoring, even on platforms where those live in the same product area as monitors.
 - Platform coverage is exactly the four vendors in `references/INDEX.md` — a platform not listed
-  there needs a new `references/<platform>/procedure.md` before this skill can be used for it (see
-  that file's "Adding a new vendor" section).
+  there needs a new `references/<platform>/procedure.md` before this skill can be used for it.
 - Where a platform's own documentation does not state a manual "resolve" action exists (or states
   explicitly that creating new monitor objects outright isn't supported via API), that platform's
   `procedure.md` says so plainly rather than this skill inventing one — see each platform file's own

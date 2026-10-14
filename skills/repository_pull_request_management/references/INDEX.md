@@ -13,7 +13,3 @@ step-by-step) plus wire-level `endpoints.md`.
 **Not in scope for this skill:** repository/branch creation, branch-protection or merge-check rule
 configuration, CI/pipeline configuration, webhook management — see each vendor's own
 `procedure.md` "Known limitations" for exact boundaries.
-
-## Adding a new vendor
-
-See `AGENTS.md`, "Adding a vendor to an existing capability."

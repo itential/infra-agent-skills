@@ -18,7 +18,3 @@ filtering and Netskope real-time CASB rules are listed below as out of scope for
 set types other than access policy (timeout, client-forwarding, inspection, isolation), and Netskope
 real-time (CASB inline), internet-access, and SaaS Posture Management policy families — see each
 vendor's own `procedure.md` "Known limitations" for the precise boundary.
-
-## Adding a new vendor
-
-See `AGENTS.md`, "Adding a vendor to an existing capability."

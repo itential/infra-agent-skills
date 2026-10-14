@@ -17,7 +17,3 @@ step-by-step) plus wire-level `endpoints.md`.
 not here), and secrets-engine/vault/mount configuration (enabling a KV engine, creating a Key Vault
 resource, authoring a Conjur policy that defines a variable) — this skill assumes that setup is
 already done and a specific secret/path/item/account already exists to read or write.
-
-## Adding a new vendor
-
-See `AGENTS.md`, "Adding a vendor to an existing capability."

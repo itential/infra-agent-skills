@@ -72,8 +72,7 @@ handling live in `references/<platform>/procedure.md`.
   endpoint — confirmed absent during research, not omitted by oversight. See
   `references/docker_hub/procedure.md` for how this is handled.
 - Platform coverage is exactly the three platforms in `references/INDEX.md` — a platform not listed
-  there needs a new `references/<platform>/procedure.md` before this skill can be used for it (see
-  that file's "Adding a new vendor" section).
+  there needs a new `references/<platform>/procedure.md` before this skill can be used for it.
 
 ## Contributing to this skill
 

@@ -68,8 +68,7 @@ are behavioral guarantees observed to hold across all six, not a shared protocol
 - Does not cover bulk/batch export of many secrets at once beyond what a platform's own procedure
   documents as a single supported call (e.g. Conjur's batch-fetch endpoint, where in scope).
 - Platform coverage is exactly the six vendors in `references/INDEX.md` — a platform not listed
-  there needs a new `references/<platform>/procedure.md` before this skill can be used for it (see
-  that file's "Adding a new vendor" section).
+  there needs a new `references/<platform>/procedure.md` before this skill can be used for it.
 
 ## Contributing to this skill
 

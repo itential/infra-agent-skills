@@ -77,8 +77,7 @@ following that platform's own documented procedure, field rules, and ordering/va
   Posture Management policies — only the private-access (NPA) policy rule family is in scope for
   Netskope under this skill.
 - Platform coverage is exactly the three vendors in `references/INDEX.md` — a platform not listed
-  there needs a new `references/<platform>/procedure.md` before this skill can be used for it (see
-  that file's "Adding a new vendor" section).
+  there needs a new `references/<platform>/procedure.md` before this skill can be used for it.
 
 ## Contributing to this skill
 

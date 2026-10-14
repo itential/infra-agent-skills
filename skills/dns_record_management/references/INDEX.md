@@ -32,7 +32,3 @@ skill, since it's a required follow-up step to a record change, not a DNSSEC *re
 being created directly. `SKILL.md` was corrected to distinguish "creating DNSSEC record types
 directly" (still out of scope everywhere) from "DNSSEC-related post-change housekeeping a platform
 requires" (in scope where a platform's own record-change procedure requires it).
-
-## Adding a new vendor
-
-See `AGENTS.md`, "Adding a vendor to an existing capability."
