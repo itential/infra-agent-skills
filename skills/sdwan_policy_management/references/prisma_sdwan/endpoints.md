@@ -8,10 +8,7 @@ checked 2026-10-14. Field and example shapes are restated with placeholder value
 
 ## Base and version pinning
 
-SD-WAN calls go to the gateway `https://api.sase.paloaltonetworks.com` with the path prefix shown on
-each route. The token call goes to a separate authentication host,
-`https://auth.apps.paloaltonetworks.com` (next section). Both hosts are the ones the specification
-declares. Every route below is pinned to the
+SD-WAN calls go to the SASE API gateway host (`<api_gateway_host>`, the one the specification declares) with the path prefix shown on each route. The token call goes to a separate authentication host (`<auth_host>`, declared on the token route; next section). Every route below is pinned to the
 newest version the specification lists for it; older versions of the same routes also exist and are
 not used. Pinned versions: sets 2.0, set status 2.0, stacks 2.0, path rules 2.5, QoS rules 2.2, site
 4.13, profile 2.1. The specification also lists policy-set and rule routes at 3.0 and 3.1 under an
