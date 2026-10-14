@@ -9,14 +9,12 @@ are the newest the specification lists for each route. Values are placeholders.
 
 ## Base address and authentication
 
-The specification names one gateway for all calls: the Prisma SASE API gateway at
-`https://api.sase.paloaltonetworks.com`. Paths below are appended to it.
+The specification names one gateway for all calls: the Prisma SASE API gateway (`<api_gateway_host>`). Paths below are appended to it.
 
 Authentication is a service-account token obtained with the client-credentials grant from the Prisma
 SASE authentication service. The token request uses HTTP Basic with the client identifier and secret,
 and the requested scope must name the tenant service group as `tsg_id:<TSG_ID>`. The specification's
-token route is `POST /oauth2/access.token`, served by the authentication host
-`auth.apps.paloaltonetworks.com` (declared as an operation-level server on the token route; assumption: still
+token route is `POST /oauth2/access.token`, served by the authentication host (`<auth_host>`; declared as an operation-level server on the token route; assumption: still
 current). The specification says tokens last about 15 minutes; re-mint (and repeat the profile call)
 if a long upgrade poll outlives the token.
 
