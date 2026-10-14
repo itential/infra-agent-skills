@@ -1,35 +1,46 @@
 ---
 name: incident_management
-description: Create, read, update, assign, acknowledge, resolve, and close incident records on a supported ITSM or on-call platform. The break/fix counterpart to change_management: it covers unplanned-disruption records and their lifecycle, not planned changes. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
-argument-hint: "[platform] [action: create|read|update|assign|acknowledge|resolve|close] [record id or fields]"
+description: Create, read, update, assign, hold, resolve, reopen, and close an incident record on a supported ITSM platform — currently ServiceNow (standard state model). The break/fix counterpart to change_management: it covers records for unplanned disruptions and their lifecycle, not planned changes. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Check references/INDEX.md for which platforms and operations are covered; paging an on-call responder and problem or major-incident handling are not covered.
+argument-hint: "[platform] [action: create|read|update|assign|hold|resolve|reopen|close] [incident number or fields]"
 ---
 
 # Incident Management
 
-Runs an incident record lifecycle — open, update, assign, acknowledge, resolve, close — on whichever platform the
-caller is targeting, following that platform's own documented state model and required fields.
+Runs an incident record lifecycle — create, update, assign, hold, resolve, reopen, close — on whichever
+platform the caller is targeting, following that platform's own documented state model and required
+fields.
 
 ## When to use this skill
 
-- Opening, reading, updating, assigning, acknowledging, resolving, or closing an incident record on a supported platform. Which of those actions a platform exposes is platform-dependent; see
-  `references/INDEX.md`.
-- Not for planned changes — see `change_management`. Linking an incident to a change is a
-  platform-specific field or relation and is documented in that platform's own procedure.
-- Not for delivering a message to a channel or person — see `notifications`. An on-call platform's
-  paging of a responder is part of its incident record lifecycle and belongs here; a plain chat or
-  email message does not.
+- Creating, reading, updating, assigning, placing on hold, resolving, reopening, or closing an incident
+  record on a supported ITSM platform. Which of those actions a platform supports is
+  platform-dependent; see `references/INDEX.md`.
+- Not for planned changes — see `change_management`. Linking an incident to an existing change is part
+  of the platform's own procedure; creating or advancing the change is not.
+- Not for delivering a message to a channel or person — see `notifications`.
 - Not for monitor, threshold, or alert-rule definitions, or for acknowledging or resolving an alert
   raised by an observability platform — see `alert_monitor_management`. This skill covers incident
-  records on an ITSM or on-call platform.
+  records on an ITSM platform.
+- Not for problem records, major-incident handling, or paging an on-call responder; no procedure here
+  covers them yet.
 
 ## Universal concepts (shared incident-handling vocabulary, not a wire standard)
 
-*(To be filled in as vendors are added — see `AGENTS.md` rule 4: only claims verified true across
-every vendor actually listed belong here. Do not pre-populate this section with assumptions before
-a vendor's real behavior has been checked against them.)*
+Only one platform is documented today, so these are claims expected to hold for any ITSM platform and
+must be re-checked when a second platform is added (`AGENTS.md` rules 4 and 14). Where a platform
+differs, its own procedure wins.
 
-See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
-implements this shape concretely.
+- **An incident moves through named states from open to resolved to closed.** The state names and the
+  transitions allowed between them are the platform's own; do not assume one platform's names on
+  another.
+- **Resolving and closing are different steps, where the platform separates them.** Resolving declares
+  the service restored and can usually be undone by reopening; closing is final where documented. Treat both as
+  confirmation points and report which one happened.
+- **Internal notes and caller-visible comments are separate channels, where the platform separates
+  them.** Check which one a platform's note field reaches before writing sensitive content.
+- **Where a platform computes priority from impact and urgency,** set the inputs rather than the result.
+- **A platform may change a record in response to a write** (clearing a hold reason, adjusting an
+  assignment, refusing a transition). Read the record back to confirm the state you asked for.
 
 ## Procedure
 
@@ -43,10 +54,12 @@ implements this shape concretely.
 
 ## Known limitations
 
-- No vendor coverage yet — see `references/INDEX.md`. A platform not listed there needs a new
-  reference file before this skill can be used for it.
+- Platform coverage is in `references/INDEX.md`; a platform not listed there needs a new reference
+  file before this skill can be used for it.
 - Does not cover planned changes (see `change_management`), configuration-item records (see
-  `cmdb_asset_management`), or notification delivery (see `notifications`).
+  `cmdb_asset_management`), notification delivery (see `notifications`), or alert handling on
+  observability platforms (see `alert_monitor_management`).
+- Does not cover problem records, major-incident management, or on-call paging.
 
 ## Contributing to this skill
 
@@ -64,5 +77,5 @@ platform's `procedure.md` for the specific operations.
 
 - [ ] Target platform confirmed against `references/INDEX.md` before proceeding
 - [ ] That platform's own `procedure.md` was followed, including its own confirmation gates on
-      resolving or closing a record, and any bulk update
+      resolving and closing an incident
 - [ ] Outcome reported using the platform procedure's own status vocabulary

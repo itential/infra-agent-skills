@@ -1,6 +1,6 @@
 ---
 name: compute_instance_provisioning
-description: Create, read, resize, snapshot, power-control, and decommission virtual machine instances on a supported hypervisor or cloud platform. Instance lifecycle only — not a general cloud or hypervisor administration skill. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. No vendor coverage yet — see references/INDEX.md.
+description: Create, read, resize, snapshot, power-control, and decommission virtual machine instances on a supported hypervisor or cloud platform — currently Amazon EC2. Instance lifecycle only — not a general cloud or hypervisor administration skill. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Check references/INDEX.md for which platforms and operations are covered.
 argument-hint: "[platform] [action: create|read|resize|snapshot|power|delete] [instance identifier, fields]"
 ---
 
@@ -23,12 +23,24 @@ documented procedure exactly.
 
 ## Universal concepts (shared virtual-instance vocabulary, not a wire standard)
 
-*(To be filled in as vendors are added — see `AGENTS.md` rule 4: only claims verified true across
-every vendor actually listed belong here. Do not pre-populate this section with assumptions before
-a vendor's real behavior has been checked against them.)*
+Only one platform is documented today, so these are claims expected to hold for any hypervisor or cloud
+platform and must be re-checked when a second platform is added (`AGENTS.md` rules 4 and 14). Where a
+platform differs, its own procedure wins.
 
-See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
-implements this shape concretely.
+- **An instance has a lifecycle state that decides which operations are allowed, and write calls are
+  usually asynchronous.** Read the current state before changing an instance, and confirm the target
+  state after; an accepted request is not a finished one.
+- **Deleting an instance is final, and what happens to its storage depends on the platform and its
+  settings.** Treat deletion as a confirmation point and tell the operator which storage will go with
+  it.
+- **Some changes, such as resizing, may require the instance to be powered off,** where the platform
+  says so. Power-off interrupts the workload and can lose volatile state; confirm before
+  doing it, and let the platform's own procedure say what else changes.
+- **What "snapshot" means differs by platform** (a point-in-time copy of the whole machine, of its
+  disks, or an image to launch from), and not every platform can revert an instance to one. Do not
+  assume revert exists.
+- **Repeating a create request can create a second instance** unless the platform offers an
+  idempotency mechanism; use it where it exists.
 
 ## Procedure
 
@@ -42,9 +54,9 @@ implements this shape concretely.
 
 ## Known limitations
 
-- No vendor coverage yet — see `references/INDEX.md`. A platform not listed there needs a new
-  reference file before this skill can be used for it.
-- Scope is the instance lifecycle only. Networks, storage systems, images, identity, and other
+- Platform coverage is in `references/INDEX.md`; a platform not listed there needs a new reference
+  file before this skill can be used for it.
+- Scope is the instance lifecycle only. Networks, storage systems, images as standalone catalog objects, identity, and other
   parts of a cloud or hypervisor are out of scope even where the same platform offers them.
 
 ## Contributing to this skill
@@ -63,5 +75,5 @@ platform's `procedure.md` for the specific operations.
 
 - [ ] Target platform confirmed against `references/INDEX.md` before proceeding
 - [ ] That platform's own `procedure.md` was followed, including its own confirmation gates on
-      deletion, resize (where the platform documents a restart), and power-off of a running instance
+      launch, power-on, power-off, reboot, resize, an image that reboots the instance, and deletion
 - [ ] Outcome reported using the platform procedure's own status vocabulary
