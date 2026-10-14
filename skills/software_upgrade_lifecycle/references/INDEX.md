@@ -89,8 +89,7 @@ returns incomplete/summarized-without-substance content; ask the user for a PDF 
    tool-selection key) — no separate endpoints file needed. If it's REST/API-driven, add
    `<platform-family-and-mode>-endpoints.md` alongside it with the literal wiring, per the usual
    convention — **never a bare `endpoints.md`** in a vendor directory that has (or might later
-   have) more than one platform-family file. See "Lesson learned" above. A vendor with a single procedure
-   may use the bare names `procedure.md` and `endpoints.md` (AGENTS.md rule 8), as `prisma_sdwan` does.
+   have) more than one platform-family file. See "Lesson learned" above.
 3. Add one row to the table above.
 4. Do NOT add vendor/platform-specific procedure content to the top-level `SKILL.md` — see that file's
    own contribution note. This is the rule most likely to be tempting to break here, precisely because
