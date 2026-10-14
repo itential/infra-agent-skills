@@ -1,6 +1,6 @@
 # Endpoints — Prisma SD-WAN ION device software upgrade
 
-Literal wiring layer for `ion-software-upgrade.md`. Operation names in its Tools table map to the
+Literal wiring layer for `procedure.md`. Operation names in its Tools table map to the
 routes below.
 
 Written against the Prisma SD-WAN unified API specification (version labelled "Latest") and the
