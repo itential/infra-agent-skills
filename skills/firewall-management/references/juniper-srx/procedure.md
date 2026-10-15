@@ -31,7 +31,8 @@ operational procedure.
 Statements below are entered in configuration mode. Three entry forms are documented: the default
 shared mode, `configure private`, and `configure exclusive`. They differ in what a later commit
 activates (see Commit), and the private and exclusive forms keep other users' unfinished edits out of
-your commit. Choose deliberately before editing.
+your commit. Choose deliberately before editing. How to leave configuration mode, and when an exclusive
+lock is released, is not covered here; treat it as unknown and confirm on the device.
 
 ```
 configure
@@ -59,7 +60,7 @@ set security address-book <book> attach zone <zone>
 
 Address entries may be IPv4, IPv6, wildcard, or DNS name. DNS names need DNS services already set up
 on the device. A network prefix must carry zero bits beyond its prefix length; a host name or a /32
-uses the full length. **Documentation defect:** the source's own worked examples include prefixes with
+uses the full length. **Documentation defect:** the vendor's own worked examples include prefixes with
 host bits set (for example a host address written with /24). Follow the stated rule and write the
 network address, or use a /32 for a single host.
 
@@ -89,7 +90,7 @@ an address named directly in a policy, so treat that as unchecked and look for i
 delete security address-book <book> address <name>
 delete security address-book <book> address-set <set-name>
 ```
-(The delete form is the generic Junos `delete` statement; the source shows it only for application
+(The delete form is the generic Junos `delete` statement; the vendor documentation shows it only for application
 statements, so this exact form is an assumption to confirm on the device.)
 
 ### Create or update a custom application or application set
@@ -189,7 +190,7 @@ delete security policies global policy <name>
 ### Reorder policies and detect shadowing
 
 **Stop and confirm with the operator before proceeding** when a reorder changes which policy first
-matches live traffic. Reordering uses `insert … before`; an `after` form is not covered by the source.
+matches live traffic. Reordering uses `insert … before`; an `after` form is not covered by the vendor documentation.
 A policy is shadowed when an earlier policy already matches everything it would.
 
 ```
@@ -197,9 +198,9 @@ insert security policies from-zone <from> to-zone <to> policy <name> before poli
 show security shadow-policies from-zone <from> to-zone <to>
 show security shadow-policies global
 ```
-The source's shadow-policy examples also carry a logical-system argument; whether that argument is
+The vendor's shadow-policy examples also carry a logical-system argument; whether that argument is
 optional on a device without logical systems is not stated. The tool reports shadowing and leaves
-correction to the operator. **Documentation defect:** the source's first reorder example contains
+correction to the operator. **Documentation defect:** the vendor's first reorder example contains
 malformed `set` lines (missing policy name); use the full statements shown above instead.
 
 ### Commit
@@ -216,7 +217,7 @@ commit
 ```
 
 `commit check` validates syntax without activating. `commit confirmed` activates temporarily; unless a
-further `commit` (or `commit check`, as the source states) arrives within the window — 10 minutes by
+further `commit` (or `commit check`, as the vendor documentation states) arrives within the window — 10 minutes by
 default, or the minutes given — the device rolls back to the prior configuration and broadcasts a
 message to logged-in users. `show system commit` lists the scheduled rollback. A commit can fail on
 syntax errors, a candidate larger than 700 MB, or another user's exclusive configuration lock.

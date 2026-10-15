@@ -32,25 +32,24 @@ automatically to a platform not yet added.
   platform blocks for you.** Enforcement varies and is partial at best. PAN-OS, FortiOS, and Cisco ASA
   procedures found no platform-enforced reference check preventing deletion of an in-use address
   object, service object, or rule (ASA's docs explicitly note this for network-service objects).
-  Juniper SRX documents enforcement at commit for two cases only: an address still listed in an
-  address set fails the commit, and an address set still referenced by a policy cannot be removed;
-  nothing is stated for an address named directly in a policy. Treat "check for existing references
-  before deleting" as this skill's own discipline in every vendor procedure, not a safety net the
-  platform itself is confirmed to provide.
+  Juniper SRX documents some commit-time enforcement for specific cases only (see its procedure and
+  the INDEX note). Treat "check for existing references before deleting" as this skill's own
+  discipline in every vendor procedure, not a safety net the platform itself is confirmed to provide.
 - **How a write becomes "live" varies by vendor and is not safe to assume uniform.** PAN-OS has a
   documented two-stage candidate/commit model where nothing takes effect until a separate commit
   step, and Juniper SRX has the same candidate/commit shape. Cisco ASA's REST API is documented as
   writing only to the running configuration, requiring a separate persist step to survive a reload.
   Whether FortiOS's and ASA's CLI writes apply immediately to the running configuration was not
-  independently confirmed for either during this round of research. Don't assume "the write call returned success" means "this is now enforced" —
-  check each vendor's own procedure for what apply/commit/persist step (if any) it requires.
+  independently confirmed for either during this round of research. Don't assume "the write call
+  returned success" means "this is now enforced" — check each vendor's own procedure for what
+  apply/commit/persist step (if any) it requires.
 - **NAT is not modeled the same way across vendors — don't assume a shared shape.** PAN-OS treats
   NAT rules as their own separate rule family (parallel to security rules); FortiOS's VIP table
   covers destination NAT specifically, separate from its firewall-policy table and from source NAT
   (configured differently, at the policy level); Cisco ASA nests static/auto NAT as a subcommand
   inside the network object it translates, not as an independent rule list; Juniper SRX keeps NAT in
-  its own rule sets by type, separate from security policies. Confirm the target
-  vendor's own NAT model before assuming any of these shapes carries over to another platform.
+  its own rule sets, separate from security policies. Confirm the target vendor's own NAT model
+  before assuming any of these shapes carries over to another platform.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.
