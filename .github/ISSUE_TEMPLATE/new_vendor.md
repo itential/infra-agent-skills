@@ -7,7 +7,7 @@ labels: new-vendor
 
 ## Skill
 
-<!-- e.g. software_upgrade_lifecycle -->
+<!-- e.g. software-upgrade-lifecycle -->
 
 ## Vendor / Platform
 
@@ -16,13 +16,13 @@ labels: new-vendor
 ## Why This Belongs Here
 
 Confirm this is genuinely the same capability as the skill's existing scope (e.g. don't propose
-IPAM allocation under `dns_record_management` — see README for how capabilities are scoped).
+IPAM allocation under `dns-record-management` — see README for how capabilities are scoped).
 
 ## Tool, API, or MCP server?
 
 If the proposed vendor is a framework, SDK, or MCP server rather than a platform's own API, say so
 and confirm the skill's operation is tool-neutral and a real infrastructure process (AGENTS.md
-rule 14). Directory names are snake_case.
+rule 14). Directory names are kebab-case.
 
 ## Source Documentation
 

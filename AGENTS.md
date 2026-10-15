@@ -124,14 +124,13 @@ Every `SKILL.md` uses the open [Agent Skills](https://agentskills.io/specificati
   typically has no destructive-action confirmation gates (rule 7) since reading state doesn't
   change anything. Note in that skill's own `SKILL.md` *why* it's diagnostic-shaped (a
   self-contained explanation, not a pointer to another skill file for the reasoning — see rule 11).
-- **Names are lowercase snake_case.** The capability directory name, the frontmatter `name`, and
-  the vendor/tool directory under `references/` all use underscores (`network_state_collection`,
-  `cisco_pyats`), and the directory name must equal `name`. Hyphens are not used for these. (Companion
-  file basenames follow rule 8's `<basename>-endpoints.md` pattern.) If an external validator
-  prefers another form, raise it as an issue for the maintainers; do not diverge in a PR.
-  Three pre-existing vendor directories (`routing_troubleshooting/references/cisco-iosxe` and
-  `juniper-junos`, `load_balancing/references/f5_big-ip_ltm`) predate this rule; they are
-  grandfathered and should be renamed opportunistically in a PR that already touches them.
+- **Names are lowercase kebab-case.** The Agent Skills specification allows only lowercase letters,
+  digits, and single hyphens in a skill's `name`, with no leading, trailing, or consecutive hyphens,
+  and requires the directory name to equal `name`. The capability directory name and the frontmatter
+  `name` follow that (`network-state-collection`), and so does the vendor/tool directory under
+  `references/` (`cisco-pyats`), so the whole tree uses one style. Underscores are not used for
+  these. (Companion file basenames follow rule 8's `<basename>-endpoints.md` pattern.) Operation
+  names in a procedure's Tools table are identifiers, not directory names, and keep their own style.
   A capability is named for the **operation**, never for a tool or framework.
 - **Scope must read the same everywhere.** The `argument-hint`, `description`, "When to use this
   skill," the body, `references/INDEX.md`, and the root README's "Current Skills" row must all
@@ -152,12 +151,12 @@ organizing principle), `SKILL.md` must stay a **thin, stable router**:
   should stay roughly constant size no matter how many vendors are added underneath it.
 
 For a large permutation space where one vendor spans several platform families or install modes
-(e.g. `software_upgrade_lifecycle`), the same shape holds one level deeper:
+(e.g. `software-upgrade-lifecycle`), the same shape holds one level deeper:
 `references/<vendor>/<platform-family>.md`, grouped by platform family/version line — not by every
 individual model — unless a specific model's behavior is genuinely, documentedly different from
 its family. The worked example below shows how this was applied and validated.
 
-**Worked example (`software_upgrade_lifecycle`).** Group by platform family plus OS mode, not by
+**Worked example (`software-upgrade-lifecycle`).** Group by platform family plus OS mode, not by
 model or version. A model-specific behavior (say, a restriction that applies only to stacked units)
 is a subsection inside the family file, not a new file. Split by version line only when the
 procedure itself changes (a new required flag, a removed safety mechanism), not for every point
@@ -242,7 +241,7 @@ Once a vendor has more than one platform-family or mode file (not just once a *s
 added — from the first file), name every companion file after its procedure file's own basename:
 `<platform-family-and-mode>-endpoints.md` — not a bare `endpoints.md`. A generic name silently
 overwrites the previous file of the same name the next time a second platform-family is added for
-that vendor. Worked example: `software_upgrade_lifecycle/references/cisco/` holds an IOS-XE and an
+that vendor. Worked example: `software-upgrade-lifecycle/references/cisco/` holds an IOS-XE and an
 IOS XR file side by side; a REST-driven companion for each under one bare `endpoints.md` would be
 overwritten by whichever was written second. Every companion file is therefore named after its
 procedure file (`<platform-family-and-mode>-endpoints.md`).
@@ -297,7 +296,7 @@ content as if it were relevant to the task at hand. Write the explanation in ful
 the skill that needs it — don't shorten one skill's file by pointing at another's.
 
 This is a different thing from a legitimate scope-boundary cross-reference (e.g. "not for creating
-the zone itself — see `dns_zone_management`"), which exists because the two skills divide a real,
+the zone itself — see `dns-zone-management`"), which exists because the two skills divide a real,
 overlapping *operational* concern the caller needs to know about to route correctly — that kind of
 pointer stays; it tells the executing agent where to go next, not why a file was written the way it
 was.
@@ -384,7 +383,7 @@ Reject or send back:
   infrastructure-operations scope above.
 - **Capability sprawl.** One capability per query type, per vendor feature, or per source tool. The
   repo keeps few, stable capabilities with vendors underneath; fold a new read or write operation
-  into the existing capability it belongs to (for example firewall rules into `firewall_management`)
+  into the existing capability it belongs to (for example firewall rules into `firewall-management`)
   instead of creating a sibling.
 - **Out-of-shape content.** Extra files outside the repository shape, `SKILL.md` edits to existing
   skills beyond rule 5's two reasons, or changes to unrelated existing skills.
@@ -436,7 +435,7 @@ them.
    (rule 2) gets one decision-tree entry per symptom or lookup type, each mapping an observed state
    to a documented cause, a next check, or an explicit "consult platform-specific guidance", and
    a vendor's own state names that diverge from the standard are documented, not normalized away;
-   `alert_monitor_management` procedures cover both create-monitor and acknowledge/resolve as
+   `alert-monitor-management` procedures cover both create-monitor and acknowledge/resolve as
    distinct sections.
 2. Add one row to `references/INDEX.md`, replacing any `_(none yet)_` placeholder. The scope column
    lists what the vendor's file actually covers (operations, lookup types, assessment types, or
@@ -452,9 +451,9 @@ them.
    Never merge reference files across skills, because the object models differ (incident versus
    change, WAF versus firewall, NAC versus zero-trust access, DHCP versus IPAM, zone versus record,
    CASB policy versus CASB posture, SD-WAN versus the wireless, firewall, and VPN skills). Say so in the Notes of this vendor's row.
-6. Stay inside the capability's scope. Examples: `compute_instance_provisioning` covers the
+6. Stay inside the capability's scope. Examples: `compute-instance-provisioning` covers the
    instance lifecycle only, not a cloud's networking, storage, or identity services;
-   `dcim_asset_management` covers NetBox's DCIM object model only, never its IPAM module; a
+   `dcim-asset-management` covers NetBox's DCIM object model only, never its IPAM module; a
    notification platform's row states which destination types (channel, thread, direct recipient)
    and content types (plain text, rich formatting, attachments) it supports, since that varies
    by platform.
@@ -563,8 +562,8 @@ Before opening a PR, or before approving one, confirm:
       the diff stays inside the stated scope (rule 12).
 - [ ] Passes the applicability screen (rule 13): infrastructure-operations scope, carries a
       procedure a capable agent lacks, not a tool manual, generic transport, or delegating wrapper.
-- [ ] The capability is named for the operation and uses snake_case, with directory name equal to
-      frontmatter `name` and underscore vendor/tool directories (rule 2).
+- [ ] The capability is named for the operation and uses kebab-case, with directory name equal to
+      frontmatter `name` and kebab-case vendor/tool directories (rule 2).
 - [ ] Any tool, API, or MCP-server vendor satisfies rule 14: tool-neutral capability, hedged
       universal concepts, tool detail only under `references/<tool>/`, MCP bindings by tool name only.
 - [ ] The diff contains nothing outside `skills/` and the root governance/README files, and no

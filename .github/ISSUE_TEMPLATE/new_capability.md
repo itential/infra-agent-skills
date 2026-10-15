@@ -7,7 +7,7 @@ labels: new-capability
 
 ## Proposed Capability Name
 
-<!-- snake_case, named for the operation (not a tool), e.g. `certificate_management` -->
+<!-- kebab-case, named for the operation (not a tool), e.g. `certificate-management` -->
 
 ## Why This Is a Distinct Capability
 

@@ -40,7 +40,7 @@ skills/<capability>/
       endpoints.md                 # literal wire-level calls
 ```
 
-Capability, `name`, and vendor/tool directories are lowercase snake_case, and a capability is named
+Capability, `name`, and vendor/tool directories are lowercase kebab-case, and a capability is named
 for the operation rather than a tool. A vendor can be a platform's API, a CLI/SDK framework, or an MCP
 server, as long as the operation is a real infrastructure process and the router stays tool-neutral
 — see [AGENTS.md](AGENTS.md) rules 13 and 14.
@@ -60,40 +60,40 @@ one vendor's behavior from ever touching the shared file.
 
 | Skill | Vendors covered |
 |---|---|
-| `alert_monitor_management` | Datadog, New Relic, LogicMonitor, Paessler PRTG |
-| `dns_record_management` | Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat Horizon, BlueCat Address Manager, PowerDNS |
-| `dns_zone_management` | Route 53, Cloudflare, PowerDNS |
-| `change_management` | ServiceNow, Freshservice, Jira Service Management, BMC Helix ITSM |
-| `software_upgrade_lifecycle` | Cisco IOS-XE, Cisco IOS XR, Arista EOS, Juniper Junos EX, Extreme EXOS, NVIDIA Cumulus Linux, Palo Alto Prisma SD-WAN |
-| `ipam_allocation` | NetBox, Infoblox NIOS, SolarWinds IPAM |
-| `dhcp_scope_management` | Infoblox NIOS, ISC Kea, Microsoft DHCP Server |
-| `cmdb_asset_management` | ServiceNow CMDB |
-| `wireless_network_management` | Cisco Meraki, HPE Aruba Networking Central, Cisco Catalyst Center |
-| `firewall_management` | Palo Alto PAN-OS/Panorama, Fortinet FortiOS, Cisco ASA |
-| `waf_management` | _(scaffolded — no vendor coverage yet)_ |
-| `load_balancing` | F5 BIG-IP LTM, Citrix ADC/NetScaler, HAProxy |
-| `certificate_management` | ACME (e.g. Let's Encrypt), HashiCorp Vault PKI, AWS Certificate Manager |
-| `vpn_tunnel_management` | strongSwan, Palo Alto PAN-OS, Juniper SRX, Cisco ASA *(VTI tunnel creation only)* |
-| `routing_troubleshooting` | Cisco IOS-XE, Juniper Junos, FRRouting *(diagnostic: BGP session/route troubleshooting)* |
-| `interface_link_troubleshooting` | Cisco IOS-XE, Juniper Junos, Arista EOS *(diagnostic: interface/link troubleshooting)* |
-| `vulnerability_lookup` | NVD (National Vulnerability Database), Cisco PSIRT openVuln API *(diagnostic: CVE/CVSS lookup)* |
-| `casb_policy_management` | _(scaffolded — no vendor coverage yet)_ |
-| `casb_posture_assessment` | _(scaffolded — no vendor coverage yet; diagnostic: CASB risk/compliance posture)_ |
-| `crm_contact_management` | Salesforce |
-| `dcim_asset_management` | NetTerrain (Graphical Networks) |
+| `alert-monitor-management` | Datadog, New Relic, LogicMonitor, Paessler PRTG |
+| `dns-record-management` | Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat Horizon, BlueCat Address Manager, PowerDNS |
+| `dns-zone-management` | Route 53, Cloudflare, PowerDNS |
+| `change-management` | ServiceNow, Freshservice, Jira Service Management, BMC Helix ITSM |
+| `software-upgrade-lifecycle` | Cisco IOS-XE, Cisco IOS XR, Arista EOS, Juniper Junos EX, Extreme EXOS, NVIDIA Cumulus Linux, Palo Alto Prisma SD-WAN |
+| `ipam-allocation` | NetBox, Infoblox NIOS, SolarWinds IPAM |
+| `dhcp-scope-management` | Infoblox NIOS, ISC Kea, Microsoft DHCP Server |
+| `cmdb-asset-management` | ServiceNow CMDB |
+| `wireless-network-management` | Cisco Meraki, HPE Aruba Networking Central, Cisco Catalyst Center |
+| `firewall-management` | Palo Alto PAN-OS/Panorama, Fortinet FortiOS, Cisco ASA |
+| `waf-management` | _(scaffolded — no vendor coverage yet)_ |
+| `load-balancing` | F5 BIG-IP LTM, Citrix ADC/NetScaler, HAProxy |
+| `certificate-management` | ACME (e.g. Let's Encrypt), HashiCorp Vault PKI, AWS Certificate Manager |
+| `vpn-tunnel-management` | strongSwan, Palo Alto PAN-OS, Juniper SRX, Cisco ASA *(VTI tunnel creation only)* |
+| `routing-troubleshooting` | Cisco IOS-XE, Juniper Junos, FRRouting *(diagnostic: BGP session/route troubleshooting)* |
+| `interface-link-troubleshooting` | Cisco IOS-XE, Juniper Junos, Arista EOS *(diagnostic: interface/link troubleshooting)* |
+| `vulnerability-lookup` | NVD (National Vulnerability Database), Cisco PSIRT openVuln API *(diagnostic: CVE/CVSS lookup)* |
+| `casb-policy-management` | _(scaffolded — no vendor coverage yet)_ |
+| `casb-posture-assessment` | _(scaffolded — no vendor coverage yet; diagnostic: CASB risk/compliance posture)_ |
+| `crm-contact-management` | Salesforce |
+| `dcim-asset-management` | NetTerrain (Graphical Networks) |
 | `notifications` | Slack, Cisco Webex, Microsoft Teams |
-| `secret_retrieval` | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault |
-| `repository_pull_request_management` | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
-| `container_workload_deployment` | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub |
-| `zero_trust_access_policy_management` | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
-| `network_state_collection` | Cisco pyATS / Genie (parse commands, learn features, compare snapshots) |
-| `network_health_verification` | Cisco pyATS (Health Check, integrated job mode) |
-| `incident_management` | ServiceNow *(incident create, update, assign, hold, resolve, reopen, close)* |
-| `compute_instance_provisioning` | Amazon EC2 *(launch, start/stop/reboot, resize, snapshot/image, terminate)* |
-| `sdwan_policy_management` | Cisco Catalyst SD-WAN Manager *(centralized policy, original template-policy model)*, Palo Alto Networks Prisma SD-WAN *(stacked path and QoS policy sets, rules, and stacks; bind to sites)* |
-| `config_backup_management` | Prisma SD-WAN *(site snapshot capture, retrieve, and redeploy as YAML)* |
-| `sdwan_site_onboarding` | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)* |
-| `network_access_control_management` | _(scaffolded — no vendor coverage yet)_ |
+| `secret-retrieval` | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault |
+| `repository-pull-request-management` | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
+| `container-workload-deployment` | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub |
+| `zero-trust-access-policy-management` | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
+| `network-state-collection` | Cisco pyATS / Genie (parse commands, learn features, compare snapshots) |
+| `network-health-verification` | Cisco pyATS (Health Check, integrated job mode) |
+| `incident-management` | ServiceNow *(incident create, update, assign, hold, resolve, reopen, close)* |
+| `compute-instance-provisioning` | Amazon EC2 *(launch, start/stop/reboot, resize, snapshot/image, terminate)* |
+| `sdwan-policy-management` | Cisco Catalyst SD-WAN Manager *(centralized policy, original template-policy model)*, Palo Alto Networks Prisma SD-WAN *(stacked path and QoS policy sets, rules, and stacks; bind to sites)* |
+| `config-backup-management` | Prisma SD-WAN *(site snapshot capture, retrieve, and redeploy as YAML)* |
+| `sdwan-site-onboarding` | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)* |
+| `network-access-control-management` | _(scaffolded — no vendor coverage yet)_ |
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
@@ -128,7 +128,7 @@ so pulling updates here doesn't require re-copying anything:
 ```bash
 # From your project root, after cloning infra-agent-skills alongside it
 mkdir -p .claude/skills
-ln -s ../../infra-agent-skills/skills/dns_record_management .claude/skills/dns_record_management
+ln -s ../../infra-agent-skills/skills/dns-record-management .claude/skills/dns-record-management
 ```
 
 Repeat the `ln -s` line per capability you want available. Claude Code picks up the new skill the

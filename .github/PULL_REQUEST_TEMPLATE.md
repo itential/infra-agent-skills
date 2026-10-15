@@ -14,7 +14,7 @@ Brief description of what this PR does.
 
 ## Skill(s) Affected
 
-<!-- e.g. `dns_record_management` (new vendor: X) / `change_management` (SKILL.md correction) -->
+<!-- e.g. `dns-record-management` (new vendor: X) / `change-management` (SKILL.md correction) -->
 
 ## Why this belongs here
 
@@ -39,7 +39,7 @@ Closes #123
 
 - [ ] Passes the applicability screen (AGENTS.md rule 13) — not a tool manual, generic
       command/transport wrapper, or developer tooling
-- [ ] Capability, `name`, and vendor/tool directories are snake_case (underscores); the capability
+- [ ] Capability, `name`, and vendor/tool directories are kebab-case (hyphens); the capability
       is named for the operation, not a tool (AGENTS.md rules 2 and 14)
 - [ ] Nothing in the diff sits outside `skills/` and root governance/README files
 - [ ] Branch is up to date with `main`

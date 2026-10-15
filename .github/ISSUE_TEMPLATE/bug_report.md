@@ -7,7 +7,7 @@ labels: bug
 
 ## Skill / Vendor
 
-<!-- e.g. dns_record_management / Cloudflare -->
+<!-- e.g. dns-record-management / Cloudflare -->
 
 ## Description
 

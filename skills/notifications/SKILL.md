@@ -33,7 +33,7 @@ against any new platform's actual behavior before assuming it still holds (see `
   (a channel/room ID, or an email/user ID for a direct message) as a normal parameter on the same
   authenticated API call used to send. Microsoft Teams' current primary mechanism is structurally
   different: the destination channel/chat is fixed when a Workflows (Power Automate) webhook is
-  configured, not passed at send time — see `references/microsoft_teams/procedure.md`. Never assume
+  configured, not passed at send time — see `references/microsoft-teams/procedure.md`. Never assume
   a runtime "channel" argument exists just because it does on Slack/Webex.
 - **Every platform here supports a plain-text body plus a richer, platform-specific formatted body**
   (Slack Block Kit, Webex Markdown, Teams Adaptive Cards/Message Cards) — but the richer formats are

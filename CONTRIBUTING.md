@@ -129,7 +129,7 @@ Examples:
 - [ ] The change passes the applicability screen in AGENTS.md rule 13: an infrastructure-operations
       procedure that carries something a capable agent lacks — not a tool manual, generic
       command/transport wrapper, or developer tooling
-- [ ] Capability, `name`, and vendor/tool directories are lowercase snake_case, and the capability is
+- [ ] Capability, `name`, and vendor/tool directories are lowercase kebab-case, and the capability is
       named for the operation, not a tool (AGENTS.md rule 2). A tool, API, or MCP server fits as a
       vendor only under AGENTS.md rule 14
 - [ ] The diff touches only `skills/` and root governance/README files — no adaptation maps,
