@@ -1,6 +1,6 @@
 ---
 name: incident-management
-description: Create, read, update, assign, hold, resolve, reopen, and close an incident record on a supported ITSM platform — currently ServiceNow (standard state model). The break/fix counterpart to change-management: it covers records for unplanned disruptions and their lifecycle, not planned changes. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Check references/INDEX.md for which platforms and operations are covered; paging an on-call responder and problem or major-incident handling are not covered.
+description: Create, read, update, assign, hold, resolve, reopen, and close an incident record on a supported ITSM platform — currently ServiceNow (standard state model). The break/fix counterpart to change-management, it covers records for unplanned disruptions and their lifecycle, not planned changes. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Check references/INDEX.md for which platforms and operations are covered; paging an on-call responder and problem or major-incident handling are not covered.
 argument-hint: "[platform] [action: create|read|update|assign|hold|resolve|reopen|close] [incident number or fields]"
 ---
 

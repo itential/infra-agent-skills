@@ -118,6 +118,11 @@ Every `SKILL.md` uses the open [Agent Skills](https://agentskills.io/specificati
   covers, and any tool/client assumption in plain language ("Assumes an authenticated API client
   for the target platform is already available"). Be specific enough that an agent's
   skill-matching picks this up for the right requests and not adjacent ones.
+  It is at most 1024 characters (the specification's limit). Name each supported vendor, but keep
+  per-vendor capability detail and quirks in `references/INDEX.md`; a description that carries
+  them outgrows the limit as vendors are added. Measure the length after every edit that adds a
+  vendor. The frontmatter must also parse as strict YAML: a plain `description` cannot contain a
+  colon followed by a space, so reword it or quote the whole value.
 - Body sections, in order: title + one-line purpose, "When to use this skill," "Universal concepts"
   (only the facts that are genuinely true across every vendor listed — see rule 4), "Procedure"
   (routes to `references/<vendor>/procedure.md` — see rule 3), "Known limitations," "Contributing
