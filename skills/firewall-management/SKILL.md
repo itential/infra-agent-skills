@@ -39,18 +39,17 @@ automatically to a platform not yet added.
   platform itself is confirmed to provide.
 - **How a write becomes "live" varies by vendor and is not safe to assume uniform.** PAN-OS has a
   documented two-stage candidate/commit model where nothing takes effect until a separate commit
-  step, and Juniper SRX has the same shape plus a documented commit-with-auto-rollback form. Cisco ASA's REST API is documented as writing only to the running configuration, requiring
-  a separate persist step to survive a reload. Whether FortiOS's and ASA's CLI writes apply
-  immediately to the running configuration was not independently confirmed for either during this
-  round of research. Don't assume "the write call returned success" means "this is now enforced" —
+  step, and Juniper SRX has the same candidate/commit shape. Cisco ASA's REST API is documented as
+  writing only to the running configuration, requiring a separate persist step to survive a reload.
+  Whether FortiOS's and ASA's CLI writes apply immediately to the running configuration was not
+  independently confirmed for either during this round of research. Don't assume "the write call returned success" means "this is now enforced" —
   check each vendor's own procedure for what apply/commit/persist step (if any) it requires.
 - **NAT is not modeled the same way across vendors — don't assume a shared shape.** PAN-OS treats
   NAT rules as their own separate rule family (parallel to security rules); FortiOS's VIP table
   covers destination NAT specifically, separate from its firewall-policy table and from source NAT
   (configured differently, at the policy level); Cisco ASA nests static/auto NAT as a subcommand
   inside the network object it translates, not as an independent rule list; Juniper SRX keeps NAT in
-  its own rule sets by type (source, destination, static), separate from security policies, and those
-  rule sets draw only on the global address book. Confirm the target
+  its own rule sets by type, separate from security policies. Confirm the target
   vendor's own NAT model before assuming any of these shapes carries over to another platform.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
@@ -68,11 +67,11 @@ implements this shape concretely.
 
 ## Known limitations
 
-- Covers PAN-OS/Panorama, FortiOS/FortiGate, Cisco ASA, and Juniper SRX only — see `references/INDEX.md` for
-  exactly what's confirmed for each. A platform not listed there (including Cisco FTD/FMC) needs a
-  new reference file before this skill can be used for it.
+- Covers PAN-OS/Panorama, FortiOS/FortiGate, Cisco ASA, and Juniper SRX only — see
+  `references/INDEX.md` for exactly what's confirmed for each. A platform not listed there (including
+  Cisco FTD/FMC) needs a new reference file before this skill can be used for it.
 - Each vendor file also carries its own gaps (e.g. PAN-OS's NAT-rule REST path, FortiOS's REST API
-  surface, ASA's FTD/FMC distinction, SRX's NAT being out of scope) — check that vendor's own Known limitations before assuming
+  surface, ASA's FTD/FMC distinction) — check that vendor's own Known limitations before assuming
   full coverage of every operation named in this skill's description.
 
 ## Contributing to this skill

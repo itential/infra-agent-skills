@@ -26,6 +26,19 @@ operational procedure.
 
 ## Operational procedure
 
+### Enter configuration mode
+
+Statements below are entered in configuration mode. Three entry forms are documented: the default
+shared mode, `configure private`, and `configure exclusive`. They differ in what a later commit
+activates (see Commit), and the private and exclusive forms keep other users' unfinished edits out of
+your commit. Choose deliberately before editing.
+
+```
+configure
+configure private
+configure exclusive
+```
+
 ### Create or update an address entry or address set
 
 Entries live in a named address book. A zone-attached book serves zone-pair policies for the zone it
@@ -249,9 +262,8 @@ it. A plain `commit` in shared mode therefore activates other people's unfinishe
 
 | Operation | Description | Category |
 |---|---|---|
-| Junos CLI session, configuration mode | Create, update, delete, and insert address, application, and policy statements in the candidate configuration | Configuration |
+| Junos CLI session, configuration mode | Create, update, delete, and insert address, application, and policy statements in the candidate configuration, and validate, activate (with optional auto-rollback), and finalize it | Configuration |
 | Junos CLI session, operational and configuration-mode `show` | Read address books, applications, policies, shadow-policy report, and commit history | Read |
-| `commit check` / `commit confirmed` / `commit` | Validate, activate with auto-rollback, and finalize the candidate configuration | Commit |
 
 ## Verification checklist
 
