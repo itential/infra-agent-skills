@@ -122,7 +122,8 @@ Every `SKILL.md` uses the open [Agent Skills](https://agentskills.io/specificati
   per-vendor capability detail and quirks in `references/INDEX.md`; a description that carries
   them outgrows the limit as vendors are added. Measure the length after every edit that adds a
   vendor. The frontmatter must also parse as strict YAML: a plain `description` cannot contain a
-  colon followed by a space, so reword it or quote the whole value.
+  colon followed by a space or a space followed by `#`, and cannot start with a quote, bracket, or
+  other YAML indicator, so reword it or quote the whole value.
 - Body sections, in order: title + one-line purpose, "When to use this skill," "Universal concepts"
   (only the facts that are genuinely true across every vendor listed — see rule 4), "Procedure"
   (routes to `references/<vendor>/procedure.md` — see rule 3), "Known limitations," "Contributing
@@ -481,6 +482,48 @@ read), and it is why the review checklist below treats "does every step trace ba
 vendor source" as a security check, not just an accuracy one. See [SECURITY.md](SECURITY.md) for
 how to report a suspected instance of this in already-merged content.
 
+## Validate before you open a PR
+
+Run both checks from the repository root and fix every failure before opening a PR. They cover the
+specification's hard limits, which a reviewer cannot be expected to count by eye.
+
+1. The specification's reference validator, if you can install it:
+   `skills-ref validate skills/<capability>` for each skill you touched.
+2. This stand-alone check (needs only Python 3 and PyYAML). It covers every skill, because a rename or
+   an edit to shared text can break a skill you did not open:
+
+```python
+import glob, os, re, yaml
+
+ok = True
+for path in sorted(glob.glob("skills/*/SKILL.md")):
+    directory = os.path.basename(os.path.dirname(path))
+    try:
+        meta = yaml.safe_load(open(path).read().split("---")[1])   # strict YAML
+    except yaml.YAMLError as err:
+        print(f"{path}: frontmatter is not valid YAML ({err.problem})"); ok = False; continue
+    name, desc = meta.get("name", ""), meta.get("description", "")
+    problems = []
+    if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", name) or len(name) > 64:
+        problems.append("name must be lowercase letters, digits and single hyphens, 64 characters or fewer")
+    if name != directory:
+        problems.append(f"name {name!r} must equal directory {directory!r}")
+    if not 1 <= len(desc) <= 1024:
+        problems.append(f"description is {len(desc)} characters; the limit is 1024")
+    extra = set(meta) - {"name", "description", "argument-hint"}
+    if extra:
+        problems.append(f"unexpected frontmatter fields: {sorted(extra)}")
+    for problem in problems:
+        print(f"{path}: {problem}"); ok = False
+raise SystemExit(0 if ok else 1)
+```
+
+Vendor directories under `references/` must also be kebab-case (rule 2):
+`find skills -name '*_*'` prints nothing when they are.
+
+If the specification has changed since this section was written, the specification wins (rule 2);
+update the check here in the same PR.
+
 ## Reviewing a PR
 
 - **Order:** applicability and scope (rule 13) and naming (rule 2) first and fail fast; then the
@@ -578,7 +621,8 @@ Before opening a PR, or before approving one, confirm:
 - [ ] The capability is named for the operation and uses kebab-case, with directory name equal to
       frontmatter `name` and kebab-case vendor/tool directories (rule 2).
 - [ ] `name` and frontmatter satisfy the current Agent Skills specification (rule 2), checked
-      against the specification itself, not only against this file.
+      against the specification itself, not only against this file, and the "Validate before you
+      open a PR" checks pass.
 - [ ] Any tool, API, or MCP-server vendor satisfies rule 14: tool-neutral capability, hedged
       universal concepts, tool detail only under `references/<tool>/`, MCP bindings by tool name only.
 - [ ] The diff contains nothing outside `skills/` and the root governance/README files, and no
