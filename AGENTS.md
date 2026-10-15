@@ -103,6 +103,14 @@ under `references/<vendor>/`, or correcting existing content.
 
 Every `SKILL.md` uses the open [Agent Skills](https://agentskills.io/specification) format:
 
+- **The specification wins on format.** Where this file and the specification disagree on a
+  format constraint (allowed characters in `name`, name-equals-directory, frontmatter fields and
+  length limits, file layout), the specification is correct and this file is the bug: fix this file
+  in the same PR, never diverge from the specification and never grandfather a violation. Before
+  adding or changing a rule about naming or frontmatter, read the current specification page, and
+  validate every touched skill with the specification's reference validator if it is available.
+  Rules here may add stricter conventions on top of the specification, never looser or conflicting
+  ones.
 - **Frontmatter is `name` + `description` only** (+ `argument-hint` if the skill takes positional
   arguments worth hinting). Do not add a structured `interface`/`inputs`/`outputs`/`risk_level`
   block — that information belongs as prose in the body (see below), not as YAML schema.
@@ -564,6 +572,8 @@ Before opening a PR, or before approving one, confirm:
       procedure a capable agent lacks, not a tool manual, generic transport, or delegating wrapper.
 - [ ] The capability is named for the operation and uses kebab-case, with directory name equal to
       frontmatter `name` and kebab-case vendor/tool directories (rule 2).
+- [ ] `name` and frontmatter satisfy the current Agent Skills specification (rule 2), checked
+      against the specification itself, not only against this file.
 - [ ] Any tool, API, or MCP-server vendor satisfies rule 14: tool-neutral capability, hedged
       universal concepts, tool detail only under `references/<tool>/`, MCP bindings by tool name only.
 - [ ] The diff contains nothing outside `skills/` and the root governance/README files, and no
