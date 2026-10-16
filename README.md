@@ -95,6 +95,8 @@ one vendor's behavior from ever touching the shared file.
 | `sdwan-site-onboarding` | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)* |
 | `network-access-control-management` | _(scaffolded — no vendor coverage yet)_ |
 
+**85** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
+
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
 ## 🔧 Installation
