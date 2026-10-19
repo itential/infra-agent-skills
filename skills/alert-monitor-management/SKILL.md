@@ -13,8 +13,8 @@ platform's own documented API and alert lifecycle.
 ## When to use this skill
 
 - A monitor, check, alert condition, or alert rule needs to be created on Datadog, New Relic,
-  LogicMonitor, Paessler PRTG, Centreon, OP5 Monitor, or Thruk so that a metric, log signal, sensor, or resource starts producing
-  alerts when a threshold is breached.
+  LogicMonitor, Paessler PRTG, Centreon, OP5 Monitor, or Thruk so that a metric, log signal, sensor,
+  or resource starts producing alerts when a threshold is breached.
 - An already-raised alert on one of these platforms needs to be acknowledged (claimed/silenced
   while work is ongoing) or resolved/closed.
 - Not for configuring where notifications get delivered (notification channels, escalation
@@ -27,13 +27,14 @@ platform's own documented API and alert lifecycle.
 - **A monitor/check is a standing evaluation, not a one-time test.** Every platform here re-runs its
   configured condition against fresh data on an ongoing basis; creating one does not itself raise an
   alert — an alert only appears once the condition's threshold is breached on a later evaluation.
-- **Alerts trend toward auto-clearing, not manual closure, everywhere in scope.** Every platform
-  documents that an active alert closes on its own once the signal that caused it returns to a
-  non-violating state for the condition's own configured recovery window (Datadog monitors return to
-  OK; New Relic NRQL violations close after the signal holds below threshold for the recovery period;
-  LogicMonitor alerts clear once the datapoint fails the threshold for its configured clear interval;
-  PRTG sensors leave the Down/alarm state once the channel is back within limits; Centreon, OP5
-  Monitor and Thruk problems leave their non-OK state when a later check returns a healthy result). Do not assume a
+- **Alerts trend toward auto-clearing, not manual closure, everywhere in scope.** The first four
+  platforms document that an active alert closes on its own once the signal that caused it returns
+  to a non-violating state for the condition's own configured recovery window (Datadog monitors
+  return to OK; New Relic NRQL violations close after the signal holds below threshold for the
+  recovery period; LogicMonitor alerts clear once the datapoint fails the threshold for its
+  configured clear interval; PRTG sensors leave the Down/alarm state once the channel is back within
+  limits). For Centreon, OP5 Monitor and Thruk the pages consulted describe no call that forces a
+  problem out of its non-OK state, so a later healthy check result is the only path they show. Do not assume a
   platform requires — or even offers — a manual "resolve" call as the normal path; check that
   platform's own `procedure.md` for whether one exists and what it actually does.
 - **Acknowledging is ownership/notification control, not resolution.** On every platform in scope,
@@ -93,8 +94,8 @@ reference file instead.
 ## Tools
 
 Each platform assumes its own authenticated client (REST API, GraphQL/NerdGraph API, PRTG's
-HTTP/REST v2 API, or an external-command API) — see `references/INDEX.md` for which, and that platform's `procedure.md` for the
-specific operations/mechanisms.
+HTTP/REST v2 API, or an external-command API) — see `references/INDEX.md` for which, and that
+platform's `procedure.md` for the specific operations/mechanisms.
 
 ## Verification checklist
 

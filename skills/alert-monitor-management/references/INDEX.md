@@ -18,4 +18,4 @@ step-by-step for creating a monitor/check and acknowledging/resolving an alert) 
 task, dashboards, log-pipeline configuration, and synthetic/browser-check script authoring — see
 `SKILL.md`'s "Known limitations."
 
-Centreon, OP5 Monitor and Thruk model a check as a service attached to a host and make configuration a staged change applied by a poller reload or save; the universal concepts still hold, since none of them documents a manual resolve and all clear on a healthy check result.
+Centreon, OP5 Monitor and Thruk model a check as a service attached to a host and make configuration a staged change applied by a poller reload or save; the universal concepts still hold, since the pages consulted for these three describe no manual resolve call and show a healthy check result as the only way a problem clears.
