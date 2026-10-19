@@ -13,8 +13,8 @@ platforms, following that platform's own documented API shape and access-control
 ## When to use this skill
 
 - An automation needs the current value of a secret (API key, password, token, connection string)
-  stored in Vault, 1Password, CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, or
-  Azure Key Vault, in order to use it in a subsequent call.
+  stored in Vault, 1Password, CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager,
+  Azure Key Vault, or Delinea Secret Server, in order to use it in a subsequent call.
 - A secret's value needs to be created, overwritten, or rotated on one of those platforms.
 - Not for issuing or renewing a PKI/TLS certificate — see `certificate-management`. Not for
   enabling a secrets engine, creating a vault/Key Vault instance, writing a Conjur policy, or any
@@ -24,13 +24,13 @@ platforms, following that platform's own documented API shape and access-control
 ## Universal concepts (apply regardless of platform)
 
 - **A secret's value must never appear in plaintext in logs, error messages relayed upward, or
-  audit trails an agent produces itself.** Every platform below either redacts the value from its
+  audit trails an agent produces itself.** Where a platform documents it, it either redacts the value from its
   own server-side audit log by design or explicitly warns not to pass it through channels that
   log request bodies — treat this as non-negotiable regardless of which platform is in play, and
   never echo a retrieved value back into a transcript, ticket, or chat message.
-- **Every retrieval or write is an access-controlled operation, not an anonymous read.** All six
+- **Every retrieval or write is an access-controlled operation, not an anonymous read.** All seven
   platforms require an authenticated identity (a token, API key, or session) scoped with explicit
-  permission to the specific secret/path/item, and all six generate some form of access record for
+  permission to the specific secret/path/item, and, where a platform documents it, each generates some form of access record for
   that identity performing that action, though the exact audit mechanism differs (Vault audit
   device, CloudTrail, platform-native activity log).
 - **Versioning is not universal — verify it per platform before relying on it.** Some platforms keep
@@ -44,17 +44,17 @@ platforms, following that platform's own documented API shape and access-control
 
 There is no single wire-level standard (no RFC) governing secrets-management APIs the way DNS has
 RFC 1035 — each platform below defines its own request/response shape, so "universal concepts" here
-are behavioral guarantees observed to hold across all six, not a shared protocol.
+are behavioral guarantees observed to hold across all seven, not a shared protocol.
 
 ## Procedure
 
 1. **Identify the target platform** — from the caller's request or the `platform` argument. If it
-   isn't one of the six platforms in `references/INDEX.md`, stop: this skill doesn't cover it, and
+   isn't one of the seven platforms in `references/INDEX.md`, stop: this skill doesn't cover it, and
    does not improvise a generic procedure for an unsupported platform.
 2. **Open `references/<platform>/procedure.md`** and follow it exactly — it holds that platform's
    full operational procedure, error handling, patterns, known limitations, tools, and verification
    checklist. This file is intentionally just the router; the real steps live per platform because
-   authentication, addressing, and versioning genuinely differ across all six (see
+   authentication, addressing, and versioning genuinely differ across all seven (see
    `references/INDEX.md` for why).
 3. **Report the outcome** using that platform procedure's own status vocabulary — don't normalize
    it away, and never include the secret's actual value in that report.
@@ -67,7 +67,7 @@ are behavioral guarantees observed to hold across all six, not a shared protocol
   the caller already has a scoped, authenticated credential for it.
 - Does not cover bulk/batch export of many secrets at once beyond what a platform's own procedure
   documents as a single supported call (e.g. Conjur's batch-fetch endpoint, where in scope).
-- Platform coverage is exactly the six vendors in `references/INDEX.md` — a platform not listed
+- Platform coverage is exactly the seven vendors in `references/INDEX.md` — a platform not listed
   there needs a new `references/<platform>/procedure.md` before this skill can be used for it.
 
 ## Contributing to this skill
@@ -81,8 +81,8 @@ vendor-specific detail to this file, put it in the platform's reference file ins
 ## Tools
 
 Each platform assumes its own authenticated client (a Vault token, a 1Password Connect token, a
-Conjur access token, a Privilege Cloud session token, an AWS SigV4-signed client, or an Azure AD
-OAuth token) — see `references/INDEX.md` for which, and that platform's `procedure.md` for the
+Conjur access token, a Privilege Cloud session token, an AWS SigV4-signed client, an Azure AD
+OAuth token, or a Secret Server access token) — see `references/INDEX.md` for which, and that platform's `procedure.md` for the
 specific operations/mechanisms.
 
 ## Verification checklist
