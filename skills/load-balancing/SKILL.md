@@ -29,23 +29,20 @@ ground, not a guarantee that every future vendor added here will match:
   `destination`; Citrix `lbvserver`'s `ipv46`+`port`; HAProxy's `frontend`/`bind`) and the member side
   is a distinct object (F5 `ltm pool`; Citrix `service`; HAProxy `backend`/`server`). **Cloudflare is
   the exception to the address+port part:** its load balancer is identified by a DNS hostname with no
-  listener address, and its pools are separate objects referenced by ID.
+  listener address, and its pools are separate objects it references.
 - **The VIP references its pool/backend by name/identifier — it does not embed member definitions
   directly.** F5's `pool` field, HAProxy's `default_backend`, Citrix's explicit
-  `lbvserver_service_binding`, and Cloudflare's `default_pools` list of pool IDs are all references or
+  `lbvserver_service_binding`, and Cloudflare's list of referenced pools are all references or
   bindings, never a single combined create.
-- **A pool/backend member's identity is its target address (and usually port).** Field names and
-  placement differ (F5 member resource name, Citrix `service.ip`, HAProxy `server` line, Cloudflare an
-  origin entry with its own `name` plus `address`/`port` inside the pool's `origins` array) — see each
+- **A pool/backend member is defined by a target address (and usually a port).** How a platform
+  identifies a member for update or removal differs (F5 member resource name, Citrix `service.ip`,
+  HAProxy `server` line, Cloudflare an origin entry identified by its name within the pool) — see each
   platform's own `procedure.md`.
 - **Every platform distinguishes disabling/draining a member from removing it**, with more than one
   documented flavor of "disabled" on most (F5's `session` vs. `state`; Citrix's graceful vs.
-  non-graceful disable; HAProxy's maintenance/drain/health-down; Cloudflare's per-origin `enabled`
-  flag versus removing the origin, with drain behavior only partly documented). Do not normalize these
-  into one generic "disabled" status — report the specific mechanism actually used.
-- **On a platform with a separate health-check object (Cloudflare monitors), create it before the pool
-  that uses it and delete it after.** The other three platforms attach health checking differently, so
-  this ordering does not apply to them.
+  non-graceful disable; HAProxy's maintenance/drain/health-down; Cloudflare's per-origin enabled flag
+  versus removing the origin). Do not normalize these into one generic "disabled" status — report the
+  specific mechanism actually used.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.

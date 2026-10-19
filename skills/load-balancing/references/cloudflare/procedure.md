@@ -8,13 +8,20 @@ Cloudflare DNS records outside a load balancer (see `dns-record-management`), TL
 rules (`rules`, flagged beta in the reference), or Enterprise-only point-of-presence steering.
 
 Sources (retrieved 2026-10-19): Cloudflare API reference for Load Balancers, Pools, and Monitors and
-Cloudflare's load balancing overview, https://developers.cloudflare.com/load-balancing/. Operation
-scope was chosen with reference to the Cloudflare Studio Project in the Itential assets repository,
-a secondary source used only to decide which operations to cover; every field and path comes from the
-Cloudflare pages. Nothing here was run against a live account.
+Cloudflare's load balancing overview, https://developers.cloudflare.com/load-balancing/. Nothing here
+was run against a live account.
 
 This platform does not have a listener address. The load balancer is identified by the DNS hostname in
 its `name` field, so this procedure's "VIP" is that hostname.
+
+## Common Sequences
+
+- **Stand up a new balanced hostname:** create monitor, create pool, create load balancer, read back
+  the balancer, read pool health.
+- **Take an origin out of rotation:** read pool, update the pool with that origin's `enabled` set to
+  false (complete origins list), re-read the pool.
+- **Retire a hostname:** read the pool and monitor references, delete the load balancer, delete unused
+  pools, delete unused monitors.
 
 ## Operational procedure
 
