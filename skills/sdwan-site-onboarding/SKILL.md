@@ -1,6 +1,6 @@
 ---
 name: sdwan-site-onboarding
-description: Bring a new branch site onto an SD-WAN fabric from a reusable site blueprint, attach its edge devices, confirm it is operating, and back it out if needed — currently Prisma SD-WAN (site template creation and deployment, device-shell assignment, deployment status, removal). Use when onboarding one or more branch sites. Not for authoring routing or security policy (see sdwan-policy-management). Assumes an authenticated client for the target SD-WAN controller is already available; this skill does not provision or authenticate it. Check references/INDEX.md for which platforms and operations are covered.
+description: Bring a new branch site onto an SD-WAN fabric from a reusable site blueprint, attach its edge devices, confirm it is operating, and back it out if needed — currently Prisma SD-WAN (site template creation and deployment, device-shell assignment, deployment status, removal) and Versa Director (device creation from a post-staging template, device activation, confirmation). Use when onboarding one or more branch sites. Not for authoring routing or security policy (see sdwan-policy-management). Assumes an authenticated client for the target SD-WAN controller is already available; this skill does not provision or authenticate it. Check references/INDEX.md for which platforms and operations are covered.
 argument-hint: "[platform] [action: find_template|create_template|deploy_site|assign_device|verify_site|release_device|remove_site] [site name, template, device serial]"
 ---
 
@@ -24,8 +24,8 @@ platform allows, reverses it, following the target platform's own documented pro
 
 ## Universal concepts (shared SD-WAN vocabulary, not a wire standard)
 
-Only one platform is documented today, so these are claims expected to hold for any SD-WAN platform and
-must be re-checked when a second one is added (`AGENTS.md` rules 4 and 14). Where a platform differs,
+Only two platforms are documented today, so these are claims expected to hold for any SD-WAN platform and
+must be re-checked when another is added (`AGENTS.md` rules 4 and 14). Where a platform differs,
 its own procedure wins.
 
 - **A site and its edge device are separate objects.** Where the platform allows it, site
