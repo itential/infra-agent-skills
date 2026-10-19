@@ -22,8 +22,9 @@ own documented procedure and formatting rules exactly.
 
 There is no single wire spec grounding this capability the way RFC 1035 grounds DNS — chat platforms
 each define their own model. The claims below are only the ones verified true across every platform
-currently listed in `references/INDEX.md` (Slack, Cisco Webex, Microsoft Teams, Twilio, SendGrid); re-verify each one
-against any new platform's actual behavior before assuming it still holds (see `AGENTS.md` rule 4).
+currently listed in `references/INDEX.md` (Slack, Cisco Webex, Microsoft Teams, Twilio,
+SendGrid); re-verify each one against any new platform's actual behavior before assuming it still
+holds (see `AGENTS.md` rule 4).
 
 - **A successful call confirms the platform accepted the message, not that a person has read it.**
   Every platform currently covered distinguishes "the request was accepted" from any notion of a
@@ -42,10 +43,9 @@ against any new platform's actual behavior before assuming it still holds (see `
   the richer formats are not interchangeable across platforms, and SMS through Twilio has none (plain
   text, optionally with media).
 - **Platforms limit sending, and several answer excess requests with HTTP 429** — but the ceiling,
-  its scope, and the retry signal differ. Slack, Webex and Teams document a `Retry-After`-style
-  value; Twilio and SendGrid document none (Twilio queues over-capacity messages and signals
-  concurrency limits through 429 and a load header; SendGrid exposes a reset timestamp header).
-  Never reuse one platform's documented limit or retry signal for another.
+  its scope, and the retry signal differ, and not every platform documents a retry-wait value (see
+  each platform's procedure). Never reuse one platform's documented limit or retry signal for
+  another.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.
@@ -68,8 +68,8 @@ implements this shape concretely.
 ## Known limitations
 
 - Platform coverage is exactly the five platforms in `references/INDEX.md` (Slack, Cisco Webex,
-  Microsoft Teams, Twilio, SendGrid) — a platform not listed there needs a new reference file before this skill can be
-  used for it.
+  Microsoft Teams, Twilio, SendGrid) — a platform not listed there needs a new reference file
+  before this skill can be used for it.
 - Send-only. Does not cover reading message history, editing or deleting a previously sent message,
   or channel/membership management — those are different capabilities, not covered here.
 - Not every platform will support every destination type (channel vs. thread vs. direct recipient)

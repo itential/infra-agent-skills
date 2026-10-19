@@ -40,6 +40,9 @@ reports current load. No `Retry-After` header is documented.
 
 ## Fetch message
 
-Reading a message back by its identifier returns its current status and error fields. Assumption: the
-path is the create path with the message identifier appended; the page retrieved did not list it.
-Verify against the Message resource reference before use.
+```
+GET https://api.twilio.com/2010-04-01/Accounts/{AccountSid}/Messages/{Sid}.json
+```
+
+Reading a message back by its identifier returns its current status and error fields. Authentication
+is the same as for create.
