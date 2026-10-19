@@ -10,8 +10,16 @@ recommended (see `endpoints.md`).
 Sources consulted (retrieved 2026-10-19): Thruk documentation, "REST API"
 (https://www.thruk.org/documentation/rest.html); "REST API Commands"
 (https://www.thruk.org/documentation/rest_commands.html); "REST API" examples
-(https://www.thruk.org/documentation/rest_examples.html). Secondary source, flagged: the OpenAPI
-copy in the `itential/assets` repository was used only to choose operations.
+(https://www.thruk.org/documentation/rest_examples.html).
+
+## Common Sequences
+
+- **Stand up a new check:** create configuration object (host, then service) -> read pending diff ->
+  (operator confirmation) -> save, check, reload.
+- **Acknowledge a problem:** acknowledge host or service problem.
+- **Release an acknowledgement:** (operator confirmation) -> remove acknowledgement.
+
+Each step names a section below; follow that section for inputs, errors and gates.
 
 ## Operational procedure — create a host or service check
 

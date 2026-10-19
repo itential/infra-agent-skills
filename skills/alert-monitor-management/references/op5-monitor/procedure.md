@@ -11,9 +11,16 @@ configure monitoring objects REST API"
 (https://docs.itrsgroup.com/docs/faq/zendesk/articles/360020252273-OP5-Monitor-How-to-configure-monitoring-objects-REST-API);
 ITRS Group knowledge base, "Creating an HTTP API driven command-line tool"
 (https://docs.itrsgroup.com/docs/faq/op5/360020055294-op5-monitor-creating-an-http-api-driven-command-line-tool/index.html).
-Secondary source, flagged: the OpenAPI copy in the `itential/assets` repository was used only to
-choose operations. Command parameter names beyond those shown on the pages above, and the
-acknowledgement-removal command, were not confirmed from a primary page (see Known limitations).
+Command parameter names beyond those shown on the pages above, and the acknowledgement-removal
+command, were not confirmed from a primary page (see Known limitations).
+
+## Common Sequences
+
+- **Stand up a new check:** create host -> create service -> (optionally) list pending changes ->
+  (operator confirmation) -> save pending changes.
+- **Acknowledge a problem:** submit acknowledge-host-problem or acknowledge-service-problem command.
+
+Each step names a section below; follow that section for inputs, errors and gates.
 
 ## Operational procedure — create a host and a service check
 
@@ -50,7 +57,7 @@ acknowledgement-removal command, were not confirmed from a primary page (see Kno
    description. Provide a real comment describing why. The sources show the sticky option set to
    `1` and the notify and persistent options set to true in their examples, but do not describe
    what each does when changed, or their defaults: consult the platform's own command help
-   (`help/command` on the server, as the sources point out) if the caller has not specified them.
+   (the server's own command help page, as the sources point out) if the caller has not specified them.
 4. **Submit the acknowledgement command.** Report `ACKNOWLEDGED` on a success response.
 5. **Removing an acknowledgement is not covered by the sources consulted.** Do not guess a command
    name; consult the server's own command help page and confirm with the operator first.

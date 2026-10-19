@@ -10,8 +10,17 @@ separate Cloud API document; this procedure covers the on-premises behavior only
 Sources consulted (retrieved 2026-10-19): Centreon REST API v2 OpenAPI definition, version 25.10
 (https://raw.githubusercontent.com/centreon/centreon/refs/tags/25.10-latest/centreon/doc/API/centreon-api.yaml
 and the `latest/onPremise` files it references); Centreon documentation, "REST API v2"
-(https://docs.centreon.com/docs/api/rest-api-v2/). Secondary source, flagged: the OpenAPI copy in
-the `itential/assets` repository was used only to choose which operations to cover.
+(https://docs.centreon.com/docs/api/rest-api-v2/).
+
+## Common Sequences
+
+- **Stand up a new check:** confirm monitoring server -> create host -> create service -> (operator
+  confirmation) -> generate and reload configuration.
+- **Acknowledge a problem:** acknowledge host problem or acknowledge service problem -> (optionally)
+  list acknowledgements.
+- **Release an acknowledgement:** (operator confirmation) -> cancel acknowledgement.
+
+Each step names a section below; follow that section for inputs, errors and gates.
 
 ## Operational procedure — create a host and a service check
 

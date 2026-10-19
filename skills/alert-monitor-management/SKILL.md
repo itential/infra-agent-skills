@@ -27,15 +27,14 @@ platform's own documented API and alert lifecycle.
 - **A monitor/check is a standing evaluation, not a one-time test.** Every platform here re-runs its
   configured condition against fresh data on an ongoing basis; creating one does not itself raise an
   alert — an alert only appears once the condition's threshold is breached on a later evaluation.
-- **Alerts trend toward auto-clearing, not manual closure, everywhere in scope.** The first four
-  platforms document that an active alert closes on its own once the signal that caused it returns
-  to a non-violating state for the condition's own configured recovery window (Datadog monitors
-  return to OK; New Relic NRQL violations close after the signal holds below threshold for the
-  recovery period; LogicMonitor alerts clear once the datapoint fails the threshold for its
-  configured clear interval; PRTG sensors leave the Down/alarm state once the channel is back within
-  limits). For Centreon, OP5 Monitor and Thruk the pages consulted describe no call that forces a
-  problem out of its non-OK state, so a later healthy check result is the only path they show. Do not assume a
-  platform requires — or even offers — a manual "resolve" call as the normal path; check that
+- **Alerts trend toward auto-clearing, not manual closure, everywhere in scope.** Where a platform
+  documents it, an active alert closes on its own once the signal that caused it returns to a
+  non-violating state for the condition's own configured recovery window (Datadog monitors return to
+  OK; New Relic NRQL violations close after the signal holds below threshold for the recovery
+  period; LogicMonitor alerts clear once the datapoint fails the threshold for its configured clear
+  interval; PRTG sensors leave the Down/alarm state once the channel is back within limits). Some
+  platforms document no call that forces a problem out of its non-OK state, so a later healthy
+  result is the only path. Do not assume a platform requires — or even offers — a manual "resolve" call as the normal path; check that
   platform's own `procedure.md` for whether one exists and what it actually does.
 - **Acknowledging is ownership/notification control, not resolution.** On every platform in scope,
   acknowledging an alert marks it as being worked and typically suppresses further repeat
