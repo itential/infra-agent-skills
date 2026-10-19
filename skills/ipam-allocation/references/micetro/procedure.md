@@ -49,7 +49,7 @@ address in the response; the exact response shape is not confirmed *(unverified)
 
 ## Patterns
 
-- Availability results are computed. Without a temporary claim nothing is held.
+- Availability results are computed. Without a temporary claim nothing is held *(inferred from the claim option)*.
 - Removing a range or address record has a force-removal option; use only with explicit operator
   confirmation.
 

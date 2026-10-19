@@ -66,7 +66,7 @@ tags.
 ## Patterns
 
 - Availability lists are computed. Nothing is reserved until an allocate call succeeds.
-- A wrong allocation does not self-correct: re-running with corrected input creates a second record.
+- Each allocate call creates a new record, so re-running with corrected input leaves the earlier record in place *(inferred from the create semantics, not stated in the sources)*.
 - The tracker issue reports that invalid allocation requests have returned an empty 204 rather than a
   400 *(unverified, may be fixed in current releases)*. Treat an empty response without a record as a
   failure, never as success.
@@ -83,9 +83,9 @@ tags.
 
 | Operation | Description | Category |
 |---|---|---|
-| List Available Prefixes | Computed candidate child prefixes under a parent | IPAM |
-| Allocate Child Prefix | Create a real child prefix of a given length | IPAM |
-| List Available IPs | Computed candidate free IPs in a prefix | IPAM |
+| List Available Child Prefixes | Computed candidate child prefixes under a parent | IPAM |
+| Allocate a Child Prefix | Create a real child prefix of a given length | IPAM |
+| List Available IPs in a Prefix | Computed candidate free IPs in a prefix | IPAM |
 | Allocate Next Available IP | Create a real IP record in a prefix | IPAM |
 
 ## Verification checklist

@@ -25,4 +25,4 @@ against. `SKILL.md`'s "Tools" section states this per-platform rather than assum
 and `solarwinds/procedure.md` says so explicitly up front rather than forcing REST-shaped language onto
 a non-REST API.
 
-Only two vendors in this index document an explicit time-boxed hold (SolarWinds reservations, Micetro temporary claims); the other platforms allocate immediately on the allocate call. `SKILL.md`'s "allocation and reservation are not always the same" concept already covers both shapes, so no correction was needed when adding Nautobot and Micetro.
+Only two vendors in this index document an explicit time-boxed hold (SolarWinds reservations, Micetro temporary claims); the other platforms allocate immediately on the allocate call. `SKILL.md`'s "allocation and reservation are not always the same" concept named only SolarWinds, so it was reworded to include Micetro's optional temporary claim; no other shared concept needed correcting.

@@ -109,7 +109,7 @@ creating, to avoid duplicating a record.
   just the transport status.
 - **Every request goes under the API app's own path segment**, and the token travels in a request
   header (see `endpoints.md`).
-- **A wrong allocation does not self-correct.** Re-running with corrected input creates a second record.
+- **Each write call creates a new record.** Re-running with corrected input leaves the earlier record in place (inferred from the create semantics, not stated by the documentation).
 
 ## Error Handling
 

@@ -14,7 +14,7 @@ must be enabled on the server for the API to work.
 | Get subnet usage | `GET subnets/{id}/usage/` | No body. |
 | Read first free child subnet | `GET subnets/{id}/first_subnet/{mask}/` | `{id}` = parent subnet ID, `{mask}` = child mask length. Reserves nothing. |
 | Create first free child subnet | `POST subnets/{id}/first_subnet/{mask}/` | Optional body: `description`. Creates the subnet. |
-| Read first free address | `GET addresses/first_free/{subnetId}/` | No body. Reserves nothing. (A `subnets/{id}/first_free/` form also appears in a published API description; this procedure uses the addresses form shown in the documentation.) |
+| Read first free address | `GET addresses/first_free/{subnetId}/` | No body. Reserves nothing. (The documentation also lists a `subnets/{id}/first_free/` read form; this procedure uses the addresses form, which the documentation lists for both read and create.) |
 | Create address at first free IP | `POST addresses/first_free/{subnetId}/` | Optional body: address fields such as `hostname`, `description`. Creates the address. |
 | Create address (chosen IP) | `POST addresses/` | JSON body: `ip`, `subnetId` required. Optional: `hostname`, `description`, `mac`, `owner`, `tag`, `deviceId`. |
 | Look up address | `GET addresses/{ip}/{subnetId}/`, `GET addresses/search/{ip}/`, `GET addresses/search_hostname/{hostname}/` | By IP within a subnet, by IP across subnets, or by hostname. |
