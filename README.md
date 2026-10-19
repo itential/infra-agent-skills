@@ -88,7 +88,7 @@ one vendor's behavior from ever touching the shared file.
 | `zero-trust-access-policy-management` | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
 | `network-state-collection` | Cisco pyATS / Genie (parse commands, learn features, compare snapshots) |
 | `network-health-verification` | Cisco pyATS (Health Check, integrated job mode) |
-| `incident-management` | ServiceNow *(incident create, update, assign, hold, resolve, reopen, close)*, PagerDuty *(incident create, acknowledge, reassign, escalate, snooze, merge, resolve, reopen)* |
+| `incident-management` | ServiceNow *(incident create, update, assign, hold, resolve, reopen, close)*, PagerDuty *(incident create, acknowledge, reassign, escalate, snooze, merge, resolve, reopen)*, Opsgenie *(incident create, note, resolve, close, reopen, delete)*, Jira Service Management *(incident create, comment, assign, resolve, reopen)*, ManageEngine ServiceDesk Plus *(incident create, edit, assign, note, resolve, close)* |
 | `compute-instance-provisioning` | Amazon EC2 *(launch, start/stop/reboot, resize, snapshot/image, terminate)* |
 | `sdwan-policy-management` | Cisco Catalyst SD-WAN Manager *(centralized policy, original template-policy model)*, Palo Alto Networks Prisma SD-WAN *(stacked path and QoS policy sets, rules, and stacks; bind to sites)* |
 | `config-backup-management` | Prisma SD-WAN *(site snapshot capture, retrieve, and redeploy as YAML)* |

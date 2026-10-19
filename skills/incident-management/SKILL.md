@@ -1,6 +1,6 @@
 ---
 name: incident-management
-description: Create, read, update, assign, acknowledge, hold, resolve, reopen, and close an incident record on a supported ITSM or incident-response platform — currently ServiceNow (standard state model) and PagerDuty. The break/fix counterpart to change-management, it covers records for unplanned disruptions and their lifecycle, not planned changes. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Check references/INDEX.md for which platforms and operations are covered; paging an on-call responder and problem or major-incident handling are not covered.
+description: Create, read, update, assign, acknowledge, hold, resolve, reopen, and close an incident record on a supported ITSM or incident-response platform — currently ServiceNow (standard state model), PagerDuty, Opsgenie, Jira Service Management, and ManageEngine ServiceDesk Plus. The break/fix counterpart to change-management, it covers records for unplanned disruptions and their lifecycle, not planned changes. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Check references/INDEX.md for which platforms and operations are covered; paging an on-call responder and problem or major-incident handling are not covered.
 argument-hint: "[platform] [action: create|read|update|assign|acknowledge|hold|resolve|reopen|close] [incident number or fields]"
 ---
 
@@ -26,13 +26,13 @@ fields.
 
 ## Universal concepts (shared incident-handling vocabulary, not a wire standard)
 
-Two platforms are documented today, so these are claims expected to hold for any listed platform and
+Several platforms are documented today, so these are claims expected to hold for any listed platform and
 must be re-checked when a further platform is added (`AGENTS.md` rules 4 and 14). Where a platform
 differs, its own procedure wins.
 
 - **An incident moves through named states from open to resolved.** Some platforms add states before
   that (acknowledged, on hold) or after it (closed). The state names and the transitions allowed between
-  them are the platform's own; do not assume one platform's names or end state on another.
+  them are the platform's own, and some platforms let each site or workflow define them; do not assume one platform's names or end state on another.
 - **Resolving and closing are different steps, where the platform separates them.** Resolving declares
   the service restored and can usually be undone by reopening; closing is final where documented. Treat both as
   confirmation points and report which one happened.
@@ -40,7 +40,8 @@ differs, its own procedure wins.
   them.** Check which one a platform's note field reaches before writing sensitive content.
 - **Where a platform computes priority from impact and urgency,** set the inputs rather than the result.
 - **A platform may change a record in response to a write** (clearing a hold reason, adjusting an
-  assignment, refusing a transition). Read the record back to confirm the state you asked for.
+  assignment, refusing a transition). Some platforms apply writes asynchronously, so
+  wait for the request to complete before reading the record back to confirm the state you asked for.
 
 ## Procedure
 
