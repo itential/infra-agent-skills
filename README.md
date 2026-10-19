@@ -67,7 +67,7 @@ one vendor's behavior from ever touching the shared file.
 | `software-upgrade-lifecycle` | Cisco IOS-XE, Cisco IOS XR, Arista EOS, Juniper Junos EX, Extreme EXOS, NVIDIA Cumulus Linux, Palo Alto Prisma SD-WAN |
 | `ipam-allocation` | NetBox, Infoblox NIOS, SolarWinds IPAM |
 | `dhcp-scope-management` | Infoblox NIOS, ISC Kea, Microsoft DHCP Server |
-| `cmdb-asset-management` | ServiceNow CMDB |
+| `cmdb-asset-management` | ServiceNow CMDB, iTop |
 | `wireless-network-management` | Cisco Meraki, HPE Aruba Networking Central, Cisco Catalyst Center |
 | `firewall-management` | Palo Alto PAN-OS/Panorama, Fortinet FortiOS, Cisco ASA, Juniper SRX |
 | `waf-management` | _(scaffolded — no vendor coverage yet)_ |
@@ -95,7 +95,7 @@ one vendor's behavior from ever touching the shared file.
 | `sdwan-site-onboarding` | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)* |
 | `network-access-control-management` | _(scaffolded — no vendor coverage yet)_ |
 
-**89** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
+**90** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
