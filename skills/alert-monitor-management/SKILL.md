@@ -1,6 +1,6 @@
 ---
 name: alert-monitor-management
-description: Create a monitor or check that watches a metric/resource for a threshold breach, and acknowledge or resolve an alert it raises, on a supported observability platform — Datadog, New Relic, LogicMonitor, or Paessler PRTG. Use when a caller needs to stand up new alerting coverage for a resource, silence/own an in-progress alert, or confirm an alert has cleared. Assumes an authenticated API client for the target platform (API key/app key pair, OAuth bearer token, or username/passhash, per platform) is already available; this skill does not provision or authenticate that client. Does not cover notification-channel/integration setup (Slack, PagerDuty, email routing), dashboard creation, log-pipeline configuration, or synthetic/browser-check authoring beyond what a platform's own monitor-creation call requires.
+description: Create a monitor or check that watches a metric/resource for a threshold breach, and acknowledge or resolve an alert it raises, on a supported observability platform — Datadog, New Relic, LogicMonitor, Paessler PRTG, Centreon, OP5 Monitor, or Thruk. Use when a caller needs to stand up new alerting coverage for a resource, silence/own an in-progress alert, or confirm an alert has cleared. Assumes an authenticated API client for the target platform (API key/app key pair, OAuth bearer token, or username/passhash, per platform) is already available; this skill does not provision or authenticate that client. Does not cover notification-channel/integration setup (Slack, PagerDuty, email routing), dashboard creation, log-pipeline configuration, or synthetic/browser-check authoring beyond what a platform's own monitor-creation call requires.
 argument-hint: "[platform] [create-monitor|acknowledge|resolve] [target] [condition/alert_id]"
 ---
 
@@ -13,7 +13,7 @@ platform's own documented API and alert lifecycle.
 ## When to use this skill
 
 - A monitor, check, alert condition, or alert rule needs to be created on Datadog, New Relic,
-  LogicMonitor, or Paessler PRTG so that a metric, log signal, sensor, or resource starts producing
+  LogicMonitor, Paessler PRTG, Centreon, OP5 Monitor, or Thruk so that a metric, log signal, sensor, or resource starts producing
   alerts when a threshold is breached.
 - An already-raised alert on one of these platforms needs to be acknowledged (claimed/silenced
   while work is ongoing) or resolved/closed.
@@ -27,12 +27,13 @@ platform's own documented API and alert lifecycle.
 - **A monitor/check is a standing evaluation, not a one-time test.** Every platform here re-runs its
   configured condition against fresh data on an ongoing basis; creating one does not itself raise an
   alert — an alert only appears once the condition's threshold is breached on a later evaluation.
-- **Alerts trend toward auto-clearing, not manual closure, everywhere in scope.** All four platforms
-  document that an active alert closes on its own once the signal that caused it returns to a
+- **Alerts trend toward auto-clearing, not manual closure, everywhere in scope.** Every platform
+  documents that an active alert closes on its own once the signal that caused it returns to a
   non-violating state for the condition's own configured recovery window (Datadog monitors return to
   OK; New Relic NRQL violations close after the signal holds below threshold for the recovery period;
   LogicMonitor alerts clear once the datapoint fails the threshold for its configured clear interval;
-  PRTG sensors leave the Down/alarm state once the channel is back within limits). Do not assume a
+  PRTG sensors leave the Down/alarm state once the channel is back within limits; Centreon, OP5
+  Monitor and Thruk problems leave their non-OK state when a later check returns a healthy result). Do not assume a
   platform requires — or even offers — a manual "resolve" call as the normal path; check that
   platform's own `procedure.md` for whether one exists and what it actually does.
 - **Acknowledging is ownership/notification control, not resolution.** On every platform in scope,
@@ -60,7 +61,7 @@ platform's own documented API and alert lifecycle.
    including its own error handling, patterns, known limitations, tools, and verification checklist.
    This file is intentionally the router; the real steps live per platform because the platforms
    genuinely do not share one alerting model (see `references/INDEX.md` for the shape differences,
-   e.g. LogicMonitor's DataSource/AlertRule split vs. the other three platforms' single monitor
+   e.g. LogicMonitor's DataSource/AlertRule split vs. the other platforms' single monitor/check
    object).
 3. **Report the outcome** using that platform procedure's own status vocabulary (e.g. `CREATED`,
    `ACKNOWLEDGED`, `RESOLVED`, `REJECTED_*`, `FAILED`) — don't normalize it away.
@@ -73,7 +74,7 @@ platform's own documented API and alert lifecycle.
   scope on every platform here.
 - Does not cover dashboards, log-pipeline/processing configuration, or synthetic/browser-check
   script authoring, even on platforms where those live in the same product area as monitors.
-- Platform coverage is exactly the four vendors in `references/INDEX.md` — a platform not listed
+- Platform coverage is exactly the seven vendors in `references/INDEX.md` — a platform not listed
   there needs a new `references/<platform>/procedure.md` before this skill can be used for it.
 - Where a platform's own documentation does not state a manual "resolve" action exists (or states
   explicitly that creating new monitor objects outright isn't supported via API), that platform's
@@ -91,8 +92,8 @@ reference file instead.
 
 ## Tools
 
-Each platform assumes its own authenticated client (REST API, GraphQL/NerdGraph API, or PRTG's
-HTTP/REST v2 API) — see `references/INDEX.md` for which, and that platform's `procedure.md` for the
+Each platform assumes its own authenticated client (REST API, GraphQL/NerdGraph API, PRTG's
+HTTP/REST v2 API, or an external-command API) — see `references/INDEX.md` for which, and that platform's `procedure.md` for the
 specific operations/mechanisms.
 
 ## Verification checklist

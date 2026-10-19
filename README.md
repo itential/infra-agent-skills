@@ -60,7 +60,7 @@ one vendor's behavior from ever touching the shared file.
 
 | Skill | Vendors covered |
 |---|---|
-| `alert-monitor-management` | Datadog, New Relic, LogicMonitor, Paessler PRTG |
+| `alert-monitor-management` | Datadog, New Relic, LogicMonitor, Paessler PRTG, Centreon, OP5 Monitor, Thruk |
 | `dns-record-management` | Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat Horizon, BlueCat Address Manager, PowerDNS |
 | `dns-zone-management` | Route 53, Cloudflare, PowerDNS |
 | `change-management` | ServiceNow, Freshservice, Jira Service Management, BMC Helix ITSM |
@@ -95,7 +95,7 @@ one vendor's behavior from ever touching the shared file.
 | `sdwan-site-onboarding` | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)* |
 | `network-access-control-management` | _(scaffolded — no vendor coverage yet)_ |
 
-**86** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
+**89** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
