@@ -2,7 +2,7 @@
 
 Literal calls behind each capability named in `procedure.md`.
 
-Source: iTop documentation, "REST/JSON services" (itophub.io wiki, `latest` branch), retrieved
+Source: iTop documentation, "REST/JSON services" (`latest` branch), retrieved
 2026-10-19.
 
 Base URL: `https://<itop-root>/webservices/rest.php`. Every operation is a single endpoint; the

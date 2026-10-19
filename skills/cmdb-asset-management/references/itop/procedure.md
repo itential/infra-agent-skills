@@ -8,7 +8,7 @@ REST client against the target iTop instance, using an account that holds the RE
 write rights on the target class (see Patterns), is already available.
 See `endpoints.md` for the literal request syntax behind every operation named below.
 
-Source: iTop documentation, "REST/JSON services" (itophub.io wiki, `latest` branch), retrieved
+Source: iTop documentation, "REST/JSON services" (`latest` branch), retrieved
 2026-10-19. Facts below are restated from that page; anything the page does not state is marked as
 unknown or an assumption.
 

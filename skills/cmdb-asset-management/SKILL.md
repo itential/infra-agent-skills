@@ -35,8 +35,7 @@ deduplication/identification mechanism the platform provides for writes.
   depends on this CI" are different queries; don't assume checking one direction covers both.
 - **Deleting a CI is rarely gated by relationship checks at the platform level** — confirming nothing
   currently depends on a CI before deleting it is this skill's own discipline in every platform
-  procedure under this category, not something to assume the platform enforces automatically. Some
-  platforms go further and cascade a delete to linked objects, so check for a preview or dry-run option.
+  procedure under this category, not something to assume the platform enforces automatically.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.

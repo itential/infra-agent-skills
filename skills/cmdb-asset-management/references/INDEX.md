@@ -13,4 +13,4 @@ covers change *requests* (`sn_chg_rest`); this one covers the configuration-item
 changes reference. Same product, genuinely different object model and API surface — split by what's
 actually being managed, not by vendor name alone.
 
-Correction recorded when iTop was added: the shared concepts assumed identification on writes and relationship-gated deletes were the common shapes. iTop creates a new object on every create and cascades deletes to linked objects, so those concepts were reworded as "some platforms".
+Correction recorded when iTop was added: the shared concepts assumed identification on writes and relationship-gated deletes were the common shapes. iTop creates a new object on every create and cascades deletes to linked objects, so the identification concept was reworded as "some platforms"; cascading deletes are covered in the iTop Patterns instead.
