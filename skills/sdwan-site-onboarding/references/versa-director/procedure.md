@@ -154,7 +154,6 @@ run this only when the appliance view shows template differences still pending f
 ## Patterns
 
 - A workflow creates initial configuration only; ongoing edits belong to the template screens.
-- Sensitive values such as IPsec pre-shared keys are encrypted before they reach the device.
 - Do not reorder the datastore and main template list (see *Check prerequisites*).
 - Activation methods other than global zero-touch work only against a factory-default device.
 
@@ -174,7 +173,7 @@ run this only when the appliance view shows template differences still pending f
 | read_organization, read_device_group, read_template | Confirm prerequisites exist | Read |
 | query_devices, read_workflow_device | List or read devices | Read |
 | create_workflow_device | Create a device through the device workflow | Write |
-| generate_activation_url | Generate the URL-based activation link for a device | Write |
+| generate_activation_url | Generate the URL-based activation link for a device (Director UI action; no verified REST call, see `endpoints.md`) | Write |
 | read_tasks, read_device_status | Task list and device reachability/service state | Read |
 | commit_template | Push template changes to devices | Write (disruptive) |
 | Shell session on the device | Run the staging script or factory reset | Transport |
