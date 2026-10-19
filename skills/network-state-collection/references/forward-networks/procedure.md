@@ -39,6 +39,7 @@ Raw data may contain secrets from device configurations; handle the output as se
 
 - Credentials: the documentation prefers an API token (access key and secret) sent as HTTP Basic authentication; a username and password also work except for SSO accounts.
 - Pin explicit snapshot identifiers for before/after work; the latest-processed snapshot changes as collections finish.
+- The documentation read does not state a rate limit; if the platform throttles or errors, back off and retry later rather than looping.
 
 ## Known limitations
 
