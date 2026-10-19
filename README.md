@@ -86,7 +86,7 @@ one vendor's behavior from ever touching the shared file.
 | `repository-pull-request-management` | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
 | `container-workload-deployment` | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub |
 | `zero-trust-access-policy-management` | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
-| `network-state-collection` | Cisco pyATS / Genie (parse commands, learn features, compare snapshots) |
+| `network-state-collection` | Cisco pyATS / Genie (parse commands, learn features, compare snapshots), IP Fabric and Forward Networks (read and compare platform snapshots) |
 | `network-health-verification` | Cisco pyATS (Health Check, integrated job mode) |
 | `incident-management` | ServiceNow *(incident create, update, assign, hold, resolve, reopen, close)* |
 | `compute-instance-provisioning` | Amazon EC2 *(launch, start/stop/reboot, resize, snapshot/image, terminate)* |
@@ -95,7 +95,7 @@ one vendor's behavior from ever touching the shared file.
 | `sdwan-site-onboarding` | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)*, Versa Director *(branch device creation from a post-staging template, activation, confirmation)* |
 | `network-access-control-management` | _(scaffolded — no vendor coverage yet)_ |
 
-**92** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
+**94** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 

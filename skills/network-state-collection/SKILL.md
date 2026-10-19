@@ -1,6 +1,6 @@
 ---
 name: network-state-collection
-description: Capture structured device state before and after a change, or gather evidence while troubleshooting, by parsing command output, learning feature state, and diffing saved snapshots. Use when you need observed state data to compare or inspect. Covers Cisco pyATS / Genie; assumes pyATS, Genie, and an authenticated testbed or already-captured command output. It reports what was observed; it does not diagnose root causes or approve a change.
+description: Capture structured network state before and after a change, or gather evidence while troubleshooting, by parsing command output, learning feature state, querying platform snapshots, and comparing saved snapshots. Use when you need observed state data to compare or inspect. Covers Cisco pyATS / Genie, IP Fabric, and Forward Networks; assumes the chosen tool's access (a pyATS testbed or captured output, or an authenticated platform API client). It reports what was observed; it does not diagnose root causes or approve a change.
 ---
 
 # Network State Collection
@@ -16,11 +16,11 @@ post-change verification belong to `network-health-verification`. Applying chang
 ## Universal concepts
 
 - Snapshots are comparable only when both sides cover the same devices, commands or features, and scope.
-- Volatile fields (counters, timers) are handled by documented defaults or explicit exclusions,
-  and state being checked is never excluded.
+- Where volatile fields (counters, timers) are present, they are handled by documented defaults or
+  explicit exclusions, and state being checked is never excluded.
 - A collection failure or empty result is incomplete data, not a healthy network.
 - An empty difference establishes equality only for the fields actually collected.
-- Parser and feature support vary by platform; unsupported coverage is reported, not substituted.
+- Parser, feature, and device coverage vary by tool and platform; unsupported or uncollected coverage is reported, not substituted or read as healthy.
 
 ## Procedure
 
@@ -30,8 +30,8 @@ post-change verification belong to `network-health-verification`. Applying chang
 
 ## Known limitations
 
-Collection and comparison report observed data only. Live collection is gated in the
-tool procedure.
+Collection and comparison report observed data only. Live collection or discovery is gated in
+the tool procedure.
 
 ## Contributing to this skill
 
@@ -40,7 +40,7 @@ Vendor details belong in that vendor's references. Recheck shared claims before 
 
 ## Tools
 
-A local pyATS/Genie CLI with device transport, or the Genie parser library for captured text.
+A local pyATS/Genie CLI with device transport or the Genie parser library for captured text, or an authenticated API client for the IP Fabric or Forward Networks platform.
 
 ## Verification checklist
 
