@@ -1,6 +1,6 @@
 ---
 name: load-balancing
-description: Create, read, update, and delete load-balancer virtual server (VIP) and pool/pool-member objects on a supported load-balancing platform — currently F5 BIG-IP LTM (iControl REST), Citrix ADC/NetScaler (NITRO REST), and HAProxy (config file + Runtime API). A VIP configuration often references a certificate by identifier for TLS termination — provisioning that certificate is certificate-management's job, not this skill's; this skill only consumes the reference. Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it.
+description: Create, read, update, and delete load-balancer virtual server (VIP) and pool/pool-member objects on a supported load-balancing platform — currently F5 BIG-IP LTM (iControl REST), Citrix ADC/NetScaler (NITRO REST), HAProxy (config file + Runtime API), and Cloudflare Load Balancing (REST; hostname-based, with pools and monitors). A VIP configuration often references a certificate by identifier for TLS termination — provisioning that certificate is certificate-management's job, not this skill's; this skill only consumes the reference. Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it.
 argument-hint: "[platform] [action: create_vip|read_vip|update_vip|delete_vip|add_pool_member|remove_pool_member] [VIP/pool identifier, fields]"
 ---
 
@@ -20,27 +20,32 @@ platform the caller is targeting, following that platform's own documented proce
 ## Universal concepts (shared load-balancing vocabulary, not a wire standard)
 
 There is no wire-level standard grounding this capability (unlike, say, DNS) — the claims below are
-verified true across F5 BIG-IP LTM, Citrix ADC (NetScaler), and HAProxy specifically, the three
-platforms currently listed in `references/INDEX.md`. Treat them as the current common ground, not a
-guarantee that every future vendor added here will match:
+verified against the four platforms currently listed in `references/INDEX.md` (F5 BIG-IP LTM, Citrix
+ADC, HAProxy, Cloudflare Load Balancing), with the exceptions noted. Treat them as the current common
+ground, not a guarantee that every future vendor added here will match:
 
-- **A VIP is its own object, identified by an address+port pair, separate from the pool/backend of
-  members it directs traffic to.** All three platforms model the listening side (F5 `ltm virtual`'s
-  `destination`; Citrix `lbvserver`'s `ipv46`+`port`; HAProxy's `frontend`/`bind`) as a distinct
-  object from the member side (F5 `ltm pool`; Citrix `service`; HAProxy `backend`/`server`).
+- **A VIP is its own object, separate from the pool/backend of members it directs traffic to.** On the
+  three appliance-style platforms it is identified by an address+port pair (F5 `ltm virtual`'s
+  `destination`; Citrix `lbvserver`'s `ipv46`+`port`; HAProxy's `frontend`/`bind`) and the member side
+  is a distinct object (F5 `ltm pool`; Citrix `service`; HAProxy `backend`/`server`). **Cloudflare is
+  the exception to the address+port part:** its load balancer is identified by a DNS hostname with no
+  listener address, and its pools are separate objects referenced by ID.
 - **The VIP references its pool/backend by name/identifier — it does not embed member definitions
-  directly.** On all three platforms, wiring a VIP to its members is either a field reference (F5's
-  `pool` field on the virtual server, HAProxy's `default_backend`) or an explicit separate binding
-  call (Citrix's `lbvserver_service_binding`) — never a single combined create.
-- **A pool/backend member's identity is its address+port pair.** True on all three, though the exact
-  field name and whether it's expressed as the member's own resource name (F5 convention, Citrix
-  `service.ip`) or inline in a config line (HAProxy `server <name> <address>:<port>`) differs — see
-  each platform's own `procedure.md`.
+  directly.** F5's `pool` field, HAProxy's `default_backend`, Citrix's explicit
+  `lbvserver_service_binding`, and Cloudflare's `default_pools` list of pool IDs are all references or
+  bindings, never a single combined create.
+- **A pool/backend member's identity is its target address (and usually port).** Field names and
+  placement differ (F5 member resource name, Citrix `service.ip`, HAProxy `server` line, Cloudflare an
+  origin entry with its own `name` plus `address`/`port` inside the pool's `origins` array) — see each
+  platform's own `procedure.md`.
 - **Every platform distinguishes disabling/draining a member from removing it**, with more than one
-  documented flavor of "disabled" in each case (F5's `session` vs. `state`; Citrix's graceful vs.
-  non-graceful disable; HAProxy's maintenance/drain/health-down). Do not normalize these into one
-  generic "disabled" status — report the specific mechanism actually used, per that platform's own
-  procedure.
+  documented flavor of "disabled" on most (F5's `session` vs. `state`; Citrix's graceful vs.
+  non-graceful disable; HAProxy's maintenance/drain/health-down; Cloudflare's per-origin `enabled`
+  flag versus removing the origin, with drain behavior only partly documented). Do not normalize these
+  into one generic "disabled" status — report the specific mechanism actually used.
+- **On a platform with a separate health-check object (Cloudflare monitors), create it before the pool
+  that uses it and delete it after.** The other three platforms attach health checking differently, so
+  this ordering does not apply to them.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.
@@ -58,7 +63,7 @@ implements this shape concretely.
 
 ## Known limitations
 
-- Currently covers F5 BIG-IP LTM, Citrix ADC/NetScaler, and HAProxy — see `references/INDEX.md`
+- Currently covers F5 BIG-IP LTM, Citrix ADC/NetScaler, HAProxy, and Cloudflare Load Balancing — see `references/INDEX.md`
   for exact scope per vendor and known gaps. A platform not listed there needs a new reference
   file before this skill can be used for it.
 - Does not cover certificate issuance/renewal, even where a VIP configuration references a
