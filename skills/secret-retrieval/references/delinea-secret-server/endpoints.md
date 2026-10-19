@@ -5,8 +5,7 @@ URL (self-hosted or the Cloud tenant URL). All paths are the native Secret Serve
 Delinea Platform-mediated API.
 
 Sources: Delinea Secret Server 11.6.x online help, "Script Authentication Using Tokens" and "REST
-API Python Scripts", retrieved 2026-10-19. Items marked (unverified) come from the Itential
-community assets repo (Delinea Secret Server secret-provider plugin), a secondary source.
+API Python Scripts", retrieved 2026-10-19. Items marked (unverified) are not stated in those pages.
 
 ## Get Token
 

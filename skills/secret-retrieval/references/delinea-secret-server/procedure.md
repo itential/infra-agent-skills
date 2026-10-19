@@ -7,12 +7,17 @@ creating accounts, secret templates, folders or the secret itself is out of scop
 through the Delinea Platform use a different base path and a different token source, and are not
 covered (see Known limitations).
 
-Sources: Delinea documentation pages "Script Authentication Using Tokens" and "REST API Python
-Scripts" (Secret Server 11.6.x online help, docs.delinea.com) and the Secret Access Workflow /
-Checking Out Secrets pages, all retrieved 2026-10-19. The field-level read call, the string-literal
-shape of its response and the optional domain parameter are not in those pages; they come from the
-Itential community assets repo (Delinea Secret Server secret-provider plugin), a secondary source,
-and are marked (unverified) below.
+Sources: Delinea Secret Server 11.6.x online help, "Script Authentication Using Tokens" and "REST
+API Python Scripts", plus the Secret Access Workflow and Checking Out Secrets pages, retrieved
+2026-10-19. The field-level read call, the string-literal shape of its response and the optional
+domain parameter are not in those pages and are marked (unverified) below.
+
+## Common Sequences
+
+- **Read one field of a secret:** Get token (step 1) -> Get secret (step 2), select the item by
+  slug -> use the value without logging it.
+- **Overwrite one field of a secret:** Get token (step 1) -> Get secret (step 2) -> operator
+  confirmation -> Update secret (step 3) -> Get secret (step 2) to confirm the stored value.
 
 ## Operational procedure
 
@@ -26,7 +31,7 @@ carries the token in an `access_token` field. A token's lifetime is governed by 
 the documented lifetime is therefore instance-specific, so request a new token when a call is
 rejected as unauthorized instead of assuming a fixed duration.
 
-- Sending a domain value for a non-default domain is (unverified) — taken from the assets repo.
+- Sending a domain value for a non-default domain is (unverified).
 - The header format for presenting the token on later calls is not stated on the authentication
   page; the REST examples present it as a Bearer authorization header.
 - Delinea's cautions apply: never keep the password or token in plain text, use a least-privilege
