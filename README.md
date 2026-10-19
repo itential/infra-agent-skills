@@ -65,7 +65,7 @@ one vendor's behavior from ever touching the shared file.
 | `dns-zone-management` | Route 53, Cloudflare, PowerDNS |
 | `change-management` | ServiceNow, Freshservice, Jira Service Management, BMC Helix ITSM |
 | `software-upgrade-lifecycle` | Cisco IOS-XE, Cisco IOS XR, Arista EOS, Juniper Junos EX, Extreme EXOS, NVIDIA Cumulus Linux, Palo Alto Prisma SD-WAN |
-| `ipam-allocation` | NetBox, Infoblox NIOS, SolarWinds IPAM |
+| `ipam-allocation` | NetBox, Infoblox NIOS, SolarWinds IPAM, Nautobot, Micetro |
 | `dhcp-scope-management` | Infoblox NIOS, ISC Kea, Microsoft DHCP Server |
 | `cmdb-asset-management` | ServiceNow CMDB, iTop |
 | `wireless-network-management` | Cisco Meraki, HPE Aruba Networking Central, Cisco Catalyst Center |
@@ -95,7 +95,7 @@ one vendor's behavior from ever touching the shared file.
 | `sdwan-site-onboarding` | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)*, Versa Director *(branch device creation from a post-staging template, activation, confirmation)* |
 | `network-access-control-management` | _(scaffolded — no vendor coverage yet)_ |
 
-**97** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
+**99** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
