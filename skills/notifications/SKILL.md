@@ -1,6 +1,6 @@
 ---
 name: notifications
-description: Send a message, notification, summary, or report to a channel, thread, or recipient on a supported communications platform — currently Slack, Cisco Webex, or Microsoft Teams. See references/INDEX.md for exact per-platform scope. Use when an agent needs to post an outbound message (a status update, a summary, a report, an alert) rather than manage a record on some other system. Assumes an authenticated client/credential for the target platform's API is already available (Microsoft Teams' primary path instead assumes a pre-configured per-channel webhook URL — see that platform's own procedure); this skill does not provision or authenticate it. Does not cover reading message history, editing or deleting a previously sent message, or managing channel/membership configuration — this skill is send-only.
+description: Send a message, notification, summary, or report to a channel, thread, or recipient on a supported communications platform — currently Slack, Cisco Webex, Microsoft Teams, Twilio (SMS/MMS), or SendGrid (email). See references/INDEX.md for exact per-platform scope. Use when an agent needs to post an outbound message (a status update, a summary, a report, an alert) rather than manage a record on some other system. Assumes an authenticated client/credential for the target platform's API is already available (Microsoft Teams' primary path instead assumes a pre-configured per-channel webhook URL — see that platform's own procedure); this skill does not provision or authenticate it. Does not cover reading message history, editing or deleting a previously sent message, or managing channel/membership configuration — this skill is send-only.
 argument-hint: "[platform] [destination: channel|thread|recipient] [message/summary/report content]"
 ---
 
@@ -22,25 +22,30 @@ own documented procedure and formatting rules exactly.
 
 There is no single wire spec grounding this capability the way RFC 1035 grounds DNS — chat platforms
 each define their own model. The claims below are only the ones verified true across every platform
-currently listed in `references/INDEX.md` (Slack, Cisco Webex, Microsoft Teams); re-verify each one
+currently listed in `references/INDEX.md` (Slack, Cisco Webex, Microsoft Teams, Twilio, SendGrid); re-verify each one
 against any new platform's actual behavior before assuming it still holds (see `AGENTS.md` rule 4).
 
 - **A successful call confirms the platform accepted the message, not that a person has read it.**
-  All three platforms currently covered distinguish "the request was accepted" from any notion of a
-  recipient actually seeing the content — none of them expose a synchronous "message read" signal as
+  Every platform currently covered distinguishes "the request was accepted" from any notion of a
+  recipient actually seeing the content — none exposes a synchronous "message read" signal as
   part of sending.
+- **Destination types are not uniform.** Twilio (a phone number) and SendGrid (email addresses) only
+  address individual recipients, never a channel or thread.
 - **Destination addressing is not uniform.** Slack and Webex both take a destination identifier
   (a channel/room ID, or an email/user ID for a direct message) as a normal parameter on the same
   authenticated API call used to send. Microsoft Teams' current primary mechanism is structurally
   different: the destination channel/chat is fixed when a Workflows (Power Automate) webhook is
   configured, not passed at send time — see `references/microsoft-teams/procedure.md`. Never assume
   a runtime "channel" argument exists just because it does on Slack/Webex.
-- **Every platform here supports a plain-text body plus a richer, platform-specific formatted body**
-  (Slack Block Kit, Webex Markdown, Teams Adaptive Cards/Message Cards) — but the richer formats are
-  not interchangeable across platforms; markup built for one does not render on another.
-- **Every platform here documents a rate limit on posting and returns a `Retry-After`-style signal on
-  HTTP 429** — but the specific ceiling (requests per second/minute, per-channel vs. per-app) differs
-  per platform. Never reuse one platform's documented rate-limit number for another.
+- **Every platform here supports a plain-text body; most also offer a richer, platform-specific
+  format** (Slack Block Kit, Webex Markdown, Teams Adaptive Cards/Message Cards, SendGrid HTML) — but
+  the richer formats are not interchangeable across platforms, and SMS through Twilio has none (plain
+  text, optionally with media).
+- **Platforms limit sending, and several answer excess requests with HTTP 429** — but the ceiling,
+  its scope, and the retry signal differ. Slack, Webex and Teams document a `Retry-After`-style
+  value; Twilio and SendGrid document none (Twilio queues over-capacity messages and signals
+  concurrency limits through 429 and a load header; SendGrid exposes a reset timestamp header).
+  Never reuse one platform's documented limit or retry signal for another.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.
@@ -62,8 +67,8 @@ implements this shape concretely.
 
 ## Known limitations
 
-- Platform coverage is exactly the three platforms in `references/INDEX.md` (Slack, Cisco Webex,
-  Microsoft Teams) — a platform not listed there needs a new reference file before this skill can be
+- Platform coverage is exactly the five platforms in `references/INDEX.md` (Slack, Cisco Webex,
+  Microsoft Teams, Twilio, SendGrid) — a platform not listed there needs a new reference file before this skill can be
   used for it.
 - Send-only. Does not cover reading message history, editing or deleting a previously sent message,
   or channel/membership management — those are different capabilities, not covered here.

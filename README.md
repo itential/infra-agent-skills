@@ -81,8 +81,13 @@ one vendor's behavior from ever touching the shared file.
 | `casb-posture-assessment` | _(scaffolded — no vendor coverage yet; diagnostic: CASB risk/compliance posture)_ |
 | `crm-contact-management` | Salesforce |
 | `dcim-asset-management` | NetTerrain (Graphical Networks) |
+<<<<<<< HEAD
 | `notifications` | Slack, Cisco Webex, Microsoft Teams |
 | `secret-retrieval` | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault, Delinea Secret Server |
+=======
+| `notifications` | Slack, Cisco Webex, Microsoft Teams, Twilio, SendGrid |
+| `secret-retrieval` | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault |
+>>>>>>> d34d85d (Add Twilio and SendGrid to notifications)
 | `repository-pull-request-management` | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
 | `container-workload-deployment` | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub |
 | `zero-trust-access-policy-management` | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
@@ -95,7 +100,7 @@ one vendor's behavior from ever touching the shared file.
 | `sdwan-site-onboarding` | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)*, Versa Director *(branch device creation from a post-staging template, activation, confirmation)* |
 | `network-access-control-management` | _(scaffolded — no vendor coverage yet)_ |
 
-**94** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
+**96** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
