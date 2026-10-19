@@ -24,8 +24,9 @@ deduplication/identification mechanism the platform provides for writes.
 
 - **A CI write and a CI's identity are not the same question.** Some platforms (ServiceNow via IRE)
   route writes through an identification step that decides whether the payload matches an *existing*
-  record before deciding to create a new one, while others simply create a new record on every create call — treat "the write succeeded" and "a new record was
-  created" as two different facts to confirm, not one.
+  record before deciding to create a new one, while others simply create a new record on every
+  create call — treat "the write succeeded" and "a new record was created" as two different facts to
+  confirm, not one.
 - **Where multiple sources feed the same platform, reconciliation rules (where they exist) decide which
   source wins on a contested field** — a successful write doesn't guarantee the value sticks if a
   higher-priority source claims that field. Don't assume last-write-wins on a platform with a documented

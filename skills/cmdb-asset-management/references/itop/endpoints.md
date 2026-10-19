@@ -65,7 +65,8 @@ Response lists every deleted or modified object with a status code and message. 
 
 Response: `{"objects": {...}, "relations": {"<origin-class>::<origin-key>": [{"key":
 "<destination-class>::<destination-key>"}]}, "code": 0, "message": "Scope: <n>; Found: <Class>=<n>,
-..."}`. Depth defaults to 20.
+..."}`. Depth defaults to 20. (The source also says the search depth is limited to 4 iterations; it does not
+reconcile the two figures, so treat the effective limit as unknown and check the response scope.)
 
 ## Top-level error codes
 
