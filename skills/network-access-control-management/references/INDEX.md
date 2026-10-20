@@ -5,4 +5,4 @@ plus wire-level `endpoints.md`.
 
 | Vendor / Platform | Directory | Scope | Notes |
 |---|---|---|---|
-| _(none yet)_ | | | |
+| Aruba ClearPass Policy Manager | `aruba-clearpass/` | Read/list, create, update (including block/release via status), replace, delete in the endpoint repository | OAuth2 bearer token; quarantine/release is a status change (Known/Unknown/Disabled), not a separate operation; no group assignment, session read, or policy authoring documented; status meanings come from a secondary summary of the admin guide |

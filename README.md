@@ -93,9 +93,9 @@ one vendor's behavior from ever touching the shared file.
 | `sdwan-policy-management` | Cisco Catalyst SD-WAN Manager *(centralized policy, original template-policy model)*, Palo Alto Networks Prisma SD-WAN *(stacked path and QoS policy sets, rules, and stacks; bind to sites)* |
 | `config-backup-management` | Prisma SD-WAN *(site snapshot capture, retrieve, and redeploy as YAML)* |
 | `sdwan-site-onboarding` | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)*, Versa Director *(branch device creation from a post-staging template, activation, confirmation)* |
-| `network-access-control-management` | _(scaffolded — no vendor coverage yet)_ |
+| `network-access-control-management` | Aruba ClearPass Policy Manager |
 
-**115** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
+**116** vendor references across **31** capabilities (3 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
