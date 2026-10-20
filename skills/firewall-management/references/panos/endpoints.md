@@ -7,7 +7,9 @@ universally. Auth: API key passed via the `X-PAN-KEY` request header (a query-pa
 key exists on older PAN-OS releases but the header form is the current documented practice).
 
 Citation: Palo Alto Networks, PAN-OS/Panorama API documentation (PAN-OS 11.1 doc set,
-docs.paloaltonetworks.com), retrieved 2026-09-17. Field/path names below are reproduced from the
+docs.paloaltonetworks.com), retrieved 2026-09-17. Panorama additions (post-rules, move, push) were checked against the 11.1 REST
+and XML API pages ("Resource Methods and Query Parameters (REST API)", "Work with Policy Rules on
+Panorama (REST API)", "Commit-All"), retrieved 2026-10-19. Field/path names below are reproduced from the
 vendor's actual wire format (JSON keys, path segments) since those are literal interface contracts,
 not prose to rephrase — only descriptive text is original wording.
 
@@ -15,8 +17,8 @@ not prose to rephrase — only descriptive text is original wording.
 
 Tool hint: `POST /restapi/v11.0/Objects/Addresses`
 
-Query parameters: `location` (`shared`, or `vsys` paired with `vsys=<name>`, or `device-group`
-paired with `device-group=<name>`), `name` (the object's name).
+Query parameters: `location` (`shared`, or `vsys` paired with `vsys=<name>` on a firewall only, or
+`device-group` paired with `device-group=<name>` on Panorama only), `name` (the object's name).
 
 Body:
 ```json
@@ -106,11 +108,25 @@ Tool hint: same path family as create (`Policies/SecurityRules` or `Policies/Sec
 method `GET` (read), `PUT` (update, same body shape as create), or `DELETE` (delete) respectively, and
 `location`/`name`/`vsys`/`device-group` query parameters addressing the target rule.
 
-## NAT rules — path not confirmed this pass
+## Security post-rules, rename and move (Panorama)
 
-No NAT-specific REST path was found in the documentation reachable during this research pass. Do not
-assume a `Policies/NATRules` (or similarly-named) path is correct without checking the target
-version's own current API reference first — see `procedure.md`'s Known limitations.
+Post-rule family: `/restapi/v11.0/Policies/SecurityPostRules` (name taken from a third-party OpenAPI
+description; the vendor page confirms post-rules exist as a REST resource on Panorama but did not print the
+path, so treat the literal path as assumed). Same methods and parameters as `SecurityPreRules`.
+
+Rename (any rule or object family): `POST <family>:rename` with `location`, `name`, `newname`.
+
+Move: `POST <family>:move` with `location`, `name`, `where` (`top`, `bottom`, `before`, `after`) and
+`dst` (sibling rule name, required for `before`/`after`). Verified for policy rules in the vendor's
+methods table; also applies to `SecurityRules`, `SecurityPreRules`, `SecurityPostRules`.
+
+## NAT rules — family names unverified
+
+Assumed from a third-party OpenAPI description (secondary source), not found in the vendor pages reached:
+`/restapi/v11.0/Policies/NatPreRules` and `/restapi/v11.0/Policies/NatPostRules` (Panorama). The
+firewall-side NAT family name was not found in any source reached. Same
+parameters, `:rename` and `:move` as security rules. Confirm against the device's own API reference
+(`/restapi-doc/` on the target, per the vendor) before use.
 
 ## Commit — requires the XML API (not the REST API)
 
@@ -120,3 +136,23 @@ Panorama configuration, and that commit specifically requires the XML API. Confi
 request body (cmd XML shape), response job-ID field name, and the precise `type=op` job-status query
 used to poll a commit job to completion were not confirmed during this pass — consult the target
 PAN-OS version's own XML API reference for those exact literal parameters before relying on them.
+
+## Push to managed devices (XML API, Panorama only)
+
+Tool hint: `POST /api/` with form fields `type=commit`, `action=all`, and `cmd` set to a push
+command. The vendor's Commit-All page shows shared-policy push to a device group as a command whose
+body names the device group by entry name under a shared-policy element; a third-party OpenAPI description shows a Panorama commit call with `type=commit` and `cmd=<commit></commit>`, and
+`type=commit-all` with a shared-policy command for the push (a different `type`/`action` spelling than
+the vendor page — confirm which the target version accepts). Optional elements named by the vendor:
+`include-template` (set to no to leave template changes out) and `validate-only` (check without
+pushing). `force-template-values` and `merge-with-candidate-cfg` exist but their details were not
+reached. Response carries a job id.
+
+Commit body shapes confirmed from the vendor's Commit page (10.1 doc set): a plain commit, a force
+commit, and an admin-scoped commit naming administrators as members. Job polling: `type=op` with a
+show-jobs command carrying the job id; the response reports a status (active/finished), a result
+state, and progress percentage. Treat success only when the job has finished with a successful
+result.
+
+Documented limitation: the push affects only firewalls directly in the named device group, not those
+in its child device groups.

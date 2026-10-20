@@ -15,6 +15,19 @@ where PAN-OS documentation says the REST surface stops short and the older XML A
 configuration, so a REST write and an XML-API commit are part of one coherent workflow, not two
 unrelated systems.
 
+## Common Sequences
+
+- **Add a firewall rule on a standalone firewall:** identify scope, create the address objects the
+  rule needs, create the security rule, move it to its intended position, commit, poll the commit
+  job to a finished successful result.
+- **Add a Panorama device-group rule:** identify scope, create address objects at the shared or
+  device-group scope, create the pre- or post-rule, move it, commit on Panorama and confirm the job,
+  then push to the device group and confirm that job.
+- **Remove a rule:** read the rule and its neighbours, confirm with the operator, delete, commit
+  (and push on Panorama).
+
+Each step is a named section below; the sequences point into them rather than repeating them.
+
 ## Operational procedure
 
 ### Identify scope before any call
@@ -24,7 +37,11 @@ naming the vsys), a Panorama-managed shared scope (`location=shared`), or a Pano
 (`location=device-group`, naming the group). Confirm which scope the caller intends before issuing
 any call — the same object name can exist independently at multiple scopes, and a call that omits or
 misstates the scope parameter will operate on the wrong copy, or fail to find an object the caller
-expected to see.
+expected to see. The valid scope values differ by target: PAN-OS documents `shared`, a vsys, and two
+read-only-style locations (predefined and panorama-pushed objects) for a firewall, but only `shared`
+and a named device group for Panorama itself — a vsys scope is not addressable on a Panorama
+instance. (Source: Palo Alto Networks, "Resource Methods and Query Parameters (REST API)", PAN-OS 11.1
+doc set, retrieved 2026-10-19.)
 
 ### Create an address object
 
@@ -76,6 +93,27 @@ evaluated before or after a firewall's own locally-defined rules — as a distin
 plain vsys-scoped rule; confirm with the caller which rule set is intended before creating, since
 they occupy different positions in the effective policy evaluation order.
 
+### Panorama pre-rules and post-rules
+
+On Panorama the rulebase is split in two: pre-rules run ahead of a firewall's local rules and
+post-rules run after them. Each has its own resource family and both are scoped to either `shared`
+(applies to every managed device and device group) or one named device group. A rule created without
+choosing pre or post lands in the wrong place in the effective order, so decide this per rule before
+creation. Palo Alto's REST documentation confirms that Panorama resources cover both pre- and
+post-rule variants; the post-rule security family name comes from a secondary source (a third-party
+OpenAPI description) and matches that statement (see `endpoints.md`).
+
+### Reorder a rule (Panorama and firewall)
+
+Rules are evaluated in list order, so a newly created rule is only effective once it sits at the
+intended position. PAN-OS exposes a dedicated move action on the policy families that places a rule
+at the top, at the bottom, or directly before or after a named sibling rule in the same rulebase and
+scope. Use it after create instead of delete-and-recreate. A before/after move needs the sibling's
+name; a move that names a sibling in a different scope or rulebase is not meaningful, so read the
+rulebase first and confirm the target exists. Moving a rule changes which traffic it and its
+neighbours match: **stop and confirm with the operator before moving a rule in a rulebase that is
+live**, and note that the change only takes effect after commit.
+
 ### Read / update / delete a security policy rule
 
 Reads, updates, and deletes for security rules follow the same location+name addressing as address
@@ -86,16 +124,15 @@ blocking — stop and confirm with the operator before proceeding**, and confirm
 position/precedence relative to other rules if order matters to the caller's intent, since removing
 one rule can change which rule now matches traffic that used to hit the deleted one first.
 
-### NAT rules — documented gap, do not assume a specific request shape
+### NAT rules
 
-The PAN-OS documentation available for this research pass covered security policy rule and address
-object REST endpoints directly, but did not surface a confirmed NAT-rule-specific REST resource path.
-PAN-OS's general policy architecture (the same location/device-group/name scoping, and the same
-pre-rule/post-rule split on Panorama) almost certainly extends to NAT rules as a parallel resource
-family, but the literal path segment was not independently confirmed for this pass. Treat NAT rule
-CRUD as an explicit unknown: consult the target PAN-OS/Panorama version's own current API reference
-for the exact NAT resource path before making this call, rather than assuming it mirrors the security
-rule path by name alone.
+NAT rules follow the same location/name addressing, the same rename and move actions, and, on
+Panorama, the same pre-rule/post-rule split as security rules. Palo Alto's REST documentation that
+was reachable for this pass names only security rule families, so the NAT family names in
+`endpoints.md` come from a secondary source (a third-party OpenAPI description) and are **unverified against
+vendor docs**: check them in the target version's own API reference (served by the device itself)
+before relying on them. Deleting or reordering a NAT rule changes address translation for live
+traffic: **stop and confirm with the operator first.**
 
 ### Commit — required before any write takes effect
 
@@ -114,6 +151,22 @@ than reporting success as soon as the commit request was merely accepted.
 procedure just made — stop and confirm with the operator before committing** if other pending,
 unrelated changes might exist in the candidate configuration that shouldn't go live yet.
 
+### Push to managed devices — Panorama only, after the Panorama commit
+
+On Panorama, committing publishes the candidate configuration to Panorama's own running
+configuration only; managed firewalls keep enforcing their previous policy. A separate push action
+sends the committed device-group (shared policy) configuration to the firewalls in a chosen device
+group, and returns its own pollable job. Run it only after the Panorama commit job has finished
+successfully, and read both job results rather than inferring the second from the first. The push
+reaches only firewalls directly attached to the named device group; PAN-OS documents that it does not
+automatically cascade to firewalls in child device groups when a parent group changed, so push each
+affected child group (the web interface can push to children). **Stop and confirm with the operator
+before pushing**: a push changes enforcement on every firewall in the target group at once and
+cannot be undone except by pushing a corrected configuration. A validate-only variant checks the
+policy without pushing; prefer it first when the operator wants a dry check. Template and template
+stack pushes are not covered here (see Known limitations). (Source: Palo Alto Networks, "Commit-All",
+PAN-OS XML API request types, retrieved 2026-10-19.)
+
 ## Patterns
 
 - **Nothing here takes effect until committed.** A caller reporting "the rule was created" based on
@@ -123,16 +176,20 @@ unrelated changes might exist in the candidate configuration that shouldn't go l
 - **Scope (location/vsys/device-group) is part of an object's identity, not just a filter.** The same
   name can exist at multiple scopes simultaneously with different definitions; always carry the
   scope forward from read through update/delete rather than assuming a bare name is unambiguous.
+- **Commit and push are two gates on Panorama.** "Committed" means Panorama's running config; devices
+  enforce it only after the push job completes.
 - **A commit applies everything pending, not a single change.** Treat commit as a shared,
   scope-wide gate rather than a per-object action tied to the one change this procedure made.
 
 ## Known limitations
 
-- NAT rule CRUD's exact REST resource path was not confirmed during this research pass — see the
-  NAT rules section above. Confirm against the target version's current API reference before use.
-- The literal commit request body, response job-ID field name, and exact job-status polling
-  parameters were not confirmed during this research pass — the existence and two-stage nature of
-  the commit step is confirmed; its exact wire details are not, for this pass.
+- NAT rule resource family names are taken from a secondary source (a third-party OpenAPI description) and are not
+  verified against Palo Alto's own reference — see the NAT rules section.
+- Panorama device-group and template management (creating or editing device groups, templates, and
+  template stacks) appears in a secondary source but was not verified against Palo Alto
+  documentation, so this procedure does not cover it. Template and template-stack pushes, and the
+  force-template-values and merge-with-candidate options of the push action, were not detailed in the
+  documentation reached; consult the version's XML API reference.
 - This procedure covers the newer PAN-OS REST API for object/rule CRUD. PAN-OS documentation states
   the REST API only covers a subset of configuration operations and that some operations (commit
   among them) require the older XML API — confirm which API surface a given PAN-OS/Panorama version
@@ -147,8 +204,10 @@ unrelated changes might exist in the candidate configuration that shouldn't go l
 |---|---|---|
 | Address object create/read/update/delete/rename | Manage address objects at a given scope | Objects |
 | Security rule create/read/update/delete | Manage security policy rules at a given scope, including Panorama pre-/post-rules | Policies |
-| NAT rule CRUD | Not independently confirmed this pass — see Known limitations | Policies |
+| Rule move | Reposition a security or NAT rule within its rulebase | Policies |
+| NAT rule create/read/update/delete/rename | Same addressing as security rules; family names unverified (see NAT rules) | Policies |
 | Commit | Apply pending candidate changes to the running configuration; returns a pollable job | Commit |
+| Push to device group | Panorama only: send committed shared policy to a device group's firewalls; returns a pollable job | Commit |
 
 ## Verification checklist
 
@@ -162,5 +221,9 @@ unrelated changes might exist in the candidate configuration that shouldn't go l
       issued and its resulting job confirmed successful
 - [ ] Commit was not issued without confirming with the operator when unrelated pending changes might
       also be present in the candidate configuration
-- [ ] Any NAT rule request was preceded by confirming the current, version-specific NAT resource path
-      rather than assuming it from the security-rule path's shape
+- [ ] Any NAT rule request was preceded by confirming the NAT resource family name against the target
+      device's own API reference
+- [ ] On Panorama, pre-rule vs. post-rule was chosen per rule and a new rule was moved to its
+      intended position
+- [ ] On Panorama, the push job to each affected device group finished successfully after the Panorama
+      commit job, and child device groups were pushed separately where needed
