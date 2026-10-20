@@ -94,6 +94,7 @@ one vendor's behavior from ever touching the shared file.
 | `config-backup-management` | Prisma SD-WAN *(site snapshot capture, retrieve, and redeploy as YAML)* |
 | `sdwan-site-onboarding` | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)*, Versa Director *(branch device creation from a post-staging template, activation, confirmation)* |
 | `network-access-control-management` | Aruba ClearPass Policy Manager |
+| `automation-job-execution` | AWX *(job template launch, poll, output, cancel)*, Jenkins *(build trigger; queue/state/stop details unverified)*, Azure DevOps *(pipeline run, poll, logs, cancel)*, Rundeck *(job run, poll, output, abort)*, Puppet Enterprise *(orchestrator task/plan run, poll, report, stop)* |
 
 **121** vendor references across **32** capabilities (3 more are scaffolded with no coverage yet).
 
