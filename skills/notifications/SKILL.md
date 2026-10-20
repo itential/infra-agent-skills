@@ -1,6 +1,6 @@
 ---
 name: notifications
-description: Send a message, notification, summary, or report to a channel, thread, or recipient on a supported communications platform — currently Slack, Cisco Webex, Microsoft Teams, Twilio (SMS/MMS), or SendGrid (email). See references/INDEX.md for exact per-platform scope. Use when an agent needs to post an outbound message (a status update, a summary, a report, an alert) rather than manage a record on some other system. Assumes an authenticated client/credential for the target platform's API is already available (Microsoft Teams' primary path instead assumes a pre-configured per-channel webhook URL — see that platform's own procedure); this skill does not provision or authenticate it. Does not cover reading message history, editing or deleting a previously sent message, or managing channel/membership configuration — this skill is send-only.
+description: Send a message, notification, summary, or report to a channel, thread, or recipient on a supported communications platform — currently Slack, Cisco Webex, Microsoft Teams, Twilio (SMS/MMS), SendGrid (email), or Mattermost. See references/INDEX.md for exact per-platform scope. Use when an agent needs to post an outbound message (a status update, a summary, a report, an alert) rather than manage a record on some other system. Assumes an authenticated client/credential for the target platform's API is already available (Microsoft Teams' primary path instead assumes a pre-configured per-channel webhook URL — see that platform's own procedure); this skill does not provision or authenticate it. Does not cover reading message history, editing or deleting a previously sent message, or managing channel/membership configuration — this skill is send-only.
 argument-hint: "[platform] [destination: channel|thread|recipient] [message/summary/report content]"
 ---
 
@@ -23,7 +23,7 @@ own documented procedure and formatting rules exactly.
 There is no single wire spec grounding this capability the way RFC 1035 grounds DNS — chat platforms
 each define their own model. The claims below are only the ones verified true across every platform
 currently listed in `references/INDEX.md` (Slack, Cisco Webex, Microsoft Teams, Twilio,
-SendGrid); re-verify each one against any new platform's actual behavior before assuming it still
+SendGrid, Mattermost); re-verify each one against any new platform's actual behavior before assuming it still
 holds (see `AGENTS.md` rule 4).
 
 - **A successful call confirms the platform accepted the message, not that a person has read it.**
@@ -39,7 +39,7 @@ holds (see `AGENTS.md` rule 4).
   configured, not passed at send time — see `references/microsoft-teams/procedure.md`. Never assume
   a runtime "channel" argument exists just because it does on Slack/Webex.
 - **Every platform here supports a plain-text body; most also offer a richer, platform-specific
-  format** (Slack Block Kit, Webex Markdown, Teams Adaptive Cards/Message Cards, SendGrid HTML) — but
+  format** (Slack Block Kit, Webex Markdown, Teams Adaptive Cards/Message Cards, Mattermost Markdown/message attachments, SendGrid HTML) — but
   the richer formats are not interchangeable across platforms, and SMS through Twilio has none (plain
   text, optionally with media).
 - **Platforms limit sending, and several answer excess requests with HTTP 429** — but the ceiling,
@@ -67,8 +67,8 @@ implements this shape concretely.
 
 ## Known limitations
 
-- Platform coverage is exactly the five platforms in `references/INDEX.md` (Slack, Cisco Webex,
-  Microsoft Teams, Twilio, SendGrid) — a platform not listed there needs a new reference file
+- Platform coverage is exactly the six platforms in `references/INDEX.md` (Slack, Cisco Webex,
+  Microsoft Teams, Twilio, SendGrid, Mattermost) — a platform not listed there needs a new reference file
   before this skill can be used for it.
 - Send-only. Does not cover reading message history, editing or deleting a previously sent message,
   or channel/membership management — those are different capabilities, not covered here.
