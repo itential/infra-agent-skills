@@ -81,13 +81,8 @@ one vendor's behavior from ever touching the shared file.
 | `casb-posture-assessment` | _(scaffolded — no vendor coverage yet; diagnostic: CASB risk/compliance posture)_ |
 | `crm-contact-management` | Salesforce |
 | `dcim-asset-management` | NetTerrain (Graphical Networks) |
-<<<<<<< HEAD
-| `notifications` | Slack, Cisco Webex, Microsoft Teams |
-| `secret-retrieval` | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault, Delinea Secret Server |
-=======
 | `notifications` | Slack, Cisco Webex, Microsoft Teams, Twilio, SendGrid |
-| `secret-retrieval` | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault |
->>>>>>> d34d85d (Add Twilio and SendGrid to notifications)
+| `secret-retrieval` | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault, Delinea Secret Server |
 | `repository-pull-request-management` | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
 | `container-workload-deployment` | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub |
 | `zero-trust-access-policy-management` | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
