@@ -69,7 +69,7 @@ one vendor's behavior from ever touching the shared file.
 | `dhcp-scope-management` | Infoblox NIOS, ISC Kea, Microsoft DHCP Server |
 | `cmdb-asset-management` | ServiceNow CMDB, iTop |
 | `wireless-network-management` | Cisco Meraki, HPE Aruba Networking Central, Cisco Catalyst Center |
-| `firewall-management` | Palo Alto PAN-OS/Panorama, Fortinet FortiOS, Cisco ASA, Juniper SRX |
+| `firewall-management` | Palo Alto PAN-OS/Panorama, Fortinet FortiOS, Cisco ASA, Juniper SRX, Fortinet FortiManager, WatchGuard Firebox, AWS Network Firewall |
 | `waf-management` | _(scaffolded — no vendor coverage yet)_ |
 | `load-balancing` | F5 BIG-IP LTM, Citrix ADC/NetScaler, HAProxy, Cloudflare Load Balancing |
 | `certificate-management` | ACME (e.g. Let's Encrypt), HashiCorp Vault PKI, AWS Certificate Manager |
@@ -95,7 +95,7 @@ one vendor's behavior from ever touching the shared file.
 | `sdwan-site-onboarding` | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)*, Versa Director *(branch device creation from a post-staging template, activation, confirmation)* |
 | `network-access-control-management` | _(scaffolded — no vendor coverage yet)_ |
 
-**105** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
+**108** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
