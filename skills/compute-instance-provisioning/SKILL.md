@@ -1,6 +1,6 @@
 ---
 name: compute-instance-provisioning
-description: Create, read, resize, snapshot, power-control, and decommission virtual machine instances on a supported hypervisor or cloud platform — currently Amazon EC2. Instance lifecycle only — not a general cloud or hypervisor administration skill. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Check references/INDEX.md for which platforms and operations are covered.
+description: Create, read, resize, snapshot, power-control, and decommission virtual machine instances on a supported hypervisor or cloud platform — currently Amazon EC2, Google Compute Engine, VMware vSphere, and Morpheus. Instance lifecycle only — not a general cloud or hypervisor administration skill. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Check references/INDEX.md for which platforms and operations are covered.
 argument-hint: "[platform] [action: create|read|resize|snapshot|power|delete] [instance identifier, fields]"
 ---
 
@@ -23,9 +23,9 @@ documented procedure exactly.
 
 ## Universal concepts (shared virtual-instance vocabulary, not a wire standard)
 
-Only one platform is documented today, so these are claims expected to hold for any hypervisor or cloud
-platform and must be re-checked when a second platform is added (`AGENTS.md` rules 4 and 14). Where a
-platform differs, its own procedure wins.
+These are claims expected to hold for any hypervisor or cloud platform, and were re-checked against each
+platform listed in `references/INDEX.md` (`AGENTS.md` rules 4 and 14). Where a platform differs, its own
+procedure wins.
 
 - **An instance has a lifecycle state that decides which operations are allowed, and write calls are
   usually asynchronous.** Read the current state before changing an instance, and confirm the target
@@ -34,11 +34,11 @@ platform differs, its own procedure wins.
   settings.** Treat deletion as a confirmation point and tell the operator which storage will go with
   it.
 - **Some changes, such as resizing, may require the instance to be powered off,** where the platform
-  says so. Power-off interrupts the workload and can lose volatile state; confirm before
+  says so; some platforms allow certain changes while it runs. Power-off interrupts the workload and can lose volatile state; confirm before
   doing it, and let the platform's own procedure say what else changes.
 - **What "snapshot" means differs by platform** (a point-in-time copy of the whole machine, of its
-  disks, or an image to launch from), and not every platform can revert an instance to one. Do not
-  assume revert exists.
+  disks, or an image to launch from), and not every platform can revert an instance to one, or offers a snapshot of an instance at all. Do not
+  assume either exists.
 - **Repeating a create request can create a second instance** unless the platform offers an
   idempotency mechanism; use it where it exists.
 
