@@ -80,7 +80,7 @@ one vendor's behavior from ever touching the shared file.
 | `casb-policy-management` | _(scaffolded — no vendor coverage yet)_ |
 | `casb-posture-assessment` | _(scaffolded — no vendor coverage yet; diagnostic: CASB risk/compliance posture)_ |
 | `crm-contact-management` | Salesforce |
-| `dcim-asset-management` | NetTerrain (Graphical Networks) |
+| `dcim-asset-management` | NetTerrain (Graphical Networks), NetBox, Nautobot |
 | `notifications` | Slack, Cisco Webex, Microsoft Teams, Twilio, SendGrid, Mattermost |
 | `secret-retrieval` | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault, Delinea Secret Server |
 | `repository-pull-request-management` | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
@@ -95,7 +95,7 @@ one vendor's behavior from ever touching the shared file.
 | `sdwan-site-onboarding` | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)*, Versa Director *(branch device creation from a post-staging template, activation, confirmation)* |
 | `network-access-control-management` | _(scaffolded — no vendor coverage yet)_ |
 
-**103** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
+**105** vendor references across **30** capabilities (4 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
