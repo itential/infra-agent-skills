@@ -1,6 +1,6 @@
 ---
 name: certificate-management
-description: Issue, renew, read, and revoke TLS/SSL certificates on a supported certificate-management platform or protocol — currently the ACME protocol (e.g. Let's Encrypt), HashiCorp Vault's PKI secrets engine, and AWS Certificate Manager. Use when an agent needs to manage certificate lifecycle itself, distinct from installing/binding an already-issued certificate to a specific application, device, or load-balancer VIP (that binding step belongs to the consuming platform's own skill, e.g. load-balancing). Assumes an authenticated client/credential for the target platform's API is already available; this skill does not provision or authenticate it. See references/INDEX.md for the full vendor/protocol list.
+description: Issue, renew, read, and revoke TLS/SSL certificates on a supported certificate-management platform or protocol — currently the ACME protocol (e.g. Let's Encrypt), HashiCorp Vault's PKI secrets engine, AWS Certificate Manager, DigiCert ONE Trust Lifecycle Manager, and Sectigo Certificate Manager. Use when an agent needs to manage certificate lifecycle itself, distinct from installing/binding an already-issued certificate to a specific application, device, or load-balancer VIP (that binding step belongs to the consuming platform's own skill, e.g. load-balancing). Assumes an authenticated client/credential for the target platform's API is already available; this skill does not provision or authenticate it. See references/INDEX.md for the full vendor/protocol list.
 argument-hint: "[platform] [action: issue|renew|read|revoke] [certificate identifier/CSR, fields]"
 ---
 
@@ -21,17 +21,18 @@ documented procedure exactly.
 ## Universal concepts (shared certificate-management vocabulary, not a wire standard)
 
 No wire-level standard grounds every platform in this category the way, say, RFC 1035/2136 grounds
-DNS — the ACME protocol (RFC 8555) is itself a standard, but Vault PKI and AWS ACM are each a
-vendor-specific API with no shared protocol underneath them. Treat the claims below as verified true
-across the three platforms/protocols currently listed in `references/INDEX.md`, and re-check every one
+DNS — the ACME protocol (RFC 8555) is itself a standard, but Vault PKI, AWS ACM, DigiCert, and Sectigo are each a
+vendor-specific API with no shared protocol underneath them. The claims below hold for the platforms checked;
+DigiCert and Sectigo details are partly unverified (see their procedure files). Re-check every one
 of them against a new platform's actual behavior before assuming it still holds (see `AGENTS.md` rule
-4) — several plausible-sounding claims did NOT survive checking all three and are deliberately left
+4) — several plausible-sounding claims did NOT survive checking every platform and are deliberately left
 out below (see each platform's own `procedure.md` "Patterns"/"Known limitations" for specifics):
 
-- **Revocation is treated as permanent by every platform checked so far — none of the three documents
-  an "unrevoke" operation.** A revoked certificate stays revoked; the only remedy observed anywhere in
-  this category is issuing a replacement certificate, not reversing the revocation itself. This is why
-  every platform's procedure gates revocation on explicit operator confirmation.
+- **Revocation is generally permanent; a hold or suspension, where a platform offers one, may be
+  reversible.** No platform documents reversing a revocation made for any other reason, and the
+  remedy is issuing a replacement certificate. Confirm which reasons are reversible in the
+  platform's own `procedure.md`. This is why every platform's procedure gates revocation on
+  explicit operator confirmation.
 - **"Renewal" is not one consistent mechanism across platforms — confirm which pattern a given
   platform actually uses before assuming behavior.** The ACME protocol and Vault's PKI engine have no
   dedicated renewal call at all (renewing is just issuing again); AWS ACM has both an automatic
@@ -41,9 +42,10 @@ out below (see each platform's own `procedure.md` "Patterns"/"Known limitations"
   confirms it either way.
 - **Where a platform generates the private key on the caller's behalf, capturing it at issuance time
   is a one-time opportunity, not something guaranteed retrievable later** — confirmed explicitly for
-  Vault PKI's issue call; check this against any future platform that offers server-side key
+  Vault PKI's issue call; check this against any platform that offers server-side key
   generation rather than assuming AWS ACM's fully-managed-key model (where the caller never handles
-  the private key at all) is how every platform works.
+  the private key at all) is how every platform works. Where a platform offers optional key
+  escrow, one-time capture may not apply.
 
 See `references/INDEX.md` for which platforms/protocols have a procedure, and each platform file for
 how it implements this shape concretely.
@@ -61,8 +63,8 @@ how it implements this shape concretely.
 
 ## Known limitations
 
-- Currently covers the ACME protocol (e.g. Let's Encrypt), HashiCorp Vault's PKI secrets engine, and
-  AWS Certificate Manager — see `references/INDEX.md`. A platform not listed there needs a new
+- Currently covers the ACME protocol (e.g. Let's Encrypt), HashiCorp Vault's PKI secrets engine, AWS
+  Certificate Manager, DigiCert ONE Trust Lifecycle Manager, and Sectigo Certificate Manager — see `references/INDEX.md`. A platform not listed there needs a new
   reference file before this skill can be used for it.
 - Does not cover installing/binding an issued certificate to a consuming application, device, or load
   balancer — that belongs to the consuming system's own skill.
