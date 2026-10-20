@@ -15,7 +15,7 @@ SRV, CAA respectively — the newer record types no vendor here treats as "basic
 | MX | 1035 §3.3.9 | Mail exchange, ordered by `preference` (lower value = more preferred). |
 | NS | 1035 §3.3.11 | Delegates a subdomain to authoritative name servers. |
 | PTR | 1035 §3.3.12 | Reverse-maps an address to a name (in the `in-addr.arpa`/`ip6.arpa` tree). |
-| SOA | 1035 §3.3.13 | Zone authority record — one per zone, holds serial/refresh/retry/expire/minimum-TTL. Every vendor here treats SOA specially (auto-created, restricted, or entirely out of scope) rather than as a record a caller creates freely. |
+| SOA | 1035 §3.3.13 | Zone authority record — one per zone, holds serial/refresh/retry/expire/minimum-TTL. Where a vendor documents it, SOA is auto-created, restricted, or out of scope rather than a record a caller creates freely; where docs are silent, treat it the same way. |
 | TXT | 1035 §3.3.14 | Arbitrary text, commonly used for verification tokens and SPF/DKIM/DMARC. |
 | SRV | 2782 | Service location: priority/weight/port/target. |
 | CAA | 6844 | Constrains which CAs may issue certificates for the name. |
@@ -23,7 +23,7 @@ SRV, CAA respectively — the newer record types no vendor here treats as "basic
 ## Universal concepts every vendor procedure builds on
 
 - **A record set at a given name+type is the unit of change** — but what counts as "the record" is not
-  uniform: most platforms treat one record = one value, while Azure's record *set* explicitly bundles
+  uniform: most platforms treat one record = one value, while Azure's and Akamai's record *sets* (and GoDaddy's type+name groups) explicitly bundle
   multiple values (e.g. two MX hosts) under one name+type. This is why Azure's procedure has an
   ADD_RECORD path with no equivalent elsewhere.
 - **TTL (Time To Live, RFC 1035 §3.2.1)** governs resolver caching duration in seconds. Every vendor here
