@@ -60,41 +60,41 @@ one vendor's behavior from ever touching the shared file.
 
 | Skill | Vendors covered |
 |---|---|
-| `alert-monitor-management` | Datadog, New Relic, LogicMonitor, Paessler PRTG, Centreon, OP5 Monitor, Thruk |
-| `dns-record-management` | Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat Horizon, BlueCat Address Manager, PowerDNS, Akamai Edge DNS, GoDaddy, Micetro |
-| `dns-zone-management` | Route 53, Cloudflare, PowerDNS |
-| `change-management` | ServiceNow, Freshservice, Jira Service Management, BMC Helix ITSM |
-| `software-upgrade-lifecycle` | Cisco IOS-XE, Cisco IOS XR, Arista EOS, Juniper Junos EX, Extreme EXOS, NVIDIA Cumulus Linux, Palo Alto Prisma SD-WAN |
-| `ipam-allocation` | NetBox, Infoblox NIOS, SolarWinds IPAM, Nautobot, Micetro, phpIPAM |
-| `dhcp-scope-management` | Infoblox NIOS, ISC Kea, Microsoft DHCP Server |
-| `cmdb-asset-management` | ServiceNow CMDB, iTop |
-| `wireless-network-management` | Cisco Meraki, HPE Aruba Networking Central, Cisco Catalyst Center |
-| `firewall-management` | Palo Alto PAN-OS/Panorama, Fortinet FortiOS, Cisco ASA, Juniper SRX, Fortinet FortiManager, WatchGuard Firebox, AWS Network Firewall |
-| `waf-management` | _(scaffolded — no vendor coverage yet)_ |
-| `load-balancing` | F5 BIG-IP LTM, Citrix ADC/NetScaler, HAProxy, Cloudflare Load Balancing |
-| `certificate-management` | ACME (e.g. Let's Encrypt), HashiCorp Vault PKI, AWS Certificate Manager, DigiCert ONE Trust Lifecycle Manager, Sectigo Certificate Manager |
-| `vpn-tunnel-management` | strongSwan, Palo Alto PAN-OS, Juniper SRX, Cisco ASA *(VTI tunnel creation only)* |
-| `routing-troubleshooting` | Cisco IOS-XE, Juniper Junos, FRRouting *(diagnostic: BGP session/route troubleshooting)* |
-| `interface-link-troubleshooting` | Cisco IOS-XE, Juniper Junos, Arista EOS *(diagnostic: interface/link troubleshooting)* |
-| `vulnerability-lookup` | NVD (National Vulnerability Database), Cisco PSIRT openVuln API *(diagnostic: CVE/CVSS lookup)* |
-| `casb-policy-management` | _(scaffolded — no vendor coverage yet)_ |
-| `casb-posture-assessment` | _(scaffolded — no vendor coverage yet; diagnostic: CASB risk/compliance posture)_ |
-| `crm-contact-management` | Salesforce |
-| `dcim-asset-management` | NetTerrain (Graphical Networks), NetBox, Nautobot |
-| `notifications` | Slack, Cisco Webex, Microsoft Teams, Twilio, SendGrid, Mattermost |
-| `secret-retrieval` | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault, Delinea Secret Server |
-| `repository-pull-request-management` | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
-| `container-workload-deployment` | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub |
-| `zero-trust-access-policy-management` | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
-| `network-state-collection` | Cisco pyATS / Genie (parse commands, learn features, compare snapshots), IP Fabric and Forward Networks (read and compare platform snapshots) |
-| `network-health-verification` | Cisco pyATS (Health Check, integrated job mode) |
-| `incident-management` | ServiceNow *(incident create, update, assign, hold, resolve, reopen, close)*, PagerDuty *(incident create, acknowledge, reassign, escalate, snooze, merge, resolve, reopen)*, Opsgenie *(incident create, note, resolve, close, reopen, delete)*, Jira Service Management *(incident create, comment, assign, resolve, reopen)*, ManageEngine ServiceDesk Plus *(incident create, edit, assign, note, resolve, close)* |
-| `compute-instance-provisioning` | Amazon EC2 *(launch, start/stop/reboot, resize, snapshot/image, terminate)*; Google Compute Engine *(create, stop/start, suspend/resume, resize, disk snapshot, delete)*; VMware vSphere *(create, power, resize, delete)*; Morpheus *(create, stop/start, resize, snapshot, delete)* |
-| `sdwan-policy-management` | Cisco Catalyst SD-WAN Manager *(centralized policy, original template-policy model)*, Palo Alto Networks Prisma SD-WAN *(stacked path and QoS policy sets, rules, and stacks; bind to sites)* |
-| `config-backup-management` | Prisma SD-WAN *(site snapshot capture, retrieve, and redeploy as YAML)* |
-| `sdwan-site-onboarding` | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)*, Versa Director *(branch device creation from a post-staging template, activation, confirmation)* |
-| `network-access-control-management` | Aruba ClearPass Policy Manager |
-| `automation-job-execution` | AWX *(job template launch, poll, output, cancel)*, Jenkins *(build trigger; queue/state/stop details unverified)*, Azure DevOps *(pipeline run, poll, logs, cancel)*, Rundeck *(job run, poll, output, abort)*, Puppet Enterprise *(orchestrator task/plan run, poll, report, stop)* |
+| [`alert-monitor-management`](skills/alert-monitor-management/) | Datadog, New Relic, LogicMonitor, Paessler PRTG, Centreon, OP5 Monitor, Thruk |
+| [`dns-record-management`](skills/dns-record-management/) | Route 53, Azure DNS, Cloudflare, Infoblox NIOS, BlueCat Horizon, BlueCat Address Manager, PowerDNS, Akamai Edge DNS, GoDaddy, Micetro |
+| [`dns-zone-management`](skills/dns-zone-management/) | Route 53, Cloudflare, PowerDNS |
+| [`change-management`](skills/change-management/) | ServiceNow, Freshservice, Jira Service Management, BMC Helix ITSM |
+| [`software-upgrade-lifecycle`](skills/software-upgrade-lifecycle/) | Cisco IOS-XE, Cisco IOS XR, Arista EOS, Juniper Junos EX, Extreme EXOS, NVIDIA Cumulus Linux, Palo Alto Prisma SD-WAN |
+| [`ipam-allocation`](skills/ipam-allocation/) | NetBox, Infoblox NIOS, SolarWinds IPAM, Nautobot, Micetro, phpIPAM |
+| [`dhcp-scope-management`](skills/dhcp-scope-management/) | Infoblox NIOS, ISC Kea, Microsoft DHCP Server |
+| [`cmdb-asset-management`](skills/cmdb-asset-management/) | ServiceNow CMDB, iTop |
+| [`wireless-network-management`](skills/wireless-network-management/) | Cisco Meraki, HPE Aruba Networking Central, Cisco Catalyst Center |
+| [`firewall-management`](skills/firewall-management/) | Palo Alto PAN-OS/Panorama, Fortinet FortiOS, Cisco ASA, Juniper SRX, Fortinet FortiManager, WatchGuard Firebox, AWS Network Firewall |
+| [`waf-management`](skills/waf-management/) | _(scaffolded — no vendor coverage yet)_ |
+| [`load-balancing`](skills/load-balancing/) | F5 BIG-IP LTM, Citrix ADC/NetScaler, HAProxy, Cloudflare Load Balancing |
+| [`certificate-management`](skills/certificate-management/) | ACME (e.g. Let's Encrypt), HashiCorp Vault PKI, AWS Certificate Manager, DigiCert ONE Trust Lifecycle Manager, Sectigo Certificate Manager |
+| [`vpn-tunnel-management`](skills/vpn-tunnel-management/) | strongSwan, Palo Alto PAN-OS, Juniper SRX, Cisco ASA *(VTI tunnel creation only)* |
+| [`routing-troubleshooting`](skills/routing-troubleshooting/) | Cisco IOS-XE, Juniper Junos, FRRouting *(diagnostic: BGP session/route troubleshooting)* |
+| [`interface-link-troubleshooting`](skills/interface-link-troubleshooting/) | Cisco IOS-XE, Juniper Junos, Arista EOS *(diagnostic: interface/link troubleshooting)* |
+| [`vulnerability-lookup`](skills/vulnerability-lookup/) | NVD (National Vulnerability Database), Cisco PSIRT openVuln API *(diagnostic: CVE/CVSS lookup)* |
+| [`casb-policy-management`](skills/casb-policy-management/) | _(scaffolded — no vendor coverage yet)_ |
+| [`casb-posture-assessment`](skills/casb-posture-assessment/) | _(scaffolded — no vendor coverage yet; diagnostic: CASB risk/compliance posture)_ |
+| [`crm-contact-management`](skills/crm-contact-management/) | Salesforce |
+| [`dcim-asset-management`](skills/dcim-asset-management/) | NetTerrain (Graphical Networks), NetBox, Nautobot |
+| [`notifications`](skills/notifications/) | Slack, Cisco Webex, Microsoft Teams, Twilio, SendGrid, Mattermost |
+| [`secret-retrieval`](skills/secret-retrieval/) | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault, Delinea Secret Server |
+| [`repository-pull-request-management`](skills/repository-pull-request-management/) | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
+| [`container-workload-deployment`](skills/container-workload-deployment/) | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub |
+| [`zero-trust-access-policy-management`](skills/zero-trust-access-policy-management/) | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
+| [`network-state-collection`](skills/network-state-collection/) | Cisco pyATS / Genie (parse commands, learn features, compare snapshots), IP Fabric and Forward Networks (read and compare platform snapshots) |
+| [`network-health-verification`](skills/network-health-verification/) | Cisco pyATS (Health Check, integrated job mode) |
+| [`incident-management`](skills/incident-management/) | ServiceNow *(incident create, update, assign, hold, resolve, reopen, close)*, PagerDuty *(incident create, acknowledge, reassign, escalate, snooze, merge, resolve, reopen)*, Opsgenie *(incident create, note, resolve, close, reopen, delete)*, Jira Service Management *(incident create, comment, assign, resolve, reopen)*, ManageEngine ServiceDesk Plus *(incident create, edit, assign, note, resolve, close)* |
+| [`compute-instance-provisioning`](skills/compute-instance-provisioning/) | Amazon EC2 *(launch, start/stop/reboot, resize, snapshot/image, terminate)*; Google Compute Engine *(create, stop/start, suspend/resume, resize, disk snapshot, delete)*; VMware vSphere *(create, power, resize, delete)*; Morpheus *(create, stop/start, resize, snapshot, delete)* |
+| [`sdwan-policy-management`](skills/sdwan-policy-management/) | Cisco Catalyst SD-WAN Manager *(centralized policy, original template-policy model)*, Palo Alto Networks Prisma SD-WAN *(stacked path and QoS policy sets, rules, and stacks; bind to sites)* |
+| [`config-backup-management`](skills/config-backup-management/) | Prisma SD-WAN *(site snapshot capture, retrieve, and redeploy as YAML)* |
+| [`sdwan-site-onboarding`](skills/sdwan-site-onboarding/) | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)*, Versa Director *(branch device creation from a post-staging template, activation, confirmation)* |
+| [`network-access-control-management`](skills/network-access-control-management/) | Aruba ClearPass Policy Manager |
+| [`automation-job-execution`](skills/automation-job-execution/) | AWX *(job template launch, poll, output, cancel)*, Jenkins *(build trigger; queue/state/stop details unverified)*, Azure DevOps *(pipeline run, poll, logs, cancel)*, Rundeck *(job run, poll, output, abort)*, Puppet Enterprise *(orchestrator task/plan run, poll, report, stop)* |
 
 **123** vendor references across **32** capabilities (3 more are scaffolded with no coverage yet).
 
