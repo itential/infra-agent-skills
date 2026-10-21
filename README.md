@@ -29,15 +29,12 @@ and stable while the reference material underneath grows.
 
 ```
 skills/<capability>/
-  SKILL.md                       # thin, stable router — the shared shape of the capability plus
-                                  # an index pointer. Stays roughly constant size regardless of how
-                                  # many vendors/platforms are added underneath.
-  references/
-    INDEX.md                     # table: vendor/platform -> directory -> scope -> notes
-    <vendor>/
-      procedure.md                # that vendor's full step-by-step — patterns, error handling,
-                                   # tools, verification checklist
-      endpoints.md                 # literal wire-level calls
+├── SKILL.md                  # thin, stable router: shared shape + index pointer
+└── references/
+    ├── INDEX.md              # table: vendor/platform -> directory -> scope -> notes
+    └── <vendor>/
+        ├── procedure.md      # vendor's step-by-step: patterns, errors, verification
+        └── endpoints.md      # literal wire-level calls
 ```
 
 Capability, `name`, and vendor/tool directories are lowercase kebab-case, and a capability is named
