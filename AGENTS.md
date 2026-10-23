@@ -435,6 +435,38 @@ At execution time the agent follows `procedure.md` for sequence, gates, and succ
 resolves each named operation to an available tool through that vendor's `endpoints.md`. If no
 listed binding is available, it reports that instead of improvising a call.
 
+### 15. Skill files speak to the executing agent, never to contributors
+
+Everything under `skills/` is loaded by an agent at execution time, so each sentence must be useful
+to an agent carrying out the task. Text that only makes sense to someone who knows how the file was
+written or reviewed does not belong, whatever its accuracy. This rule covers skills content only:
+`AGENTS.md`, `CONTRIBUTING.md`, the README, and PR descriptions are written for contributors and
+reviewers, and may say so. Remove or rewrite:
+
+- **Research narration:** "in this pass," "retrieved/spot-checked/confirmed during this research,"
+  "not researched here," "sources consulted," how the source was fetched ("LLM-mediated,"
+  "summarizing fetch"), or a failed fetch ("returned a 403," "repeated 404s").
+- **Governance references:** "`AGENTS.md` rule N," "per this repo's convention/sourcing rule,"
+  "flagged per rule 1." The executing agent never sees this file.
+- **Changelog and maintenance instructions:** "found adding vendor X," "`SKILL.md` was corrected,"
+  "re-check when another vendor is added," "future additions," "next candidate."
+- **Placeholders and to-dos:** "to be filled in," "stub pending research," "depth over breadth."
+- **Authoring rationale:** a "why this skill is shaped this way" section that argues for the
+  design. Where rule 2 asks for the shape to be explained, state it in terms of what the executing
+  agent does and does not do (for example, read-only, so no confirmation gates; any write added
+  later needs one).
+
+What stays, and is required: unknowns and assumptions (rule 1), written as facts about the platform
+or its documentation, for example "Not documented: rate limits," "Unverified: field name,"
+"Assumption: path prefix inferred from the sibling endpoint." A one-line source citation (doc title,
+version, retrieval date) is allowed. A correction to shared "universal concepts" (rule 4) is
+recorded in the PR description, and any note under the `INDEX.md` table states the platform fact
+it rests on ("Freshservice has no approval gate and no approve/reject call"), not the history of how
+it was found.
+
+The test: if a sentence would make no sense to an agent that only knows the platform and the task,
+it is addressed to a contributor and comes out.
+
 ## Adding a vendor to an existing capability
 
 The rules above apply unchanged; this is the order of work, pointing at them rather than restating
@@ -628,6 +660,9 @@ Before opening a PR, or before approving one, confirm:
 - [ ] The diff contains nothing outside `skills/` and the root governance/README files, and no
       existing `SKILL.md` was changed beyond rule 5's two reasons (existing vendor content may still
       be corrected).
+- [ ] No contributor-facing wording in any file under `skills/` (rule 15): no research or fetch
+      narration, no `AGENTS.md`/rule references, no changelog or "re-check when a vendor is added"
+      notes, no placeholders or to-dos. Unknowns and assumptions remain, phrased as platform facts.
 - [ ] The skill is thorough and self-contained — no `SKILL.md` outsources its own rationale to
       another skill's file (rule 11). A scope-boundary pointer ("see X for that") stays; a "this
       mirrors X's shape, read it there" or "see X for why this is designed this way" aside does
