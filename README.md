@@ -74,7 +74,7 @@ one vendor's behavior from ever touching the shared file.
 | [`routing-troubleshooting`](skills/routing-troubleshooting/) | Cisco IOS-XE, Juniper Junos, FRRouting *(diagnostic: BGP session/route troubleshooting)* |
 | [`interface-link-troubleshooting`](skills/interface-link-troubleshooting/) | Cisco IOS-XE, Juniper Junos, Arista EOS *(diagnostic: interface/link troubleshooting)* |
 | [`vulnerability-lookup`](skills/vulnerability-lookup/) | NVD (National Vulnerability Database), Cisco PSIRT openVuln API *(diagnostic: CVE/CVSS lookup)* |
-| [`casb-policy-management`](skills/casb-policy-management/) | _(scaffolded — no vendor coverage yet)_ |
+| [`casb-policy-management`](skills/casb-policy-management/) | Cloudflare One CASB *(finding-triggered remediation/webhook policies)* |
 | [`casb-posture-assessment`](skills/casb-posture-assessment/) | _(scaffolded — no vendor coverage yet; diagnostic: CASB risk/compliance posture)_ |
 | [`crm-contact-management`](skills/crm-contact-management/) | Salesforce |
 | [`dcim-asset-management`](skills/dcim-asset-management/) | NetTerrain (Graphical Networks), NetBox, Nautobot |
