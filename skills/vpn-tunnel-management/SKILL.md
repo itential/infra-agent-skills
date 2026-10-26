@@ -1,6 +1,6 @@
 ---
 name: vpn-tunnel-management
-description: Create, read, update, and delete site-to-site VPN tunnel configurations (IPsec/IKE phase 1 and phase 2 parameters, tunnel interfaces) on strongSwan, Palo Alto Networks PAN-OS, or Juniper SRX (Junos OS), and create route-based IPsec VPN tunnels (static or dynamic Virtual Tunnel Interface) on Cisco ASA (create/configure only on ASA; no documented read, update, or delete there). Does not yet cover remote-access VPN profiles or any other platform. Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it. See references/INDEX.md for per-platform scope.
+description: Create, read, update, and delete site-to-site VPN tunnel configurations (IPsec/IKE phase 1 and phase 2 parameters where the platform exposes them, tunnel interfaces) on strongSwan, Palo Alto Networks PAN-OS, Juniper SRX (Junos OS), or Cloudflare WAN (GRE and IPsec tunnel objects), and create route-based IPsec VPN tunnels (static or dynamic Virtual Tunnel Interface) on Cisco ASA (create/configure only on ASA; no documented read, update, or delete there). Does not yet cover remote-access VPN profiles or any other platform. Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it. See references/INDEX.md for per-platform scope.
 argument-hint: "[platform] [action: create_tunnel|read_tunnel|update_tunnel|delete_tunnel; Cisco ASA: create_tunnel only] [tunnel identifier, fields]"
 ---
 
@@ -12,13 +12,14 @@ following that platform's own documented procedure exactly.
 ## When to use this skill
 
 - Creating, reading, updating, or deleting a site-to-site tunnel (IPsec/IKE phase 1 and phase 2
-  parameters, tunnel interface) on a supported platform. On Cisco ASA, only creating a route-based
+  parameters where the platform exposes them, tunnel interface or tunnel object) on a supported
+  platform. On Cisco ASA, only creating a route-based
   VTI tunnel (static or dynamic) is covered. Remote-access VPN profiles are not yet covered by any
   listed platform — see Known limitations.
 
-## Universal concepts (shared VPN vocabulary — verified across strongSwan, PAN-OS, and Juniper SRX)
+## Universal concepts (shared VPN vocabulary — verified across strongSwan, PAN-OS, Juniper SRX, and Cloudflare WAN)
 
-- **The platforms checked (strongSwan, PAN-OS, Juniper SRX) negotiate in two stages**, though the exact labels vary: an IKE-level
+- **The IPsec platforms checked (strongSwan, PAN-OS, Juniper SRX, Cloudflare WAN) negotiate in two stages**, though the exact labels vary: an IKE-level
   exchange that authenticates the peers and establishes a secure channel (phase 1 / an IKE_SA), and
   a second exchange that negotiates the actual IPsec traffic-protection parameters (phase 2 / a
   CHILD_SA). PAN-OS and Juniper's own documentation use "Phase 1"/"Phase 2" terminology directly;
@@ -69,8 +70,9 @@ implements this shape concretely.
 
 ## Known limitations
 
-- Covers strongSwan, Palo Alto Networks PAN-OS, Juniper SRX (Junos OS), and Cisco ASA (VTI creation
-  only) only — see `references/INDEX.md`. A platform not listed there needs a new reference file
+- Covers strongSwan, Palo Alto Networks PAN-OS, Juniper SRX (Junos OS), Cloudflare WAN (GRE and
+  IPsec tunnel objects), and Cisco ASA (VTI creation only) only — see `references/INDEX.md`. A
+  platform not listed there needs a new reference file
   before this skill can be used for it.
 - Remote-access VPN profiles (GlobalProtect, IKEv2/EAP or XAuth-based remote access, etc.) are not
   covered by any platform currently listed — every reference file here is site-to-site only.
