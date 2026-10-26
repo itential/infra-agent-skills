@@ -5,7 +5,7 @@ as an internal or intermediate certificate authority under Vault's own managemen
 authenticated Vault client (a token or other auth method with policy access to the target PKI mount's
 paths) and a PKI secrets engine already enabled and configured with at least one issuer (root or
 intermediate CA) and at least one role are already in place — this procedure does not cover enabling
-the engine or generating its root/intermediate CA material. See `vault-pki-endpoints.md` for the
+the engine; generating CA material and configuring roles is in `vault-pki-ca-configuration-procedure.md`. See `vault-pki-endpoints.md` for the
 literal request paths and fields behind every operation below. Citation: HashiCorp Vault API
 documentation, "PKI Secrets Engine (API)," retrieved 2026-09-17, spot-checked again 2026-09-29
 (https://developer.hashicorp.com/vault/api-docs/secret/pki).
@@ -93,9 +93,9 @@ triggers automatically.
 
 - Covers issuing (Vault-generated key), signing (caller-supplied CSR), reading, and revoking
   certificates against an already-configured PKI mount and role. Does not cover enabling the PKI
-  secrets engine, generating or rotating root/intermediate CA material, configuring roles, or the
-  intermediate-CA cross-signing operations (sign-intermediate, sign-verbatim) the engine also exposes
-  — those are CA-administration tasks distinct from day-to-day certificate issuance covered here.
+  secrets engine or the intermediate-CA cross-signing operations (sign-intermediate, sign-verbatim)
+  the engine also exposes. CA generation and role configuration are in
+  `vault-pki-ca-configuration-procedure.md`.
 - The exact live per-certificate revocation-status check (OCSP) is known to exist on this engine, but
   its precise request/response shape was not independently confirmed in this research pass — treat
   "Vault can serve OCSP responses for this mount" as true, but confirm the literal call shape against
