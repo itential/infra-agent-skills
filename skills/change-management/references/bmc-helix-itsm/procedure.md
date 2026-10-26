@@ -33,7 +33,7 @@ avoid pulling the full record when only a few fields are needed.
 appear to be similar exclusion conditions (`10`/`11`/`12`/`13` in one example, `27000` in another) —
 these are very likely different fields/instances/versions, not a typo, but it means there is no single
 universal status-code table to rely on here; confirm the target instance's actual configured values
-(e.g. via a metadata/schema lookup, not detailed further in this pass) rather than assuming either
+(e.g. via a metadata/schema lookup, which this procedure does not detail) rather than assuming either
 example's codes apply generically.
 
 Confirm success: the response returns a list of matching change requests with the requested `fields`
@@ -83,9 +83,9 @@ itself.
 - Covers Search, Retrieve by ID, and Update (partial) on change requests only — does not cover change
   request creation, approval workflow specifics for BMC Helix ITSM's change management module,
   relationship/CI association, or the platform REST API's generic form-based operations.
-- No documented gate-check/transition-discovery mechanism was found for this API (unlike ServiceNow's
+- No gate-check/transition-discovery mechanism is documented in the sources for this API (unlike ServiceNow's
   explicit "get available states" capability or Jira Service Management's "get customer transitions") —
-  this procedure's own operator-confirmation discipline on terminal status changes is this skill's own
+  this procedure's own operator-confirmation discipline on terminal status changes is its own
   addition, not something the API itself enforces or exposes as a pre-check.
 - Status-code values used in filtering/searching are instance- and field-specific — this procedure
   does not assume a universal table of codes; confirm against the target instance before relying on any
