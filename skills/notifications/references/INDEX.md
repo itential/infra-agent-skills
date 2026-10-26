@@ -6,7 +6,7 @@ the platform is REST/API-driven.
 
 | Platform | Directory | Scope | Notes |
 |---|---|---|---|
-| Slack | `slack/` | Post a new message or thread reply via `chat.postMessage` (create-only) | Channel/group/DM addressed by ID in the same call; `chat:write` scope required |
+| Slack | `slack/` | Post a new message or thread reply via `chat.postMessage` (create-only) | Channel/group/DM addressed by ID in the same call; `chat:write` scope required; operator confirmation before each send |
 | Cisco Webex | `cisco-webex/` | Post a new message or threaded reply via the Messages API's create operation (create-only) | Room or direct-person addressed by ID/email in the same call; one file attachment per message max |
 | Microsoft Teams | `microsoft-teams/` | Post a message via a Workflows (Power Automate) webhook (primary, current Microsoft-recommended path) or via the Graph API `chatMessage` create operation (alternate path, needs an Entra app registration) | Destination is fixed at webhook-configuration time for the primary path — not a runtime parameter, unlike Slack/Webex; legacy direct Office 365 Connector webhooks are documented as nearing deprecation |
 | Twilio | `twilio/` | Send one SMS/MMS to a phone number via the Programmable Messaging create-message call (create-only) | Recipient-only (E.164 number); no channel or thread. Plain text, optional media; 201 means queued, not delivered; follow status to delivered/undelivered/failed. No `Retry-After` documented for 429 (error 20429) |
