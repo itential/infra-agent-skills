@@ -11,7 +11,7 @@ and IP-group objects that a rule references are read-only inputs here; this proc
 create or edit them.
 
 Sources: Zscaler's zscaler-sdk-go package for ZIA firewall filtering rules (github.com/zscaler),
-retrieved 2026-10-26. Behavior the SDK does not show is marked *(unverified)*.
+retrieved 2026-10-26.
 
 ## Common Sequences
 
@@ -33,7 +33,7 @@ used to find that id by listing, so resolve the name to an id before any change.
 List returns the tenant's rules in order, with optional filtering and paging (the SDK caps a page
 at 5000). Read returns one rule by id. A rule may be flagged as predefined or as the default rule;
 whether ZIA restricts changing or deleting those is unverified.
-Caution (not from the vendor): raise a flagged rule with the operator before touching it.
+Not documented: whether ZIA blocks editing or deleting those flagged rules; read the flags before changing a rule and report them.
 
 ### Create a rule
 
@@ -48,7 +48,7 @@ reuse its exact strings.
 Order determines which rule matches first, so read the current list and choose the position
 explicitly. It is unverified what ZIA does when order is omitted, so do not rely on a default.
 
-**Stop and confirm with the operator before proceeding.** Success is a returned rule record with an
+Success is a returned rule record with an
 assigned id, confirmed by reading the rule back. The rule is stored but not yet enforced: see
 "Activate configuration". If a create call fails ambiguously, list rules and check whether it
 landed before retrying.
@@ -58,13 +58,13 @@ landed before retrying.
 The update call takes the complete rule definition for the id. It is unverified whether fields left out
 are kept or cleared; send the full intended definition, starting from a fresh read of the rule.
 
-**Stop and confirm with the operator before proceeding.** A changed action, scope or order alters
+A changed action, scope or order alters
 which traffic is allowed or blocked once activated. Success is the returned record, confirmed by
 reading the rule back.
 
 ### Delete a rule
 
-**Stop and confirm with the operator before proceeding.** Deletion removes the rule's traffic
+Deletion removes the rule's traffic
 handling and changes which later rule matches. Success is a successful delete status; read the rule
 or list rules to confirm it is gone. Deletion is also staged until activation.
 
@@ -72,12 +72,13 @@ or list rules to confirm it is gone. Deletion is also staged until activation.
 
 ZIA saves each change to a staged configuration and applies it to live enforcement only when the
 tenant configuration is activated; saving and activating are separate calls. Activation is
-tenant-wide, not per rule, so it also publishes any other pending changes, including those made by
-other administrators.
+tenant-wide, not per rule, so it applies the tenant's whole pending configuration.
+Unverified: whether it also publishes other administrators' saved-but-unactivated edits; assume it does.
 
-**Stop and confirm with the operator before proceeding**, naming that scope. Zscaler documents
-that activation requests are queued and do not override concurrent edits by other administrators,
-and advises activating once after a batch of changes *(Zscaler API getting-started guidance; unverified)*.
+**Unless the operator's standing instructions pre-authorize it, stop and confirm with the operator
+before activating**, naming that scope (all pending tenant changes). Unverified: activation requests
+are queued and do not override concurrent edits by other administrators; activating once after a
+batch of changes is the expected pattern.
 An edit-lock conflict reply (exact text in `endpoints.md`) means another
 administrator's session holds it: wait a few seconds and retry. A failed activation leaves the
 saved rule change in place.
@@ -122,6 +123,6 @@ results.
 ## Verification checklist
 
 - [ ] Rule id, action, state, scope and order match the approved request, read back after the write
-- [ ] Every create, update, delete and activation had operator confirmation
+- [ ] Activation was confirmed with the operator or pre-authorized by standing instructions
 - [ ] Activation scope (all pending tenant changes) was stated to the operator
 - [ ] Rule write result and activation status reported separately; unresolved status left unresolved
