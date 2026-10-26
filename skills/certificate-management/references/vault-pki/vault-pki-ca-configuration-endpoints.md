@@ -11,7 +11,7 @@ namespaces are used (the namespace header comes from Vault's general HTTP API, n
 | List issuers | `LIST /{mount}/issuers` | No token needed. `data.keys` (IDs), `data.key_info` (ID to `issuer_name`) |
 | Read issuer | `GET /{mount}/issuer/{issuer_ref}` | `issuer_ref` is an ID, a name, or `default`. Returns `certificate`, `ca_chain`, `issuer_id`, `issuer_name`, `key_id`, `usage`, `leaf_not_after_behavior`, `manual_chain`; `warnings` notes a previously exported key |
 | Read default issuer | `GET /{mount}/config/issuers` | `default`, `default_follows_latest_issuer` |
-| Generate root | `POST /{mount}/issuers/generate/root/{type}` | `type` is `internal` (key never returned), `exported` (key returned once), `existing` (reuse `key_ref`) or `kms`. Body: `common_name` (required), `issuer_name`, `key_name`, `ttl` or `not_after`, `key_type` (`rsa` default, `ec`, `ed25519`, `ml-dsa`), `key_bits`, `max_path_length`, `permitted_dns_domains` and sibling name-constraint fields, subject fields. Result: `certificate`, `issuing_ca`, `serial_number`, `issuer_id`, `issuer_name`, `key_id`, `key_name`; `private_key` only for `exported`. The legacy path `/{mount}/root/generate/{type}` does the same |
+| Generate root | `POST /{mount}/issuers/generate/root/{type}` | `type` is `internal` (key never returned), `exported` (key returned once), `existing` (reuse `key_ref`) or `kms`. Body: `common_name` (required), `issuer_name`, `key_name`, `ttl` or `not_after`, `key_type` (`rsa` default, `ec`, `ed25519`; Unverified: `ml-dsa` and its Vault version), `key_bits`, `max_path_length`, `permitted_dns_domains` and sibling name-constraint fields, subject fields. Result: `certificate`, `issuing_ca`, `serial_number`, `issuer_id`, `issuer_name`, `key_id`, `key_name`; `private_key` only for `exported`. The legacy path `/{mount}/root/generate/{type}` does the same |
 | Generate intermediate CSR | `POST /{mount}/issuers/generate/intermediate/{type}` | Same `type` values and similar body (`common_name` required). Result: `csr`, plus `private_key` and `private_key_type` for `exported`. Creates no issuer. Legacy: `/{mount}/intermediate/generate/{type}` |
 | Import signed intermediate | `POST /{mount}/intermediate/set-signed` | Body: `certificate` (PEM, chain concatenated). Result: `imported_issuers`, `imported_keys`, `mapping`, `existing_issuers`, `existing_keys` |
 | Set default issuer | `POST /{mount}/config/issuers` | Body: `default` (name or ID), optional `default_follows_latest_issuer` (bool, default false). Result: `data.default` |
@@ -33,7 +33,7 @@ operator's approved policy, not from these defaults.
 
 Documented outcomes: Generate root, intermediate CSR, set default issuer and role reads return a
 JSON body; the role-write response shape and status (200 versus 204) are not stated on the docs
-page, so accept either. Unverified here: exact error strings for rejected role fields, so
+page, so accept either. Unverified: exact error strings for rejected role fields, so
 preserve the returned `errors` array verbatim. Standard Vault HTTP statuses apply: 400 invalid
 request, 403 token or policy, 404 absent or hidden path, 405 wrong method, 429 request limiting,
 500/502/503 server-side.

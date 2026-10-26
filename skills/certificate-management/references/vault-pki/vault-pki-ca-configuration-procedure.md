@@ -15,8 +15,9 @@ revoke are in `vault-pki-procedure.md`. Source: HashiCorp Vault PKI secrets engi
 - **Stand up a self-signed root and a role:** Read issuers, Generate root, Read issuer, Set default
   issuer (only if it is meant to be the default), Create or replace role, Read role.
 - **Stand up an intermediate:** Read issuers, Generate intermediate CSR, (CSR is signed by an
-  external CA outside this procedure), Import signed intermediate, Read issuer, Create or replace
-  role, Read role.
+  external CA outside this procedure), Import signed intermediate, Read issuer, Set default issuer
+  (only if it is meant to be the default), Create or replace role, Read role.
+- **Retire a role:** Read role, Delete role, Read roles.
 - **Adjust an existing role:** Read role, Patch role, Read role.
 
 ## Read issuers
@@ -117,15 +118,15 @@ issue/sign/revoke procedure if needed. Success: the role no longer appears in th
 
 ## Known limitations
 
-- Covers CA generation (self-signed root, intermediate CSR and import) and role create, read,
-  patch, replace and delete, for the default issuer setting. Does not cover enabling or disabling the
+- Covers CA generation (self-signed root, intermediate CSR and import), setting the default issuer,
+  and role create, read, patch, replace and delete. Does not cover enabling or disabling the
   mount, importing a CA together with its private key, key or issuer deletion, cross-signing, managed
   (KMS-backed) keys, root rotation shortcuts, URL/CRL/OCSP configuration, tidy settings, or Enterprise
   external-policy features.
 - Unverified: whether the patch operation requires a specific content type. The docs describe the
   patch format only by reference to the KV v2 engine's format. Assumption: it takes the merge-patch
   content type; if rejected, fall back to reading and replacing the full role.
-- Not documented here: rate limits and quotas. On HTTP 429, back off and honor any `Retry-After`.
+- Not documented: rate limits and quotas. On HTTP 429, back off and honor any `Retry-After`.
 - Irreversible: a root's internal private key cannot be recovered, and an exported one cannot be
   un-exported.
 

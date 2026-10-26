@@ -1,6 +1,6 @@
 ---
 name: certificate-management
-description: Issue, renew, read, and revoke TLS/SSL certificates on a supported certificate-management platform or protocol — currently the ACME protocol (e.g. Let's Encrypt), HashiCorp Vault's PKI secrets engine, AWS Certificate Manager, DigiCert ONE Trust Lifecycle Manager, and Sectigo Certificate Manager. Use when an agent needs to manage certificate lifecycle itself, distinct from installing/binding an already-issued certificate to a specific application, device, or load-balancer VIP (that binding step belongs to the consuming platform's own skill, e.g. load-balancing). Assumes an authenticated client/credential for the target platform's API is already available; this skill does not provision or authenticate it. See references/INDEX.md for the full vendor/protocol list.
+description: Issue, renew, read, and revoke TLS/SSL certificates, and where a platform documents it set up the certificate authority and issuance roles, on a supported certificate-management platform or protocol — currently the ACME protocol (e.g. Let's Encrypt), HashiCorp Vault's PKI secrets engine, AWS Certificate Manager, DigiCert ONE Trust Lifecycle Manager, and Sectigo Certificate Manager. Use when an agent needs to manage certificate lifecycle itself, distinct from installing/binding an already-issued certificate to a specific application, device, or load-balancer VIP (that binding step belongs to the consuming platform's own skill, e.g. load-balancing). Assumes an authenticated client/credential for the target platform's API is already available; this skill does not provision or authenticate it. See references/INDEX.md for the full vendor/protocol list.
 argument-hint: "[platform] [action: issue|renew|read|revoke] [certificate identifier/CSR, fields]"
 ---
 
@@ -14,6 +14,8 @@ documented procedure exactly.
 
 - Issuing, renewing, reading (expiry, SANs, chain), or revoking a certificate on a supported
   platform/protocol.
+- Where a platform's reference documents it (Vault PKI today): creating a certificate authority
+  and defining or changing issuance roles.
 - Not for installing or binding an already-issued certificate to a specific consuming system — e.g.
   binding a certificate to a load-balancer VIP is `load-balancing`'s concern, not this skill's; this
   skill's job ends at producing/managing the certificate itself.

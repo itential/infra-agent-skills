@@ -97,7 +97,7 @@ triggers automatically.
   the engine also exposes. CA generation and role configuration are in
   `vault-pki-ca-configuration-procedure.md`.
 - The exact live per-certificate revocation-status check (OCSP) is known to exist on this engine, but
-  its precise request/response shape was not independently confirmed in this research pass — treat
+  its precise request/response shape is not confirmed — treat
   "Vault can serve OCSP responses for this mount" as true, but confirm the literal call shape against
   Vault's own documentation before wiring an OCSP check into automation.
 - Default lifetimes, default key type/size, and other role-level defaults are configured per role
