@@ -92,8 +92,9 @@ one vendor's behavior from ever touching the shared file.
 | [`sdwan-site-onboarding`](skills/sdwan-site-onboarding/) | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)*, Versa Director *(branch device creation from a post-staging template, activation, confirmation)* |
 | [`network-access-control-management`](skills/network-access-control-management/) | Aruba ClearPass Policy Manager |
 | [`automation-job-execution`](skills/automation-job-execution/) | AWX *(job template launch, poll, output, cancel)*, Jenkins *(build trigger; queue/state/stop details unverified)*, Azure DevOps *(pipeline run, poll, logs, cancel)*, Rundeck *(job run, poll, output, abort)*, Puppet Enterprise *(orchestrator task/plan run, poll, report, stop)* |
+| [`cloud-network-inspection`](skills/cloud-network-inspection/) | AWS Network MCP server, Azure CLI *(read-only: cloud network configuration, effective rules/routes, flow-log and backend-health evidence)* |
 
-**123** vendor references across **32** capabilities (3 more are scaffolded with no coverage yet).
+**125** vendor references across **33** capabilities (3 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
