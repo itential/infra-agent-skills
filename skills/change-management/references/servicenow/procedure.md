@@ -21,7 +21,7 @@ report success.
 
 **Submit a new change that requires approval, then close once approved:**
 1. Create — with the given fields.
-2. Approve / Reject — submit the decision. If rejected, stop here and report REJECTED; do not attempt
+2. Approve / Reject — submit the decision (requires confirmation per that section). If rejected, stop here and report REJECTED; do not attempt
    Check Gates or Close on a rejected change.
 3. Check Gates — against the intended closed target state.
 4. Close.
@@ -80,15 +80,14 @@ fields.
 ### Approve / Reject
 
 **Stop and confirm with the operator before proceeding** — an approval or rejection changes the
-change's workflow state and is not reversed by this skill. Then submit the approval decision
-(approved or rejected) for the change record.
+change's workflow state. Then submit the approval decision (approved or rejected) for the change
+record.
 
 - A comment is required when rejecting — submit no rejection without a reason.
 - A denied-authority error is a documented, specific failure mode distinct from a generic bad request —
   see `endpoints.md`. Report it as an authorization issue, not a retryable request error.
-- **Reject is a confirmation point** — it has real process consequences (default behavior on reject is
-  to cancel all future tasks, unless the change overrides this) and should not be issued without
-  explicit instruction to reject specifically.
+- **Reject needs explicit instruction to reject specifically** — it has real process consequences
+  (default behavior on reject is to cancel all future tasks, unless the change overrides this).
 
 ## Patterns
 
@@ -124,6 +123,7 @@ change's workflow state and is not reversed by this skill. Then submit the appro
       before any Close or state-changing Update
 - [ ] The record was re-read immediately before Close, not relying on an earlier read's state
 - [ ] Close was only performed after explicit operator confirmation
+- [ ] Operator confirmed before any approve/reject decision and before any state-changing update
 - [ ] A rejection included a comment with the reason, and was only issued on explicit instruction to
       reject
 - [ ] Final report includes the change `number`/`sys_id` and pre/post state and approval values
