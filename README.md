@@ -93,7 +93,7 @@ one vendor's behavior from ever touching the shared file.
 | [`network-access-control-management`](skills/network-access-control-management/) | Aruba ClearPass Policy Manager; Cisco ISE *(read-only: session state)* |
 | [`automation-job-execution`](skills/automation-job-execution/) | AWX *(job template launch, poll, output, cancel)*, Jenkins *(build trigger; queue/state/stop details unverified)*, Azure DevOps *(pipeline run, poll, logs, cancel)*, Rundeck *(job run, poll, output, abort)*, Puppet Enterprise *(orchestrator task/plan run, poll, report, stop)* |
 
-**124** vendor references across **32** capabilities (3 more are scaffolded with no coverage yet).
+**123** vendor references across **32** capabilities (3 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
