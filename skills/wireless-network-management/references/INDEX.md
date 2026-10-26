@@ -11,5 +11,4 @@ One row per supported wireless-management platform. Each platform directory hold
 
 **Cross-vendor asymmetry:** Meraki and Catalyst Center both support
 provisioning; Aruba currently doesn't (publicly). This isn't a gap in this skill's coverage — it's an
-accurate reflection of what each vendor's public API actually exposes today. Re-check Aruba's docs
-periodically; if a write endpoint is published later, this is the file to update.
+accurate reflection of what each vendor's public API actually exposes today.
