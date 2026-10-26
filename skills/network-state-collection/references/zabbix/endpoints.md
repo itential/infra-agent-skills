@@ -24,6 +24,6 @@ The `item.get` parameter `hostids` and the `host.get` select parameters `selectH
 | Interface `errors_from` | Time the interface became unavailable (Assumption: Unix time; the format is not documented) |
 | Item `lastclock` | Last update time, shown only within the max history display period (default 24 hours) |
 
-Item `status`: the reference describes 0 as enabled and 1 as disabled in general terms. Unverified: confirm the exact values for the deployed version.
+Item `status`: the reference describes 0 as enabled and 1 as disabled in general terms. Not confirmed from the item object reference: 0 enabled, 1 disabled.
 
-Do not pass the full-field selector (`"extend"`) for interfaces, items, or hosts. The interface `details` object (SNMP `community`, `authpassphrase`, `privpassphrase`), the item fields `password`, `privatekey`, `username`, `snmpv3_authpassphrase` and `snmpv3_privpassphrase`, and the host field `tls_psk` are documented as part of those objects.
+The full-field selector (`"extend"`) returns credential fields for interfaces, items, and hosts, so request named fields instead. The interface `details` object (SNMP `community`, `authpassphrase`, `privpassphrase`), the item fields `password`, `privatekey`, `username`, `snmpv3_authpassphrase` and `snmpv3_privpassphrase`, and the host field `tls_psk` are documented as part of those objects.

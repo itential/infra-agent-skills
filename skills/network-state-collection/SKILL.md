@@ -5,7 +5,7 @@ description: Capture structured network state before and after a change, or gath
 
 # Network State Collection
 
-Parse command output, learn feature state, query platform snapshots, and compare saved snapshots to produce evidence of network state.
+Parse command output, learn feature state, query platform state or snapshots, and compare saved snapshots to produce evidence of network state.
 
 ## When to use this skill
 

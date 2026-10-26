@@ -10,4 +10,4 @@
 The platform reference contains its source citations, execution sequence, tools, and verification.
 New platforms require their own procedure and a check of the router's shared claims.
 
-Zabbix, Auvik, Arista CloudVision, and Cisco ACI APIC read current or time-bounded state and keep no snapshot or diff. To compare, save the first result and repeat the same read with the same filters and time bounds.
+Platforms that read current or time-bounded state keep no snapshot or diff. To compare, save the first result and repeat the same read with the same filters and time bounds.
