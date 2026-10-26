@@ -1,8 +1,8 @@
 # Endpoint Wiring — Zscaler ZIA Cloud Firewall Filtering Rules
 
 Source: zscaler-sdk-go, ZIA firewall filtering rules package (github.com/zscaler/zscaler-sdk-go),
-retrieved 2026-10-26. Items marked *(unverified)* are not visible in the SDK and have no
-help-portal page behind them.
+retrieved 2026-10-26. This SDK is the only source for the calls below, not the ZIA API reference;
+items marked *(unverified)* are not confirmed by it.
 
 ## Base host and authentication
 
@@ -33,6 +33,12 @@ Success: the rule object with its `id` (create, read, update); a success status 
 (delete) *(unverified)*. Error bodies are not documented; report them as
 returned.
 
+## Referenced objects
+
+Reading IP groups, services, locations, departments, groups, users, devices, time windows and
+labels uses a separate call per object type. Unverified: the routes for these are not captured
+here; consult the ZIA API reference for each object type before binding.
+
 ## Activation
 
 | Capability | Call |
@@ -41,4 +47,4 @@ returned.
 | Activate configuration | `POST /zia/api/v1/status/activate` |
 
 Known error: HTTP 409 with name `EDIT_LOCK_NOT_AVAILABLE` means another administrator's edit holds
-the lock; wait a few seconds and retry *(Zscaler API getting-started guidance; unverified)*.
+the lock; wait a few seconds and retry *(Zscaler API getting-started guidance; unverified)*. The procedure refers to this condition as the edit-lock conflict.
