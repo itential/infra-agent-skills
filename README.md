@@ -91,9 +91,10 @@ one vendor's behavior from ever touching the shared file.
 | [`config-backup-management`](skills/config-backup-management/) | Prisma SD-WAN *(site snapshot capture, retrieve, and redeploy as YAML)* |
 | [`sdwan-site-onboarding`](skills/sdwan-site-onboarding/) | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)*, Versa Director *(branch device creation from a post-staging template, activation, confirmation)* |
 | [`network-access-control-management`](skills/network-access-control-management/) | Aruba ClearPass Policy Manager |
+| [`infrastructure-plan-execution`](skills/infrastructure-plan-execution/) | HashiCorp Terraform CLI *(init, validate, plan, apply a saved plan, destroy plan, state and output reads, import)* |
 | [`automation-job-execution`](skills/automation-job-execution/) | AWX *(job template launch, poll, output, cancel)*, Jenkins *(build trigger; queue/state/stop details unverified)*, Azure DevOps *(pipeline run, poll, logs, cancel)*, Rundeck *(job run, poll, output, abort)*, Puppet Enterprise *(orchestrator task/plan run, poll, report, stop)* |
 
-**123** vendor references across **32** capabilities (3 more are scaffolded with no coverage yet).
+**124** vendor references across **33** capabilities (3 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
