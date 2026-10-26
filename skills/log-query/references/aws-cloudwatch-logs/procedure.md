@@ -8,7 +8,7 @@ Sources: Amazon CloudWatch Logs API Reference, StartQuery and GetQueryResults (r
 
 ## Start query
 
-Submit the caller's Logs Insights query with start and end times (epoch seconds, both inclusive), the log groups to search, and optionally a maximum result count. Name log groups in exactly one way (a single name, a list of names, or identifiers) unless the query text itself selects sources. Up to 50 log groups can be named. A monitoring account can query linked source accounts using ARNs. Up to 100 queries can run concurrently per region, shared with scheduled queries. Queries are billed by the service; the amount is not stated in the sources read.
+Submit the caller's Logs Insights query with start and end times (epoch seconds, both inclusive), the log groups to search, and optionally a maximum result count. Name log groups in exactly one way (a single name, a list of names, or identifiers) unless the query text itself selects sources. Up to 50 log groups can be named. A monitoring account can query linked source accounts using ARNs. Up to 100 queries can run concurrently per region, shared with scheduled queries. Queries are billed by the service; the amount is not documented here, so keep the time range and log group set as narrow as the request allows and, for a very wide range, confirm with the operator first.
 - Success: a query identifier. It does not mean the query succeeded.
 - Invalid parameter or malformed query: fix and resubmit. Missing resource: check names and access. Limit exceeded: wait for running queries. Service unavailable: the submission is unverified; retry after a pause and back off on throttling, honoring any `Retry-After` header.
 
@@ -26,7 +26,7 @@ When a continuation token is returned, request the next page with it. A page hol
 
 - Results hold only the requested fields plus a record pointer that can retrieve the full record.
 - Statistics report records scanned and matched, and bytes scanned; they describe the full run, not the returned page.
-- Not documented in the sources read: API-level request rate limits. Back off on throttling errors.
+- Not documented: API-level request rate limits. Back off on throttling errors.
 
 ## Known limitations
 

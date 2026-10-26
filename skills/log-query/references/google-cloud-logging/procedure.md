@@ -24,7 +24,7 @@ Repeat the same request with the previous token and everything else unchanged. A
 
 - Searches over a parent can span storage regions. If a region is unavailable, searching only log views that exclude it is documented; the result then has a coverage gap that must be reported.
 - Authorization needs an OAuth read scope and an IAM permission to list entries (or to access the view).
-- Not documented in the sources read: quotas and rate limits. On HTTP 429 or a quota error, back off and honor any `Retry-After` header.
+- Not documented: quotas and rate limits. On HTTP 429 or a quota error, back off and honor any `Retry-After` header.
 
 ## Known limitations
 

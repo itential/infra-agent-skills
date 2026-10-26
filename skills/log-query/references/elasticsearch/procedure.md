@@ -26,7 +26,7 @@ Check the timed-out flag, the failed-shard count and failure details, the early-
 
 - Hit total and returned documents answer different questions; report both.
 - Reading past the result window needs the documented sorted-cursor approach with a point in time. Not covered here: consult the platform's pagination guidance and do not invent a page cursor.
-- Not documented in the sources read: rate limits for this endpoint. On HTTP 429, back off and honor any `Retry-After` header.
+- Not documented: rate limits for this endpoint. On HTTP 429, back off and honor any `Retry-After` header.
 
 ## Known limitations
 

@@ -21,7 +21,7 @@ Repeat the same search with the cursor from the previous response, leaving all o
 
 - The old timezone and time-offset options are deprecated; use explicit timestamps or date math.
 - Use the API host for the account's own Datadog site; a key from one site does not work against another.
-- Not documented in the sources read: the default and maximum page size, and the rate-limit values. Treat them as unknown and rely on the status and 429 handling above.
+- Not documented: the default and maximum page size, and the rate-limit values. Treat them as unknown and rely on the status and 429 handling above.
 
 ## Known limitations
 

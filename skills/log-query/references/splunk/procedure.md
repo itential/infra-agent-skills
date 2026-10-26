@@ -9,7 +9,7 @@ Sources: Splunk Enterprise REST API Reference 10.2, Search endpoint descriptions
 
 ## Prerequisites
 
-The platform's management REST interface must be reachable and the account must be allowed to search the target indexes. Splunk Cloud needs REST access enabled through a support request, and free trial accounts cannot use it. Assumption: the search is a retrieval search; Splunk does not label searches as read-only, so inspect the supplied search for commands that write data (for example into a lookup or index) and stop and confirm with the operator before submitting one that does.
+The platform's management REST interface must be reachable and the account must be allowed to search the target indexes. Splunk Cloud needs REST access enabled through a support request, and free trial accounts cannot use it. A search can include commands that write data (for example into a lookup or index). Unverified: a documented read-only search flag. If the supplied search contains a writing command, stop and confirm with the operator before submitting it.
 
 ## Submit search job
 
@@ -19,7 +19,7 @@ Create a job from the caller's search text with explicit earliest and latest tim
 
 ## Poll job state
 
-Read the job's status until it reports done. Its dispatch state moves through queued, parsing, running, finalizing and ends at done or failed; a paused state also exists. Unverified: the full list of dispatch values (the sources read name queued, parsing, running, paused, finalizing, done, failed); report any other value verbatim and treat it as not complete.
+Read the job's status until it reports done. Its dispatch state moves through queued, parsing, running, finalizing and ends at done or failed; a paused state also exists. Unverified: the full list of dispatch values (the documentation names queued, parsing, running, paused, finalizing, done, failed); report any other value verbatim and treat it as not complete.
 - Done flag set and no failure flag: complete.
 - Failure or finalized-early flags: report the job as failed or truncated, with its messages.
 - Still queued, running, or finalizing: not complete; poll again after a pause.
@@ -33,8 +33,8 @@ Fetch results for the finished job using a page size and a zero-based offset, re
 ## Patterns
 
 - A job identifier proves only that submission worked; completion is a separate check.
-- Version 1 search endpoints for parsing, results, and export are off by default from Splunk 9.0.1; use the version 2 forms listed in the endpoints file and do not re-enable the old ones as a fallback.
-- Not documented in the sources read: search quotas and rate limits. On HTTP 429 or a busy-search error, back off and honor any `Retry-After` header.
+- Version 1 search endpoints for parsing, results, and export are off by default from Splunk 9.0.1; the version 2 forms are the ones listed in the endpoints file.
+- Not documented: search quotas and rate limits. On HTTP 429 or a busy-search error, back off and honor any `Retry-After` header.
 
 ## Known limitations
 

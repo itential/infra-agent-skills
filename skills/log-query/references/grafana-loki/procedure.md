@@ -4,11 +4,11 @@ Sources: Grafana Loki documentation, HTTP API reference (latest), retrieved 2026
 
 ## Common Sequences
 
-- **Query logs:** List labels → List label values → Run stream query.
+- **Query logs:** List labels and values → Run stream query.
 
 ## List labels and values
 
-Read the label names and then the values of a label for the target time window, optionally narrowed by a stream selector. Use real labels to build the selector for the query. A failed label read is a coverage gap: do not guess labels from dashboard titles.
+Read the label names and then the values of a label for the target time window, optionally narrowed by a stream selector. Use real labels to build the selector for the query. A failed label read is a coverage gap in the label set.
 
 ## Run stream query
 
@@ -21,7 +21,7 @@ Send the caller's LogQL log query with a start, end, entry limit, and direction 
 ## Patterns
 
 - The entry limit applies per query across streams, so a full limit means the result is likely truncated; narrow the window or selector instead of raising limits blindly.
-- Not documented in the sources read: server-side maximum entries, authentication scheme, and rate limits. Treat a lower returned count than requested with a full-window query as the only completeness signal.
+- Not documented: server-side maximum entries, authentication scheme, and rate limits. Treat a lower returned count than requested with a full-window query as the only completeness signal.
 
 ## Known limitations
 

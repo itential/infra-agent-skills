@@ -2,7 +2,7 @@
 
 Sources: Grafana Loki documentation, HTTP API reference (latest), retrieved 2026-10-26.
 
-Base address, credentials, and TLS come from the existing client. Authentication is not described in the sections read.
+Base address, credentials, and TLS come from the existing client. Not documented: authentication.
 
 | Operation | Method and path | Notes |
 |---|---|---|
