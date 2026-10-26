@@ -55,8 +55,8 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
    non-functional if omitted.
 7. **Stop and confirm with the operator before submitting create, update, or delete** —
    each changes the tenant's saved URL Filtering configuration, and a change to a rule's order can
-   change which rule matches first without changing either rule's other fields. A saved change is not yet enforced; it
-   goes live only at the activation step below.
+   change which rule matches first without changing either rule's other fields. Unverified: a saved change is not enforced
+   until the activation step below; assume it is not, and do not report it as live before activation.
 8. **Submit the call** — create, update against the rule's `id`, or delete against the rule's `id`,
    per `endpoints.md`.
 9. **Confirm the saved outcome.** A create/update returning the rule object (with a populated `id` for
@@ -75,9 +75,10 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
     Zscaler recommends activating once after a group of changes.
 12. **Activate** (operation: Activate Configuration), then read the activation status again. Report the
     returned status value verbatim. Unverified: the set of status values. A status showing the
-    configuration active is the success signal; report ACTIVATED. A status showing the activation
-    is queued or pending means it has not been pushed yet: report ACTIVATION_QUEUED; the status
-    read is the available check on progress.
+    configuration active is the success signal; report it as active. A status showing the activation
+    is queued or pending means it has not been pushed yet; report it as queued and use the status
+    read to check progress. The labels active and queued are this procedure's own report words, not
+    Zscaler status values.
 13. **Handle failures verbatim.** On an edit-lock conflict (see `endpoints.md`, "Activate Configuration"),
     Zscaler advises waiting a few seconds and retrying; the retry count is not documented, so report
     the conflict if retries keep failing. For any other non-2xx result, report FAILED with the actual
@@ -144,4 +145,4 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
       of the four conflicting fields
 - [ ] Operator confirmed before create, update, or delete, and again before activation
 - [ ] Saved outcome confirmed via the response body (create/update) or success status (delete), not assumed
-- [ ] Activation status read before and after activating; reported ACTIVATED only once active, otherwise ACTIVATION_QUEUED
+- [ ] Activation status read before and after activating; reported as active only once the status shows it, otherwise as queued
