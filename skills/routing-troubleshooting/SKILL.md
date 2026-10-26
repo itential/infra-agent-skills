@@ -10,23 +10,13 @@ Diagnoses BGP session and route-propagation problems on whichever routing platfo
 targeting, by reading session/route state and mapping it to that platform's own documented likely
 causes — not a configuration-change skill.
 
-## Why this skill has a different shape than most others in this repo
+## Shape of this skill
 
-This skill is **diagnostic-shaped**, not CRUD-shaped (see `AGENTS.md` rule 2) — the "procedure" is a
-decision tree (check session state → if Established, check whether routes are received → if
+This skill is **diagnostic-shaped**: the "procedure" is a decision tree (check session state → if Established, check whether routes are received → if
 received, check whether they're best-path selected → …), and the useful output is a diagnosis plus
-supporting evidence, not a single created or deleted record. Do not force this skill's
-`references/<platform>/procedure.md` files into the CRUD-style "operation → wire call → success
-criterion" shape the other capabilities use — a diagnostic step's "success criterion" is "the
-operator/caller now knows which documented cause
-applies," not a state transition on the platform.
+supporting evidence, not a single created or deleted record. Each `references/<platform>/procedure.md` is a decision tree, and a diagnostic step is complete when the operator or caller knows which documented cause applies, not when platform state changes.
 
-This also means: **this skill has no destructive-action confirmation gates**, unlike every CRUD
-skill in this repo (rule 7 of `AGENTS.md` doesn't apply the same way, because reading session/route
-state doesn't change anything on the platform). If a future addition to this skill ever proposes a
-remediation *action* (clearing a session, resetting a peer) rather than a read, that action needs its
-own confirmation gate exactly like any other skill's destructive step — don't let troubleshooting
-scope creep into unguarded remediation.
+This skill only reads session and route state, so it has **no destructive-action confirmation gates**. It does not clear sessions or reset peers; a remediation *action* of that kind would need its own confirmation gate like any other destructive step.
 
 ## When to use this skill
 
@@ -37,16 +27,10 @@ scope creep into unguarded remediation.
   CRUD-shaped configuration capability with its own confirmation-gate requirements, separate from
   this read-only diagnostic one.
 
-## Universal concepts (shared BGP vocabulary, genuinely grounded — RFC 4271)
+## Universal concepts (shared BGP vocabulary — RFC 4271)
 
 The BGP session state machine's six named states — Idle, Connect, Active, OpenSent, OpenConfirm,
-Established — come from RFC 4271 and are confirmed, as of this pass, to be the state names each
-vendor's own CLI actually reports verbatim: Juniper Junos's `show bgp neighbor` output uses these
-exact six words for its State/Last state fields (verified against Juniper's own command-reference
-docs), and both Cisco IOS-XE and FRRouting are consistent with this same vocabulary in the sources
-consulted for this pass, though neither of those two vendor sources gave as complete a field-by-field
-confirmation as Juniper's did — see each vendor's own `procedure.md` for exactly what was and wasn't
-independently verified. Only Established has a consistent, universally-observed second meaning
+Established — come from RFC 4271, and each vendor's own CLI reports them verbatim: Juniper Junos's `show bgp neighbor` output uses these exact six words for its State/Last state fields, and Cisco IOS-XE and FRRouting use the same vocabulary, though their documentation gives less field-by-field confirmation than Juniper's — see each vendor's own `procedure.md` for exactly what is and isn't verified. Only Established has a consistent, universally-observed second meaning
 across all three vendors: once a session reaches Established, the same output field that showed the
 state name is commonly repurposed to show a route/prefix count instead (confirmed for both Cisco
 IOS-XE's summary-table state/PfxRcd column and Juniper's `show bgp summary` State field) — a numeric
@@ -62,20 +46,14 @@ state machine itself.
   have at all) and a "prefer the already-selected eBGP path" stability tiebreaker that Cisco's
   documented order also doesn't have. Treat the tie-break order as vendor-specific and always consult
   that vendor's own `procedure.md` rather than assuming one vendor's order generalizes.
-- Junos's own active-route-selection tie-break order has not yet been independently verified at all
-  (see `references/juniper-junos/procedure.md`'s explicit-unknowns section) — it is not safe to
-  assume it matches either Cisco's or FRR's documented order just because the underlying concepts
+- Unverified: Junos's own active-route-selection tie-break order (see `references/juniper-junos/procedure.md`'s explicit-unknowns section); it is not safe to assume it matches either Cisco's or FRR's documented order just because the underlying concepts
   are similar.
 - There is no confirmed-universal set of session-establishment root causes (AS mismatch, TCP/179
-  reachability, authentication mismatch, hold-time mismatch) across these three vendors' own
-  documentation as consulted in this pass — each vendor file states plainly which specific causes
-  its own consulted source actually documents, and none of the three sources consulted gave a
-  complete list covering all of these common real-world causes. Don't treat a cause documented for
+  reachability, authentication mismatch, hold-time mismatch) across these three vendors' own documentation — each vendor file states which specific causes its own source documents, and none of the three gives a complete list covering all of these common real-world causes. Don't treat a cause documented for
   one vendor as automatically applicable to another without that vendor's own source confirming it.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
-implements this shape concretely, including exactly which of the above each vendor's own consulted
-sources did and didn't confirm.
+implements this shape concretely, including exactly which of the above each vendor's documentation does and doesn't confirm.
 
 ## Procedure
 

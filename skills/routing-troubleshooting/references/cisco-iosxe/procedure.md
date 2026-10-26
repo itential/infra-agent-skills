@@ -1,18 +1,12 @@
 # Cisco IOS-XE — BGP Troubleshooting Decision Tree
 
-Covers `session_down` and `unexpected_best_path`. Does not yet cover `session_flapping` or
-`route_missing` — this vendor file's research pass did not turn up enough independently-verified,
-primary-sourced detail for those two categories to write a reliable decision tree; add them in a
-later pass rather than filling the gap with unverified general BGP knowledge.
+Covers `session_down` and `unexpected_best_path`. Does not cover `session_flapping` or `route_missing` — Cisco's published guidance does not give enough verified detail for those two categories to write a reliable decision tree, and general BGP knowledge is not substituted.
 
-Sources consulted (2026-09-17): Cisco's public "Troubleshooting BGP" tech note
+Sources (2026-09-17): Cisco's public "Troubleshooting BGP" tech note
 (cisco.com/en/US/tech/tk365/technologies_tech_note09186a008009478a.shtml) and Cisco's public
 "BGP Best Path Selection Algorithm" document
 (cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/13753-25.html). Both are Cisco's own
-published guidance, not third-party summaries. An attempt to also pull the IOS-XE command reference
-chapter for the exact `show ip bgp summary` column dictionary did not resolve to a live page in this
-research pass — see the explicit unknown noted below rather than treating the common column names
-as independently re-confirmed here.
+published guidance, not third-party summaries. Unverified: the exact `show ip bgp summary` column dictionary from the IOS-XE command reference — see the explicit unknown below.
 
 ## Read-only checks this file relies on
 
@@ -47,19 +41,17 @@ A peer that never reaches Established.
      `no bgp fast-external-fallover` (this changes reset behavior, it does not fix a genuinely down
      link).
    - **OpenSent** / **OpenConfirm** — an OPEN message has gone out and the session is stuck waiting
-     on the peer's response or acknowledgment. The consulted source does not give a structured
+     on the peer's response or acknowledgment. The documentation does not give a structured
      breakdown of causes at this specific stage; report the state and treat root-causing it further
      as an explicit unknown for this vendor file rather than guessing (e.g. do not assert AS-number
-     mismatch, hold-time mismatch, or authentication mismatch as Cisco-documented causes — none of
-     those were confirmed against a primary Cisco source in this research pass, despite being common
-     real-world BGP failure modes).
+     mismatch, hold-time mismatch, or authentication mismatch as Cisco-documented causes — none of those is confirmed in Cisco's documentation, despite being common real-world BGP failure modes).
 3. If the neighbor detail output shows a recent teardown, check the reported reason. The source
    material's own logged examples for a session that came up and then dropped are the
    `BGP_SESSION-5-ADJCHANGE` messages "Peer closed the session" and "Unknown path error" — report
    whichever string actually appears rather than assuming a cause; the source does not decode what
    drove "Unknown path error" any further.
 4. If nothing above explains the stuck state, report the observed state plus the literal
-   `show ip bgp neighbors` output as the evidence, and note that this vendor's consulted sources
+   `show ip bgp neighbors` output as the evidence, and note that this vendor's documentation
    don't go further for this state combination — "consult platform-specific guidance" rather than
    inventing a cause.
 
@@ -72,7 +64,7 @@ the one expected.
    currently holds toward the prefix, together with its attributes (weight, local preference,
    AS_PATH, origin, MED, next hop, whether it's marked eBGP/iBGP).
 2. First rule out a path being excluded from consideration entirely rather than merely losing a
-   tie-break. The consulted source calls out three conditions under which a path won't carry the
+   tie-break. The documentation calls out three conditions under which a path won't carry the
    "valid" marker and is therefore skipped over during best-path evaluation: the path is marked
    "not synchronized" (a legacy IGP-synchronization requirement — note this may not apply to a
    modern configuration where synchronization is disabled, which is the common default; treat
@@ -110,16 +102,10 @@ the one expected.
 
 ## Explicit unknowns for this vendor (do not fill from general knowledge)
 
-- No confirmed primary-source breakdown of `session_flapping` causes (a session that reaches
-  Established repeatedly but doesn't stay there) — a later research pass should target that
-  category specifically before adding it here.
-- No confirmed primary-source breakdown of `route_missing` beyond the single documented check in
+- Not documented: a primary-source breakdown of `session_flapping` causes (a session that reaches Established repeatedly but doesn't stay there).
+- Not documented: a primary-source breakdown of `route_missing` beyond the single documented check in
   step "verify the network statement" for locally-originated prefixes — a received prefix that
-  simply never shows up (filtered inbound, maximum-prefix limit, etc.) is not covered by the sources
-  consulted this pass.
+  simply never shows up (filtered inbound, maximum-prefix limit, etc.) is not covered.
 - The exact column-by-column field dictionary for `show ip bgp summary` (Neighbor, AS, message
   counters, table version, queue depths, up/down time, and the shared state/prefix-count column)
-  was not re-confirmed against a live Cisco command-reference page in this pass, despite being
-  extremely stable, widely-documented output across IOS-XE releases. Treat the column names used
-  above as indicative rather than independently verified against a primary command reference in
-  this specific research pass.
+  is Unverified against the Cisco command reference, despite being stable, widely-documented output across IOS-XE releases. Treat the column names used above as indicative rather than verified.

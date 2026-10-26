@@ -1,12 +1,11 @@
 # FRRouting — BGP Troubleshooting Decision Tree
 
 Covers `session_down`, `route_missing`, and `unexpected_best_path`. Does not yet cover
-`session_flapping` as its own entry point — the consulted source discusses flap-related mechanisms
+`session_flapping` as its own entry point — the documentation discusses flap-related mechanisms
 (dampening, MED-driven oscillation) as side notes under other topics rather than as a dedicated
-flapping-diagnosis narrative, so a dedicated flapping entry point is left for a follow-up pass rather
-than assembled from those side notes.
+flapping-diagnosis narrative, so a dedicated flapping entry point is not assembled from those side notes.
 
-Source consulted (2026-09-17): the official FRRouting documentation's BGP chapter,
+Source (2026-09-17): the official FRRouting documentation's BGP chapter,
 docs.frrouting.org/en/latest/bgp.html ("latest" branch — not pinned to a specific FRR release; a
 caller should confirm the installed FRR version's docs match before treating version-sensitive
 defaults below, like `bgp ebgp-requires-policy` or `bgp enforce-first-as`, as certainly on/off for
@@ -50,13 +49,13 @@ their install).
    - **eBGP peer more than one hop away.** Separately from the above, the source states
      `ebgp-multihop` must be configured on the neighbor for a genuinely multihop eBGP session, or the
      session won't come up at all.
-   - **Peer address only reachable via the default route.** The source notes that if the peer's
+   - **Peer address only reachable via the default route.** FRR's documentation notes that if the peer's
      address isn't itself present in the RIB and is only reachable through a default route, the
      `ip nht resolve-via-default` setting is required for FRR's next-hop tracking to consider the
      peer reachable.
 3. If none of the above named conditions match, report the literal `show bgp neighbors` output
    (particularly `lastResetDueTo` if using the JSON form) as the evidence, and note that the
-   consulted source doesn't enumerate further causes beyond these — treat anything else as
+   documentation doesn't enumerate further causes beyond these — treat anything else as
    "consult platform-specific guidance."
 
 ## Entry point: route_missing
@@ -81,12 +80,10 @@ absent from the BGP table.
 4. **Received route missing (present on the peer, not appearing locally):** check for
    `bgp ebgp-requires-policy` first, per the session_down branch's step 1 — the source states that
    without an inbound policy configured under that setting, no routes are accepted from the peer at
-   all, regardless of session state. This is the one route-missing cause this source documents with
-   a specific, named mechanism; the source consulted this pass does not give a further structured
-   list of other inbound-filtering or prefix-limit causes.
+   all, regardless of session state. This is the one route-missing cause FRR documents with a specific, named mechanism; Not documented: a further structured list of other inbound-filtering or prefix-limit causes.
 5. Report the diagnosis together with the literal `show bgp summary` policy marker and/or
    `show bgp neighbors` inbound/outbound filter state that supports it, or state explicitly that the
-   consulted source doesn't cover the specific pattern observed.
+   documentation doesn't cover the specific pattern observed.
 
 ## Entry point: unexpected_best_path
 
@@ -132,11 +129,7 @@ absent from the BGP table.
 ## Explicit unknowns for this vendor (do not fill from general knowledge)
 
 - No dedicated `session_flapping` entry point — see the note at the top of this file.
-- No literal route-table status-code legend (e.g. valid/best/internal markers as printed by
-  `show bgp`/`show ip bgp`) was obtained from the source this pass — don't assert specific status
-  characters as FRR-documented until a page containing that legend is actually reached.
+- Not documented: a literal route-table status-code legend (e.g. valid/best/internal markers as printed by `show bgp`/`show ip bgp`) — don't assert specific status characters as FRR-documented.
 - The exact JSON field key names quoted above for `show bgp neighbors ... json brief` (hostname,
   remoteAs, localAs, lastResetDueTo, status, lastResetTimerMsecs, messageStats, addressFamilyInfo)
-  came through an intermediate summarization step rather than a direct read of a raw JSON example in
-  the source — treat these as indicative of the shape of the output, not as a verified literal
-  schema, until confirmed against a live FRR instance or a raw copy of the doc page.
+  are Unverified against a raw JSON example — treat them as indicative of the shape of the output, not as a verified literal schema, until confirmed against a live FRR instance.

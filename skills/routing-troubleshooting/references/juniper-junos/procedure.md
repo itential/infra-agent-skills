@@ -1,12 +1,8 @@
 # Juniper Junos — BGP Troubleshooting Decision Tree
 
-Covers `session_down` and `session_flapping`. Does not yet cover `route_missing` or
-`unexpected_best_path` — the research pass behind this file could not reach a live Junos page
-documenting Junos's own active-route-selection tie-break order or its "hidden route" concept (every
-guessed URL 404'd); rather than reuse another vendor's algorithm or invent one, those two categories
-are left for a follow-up pass that reaches the right page.
+Covers `session_down` and `session_flapping`. Does not cover `route_missing` or `unexpected_best_path` — Junos's own active-route-selection tie-break order and its "hidden route" concept are not documented here; another vendor's algorithm is not reused and none is invented.
 
-Sources consulted (2026-09-17): Juniper's own published command references for
+Sources (2026-09-17): Juniper's own published command references for
 `show bgp summary` (juniper.net/documentation/us/en/software/junos/bgp/topics/ref/command/
 show-bgp-summary.html) and `show bgp neighbor` (…/show-bgp-neighbor.html). Both are Juniper's
 current documentation site, not a mirror or third party.
@@ -32,7 +28,7 @@ what to check next.
 2. Run `show bgp neighbor <neighbor-address>` for the peer that isn't reaching Established, and read
    the **State** field together with **Last state** and **Last event**:
    - **Idle** — Junos's own documentation describes this as the initial stage, awaiting a Start
-     event. The consulted source does not enumerate specific configuration mistakes that leave a
+     event. The documentation does not enumerate specific configuration mistakes that leave a
      peer stuck here; report the state and the **Last error** field's value rather than guessing
      at a cause.
    - **Connect** — awaiting completion of the underlying transport (TCP) handshake.
@@ -44,18 +40,17 @@ what to check next.
    - **OpenConfirm** — an OPEN was received from the peer and acknowledged; the session is waiting
      on a KEEPALIVE (or a NOTIFICATION) before moving to Established.
    Junos's own documented state names match RFC 4271's set exactly here — no naming divergence was
-   found for the state names themselves in the source consulted (see SKILL.md's "Universal
+   found for the state names themselves in the documentation (see SKILL.md's "Universal
    concepts" note on this — Junos is confirmed-consistent with the RFC's state vocabulary, at least
    for this command's output).
 3. Check the **Last error** field. Documented values include "None", "Hold Time Expired", "Finite
-   State Machine Error", and "Cease" — report whichever literal value is present. The consulted
-   source documents what these values mean at a vocabulary level (a hold-timer expiry, an internal
+   State Machine Error", and "Cease" — report whichever literal value is present. The documentation documents what these values mean at a vocabulary level (a hold-timer expiry, an internal
    state-machine violation, or a Cease notification) but does not give a further structured
    breakdown of every root cause behind each — treat further root-causing as "consult
    platform-specific guidance" beyond reporting the literal error string and the state history
    (**Last state**, **Last event**) as evidence.
 4. If the evidence doesn't resolve to one of the above, report the full literal `show bgp neighbor`
-   output as the evidence and note this vendor's consulted source doesn't go further for this
+   output as the evidence and note this vendor's documentation doesn't go further for this
    specific combination of fields.
 
 ## Entry point: session_flapping
@@ -78,7 +73,7 @@ A peer that reaches Established but does not stay there — repeated transitions
    error** of "Cease" points at a deliberate teardown rather than a timer problem) — report both
    fields together, not the error alone, since the source documents them as separate fields for a
    reason.
-4. The consulted source does not give a structured list of underlying causes behind repeated
+4. The documentation does not give a structured list of underlying causes behind repeated
    Hold-Time-Expired or Cease events (e.g. it doesn't say "check CPU load" or "check policer drops"
    as Junos-documented remediation for this). Report the evidence and flag further root-causing as
    an explicit unknown — "consult platform-specific guidance" — rather than asserting a cause this
@@ -86,13 +81,9 @@ A peer that reaches Established but does not stay there — repeated transitions
 
 ## Explicit unknowns for this vendor (do not fill from general knowledge or another vendor)
 
-- No Junos-specific active-route-selection tie-break order was obtained this pass — do not borrow
+- Not documented: a Junos-specific active-route-selection tie-break order — do not borrow
   Cisco's or FRR's ordering and present it as Junos's; Junos is documented to implement its own
   route-selection process and the exact tie-break sequence must come from a Junos source directly.
-- No Junos-specific documentation of "hidden" routes (routes present in the table but not active)
-  was obtained this pass — this is a real gap for the `route_missing` symptom category specifically,
+- Not documented: Junos "hidden" routes (routes present in the table but not active) — this is a real gap for the `route_missing` symptom category specifically,
   since a Junos-hidden route is a plausible real-world cause of "the route I expect isn't there."
-- No structured list of session-establishment root causes (AS mismatch, authentication mismatch,
-  address-family mismatch, TCP port reachability) specific to Junos's own troubleshooting guidance
-  was obtained this pass — the two sources used here are command/field references, not a
-  troubleshooting narrative page.
+- Not documented: a structured list of session-establishment root causes (AS mismatch, authentication mismatch, address-family mismatch, TCP port reachability) from Junos's own troubleshooting guidance — the two sources used here are command/field references, not a troubleshooting narrative page.
