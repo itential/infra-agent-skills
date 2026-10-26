@@ -3,10 +3,10 @@
 Creates a host and a service check on an OP5 Monitor server through its configuration REST API,
 saves the pending changes so they take effect, and acknowledges a host or service problem through
 the external-command API. Assumes an authenticated client for the target OP5 Monitor server is
-already available; the sources consulted show HTTP basic authentication with a username and
+already available; the sources show HTTP basic authentication with a username and
 password and JSON request bodies (see `endpoints.md`).
 
-Sources consulted (retrieved 2026-10-19): ITRS Group knowledge base, "OP5 Monitor - How to
+Sources (retrieved 2026-10-19): ITRS Group knowledge base, "OP5 Monitor - How to
 configure monitoring objects REST API"
 (https://docs.itrsgroup.com/docs/faq/zendesk/articles/360020252273-OP5-Monitor-How-to-configure-monitoring-objects-REST-API);
 ITRS Group knowledge base, "Creating an HTTP API driven command-line tool"
@@ -59,7 +59,7 @@ Each step names a section below; follow that section for inputs, errors and gate
    what each does when changed, or their defaults: consult the platform's own command help
    (the server's own command help page, as the sources point out) if the caller has not specified them.
 4. **Submit the acknowledgement command.** Report `ACKNOWLEDGED` on a success response.
-5. **Removing an acknowledgement is not covered by the sources consulted.** Do not guess a command
+5. **Removing an acknowledgement is not covered by the sources.** Do not guess a command
    name; consult the server's own command help page and confirm with the operator first.
 6. **There is no manual "resolve" call.** The sources document no call that forces a state change;
    a problem leaves its non-OK state when a later check result is healthy. The external-command
@@ -75,7 +75,7 @@ Each step names a section below; follow that section for inputs, errors and gate
 ## Known limitations
 
 - Acknowledgement removal, rate limits, error response bodies and how a failed save reports the
-  problem are not documented in the sources consulted. Back off on an HTTP 429 or 5xx and honor
+  problem are not documented in the sources. Back off on an HTTP 429 or 5xx and honor
   any `Retry-After` header; report other errors verbatim.
 - Parameter names for commands other than the two acknowledgement commands are not covered.
 - Contact, contact group, host group and time period management are out of scope.

@@ -6,7 +6,7 @@ manages acknowledgment of alerts raised. Uses LogicMonitor's REST API. Assumes a
 REST client (an Access ID/Access Key pair used to build LogicMonitor's documented HMAC-SHA256
 request signature) against the target portal is already available.
 
-Sources consulted (retrieved 2026-09-29): LogicMonitor "Add Alert Rules" REST API v1 reference
+Sources (retrieved 2026-09-29): LogicMonitor "Add Alert Rules" REST API v1 reference
 (https://www.logicmonitor.com/support/rest-api-developers-guide/v1/alert-rules/add-alert-rules);
 LogicMonitor "Acknowledge Alerts" REST API v1 reference
 (https://www.logicmonitor.com/support/rest-api-developers-guide/v1/alerts/acknowledge-alerts);
@@ -86,14 +86,14 @@ do.
    the DataSource's configured clear interval (the number of consecutive polling cycles required
    before LogicMonitor considers the condition genuinely resolved, mirroring the trigger interval
    used to raise the alert in the first place). Do not represent acknowledgment as resolving the
-   alert, and do not fabricate a resolve endpoint the sources consulted don't document — report
+   alert, and do not fabricate a resolve endpoint the sources don't document — report
    that clearing happens automatically once the underlying condition normalizes.
 
 ## Patterns
 
 - **Acknowledging suppresses repeat notification of one alert occurrence only** — if the same
   datapoint clears and re-breaches later, LogicMonitor treats that as a new alert occurrence,
-  unacknowledged, per the sources consulted.
+  unacknowledged, per the sources.
 - **Alert Rule priority is evaluated ascending, first match wins** — a rule with a numerically
   lower `priority` value that matches the same alert will claim it ahead of a later, more specific
   rule; order new rules deliberately relative to existing ones.
@@ -105,7 +105,7 @@ do.
   and setting its documented threshold fields, not designing new collection logic.
 - Building a new escalation chain (the actual notification-delivery configuration an Alert Rule
   points to) is out of scope — see `SKILL.md`'s "Known limitations."
-- The sources consulted for this skill do not document a manual "resolve" or "clear" API call for
+- The sources do not document a manual "resolve" or "clear" API call for
   an individual alert — see step 4 above; do not invent one.
 
 ## Tools

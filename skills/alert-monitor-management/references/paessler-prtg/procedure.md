@@ -9,7 +9,7 @@ Assumes an authenticated client against the target PRTG core server is already a
 username/password or username/passhash pair for the older HTTP API; an API key sent as a Bearer
 token, or a session login, for API v2 — see `endpoints.md` for the literal call).
 
-Sources consulted (retrieved 2026-09-29): PRTG API v2 Overview
+Sources (retrieved 2026-09-29): PRTG API v2 Overview
 (https://www.paessler.com/support/prtg/api/v2/overview); PRTG Manual, "HTTP API"
 (https://www.paessler.com/manuals/prtg/http_api); PRTG Manual, "Object Manipulation"
 (https://www.paessler.com/manuals/prtg/object_manipulation); PRTG Manual, "Alarms"
@@ -95,7 +95,7 @@ sources above, never as a wording source.
 - PRTG's v1 HTTP API documentation states directly that creating new objects from scratch isn't
   supported through that API — its own documented workaround is cloning an existing "template"
   object (`duplicateobject.htm`) rather than defining one from nothing. This procedure uses API v2
-  for creation instead, per the sources consulted, precisely because v2 does document direct
+  for creation instead, per the sources, precisely because v2 does document direct
   creation; if a target PRTG instance's API v2 surface is unavailable or disabled, the v1
   clone-a-template pattern is the documented fallback, but is out of scope for this procedure's
   step-by-step since it depends on an existing template object the caller would need to identify.

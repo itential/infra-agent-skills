@@ -33,7 +33,7 @@ POST /api/v1/monitor
 **Success:** HTTP 2xx with the created monitor object in the response body, including a numeric
 `id`.
 
-**Failure:** the sources consulted for this skill do not document a fixed catalog of validation
+**Failure:** the sources do not document a fixed catalog of validation
 error strings for this endpoint — surface the response body verbatim rather than fabricating a
 specific error condition.
 
@@ -69,7 +69,7 @@ POST /api/v2/downtime
 
 **Success:** HTTP 2xx with the created downtime object (JSON:API shape) including its `id`.
 
-**Failure:** not enumerated in the sources consulted — surface the response body verbatim.
+**Failure:** not enumerated in the sources — surface the response body verbatim.
 
 ## Cancel a Downtime
 

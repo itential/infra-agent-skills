@@ -19,7 +19,7 @@ exact multipart field name at call time).
 
 **Success:** a response confirming the DataSource was created/updated, including its identifier.
 
-**Failure:** not enumerated in the sources consulted — surface the response body verbatim.
+**Failure:** not enumerated in the sources — surface the response body verbatim.
 
 ## Get DataSources
 
@@ -55,7 +55,7 @@ cross-check):
 
 **Success:** the created alert rule object, including its identifier.
 
-**Failure:** not enumerated in the sources consulted — surface the response body verbatim.
+**Failure:** not enumerated in the sources — surface the response body verbatim.
 
 ## Get Alert Rules
 
@@ -85,7 +85,7 @@ include this comment.
 
 **Success:** the updated alert object reflecting the acknowledgment.
 
-**Failure:** not enumerated in the sources consulted — surface the response body verbatim.
+**Failure:** not enumerated in the sources — surface the response body verbatim.
 
 ## Add a note to an alert (related, not acknowledgment)
 

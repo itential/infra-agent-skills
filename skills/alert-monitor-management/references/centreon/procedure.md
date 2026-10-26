@@ -7,7 +7,7 @@ available (see `endpoints.md` for how the token is obtained and sent). Centreon'
 states that the configuration create calls behave differently on Cloud environments and points to a
 separate Cloud API document; this procedure covers the on-premises behavior only.
 
-Sources consulted (retrieved 2026-10-19): Centreon REST API v2 OpenAPI definition, version 25.10
+Sources (retrieved 2026-10-19): Centreon REST API v2 OpenAPI definition, version 25.10
 (https://raw.githubusercontent.com/centreon/centreon/refs/tags/25.10-latest/centreon/doc/API/centreon-api.yaml
 and the `latest/onPremise` files it references); Centreon documentation, "REST API v2"
 (https://docs.centreon.com/docs/api/rest-api-v2/).
@@ -75,7 +75,7 @@ Each step names a section below; follow that section for inputs, errors and gate
   calls; a created-but-not-reloaded host is invisible to monitoring.
 - **Host acknowledgement body fields are unverified.** The service acknowledgement body fields are
   stated in the API definition; the host acknowledgement's fields could not be confirmed from the
-  sources consulted (assumption: it mirrors the service call). Check the platform's reference
+  sources (assumption: it mirrors the service call). Check the platform's reference
   before relying on any flag for a host.
 
 ## Known limitations
@@ -85,7 +85,7 @@ Each step names a section below; follow that section for inputs, errors and gate
   referenced by ID.
 - No documented rollback for created configuration, and no documented manual resolve.
 - Rate limits, and the exact error bodies for 400/403/404/500 responses, are not documented in the
-  sources consulted: treat a 429 or 5xx as retryable with backoff, and surface other errors verbatim.
+  sources: treat a 429 or 5xx as retryable with backoff, and surface other errors verbatim.
 
 ## Tools
 

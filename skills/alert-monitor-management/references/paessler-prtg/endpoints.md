@@ -24,7 +24,7 @@ API v2 Swagger UI reference for the exact schema of the chosen sensor type befor
 **Success:** HTTP 204 with a `Location` header pointing to the created sensor resource. May also
 include a `Wait-For` header indicating how long to wait before the object is reliably readable.
 
-**Failure:** not enumerated field-by-field in the sources consulted — surface the response body
+**Failure:** not enumerated field-by-field in the sources — surface the response body
 and status code verbatim.
 
 ## PRTG API v2 — acknowledge a sensor's alarm
@@ -83,7 +83,7 @@ API directly, express the chosen duration as the numeric `duration` parameter (m
 one of the UI preset labels.
 
 **Success:** HTTP 200; the older HTTP API does not return a structured success/failure body by
-default for this call in the sources consulted — treat a non-200 response, or an explicit PRTG
+default for this call in the sources — treat a non-200 response, or an explicit PRTG
 error page in the response body, as failure.
 
 ## Older HTTP API — pause / resume an object

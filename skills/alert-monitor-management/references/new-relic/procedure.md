@@ -9,7 +9,7 @@ alert configuration and several other alert-adjacent capabilities. Assumes an au
 GraphQL client against New Relic's NerdGraph endpoint (a personal API key or equivalent, sent as a
 request header) is already available.
 
-Sources consulted (retrieved 2026-09-29): New Relic "REST API v2 and Deployments v0 API,
+Sources (retrieved 2026-09-29): New Relic "REST API v2 and Deployments v0 API,
 end-of-life" notice (https://docs.newrelic.com/eol/2026/07/eol-07-31-26-rest-api-v2/); New Relic
 "NerdGraph tutorial: NRQL condition alerts" (https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-api-nrql-condition-alerts/);
 New Relic "Intro to using alerts with our NerdGraph API"
@@ -99,14 +99,14 @@ NerdGraph objects and mutations named below, never as a wording source.
 ## Known limitations
 
 - The older REST Alerts API (endpoints like `alerts_policies.json`, `alerts_nrql_conditions.json`,
-  `alerts_violations.json`) still exists in New Relic's published API surface as of the sources
-  consulted, but New Relic's own end-of-life notice covers the REST API v2 family broadly — treat
+  `alerts_violations.json`) still exists in New Relic's published API surface as of the sources,
+  but New Relic's own end-of-life notice covers the REST API v2 family broadly — treat
   NerdGraph as the durable path for new integration work rather than building against the REST
   surface, even where a REST endpoint still technically responds today.
 - Muting rules (suppressing future issues from a condition without closing the current one) are a
   distinct New Relic object from acknowledge/resolve and are out of scope for this skill unless
   requested as explicit monitor configuration — see `SKILL.md`'s "Known limitations."
-- The sources consulted for this skill do not document a fixed catalog of GraphQL error codes for
+- The sources do not document a fixed catalog of GraphQL error codes for
   these mutations — surface the `errors` array verbatim on failure rather than fabricating a
   specific cause.
 
