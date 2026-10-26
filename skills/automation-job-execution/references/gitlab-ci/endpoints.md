@@ -26,5 +26,5 @@ Pipeline and job status values: `created`, `waiting_for_resource`, `preparing`, 
 Which of these are terminal is the classification in `procedure.md` step 5 (the docs list the values
 without marking them terminal; that split is an assumption).
 
-Unverified: the version that introduced `inputs`; token scopes; whether `inputs` and `variables` may
+Unverified: token scopes; whether `inputs` and `variables` may
 be combined. General REST statuses apply: 400, 401, 403, 404, 422, 429.
