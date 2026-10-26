@@ -5,14 +5,13 @@ Manager service, for certificate profiles that allow direct API enrollment. Assu
 service user in the target DigiCert ONE account is already available. See `digicert-endpoints.md` for
 the literal routes and field tables behind every operation named below.
 
-**Sourcing note.** The existence of the issue, renew, revoke routes and the one-certificate-per-call
-revocation limit were confirmed against DigiCert's own documentation (Trust Lifecycle API page at
-https://dev.digicert.com/trust-lifecycle-api.html and the "Revoke certificates" page in the Trust
-Lifecycle Manager docs, retrieved 2026-10-19). DigiCert's per-endpoint reference pages could not be
-fetched in this research pass, so every field-level detail, eligibility rule, and status value below
-that is marked *(unverified)* came from a third-party packaged OpenAPI definition of this API, a
-secondary source. Confirm those details against DigiCert's current API
-reference before relying on them.
+**Source confidence.** The existence of the issue, renew, and revoke routes and the
+one-certificate-per-call revocation limit are documented by DigiCert (Trust Lifecycle API page and
+the "Revoke certificates" page in the Trust Lifecycle Manager docs, retrieved 2026-10-19).
+DigiCert's per-endpoint reference pages are not available as a source here, so every field-level
+detail, eligibility rule, and status value below that is marked *(unverified)* comes from a
+third-party packaged OpenAPI definition of this API, a secondary source. Confirm those details
+against DigiCert's current API reference before relying on them.
 
 ## Common Sequences
 
@@ -91,7 +90,7 @@ operation removes it. Treat hold as reversible and every other reason as irrever
   profile/seat/business-unit/owner administration, certificate search, discovery, or import.
 - Bulk revocation by deleting seat records exists per DigiCert's docs but is outside this procedure.
 - Rate limits, the full revocation-reason vocabulary per CA type, and renewal-period rules were not
-  confirmed against primary reference pages (see sourcing note).
+  confirmed against primary reference pages (see Source confidence).
 - Revocation (other than hold) is irreversible.
 
 ## Tools

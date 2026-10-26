@@ -70,8 +70,8 @@ ACM distinguishes two related but different things under "renewal":
    certificate, or an already-expired certificate is not eligible for this automatic path. A
    certificate issued through ACM's own ACME-based issuance option is explicitly excluded from
    managed renewal as well — that path's renewal is the responsibility of whatever ACME client
-   requested it, not ACM's managed-renewal mechanism. This procedure did not confirm an exact
-   days-before-expiration trigger point for managed renewal in this research pass — treat the timing
+   requested it, not ACM's managed-renewal mechanism. Unverified: the exact
+   days-before-expiration trigger point for managed renewal — treat the timing
    as CA-managed and not precisely predictable rather than assuming a specific lead time.
 2. **An explicit renewal call**, which is narrower still — as documented, it applies specifically to
    exported private certificates, and fails if the certificate is still mid-request (not yet issued).
@@ -125,15 +125,14 @@ CA continues to exist (and continues to be billed) independently of any certific
   through ACM's own API. Does not cover AWS Private CA's own direct certificate-authority
   administration (creating/managing a private CA itself), or the mechanics of ACM's own ACME-based
   issuance option beyond noting where it changes renewal/delete behavior above.
-- The exact automatic managed-renewal timing (how far ahead of expiration ACM initiates it) was not
-  confirmed to a specific day-count in this research pass — do not assume or state a specific lead
+- The exact automatic managed-renewal timing (how far ahead of expiration ACM initiates it) is not
+  confirmed to a specific day-count in the sources — do not assume or state a specific lead
   time; if exact timing matters for a task, confirm it against AWS's current renewal documentation
   directly rather than relying on this file for that number.
 - The exact numeric revocation-reason vocabulary ACM surfaces (`RevocationReason`) includes both
-  `SUPERCEDED` and `SUPERSEDED` as separate documented values in AWS's own reference at the time of
-  this research — this looks like a vendor documentation inconsistency (likely a legacy duplicate
-  spelling) rather than two genuinely distinct reasons; flagged here rather than silently picked one
-  to standardize on, per this repo's stated practice for source-documentation defects.
+  `SUPERCEDED` and `SUPERSEDED` as separate documented values in AWS's own reference — this looks
+  like a vendor documentation inconsistency (likely a legacy duplicate spelling) rather than two
+  genuinely distinct reasons; no canonical spelling is documented.
 - Does not cover binding a certificate to a consuming resource (attaching it to a load balancer
   listener, a CloudFront distribution, etc.) — that belongs to the consuming service's own
   provisioning process, not this certificate-management procedure.

@@ -116,7 +116,7 @@ A successful revocation returns without a response body; there is no separate "u
   of an order), external account binding setup, or CA-specific extensions some ACME CAs layer on top
   of the base protocol.
 - The exact numeric revocation-reason codes accepted by `reason` are drawn from a separate standard
-  (X.509 CRL reason codes) that this pass did not verify value-by-value — if a specific reason code
+  (X.509 CRL reason codes) and are unverified value-by-value — if a specific reason code
   beyond "unspecified" or "key compromise" is needed, confirm the exact code against the target CA's
   own documentation before using it, rather than assuming a code from another context applies as-is.
 - This procedure describes the CA-agnostic base protocol. A specific ACME CA (Let's Encrypt or any

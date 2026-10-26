@@ -25,10 +25,10 @@ documented procedure exactly.
 No wire-level standard grounds every platform in this category the way, say, RFC 1035/2136 grounds
 DNS — the ACME protocol (RFC 8555) is itself a standard, but Vault PKI, AWS ACM, DigiCert, and Sectigo are each a
 vendor-specific API with no shared protocol underneath them. The claims below hold for the platforms checked;
-DigiCert and Sectigo details are partly unverified (see their procedure files). Re-check every one
-of them against a new platform's actual behavior before assuming it still holds (see `AGENTS.md` rule
-4) — several plausible-sounding claims did NOT survive checking every platform and are deliberately left
-out below (see each platform's own `procedure.md` "Patterns"/"Known limitations" for specifics):
+DigiCert and Sectigo details are partly unverified (see their procedure files). They do not extend
+automatically to a platform not listed in `references/INDEX.md`. Several plausible-sounding claims do
+not hold on every platform and are deliberately left out below (see each platform's own
+`procedure.md` "Patterns"/"Known limitations" for specifics):
 
 - **Revocation is generally permanent; a hold or suspension, where a platform offers one, may be
   reversible.** No platform documents reversing a revocation made for any other reason, and the

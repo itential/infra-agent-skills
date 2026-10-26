@@ -84,7 +84,7 @@ Response: the issued certificate and its chain, as `application/pem-certificate-
 
 Tool hint: `POST` the directory's `revokeCert` URL. Payload: `certificate` (base64url-encoded DER
 certificate bytes), optional `reason` (an integer revocation-reason code — the exact accepted set was
-not independently verified in this pass; confirm against the target CA's own documentation and RFC
+not independently verified; confirm against the target CA's own documentation and RFC
 5280's CRL reason-code registry before relying on a specific non-default value). Authentication is
 either via a JWS signed with the certificate's own private key, or via the requesting account's key.
 Response: `200 OK` with no required body.

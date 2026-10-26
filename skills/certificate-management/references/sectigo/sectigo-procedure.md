@@ -5,14 +5,13 @@ Manager (SCM) REST enrollment API. Assumes OAuth client credentials for an SCM e
 account are already available. See `sectigo-endpoints.md` for the literal routes and field tables
 behind every operation named below.
 
-**Sourcing note.** Lifecycle concepts (statuses, renew vs. replace, permanence of revocation, the
-separation of deleting an entry from revoking) were confirmed against Sectigo's own documentation
-(Sectigo Certificate Manager Documentation: "Understanding SSL certificates", "Managing SSL
-certificates", and "Understanding REST endpoints" at https://docs.sectigo.com/scm/, retrieved
-2026-10-19). Sectigo's per-endpoint REST reference was not fetchable in this research pass, so all
-request/response detail marked *(unverified)* comes from a third-party packaged OpenAPI definition of this API, a
-secondary source. Confirm those details against Sectigo's current
-REST API reference before relying on them.
+**Source confidence.** Lifecycle concepts (statuses, renew vs. replace, permanence of revocation,
+the separation of deleting an entry from revoking) are documented by Sectigo (Sectigo Certificate
+Manager Documentation: "Understanding SSL certificates", "Managing SSL certificates", and
+"Understanding REST endpoints", retrieved 2026-10-19). Sectigo's per-endpoint REST reference is not
+available as a source here, so all request/response detail marked *(unverified)* comes from a
+third-party packaged OpenAPI definition of this API, a secondary source. Confirm those details
+against Sectigo's current REST API reference before relying on them.
 
 ## Common Sequences
 
@@ -98,7 +97,7 @@ different action that does not revoke the certificate (confirmed) — never use 
   through the enrollment API. Does not cover SCM administrator functions (organizations, departments,
   profiles, approvals), ACME/EST enrollment, or certificate deployment.
 - Field lists differ by certificate type and profile and were not confirmed against primary reference
-  pages (see sourcing note); revocation reason-code acceptance is likewise unconfirmed.
+  pages (see Source confidence); revocation reason-code acceptance is likewise unconfirmed.
 - Revocation is irreversible.
 
 ## Tools
