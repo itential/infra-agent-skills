@@ -1,6 +1,6 @@
 ---
 name: infrastructure-plan-execution
-description: Prepare, review, and apply a declarative infrastructure plan, or plan its removal, then inspect the resulting recorded state and outputs and adopt an existing resource under management. Use when a configuration directory must be initialized, checked, planned, applied, or destroyed through a reviewed saved plan. Covers HashiCorp Terraform CLI. Assumes the CLI, an existing configuration, state backend access, and provider credentials are already available; this skill does not install tools or author configuration. Does not cover writing resource definitions, provider-specific resource design, or approval workflows.
+description: Prepare, review, and apply a declarative infrastructure plan, or plan its removal, then inspect the resulting recorded state and outputs and adopt an existing resource under management. Use when a configuration directory must be initialized, validated, planned, applied, or destroyed through a reviewed saved plan. Covers HashiCorp Terraform CLI. Assumes the CLI, an existing configuration, state backend access, and provider credentials are already available; this skill does not install tools or author configuration. Does not cover writing resource definitions, provider-specific resource design, or approval workflows.
 argument-hint: "[platform] [action] [configuration_directory]"
 ---
 
@@ -10,7 +10,7 @@ Prepares a configuration, produces a reviewed plan, applies or destroys exactly 
 
 ## When to use this skill
 
-- A configuration directory must be initialized, formatted, or validated before a change.
+- A configuration directory must be initialized or validated before a change.
 - A plan must be produced, reviewed, and then applied, or a removal plan produced and executed.
 - Recorded resource addresses or outputs must be listed.
 - An existing remote object must be bound to a resource address in the configuration.
