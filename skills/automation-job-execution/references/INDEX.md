@@ -14,6 +14,3 @@ One row per supported platform. Each directory holds its own `procedure.md` plus
 
 **Not in scope for this skill:** authoring job definitions, credentials/inventory management,
 scheduling, platform installation — see each vendor's own "Known limitations".
-
-**Rule 4 note:** the universal concepts in `SKILL.md` were checked against all six platforms' own
-documentation; no wire-level standard exists for them.

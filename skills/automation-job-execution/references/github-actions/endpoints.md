@@ -2,7 +2,7 @@
 
 Sources: GitHub Docs REST API "Workflows" and "Workflow runs"; retrieved 2026-10-26.
 
-Base: `https://api.github.com`. Headers: `Authorization: Bearer <token>`, `Accept: application/vnd.github+json`. The `X-GitHub-Api-Version` header should be set; the supported value was not confirmed here (unverified).
+Base: `https://api.github.com`. Headers: `Authorization: Bearer <token>`, `Accept: application/vnd.github+json`. The `X-GitHub-Api-Version` header should be set; Unverified: the supported header value.
 
 | Operation | Binding | Inputs | Success |
 |---|---|---|---|
@@ -17,4 +17,4 @@ Permissions: classic tokens need `repo` for private repositories and for dispatc
 
 Status values: `queued`, `requested`, `waiting`, `pending`, `in_progress`, `completed`. Conclusion values: `success`, `failure`, `neutral`, `cancelled`, `skipped`, `timed_out`, `action_required`.
 
-Not documented in the pages used: exact error bodies for 401/403/404/422 on dispatch, rate limits for these calls.
+Not documented: exact error bodies for 401/403/404/422 on dispatch, rate limits for these calls.
