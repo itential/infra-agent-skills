@@ -4,7 +4,7 @@ Manages DHCPv4 subnet ("scope") configuration and per-client reservations on ISC
 Control Agent's command API — specifically the `subnet_cmds` and `host_cmds` hook libraries, which
 let a running `kea-dhcp4` process take these changes without a full config reload/restart. Coverage
 here is DHCPv4-primary; the IPv6 command names exist and structurally mirror their IPv4
-counterparts per the cited source, but weren't independently exercised for this draft. Assumes an
+counterparts per the cited source, but are unverified beyond the cited source. Assumes an
 authenticated (or otherwise permitted) HTTP client against a Kea Control Agent that has
 `libdhcp_subnet_cmds.so` and `libdhcp_host_cmds.so` loaded on the target `kea-dhcp4` server is
 already available. See `endpoints.md` for the literal command/response JSON. Citation: ISC Kea's

@@ -11,7 +11,7 @@ session) is already in place. Citation: Microsoft Learn's `DhcpServer` PowerShel
 (`windowsserver2025-ps` moniker, Microsoft's own first-party documentation), retrieved 2026-09-17.
 Older Windows Server versions (2016/2019/2022) have their own parallel doc pages; this procedure was
 not independently diffed against those for behavioral differences — if targeting an older OS
-version, check the corresponding version-specific page before assuming identical behavior.
+version, spot-check the corresponding version-specific page before assuming identical behavior.
 
 ## Operational procedure
 
@@ -174,7 +174,7 @@ Remove-DhcpServerv4Reservation -ComputerName "dhcpserver.contoso.com" -ScopeId 1
 ## Tools
 
 Each operation above is a `DhcpServer` PowerShell cmdlet invoked directly (or via `-ComputerName`/
-CIM session against a remote DHCP server) — there is no separate wire-level API surface to extract,
+CIM session against a remote DHCP server) — there is no separate wire-level API surface to extract
 (see this file's own cmdlet syntax above).
 
 ## Verification checklist
