@@ -31,9 +31,9 @@ CLI-driven, so there is no wire-level REST/API to document.
   on the SRX1500 platform specifically). `3des-cbc` and `des-cbc` are documented as still present but
   marked "NOT RECOMMENDED" in CLI help text starting in a Junos OS release using the IKED daemon with
   the `junos-ike` package installed — avoid choosing either for a new configuration.
-- `lifetime-seconds` — a numeric value in seconds; Unverified: the exact documented range/default
-  for the modern SRX proposal statement — confirm
-  against the target device's own configuration or current documentation.
+- `lifetime-seconds` — a numeric value in seconds; the exact documented range/default for the
+  modern SRX proposal statement is unverified — confirm against the target device's own
+  configuration or current documentation.
 
 ## IKE policy — `[edit security ike policy <name>]`
 

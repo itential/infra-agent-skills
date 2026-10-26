@@ -58,12 +58,11 @@ two-phase structure.
    ike-policy <policy-name>`, `set security ike gateway <name> address <peer-ip-or-fqdn>`, and
    `set security ike gateway <name> external-interface <interface-name>` (the local, outgoing
    interface the gateway is anchored to). Set local/remote IKE identification (local-identity/
-   remote-identity) if the peer requires an identity other than its IP address — unverified: the
-   exact `version` statement/keyword values (e.g. an IKEv1-only vs. IKEv2-only vs. either selector)
-   against a current SRX-scoped page, so the requirement is stated generically here rather than
-   asserting unconfirmed keyword values; consult the
-   target device's own current command-completion help (`set security ike gateway <name> version ?`)
-   to confirm the exact accepted values before scripting against them.
+   remote-identity) if the peer requires an identity other than its IP address. Unverified: the exact
+   `version` keyword values (e.g. an IKEv1-only vs. IKEv2-only vs. either selector) on a current
+   SRX-scoped page, so this step does not assert specific keywords; consult the target device's own
+   command-completion help (`set security ike gateway <name> version ?`) to confirm the accepted
+   values before scripting against them.
 6. **Configure the IPsec proposal (phase 2 algorithm set)** under `[edit security ipsec]`:
    `set security ipsec proposal <name> protocol <ah|esp>`, plus `authentication-algorithm`,
    `encryption-algorithm`, `lifetime-seconds`, and `lifetime-kilobytes` as needed — see

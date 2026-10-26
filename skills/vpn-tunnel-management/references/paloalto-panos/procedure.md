@@ -84,7 +84,7 @@ Security / IPsec VPN administration guide), current version, docs.paloaltonetwor
    tunnel as "up" from configuration success alone.
 9. **Delete a tunnel or gateway.** **Stop and confirm with the operator before deleting an IPsec
    Tunnel object, an IKE Gateway, or a tunnel interface that currently has an active SA** — removing
-   any of these drops the live traffic path through that tunnel. This skill's sources did not
+   any of these drops the live traffic path through that tunnel. The sources do not
    document delete-specific field behavior beyond the general PAN-OS object-management pattern
    (remove the object, then commit); this procedure does not assert a vendor-documented delete
    confirmation dialog or safeguard beyond the commit step itself, so the confirmation gate here is
@@ -115,7 +115,7 @@ operational-command mechanism):
 - `clear vpn ike-sa gateway <gateway-name>` / `clear vpn ike-sa tunnel <tunnel-name>` / `clear vpn
   ipsec-sa tunnel <tunnel-name>` — **stop and confirm with the operator before running any of
   these**: each forcibly tears down an existing SA (forcing renegotiation from scratch), dropping
-  in-flight traffic through that SA in the process. This skill's source describes these in the
+  in-flight traffic through that SA in the process. The source describes these in the
   context of IKEv1 troubleshooting specifically; their exact behavior against an IKEv2-only gateway
   was not independently confirmed — verify against the target firewall's own documentation for its
   running PAN-OS version before relying on them in an IKEv2-only environment.
