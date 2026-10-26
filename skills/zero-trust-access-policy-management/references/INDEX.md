@@ -5,7 +5,7 @@ step-by-step) plus wire-level `endpoints.md`.
 
 | Vendor / Platform | Directory | Scope | Notes |
 |---|---|---|---|
-| Zscaler Internet Access (ZIA) | `zscaler-zia/` | Create/update/delete a URL/cloud-application filtering rule | Rules are evaluated in an explicit `order`; action vocabulary includes `ISOLATE` (cloud browser isolation), not just allow/block; a saved change is not enforced until a separate activation call, which is tenant-wide and may release other pending changes |
+| Zscaler Internet Access (ZIA) | `zscaler-zia/` | Create/update/delete a URL/cloud-application filtering rule, then activate the saved configuration | Rules are evaluated in an explicit `order`; action vocabulary includes `ISOLATE` (cloud browser isolation), not just allow/block; a saved change is not enforced until a separate tenant-wide activation call (queuing and release of other pending changes unverified) |
 | Zscaler Private Access (ZPA) | `zscaler-zpa/` | Create/update/delete an access-policy rule (which users/groups may reach which application segments) under the `ACCESS_POLICY` policy set | Rule scope is expressed as a list of boolean `conditions`/operands, not flat fields; reordering is a separate dedicated endpoint from update |
 | Netskope | `netskope/` | Create/update/delete a private-access (NPA) policy rule via REST API v2 | Update is a partial `PATCH`, not a full `PUT`; rule placement uses a `rule_order` directive (`top`/`bottom`/`before`/`after`) rather than a numeric field in the request body |
 
@@ -18,5 +18,3 @@ filtering and Netskope real-time CASB rules are listed below as out of scope for
 set types other than access policy (timeout, client-forwarding, inspection, isolation), and Netskope
 real-time (CASB inline), internet-access, and SaaS Posture Management policy families — see each
 vendor's own `procedure.md` "Known limitations" for the precise boundary.
-
-**Activation:** Zscaler ZIA stages every saved rule change until a separate activation step is run; activation is tenant-wide, is queued while other administrators still have unactivated edits, and cannot be cancelled once queued.

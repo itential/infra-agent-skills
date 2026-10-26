@@ -1,6 +1,6 @@
 # Zscaler Internet Access (ZIA) — URL/Cloud App Filtering Rule Procedure
 
-Create, update, or delete a URL Filtering rule in a Zscaler Internet Access (ZIA) tenant — the rule
+Create, update, delete, or reorder a URL Filtering rule in a Zscaler Internet Access (ZIA) tenant, then activate the saved configuration — the rule
 type that governs whether a request to a given URL category, cloud application, protocol, or request
 method is allowed, blocked, isolated, or subject to time/size quota for a given set of locations,
 groups, departments, users, or time windows. Does not cover ZIA's separate firewall filtering, DLP,
@@ -10,10 +10,11 @@ out of scope for this procedure.
 Sourced from Zscaler's own actively-maintained `zscaler-sdk-go` SDK
 (github.com/zscaler/zscaler-sdk-go, package `zscaler/zia/services/urlfilteringpolicies`), which
 encodes ZIA's REST endpoint paths, HTTP verbs, and the URL Filtering Rule object's field-level
-structure directly from Zscaler's own service definitions, retrieved 2026-09-29. Authentication
-details cross-checked against Zscaler's own OneAPI/Zidentity help documentation
-(help.zscaler.com/zidentity/understanding-oneapi-authentication), retrieved via search excerpt the
-same date since the page itself did not render outside a browser session.
+structure directly from Zscaler's own service definitions, retrieved 2026-09-29.
+Unverified: authentication details come from a search-result excerpt of Zscaler's OneAPI help page
+(help.zscaler.com/zidentity/understanding-oneapi-authentication), not the full page. Unverified:
+activation behavior comes from search-result excerpts of Zscaler's "Getting Started" (ZIA API) and
+"Saving and Activating Changes in the ZIA Admin Portal" help pages, not the full pages.
 
 Assumes an authenticated REST client already holding a valid OneAPI access token for the target ZIA
 tenant (see `endpoints.md` for how that token is obtained and applied) is available.
@@ -65,20 +66,22 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
    and compare the fields just submitted against what was persisted. Report CREATED, UPDATED, or
    DELETED as saved-but-not-yet-active; do not report the change as enforced yet.
 10. **Read the activation status** before activating (operation: Get Activation Status). Note any
-    sign that other administrators have unactivated edits in the tenant: ZIA documents that, while
-    others are still editing, an activation is queued and the push to the Central Authority waits
-    until all of them activate. Not verified: whether activating also publishes another
+    sign that other administrators have unactivated edits in the tenant. Unverified (search excerpt):
+    while others are still editing, an activation is queued and the push to the Central Authority
+    waits until all of them activate. Unverified: whether activating also publishes another
     administrator's saved-but-unactivated edits; assume it can.
 11. **Stop and confirm with the operator before activating.** Activation makes the saved
     configuration live for real user traffic across the tenant, may release pending changes beyond
-    the rule just saved, and a queued activation cannot be cancelled or reverted.
-    Confirm the operator accepts this, and prefer grouping several saved changes and activating once.
-12. **Activate** (operation: Activate Configuration), then read the activation status again. A status
-    showing the configuration active is the success signal; report ACTIVATED. A queued or pending
-    status means the activation has not been pushed yet: report ACTIVATION_QUEUED and re-read later
-    rather than activating again.
-13. **Handle failures verbatim.** On an edit-lock conflict (see `endpoints.md`, activation section),
-    wait a few seconds and retry once. For any other non-2xx result, report FAILED with the actual
+    the rule just saved. Unverified: whether a queued activation can be cancelled; assume it cannot.
+    Zscaler recommends activating once after a group of changes.
+12. **Activate** (operation: Activate Configuration), then read the activation status again. Report the
+    returned status value verbatim. Unverified: the set of status values. A status showing the
+    configuration active is the success signal; report ACTIVATED. A status showing the activation
+    is queued or pending means it has not been pushed yet: report ACTIVATION_QUEUED; the status
+    read is the available check on progress.
+13. **Handle failures verbatim.** On an edit-lock conflict (see `endpoints.md`, "Activate Configuration"),
+    Zscaler advises waiting a few seconds and retrying; the retry count is not documented, so report
+    the conflict if retries keep failing. For any other non-2xx result, report FAILED with the actual
     status and body rather than inferring a cause. Rate limits are not verified; on an HTTP 429, back
     off and honor any `Retry-After` header.
 
@@ -98,7 +101,6 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
 
 ## Known limitations
 
-- Activation applies to the tenant's pending configuration, not to a single rule; a rule cannot be activated in isolation.
 - Covers URL Filtering rules only — ZIA's firewall filtering, DLP, and file-type-control rule
   families are separate objects with their own endpoints, not covered here.
 - The source used for field-level grounding (Zscaler's own `zscaler-sdk-go` service package) is the
@@ -116,6 +118,8 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
 - This procedure does not cover ZIA's separate Cloud App Control rule family (a related but distinct
   rule object for SaaS/cloud-application-specific actions beyond URL-category matching) — only the
   URL Filtering rule endpoint is in scope.
+- Activation applies to the tenant's pending configuration, not to a single rule, so a rule cannot be
+  activated in isolation.
 
 ## Tools
 

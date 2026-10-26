@@ -37,11 +37,10 @@ following that platform's own documented procedure, field rules, and ordering/va
   shape is shared.
 - **Whether a saved rule change is live depends on the platform.** Where a platform documents no
   separate publish step, a create/update/delete reaches live traffic at once or on next policy
-  evaluation. Where it documents one (Zscaler ZIA saves a change and activates it in a distinct
-  step; Netskope's URL-list and internet-access rule families have explicit deploy steps), the saved
-  change is not enforced until that step runs, and the step may also release other pending changes
-  on the tenant. Treat every create/update/delete, and every publish step, as consequential to
-  production traffic and gate it accordingly (see each vendor's own procedure).
+  evaluation. Where it documents one, the saved change is not enforced until that step runs, and a
+  vendor's procedure states whether that step also applies other pending changes on the tenant.
+  Treat every create/update/delete, and every publish step, as consequential to production traffic
+  and gate it accordingly (see each vendor's own procedure).
 - There is no single cross-vendor wire-level standard grounding SASE/ZTNA policy APIs (unlike, say,
   DNS's RFC 1035/2136) — every field name, action vocabulary, and scope-condition shape below is
   platform-specific; treat any apparent similarity between vendors as coincidental, not a shared
