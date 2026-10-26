@@ -138,7 +138,7 @@ error.
 
 - **Full-overwrite semantics apply to both subnet-update and reservation-update — treat every field
   omitted from an update payload as "will be removed," not "will be left alone."** Use the delta
-  commands (subnet side only; no reservation-side delta commands were found in this research) when a
+  commands (subnet side only; no reservation-side delta commands are documented in the sources) when a
   partial change is actually intended.
 - **Result codes are not uniformly interpreted across commands.** The same numeric code (0 or 3 in
   particular) carries a different practical meaning depending on which command returned it — check
@@ -151,7 +151,7 @@ error.
 ## Known limitations
 
 - DHCPv4-primary coverage — IPv6 command names (`subnet6-*`, IPv6-specific reservation nuances like
-  prefix delegation) were not independently researched beyond the source's own statement that they
+  prefix delegation) are unverified beyond the source's own statement that they
   structurally mirror the IPv4 commands; verify against Kea's own IPv6-specific documentation before
   relying on this file for a DHCPv6 deployment.
 - Does not cover lease management directly (querying or expiring an active lease independent of its

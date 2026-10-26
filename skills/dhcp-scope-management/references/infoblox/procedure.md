@@ -97,8 +97,8 @@ versions before (see `ipam-allocation/references/infoblox/procedure.md`'s own ve
 ## Known limitations
 
 - DHCP failover-pair configuration mechanics beyond the plain `server_association_type` enum
-  (MEMBER, MS_SERVER, FAILOVER, MS_FAILOVER, NONE) were not researched in enough depth for this
-  draft to describe failover-specific setup steps — consult platform-specific NIOS failover guidance
+  (MEMBER, MS_SERVER, FAILOVER, MS_FAILOVER, NONE) are not covered in enough depth here to
+  describe failover-specific setup steps — consult platform-specific NIOS failover guidance
   before relying on this procedure for a failover deployment.
 - Does not cover network *view* management, DHCP member/Grid topology configuration, or the
   network/networkcontainer allocation that must exist before a range can be created — see

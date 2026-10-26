@@ -45,13 +45,13 @@ currently covered (Infoblox NIOS, ISC Kea, Microsoft DHCP Server — see `refere
   `procedure.md` before assuming either behavior.
 - **Deleting a scope/subnet does not, by itself, guarantee cleanup of the leases or reservations
   issued under it** on at least one platform (Kea's `subnet4-del` explicitly does not remove
-  associated leases/reservations, per its own documentation) — this was not independently confirmed
-  either way for Infoblox or Microsoft in this pass, so treat "does deletion clean up dependents" as
+  associated leases/reservations, per its own documentation) — this is unverified
+  for Infoblox and Microsoft, so treat "does deletion clean up dependents" as
   a per-platform question to check, not an assumed yes/no, before relying on it in an automated flow.
 - **Deleting a scope/subnet or a reservation that may be actively in use is treated as a
   confirmation-gated action in every platform's own procedure file here** — not because of a shared
-  vendor guarantee, but because this repo's own authoring rule (`AGENTS.md` rule 7) requires it
-  regardless of what the vendor's API itself enforces.
+  vendor guarantee, but because each procedure gates it regardless of what the vendor's API itself
+  enforces.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.

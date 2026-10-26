@@ -2,16 +2,16 @@
 
 Manages IPv4 DHCP scope configuration and per-client lease reservations on Windows Server's DHCP
 Server role, via the `DhcpServer` PowerShell module. This is a CLI/cmdlet-driven procedure, not a
-REST API — per this repo's own convention for CLI-driven procedures, the literal cmdlet syntax is
-kept inline below rather than split into a separate `endpoints.md`. Coverage here is IPv4-only
+REST API — the literal cmdlet syntax is kept inline below rather than split into a separate
+`endpoints.md`. Coverage here is IPv4-only
 (the `*Dhcpv4*` cmdlet family); IPv6 scope management exists as a parallel `*Dhcpv6*` cmdlet family
-that was not researched for this draft. Assumes a PowerShell session with the `DhcpServer` module
+that is not covered here. Assumes a PowerShell session with the `DhcpServer` module
 available and sufficient rights against the target DHCP server (local or via `-ComputerName`/CIM
 session) is already in place. Citation: Microsoft Learn's `DhcpServer` PowerShell module reference
 (`windowsserver2025-ps` moniker, Microsoft's own first-party documentation), retrieved 2026-09-17.
 Older Windows Server versions (2016/2019/2022) have their own parallel doc pages; this procedure was
 not independently diffed against those for behavioral differences — if targeting an older OS
-version, spot-check the corresponding version-specific page before assuming identical behavior.
+version, check the corresponding version-specific page before assuming identical behavior.
 
 ## Operational procedure
 
@@ -153,8 +153,8 @@ Remove-DhcpServerv4Reservation -ComputerName "dhcpserver.contoso.com" -ScopeId 1
 
 ## Known limitations
 
-- IPv4-only in this draft — the parallel `*Dhcpv6*` cmdlet family for IPv6 scope/reservation
-  management was not researched here.
+- IPv4-only — the parallel `*Dhcpv6*` cmdlet family for IPv6 scope/reservation
+  management is not covered.
 - Does not cover DHCP failover-partner relationship configuration between two Windows DHCP servers,
   DHCP policies (the separate policy-based-assignment feature referenced only in passing via the
   `-ActivatePolicies` parameter), or server-level (as opposed to per-scope) options.
@@ -175,7 +175,7 @@ Remove-DhcpServerv4Reservation -ComputerName "dhcpserver.contoso.com" -ScopeId 1
 
 Each operation above is a `DhcpServer` PowerShell cmdlet invoked directly (or via `-ComputerName`/
 CIM session against a remote DHCP server) — there is no separate wire-level API surface to extract,
-per this repo's convention for CLI-driven procedures (see this file's own cmdlet syntax above).
+(see this file's own cmdlet syntax above).
 
 ## Verification checklist
 
