@@ -2,7 +2,7 @@
 
 Sources: GitHub Docs REST API "Workflows" and "Workflow runs"; retrieved 2026-10-26.
 
-Base: `https://api.github.com`. Headers: `Authorization: Bearer <token>`, `Accept: application/vnd.github+json`. The `X-GitHub-Api-Version` header should be set; Unverified: the supported header value.
+Base: `https://api.github.com`. Headers: `Authorization: Bearer <token>`, `Accept: application/vnd.github+json`. Send the `X-GitHub-Api-Version` header (the REST docs show `2026-03-10`).
 
 | Operation | Binding | Inputs | Success |
 |---|---|---|---|
