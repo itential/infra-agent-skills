@@ -66,7 +66,7 @@ one vendor's behavior from ever touching the shared file.
 | [`dhcp-scope-management`](skills/dhcp-scope-management/) | Infoblox NIOS, ISC Kea, Microsoft DHCP Server |
 | [`cmdb-asset-management`](skills/cmdb-asset-management/) | ServiceNow CMDB, iTop |
 | [`wireless-network-management`](skills/wireless-network-management/) | Cisco Meraki, HPE Aruba Networking Central, Cisco Catalyst Center |
-| [`firewall-management`](skills/firewall-management/) | Palo Alto PAN-OS/Panorama, Fortinet FortiOS, Cisco ASA, Juniper SRX, Fortinet FortiManager, WatchGuard Firebox, AWS Network Firewall |
+| [`firewall-management`](skills/firewall-management/) | Palo Alto PAN-OS/Panorama, Fortinet FortiOS, Cisco ASA, Juniper SRX, Fortinet FortiManager, WatchGuard Firebox, AWS Network Firewall, Zscaler ZIA |
 | [`waf-management`](skills/waf-management/) | _(scaffolded — no vendor coverage yet)_ |
 | [`load-balancing`](skills/load-balancing/) | F5 BIG-IP LTM, Citrix ADC/NetScaler, HAProxy, Cloudflare Load Balancing |
 | [`certificate-management`](skills/certificate-management/) | ACME (e.g. Let's Encrypt), HashiCorp Vault PKI, AWS Certificate Manager, DigiCert ONE Trust Lifecycle Manager, Sectigo Certificate Manager |
