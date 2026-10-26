@@ -1,6 +1,6 @@
 ---
 name: network-access-control-management
-description: Register, quarantine, release, and remove network endpoints, assign them to groups or profiles, and read their session state on a supported network access control (NAC/AAA) platform. Port- and network-level admission, distinct from zero-trust-access-policy-management's application-access policy. Covers Aruba ClearPass Policy Manager (read, write) and Cisco ISE (read-only, covering endpoint records, group assignment, and session state). Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. See references/INDEX.md for each platform's scope.
+description: Register, quarantine, release, and remove network endpoints, assign them to groups or profiles, and read their session state on a supported network access control (NAC/AAA) platform. Port- and network-level admission, distinct from zero-trust-access-policy-management's application-access policy. Covers Aruba ClearPass Policy Manager and Cisco ISE. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. See references/INDEX.md for each platform's scope.
 argument-hint: "[platform] [action: read_endpoint|register_endpoint|assign_group|quarantine|release|delete_endpoint|read_session] [endpoint identifier, fields]"
 ---
 
@@ -44,7 +44,6 @@ implements this shape concretely.
 
 - Only platforms listed in `references/INDEX.md` are covered; any other needs a new reference file
   before this skill can be used for it.
-- Cisco ISE is read-only here: no registration, quarantine, release, deletion, or policy reading.
 - Does not cover firewall rules, address assignment, or cloud application-access policy.
 - Authorization-policy rule authoring (the conditions that decide admission) is out of scope until a
   platform procedure documents it as its own distinct, gated procedure.

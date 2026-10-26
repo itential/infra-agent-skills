@@ -1,27 +1,15 @@
 # Cisco ISE — Wire-Level Reads
 
-Sources: Cisco DevNet, Cisco Identity Services Engine API v1 (developer.cisco.com/docs/identity-services-engine/latest/) —
-API families, Read a Resource, Pagination, Monitoring REST API introduction, Session Management
-calls; retrieved 2026-10-26. `<ise-host>` is a placeholder. All calls are GET.
+Source: Cisco DevNet, Cisco Identity Services Engine API v1 (developer.cisco.com/docs/identity-services-engine/latest/) —
+Monitoring REST API introduction and session management calls; retrieved 2026-10-26. `<ise-host>` is a placeholder. All calls are GET.
 
-## Configuration API (ERS)
-
-Access: HTTPS on port 443; the documentation also lists 9060 for ERS (which one applies depends on
-the deployment; unverified). Basic authentication. Idle session timeout is documented as 60 seconds.
-Accept/Content-Type headers: not documented in the pages read; assumption: JSON or XML via `Accept`.
-
-| Operation | Route | Notes |
-|---|---|---|
-| List resource | `/ers/config/{resource}` | Query: `filter=field.OP.value` (repeatable), `filtertype=or`, `size` (default 20, max 100), `page` (from 1), `sortasc`, `sortdsc`. Operators: EQ, NEQ, GT, LT, STARTSW, NSTARTSW, ENDSW, NENDSW, CONTAINS, NCONTAINS. Items carry name, id, description, link. |
-| Read endpoint | `/ers/config/endpoint` (list) | Unverified: the `endpoint` resource name; filters `mac`, `groupId`, `profileId`, `staticGroupAssignment` (seen only in community sources) |
-| Read endpoint by id / name | `/ers/config/endpoint/{id}`, `/ers/config/endpoint/name/{name}` | Unverified: both forms, from community sources |
-| Read endpoint identity group | `/ers/config/endpointgroup/{id}` | Unverified: resource name |
-
-Error strings and status codes for ERS: not documented in the pages read.
+Endpoint-record and endpoint identity group reads through the configuration (ERS) API are not
+bound: the resource names, filter fields and record fields could not be confirmed against Cisco's
+reference. Unverified, so no route is listed.
 
 ## Monitoring API (MnT)
 
-Base: `https://<ise-host>/admin/API/mnt/`. Internal-database accounts only. XML by default
+Base: `https://<ise-host>/admin/API/mnt/`. Internal-database accounts only. Basic authentication. XML by default
 (`Accept: application/xml`). Case-sensitive paths. Backslash is the only invalid character.
 
 | Operation | Route suffix | Response |
@@ -37,5 +25,4 @@ Base: `https://<ise-host>/admin/API/mnt/`. Internal-database accounts only. XML 
 | By endpoint IP | `Session/EndPointIPAddress/{endpoint-ip}` | same, with framed IP |
 | By audit session id | `Session/Active/SessionID/{audit-session-id}/0` | session state, posture status, endpoint policy, counters |
 
-Mutating calls in the same family (not used): `Session/Delete/MACAddress/{mac}`,
-`Session/Delete/SessionID/{sid}`, `Session/Delete/All` (HTTP DELETE).
+Error strings and status codes: not documented.

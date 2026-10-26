@@ -90,7 +90,7 @@ one vendor's behavior from ever touching the shared file.
 | [`sdwan-policy-management`](skills/sdwan-policy-management/) | Cisco Catalyst SD-WAN Manager *(centralized policy, original template-policy model)*, Palo Alto Networks Prisma SD-WAN *(stacked path and QoS policy sets, rules, and stacks; bind to sites)* |
 | [`config-backup-management`](skills/config-backup-management/) | Prisma SD-WAN *(site snapshot capture, retrieve, and redeploy as YAML)* |
 | [`sdwan-site-onboarding`](skills/sdwan-site-onboarding/) | Prisma SD-WAN *(site template create, branch site deployment from a template, device-shell assignment, verification, removal)*, Versa Director *(branch device creation from a post-staging template, activation, confirmation)* |
-| [`network-access-control-management`](skills/network-access-control-management/) | Aruba ClearPass Policy Manager; Cisco ISE (read-only) |
+| [`network-access-control-management`](skills/network-access-control-management/) | Aruba ClearPass Policy Manager; Cisco ISE *(read-only: session state)* |
 | [`automation-job-execution`](skills/automation-job-execution/) | AWX *(job template launch, poll, output, cancel)*, Jenkins *(build trigger; queue/state/stop details unverified)*, Azure DevOps *(pipeline run, poll, logs, cancel)*, Rundeck *(job run, poll, output, abort)*, Puppet Enterprise *(orchestrator task/plan run, poll, report, stop)* |
 
 **124** vendor references across **32** capabilities (3 more are scaffolded with no coverage yet).
