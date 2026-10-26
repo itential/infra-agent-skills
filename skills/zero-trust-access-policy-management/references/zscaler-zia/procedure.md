@@ -53,21 +53,34 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
    meaningful — the source does not state ZIA enforces this at the API layer, so do not assume a
    missing profile reference will be rejected outright, but flag it to the caller as likely
    non-functional if omitted.
-7. **Stop and confirm with the operator before submitting create, update, or delete** — every one of
-   these operations changes live enforcement for real user traffic the moment it is applied (see
-   Universal concepts in `SKILL.md`). This applies equally to a rule reorder, since reordering can
-   change which rule matches first for existing traffic without changing either rule's own fields.
+7. **Stop and confirm with the operator before submitting create, update, delete, or reorder** —
+   each changes the tenant's saved URL Filtering configuration, and a reorder can change which rule
+   matches first without changing either rule's own fields. A saved change is not yet enforced; it
+   goes live only at the activation step below.
 8. **Submit the call** — create, update against the rule's `id`, or delete against the rule's `id`,
    per `endpoints.md`.
-9. **Confirm the outcome.** A create/update returning the rule object (with a populated `id` for
+9. **Confirm the saved outcome.** A create/update returning the rule object (with a populated `id` for
    create) is the success signal; a delete returning a success status with no body is the success
    signal for delete. If the calling tool needs a separate confirmation read, fetch the rule by `id`
-   and compare the fields just submitted against what was persisted — report CREATED, UPDATED, or
-   DELETED accordingly.
-10. **Handle failures verbatim.** The source does not document specific error codes/strings for this
-    endpoint family beyond the general shape of the SDK returning the HTTP status and response body
-    on a non-2xx result. Report FAILED with the underlying response's actual status and body rather
-    than inferring a cause not stated in the source.
+   and compare the fields just submitted against what was persisted. Report CREATED, UPDATED, or
+   DELETED as saved-but-not-yet-active; do not report the change as enforced yet.
+10. **Read the activation status** before activating (operation: Get Activation Status). Note any
+    sign that other administrators have unactivated edits in the tenant: ZIA documents that, while
+    others are still editing, an activation is queued and the push to the Central Authority waits
+    until all of them activate. Not verified: whether activating also publishes another
+    administrator's saved-but-unactivated edits; assume it can.
+11. **Stop and confirm with the operator before activating.** Activation makes the saved
+    configuration live for real user traffic across the tenant, may release pending changes beyond
+    the rule just saved, and a queued activation cannot be cancelled or reverted.
+    Confirm the operator accepts this, and prefer grouping several saved changes and activating once.
+12. **Activate** (operation: Activate Configuration), then read the activation status again. A status
+    showing the configuration active is the success signal; report ACTIVATED. A queued or pending
+    status means the activation has not been pushed yet: report ACTIVATION_QUEUED and re-read later
+    rather than activating again.
+13. **Handle failures verbatim.** On an edit-lock conflict (see `endpoints.md`, activation section),
+    wait a few seconds and retry once. For any other non-2xx result, report FAILED with the actual
+    status and body rather than inferring a cause. Rate limits are not verified; on an HTTP 429, back
+    off and honor any `Retry-After` header.
 
 ## Patterns
 
@@ -85,6 +98,7 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
 
 ## Known limitations
 
+- Activation applies to the tenant's pending configuration, not to a single rule; a rule cannot be activated in isolation.
 - Covers URL Filtering rules only — ZIA's firewall filtering, DLP, and file-type-control rule
   families are separate objects with their own endpoints, not covered here.
 - The source used for field-level grounding (Zscaler's own `zscaler-sdk-go` service package) is the
@@ -112,6 +126,8 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
 | Create URL Filtering Rule | Create a new rule | URL Filtering |
 | Update URL Filtering Rule | Update an existing rule by ID | URL Filtering |
 | Delete URL Filtering Rule | Remove a rule by ID | URL Filtering |
+| Get Activation Status | Read whether the tenant's saved configuration is active, pending, or queued | Activation |
+| Activate Configuration | Make saved changes live; gated, see step 11 | Activation |
 | Locations / Groups / Departments / Users / Time Windows lookup | Resolve caller-supplied names to the ID-object references the rule body requires | Reference objects |
 
 ## Verification checklist
@@ -123,5 +139,6 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
       request, not left unset
 - [ ] CIPA-compliance mutual-exclusion checked before enabling `enableCIPACompliance` alongside any
       of the four conflicting fields
-- [ ] Operator confirmed before create, update, delete, or reorder — all four affect live enforcement
-- [ ] Outcome confirmed via the response body (create/update) or success status (delete), not assumed
+- [ ] Operator confirmed before create, update, delete, or reorder, and again before activation
+- [ ] Saved outcome confirmed via the response body (create/update) or success status (delete), not assumed
+- [ ] Activation status read before and after activating; reported ACTIVATED only once active, otherwise ACTIVATION_QUEUED

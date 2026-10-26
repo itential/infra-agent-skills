@@ -104,3 +104,25 @@ Locations, groups, departments, users, and time windows each have their own list
 ZIA (separate service packages in the same SDK) — resolve caller-supplied names against those before
 building a URL Filtering rule payload; this procedure does not restate each one's own wire format
 since they are outside this rule family's endpoint.
+
+## Get Activation Status
+
+```
+GET /zia/api/v1/status
+```
+Returns the tenant's activation state in a `status` field. Status values are not enumerated in the
+sources used; read the returned value rather than matching a fixed list.
+
+## Activate Configuration
+
+```
+POST /zia/api/v1/status/activate
+```
+Publishes the tenant's saved configuration. Zscaler documents that this request is queued and does
+not override concurrent changes by other administrators, and recommends activating once after a
+group of changes. Path prefix confirmed against the Zscaler Go SDK's activation package; the
+queuing behavior is from Zscaler's API getting-started documentation.
+
+**Failure:** an HTTP 409 with the error name `EDIT_LOCK_NOT_AVAILABLE` indicates concurrent edits
+holding the lock; Zscaler advises waiting a few seconds and retrying. Other error bodies are not
+documented in the sources used; surface them verbatim.
