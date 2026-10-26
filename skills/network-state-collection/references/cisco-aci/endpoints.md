@@ -8,7 +8,7 @@ Base: `https://{apic}`. The deployed model reference is served by the controller
 
 | Operation | Call | Notes |
 |---|---|---|
-| Log in | `POST /api/aaaLogin.json` with `{"aaaUser":{"attributes":{"name":"{user}","pwd":"{password}"}}}` | Token is then sent as cookie `APIC-cookie`. The logout method returns a response but does not end the session; the session ends when refreshes stop. |
+| Log in | `POST /api/aaaLogin.json` with `{"aaaUser":{"attributes":{"name":"{user}","pwd":"{password}"}}}` | Token is then sent as cookie `APIC-cookie`. Opens a session only; no configuration changes. The logout method is documented to return a response without ending the session; the session ends when refreshes stop. |
 | Refresh | `GET /api/aaaRefresh.json` | Resets the timer and returns a new token. Default session timeout 600 s |
 
 ## Calls
@@ -20,7 +20,7 @@ Base: `https://{apic}`. The deployed model reference is served by the controller
 | Faults | `GET /api/class/faultInst.json` | `query-target-filter=and(eq(faultInst.cause,"config-failure"))` for configuration failures |
 | Managed object | `GET /api/mo/{dn}.json` | `query-target=self`; optional `rsp-subtree-include=health` or `faults` where supported |
 
-Class names are confirmed against the deployed model reference. The `/api/node/class` and `/api/node/mo` forms are documented aliases. `.json` or `.xml` must end the path. Paging: `page={page}` (starts at 0) and `page-size={size}`; ordering `order-by=<class>.<property>|asc` or `|desc`. A response has `imdata` (objects keyed by class, each with `attributes` and optional `children`) and `totalCount`.
+Page cap: from release 5.1(1), a page with more than 2000 objects is cut to 2000. Class names are confirmed against the deployed model reference. The `/api/node/class` and `/api/node/mo` forms are documented aliases. `.json` or `.xml` must end the path. Paging: `page={page}` (starts at 0) and `page-size={size}`; ordering `order-by=<class>.<property>|asc` or `|desc`. A response has `imdata` (objects keyed by class, each with `attributes` and optional `children`) and `totalCount`.
 
 ## Documented error strings
 

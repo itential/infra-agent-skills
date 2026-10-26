@@ -23,8 +23,8 @@ To restrict faults to configuration failures, apply an equality filter on the fa
 ## Page through the result
 
 Collections are retrieved in pages: zero-based page number plus a page size. Every request, paged or not, computes a fresh result set. Pages are not held on the controller, so a later page can reflect a fabric that changed since the earlier one: objects can repeat, move or be missed across pages. Report paged coverage as a sequence of point-in-time reads, not one consistent snapshot.
-From release 5.1(1), a page holding more than 2000 objects is cut to 2000. Ordering across pages is by an order-by option naming a class property; no documented page-size maximum is stated beyond that.
-Two scale errors are documented: a 503 carrying the message "destination is not available" means the query timed out after 90 seconds, and the guide advises retrying three to five times; a "result dataset is too big" error means the answer would exceed 100,000 objects, so narrow the query with filters or a smaller class scope before retrying. Other errors remain failed reads with their native detail.
+Large pages are truncated at a per-page object cap that applies from a stated release (see endpoints.md). Ordering across pages is by an order-by option naming a class property; no documented page-size maximum is stated beyond that.
+Two scale errors are documented: the query-timeout error (retry a few times, as the guide advises) and the result-too-large error (narrow the query with filters or a smaller class scope before retrying), both listed with their exact text in endpoints.md. Other errors remain failed reads with their native detail.
 
 ## Read a managed object
 
@@ -33,7 +33,7 @@ Password properties come back blank on reads. Posting a read response back to th
 
 ## Patterns
 
-- JSON payloads need `attributes` ahead of `children` in each object.
+- The login call is a POST but only opens a session; nothing in the fabric configuration is created or changed by any call in this procedure.
 
 ## Known limitations
 
