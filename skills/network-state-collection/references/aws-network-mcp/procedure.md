@@ -18,7 +18,7 @@ Fix the AWS profile (or profiles, for cross-account reads) and region before the
 
 ## Read path methodology
 
-For a connectivity question, call the server's methodology tool first; its documentation says to call it before anything else. Use its returned sequence to choose which later reads apply. It guides what to read and does not replace the endpoints the requester supplied.
+For a connectivity question, optionally read the troubleshooting-method tool first and use its returned sequence to choose which later reads apply. It guides what to read and does not replace the endpoints the requester supplied.
 
 ## Locate endpoints
 
@@ -46,7 +46,7 @@ Query VPC, Transit Gateway, or Network Firewall flow logs, or fetch Cloud WAN to
 
 ## Simulate route change
 
-Submit a proposed Cloud WAN change for one region and report the modeled impact. Only one region is simulated per call. Inputs and any caveats in the answer come from the tool's schema and output; changes the tool cannot model remain unverified. Unverified: whether the tool ever applies a change; the server's documented permission set lists no write action, so treat the result as a model only, and stop and confirm with the operator before relying on it for a live change decision.
+Submit a proposed Cloud WAN change for one region and report the modeled impact. Only one region is simulated per call. Inputs and any caveats in the answer come from the tool's schema and output; changes the tool cannot model remain unverified. Unverified: whether the tool ever applies a change; the server's documented permission set lists no write action, so treat the result as a model only.
 
 ## Patterns
 

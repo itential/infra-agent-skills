@@ -51,8 +51,6 @@ These return configuration and reported status, not a live packet test. `az netw
 | Connection monitors | `az network watcher connection-monitor list --location <region>` |
 | Flow-log configuration | `az network watcher flow-log list --location <region>` |
 | Private endpoints | `az network private-endpoint list`, then `az network private-endpoint dns-zone-group list --resource-group <group> --endpoint-name <endpoint>` |
-| Public DNS record sets | `az network dns record-set list --resource-group <group> --zone-name <zone>` |
-| Private DNS record sets | `az network private-dns record-set list --resource-group <group> --zone-name <zone>` |
 
 The flow-log list returns configuration only; reading the flow data itself is not covered.
 
@@ -65,7 +63,7 @@ The flow-log list returns configuration only; reading the flow data itself is no
 ## Known limitations
 
 - Error strings, throttling quotas, and retry timing are not documented in the command references. On throttling, back off and honor any retry guidance the CLI returns.
-- No resource modification, Front Door routing, subnet-utilization calculation, or compliance scoring. DNS reads need a known zone name; zone discovery is not covered.
+- No resource modification, Front Door routing, subnet-utilization calculation, or compliance scoring. DNS record-set reads are not covered.
 - Azure Firewall commands require the Azure Firewall CLI extension; if it is not installed they are unavailable.
 
 ## Tools
