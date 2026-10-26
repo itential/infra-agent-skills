@@ -33,13 +33,21 @@ See `endpoints.md` for the exact paths of each.
   secret's full contents (whatever keys were written) — there is no separate `version` in the
   payload, since v1 has none.
 - **KV v2**: issue a read against the `data` sub-path. To read a specific historical version rather
-  than the latest, supply the `version` query parameter — omitting it returns the newest,
-  non-destroyed version. The response separates the secret's own key/value map (under `data.data`)
+  than the latest, supply the `version` query parameter — omitting it returns the latest version,
+  whatever that version's state. A latest version that is deleted or destroyed is not skipped in
+  favor of an earlier one. The response separates the secret's own key/value map (under `data.data`)
   from Vault-managed version metadata (under `data.metadata`: `created_time`, `version`,
   `destroyed`, and deletion state).
-- If the read returns nothing where a value was expected, check whether the KV v2 version was
-  soft-deleted (see step 4) before concluding the secret doesn't exist — a soft-deleted version
-  still shows up in metadata history but returns no data on a plain read.
+- If the read returns nothing where a value was expected, check whether the requested (or latest)
+  KV v2 version was soft-deleted or destroyed (see step 4) before concluding the secret doesn't
+  exist — such a version still shows up in metadata history but yields no secret data. The exact
+  status code and body of a read against a deleted or destroyed version are not documented
+  (unverified); report the read as failed and inspect the metadata `deletion_time` and `destroyed`
+  values to tell the states apart.
+- Never substitute an older version's value when the requested or latest version is deleted or
+  destroyed. Vault documents no fallback, and an older value may be a superseded or rotated-out
+  credential. Stop and let the operator decide whether to undelete the version (step 4) or read a
+  named earlier version deliberately.
 
 ### 3. Create or overwrite a secret's value
 
@@ -71,7 +79,8 @@ delete, since it has no version history to soft-delete from):
 - **Undelete** (reverse a soft delete) — same `versions` array shape, against the `undelete`
   sub-path. Restores read access to those specific versions.
 - **Destroy** (irreversible; the underlying data is actually removed) — same `versions` array shape,
-  against the `destroy` sub-path. **This step always needs explicit operator confirmation before
+  against the `destroy` sub-path, and sent as a PUT rather than a POST. A destroyed version cannot
+  be brought back with undelete. **This step always needs explicit operator confirmation before
   submission** — the source is explicit that this is not recoverable, unlike a soft delete.
 - **KV v1 delete**: removes the value at the path outright, with no soft-delete/undelete tier at
   all. Treat every KV v1 delete as equivalent in severity to a KV v2 destroy, and gate it the same
@@ -123,7 +132,7 @@ Every operation maps to the Vault HTTP API — see `endpoints.md` for literal re
 | KV v1 delete | `DELETE` to permanently remove the secret | Secret Delete |
 | KV v2 soft delete | `DELETE`/`POST` to mark version(s) deleted, recoverable | Secret Delete |
 | KV v2 undelete | `POST` to restore soft-deleted version(s) | Secret Delete |
-| KV v2 destroy | `POST` to permanently remove version(s) | Secret Delete |
+| KV v2 destroy | `PUT` to permanently remove version(s) | Secret Delete |
 
 ## Verification checklist
 
