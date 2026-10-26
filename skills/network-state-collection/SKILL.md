@@ -1,6 +1,6 @@
 ---
 name: network-state-collection
-description: Capture structured network state before and after a change, or gather evidence while troubleshooting, by parsing command output, learning feature state, querying platform snapshots, and comparing saved snapshots. Use when you need observed state data to compare or inspect. Covers Cisco pyATS / Genie, IP Fabric, and Forward Networks; assumes the chosen tool's access (a pyATS testbed or captured output, or an authenticated platform API client). It reports what was observed; it does not diagnose root causes or approve a change.
+description: Capture structured network state before and after a change, or gather evidence while troubleshooting, by parsing command output, learning feature state, querying platform state or snapshots, and comparing saved snapshots. Use when you need observed state data to compare or inspect. Covers Cisco pyATS / Genie, IP Fabric, Forward Networks, and Cisco ACI APIC; assumes the chosen tool's access (a pyATS testbed or captured output, or an authenticated platform API client). It reports what was observed; it does not diagnose root causes or approve a change.
 ---
 
 # Network State Collection
@@ -15,7 +15,7 @@ post-change verification belong to `network-health-verification`. Applying chang
 
 ## Universal concepts
 
-- Snapshots are comparable only when both sides cover the same devices, commands or features, and scope.
+- Snapshots, or reads of live state, are comparable only when both sides cover the same devices, commands or features, and scope.
 - Where volatile fields (counters, timers) are present, they are handled by documented defaults or
   explicit exclusions, and state being checked is never excluded.
 - A collection failure or empty result is incomplete data, not a healthy network.
@@ -40,7 +40,7 @@ Vendor details belong in that vendor's references. Recheck shared claims before 
 
 ## Tools
 
-A local pyATS/Genie CLI with device transport or the Genie parser library for captured text, or an authenticated API client for the IP Fabric or Forward Networks platform.
+A local pyATS/Genie CLI with device transport or the Genie parser library for captured text, or an authenticated API client for the IP Fabric, Forward Networks, or Cisco ACI APIC platform.
 
 ## Verification checklist
 
