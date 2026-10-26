@@ -15,9 +15,8 @@ Sources (retrieved 2026-09-29): PRTG API v2 Overview
 (https://www.paessler.com/manuals/prtg/object_manipulation); PRTG Manual, "Alarms"
 (https://www.paessler.com/manuals/prtg/alarms); Paessler Knowledge Base, "Acknowledge a Warning"
 (https://helpdesk.paessler.com/en/support/solutions/articles/76000075361-acknowledge-a-warning).
-PRTG's own published API v2 OpenAPI/Swagger description was used only to cross-check the
-acknowledge/pause request-body field names (`duration`, `message`) already indicated by the prose
-sources above, never as a wording source.
+PRTG's published API v2 OpenAPI/Swagger description, for the acknowledge/pause request-body field
+names (`duration`, `message`).
 
 ## Operational procedure — create a sensor
 

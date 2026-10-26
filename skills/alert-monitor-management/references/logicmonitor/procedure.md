@@ -18,9 +18,8 @@ LogicMonitor "6. Understanding LogicMonitor alerts"
 (https://www.logicmonitor.com/support/getting-started/i-just-signed-up-for-logicmonitor-now-what/6-understanding-logicmonitor-alerts);
 LogicMonitor "Guidelines for Responding to Alerts"
 (https://www.logicmonitor.com/support/alerts/responding-to-alerts/guidelines-for-responding-to-alerts).
-LogicMonitor's own published REST API v3 OpenAPI description was used only to cross-check that the
-alert-acknowledge and alert-rule resources (literal routes in `endpoints.md`) named in the prose sources above
-still exist and to confirm their required-field shape, never as a wording source.
+LogicMonitor's published REST API v3 OpenAPI description, for the alert-acknowledge and alert-rule
+resources (literal routes in `endpoints.md`) and their required-field shape.
 
 ## Operational procedure — create a monitor (DataSource + Alert Rule)
 

@@ -17,9 +17,9 @@ New Relic "Intro to using alerts with our NerdGraph API"
 Relic "NerdGraph tutorial: Alert policies" (https://docs.newrelic.com/docs/apis/nerdgraph/examples/nerdgraph-api-alerts-policies/);
 New Relic "Acknowledge alert issues" (https://docs.newrelic.com/docs/alerts-applied-intelligence/new-relic-alerts/alert-incidents/acknowledge-alert-incidents/);
 New Relic "How alert condition violations are closed" (https://docs.newrelic.co.jp/docs/alerts-applied-intelligence/new-relic-alerts/alert-violations/how-alert-condition-violations-are-closed);
-New Relic's own published REST API OpenAPI description, used only to cross-check that the older
+New Relic's published REST API OpenAPI description, for how the older
 `alerts_policies`/`alerts_nrql_conditions`/`alerts_violations` REST resources correspond to the
-NerdGraph objects and mutations named below, never as a wording source.
+NerdGraph objects and mutations named below.
 
 ## Operational procedure — create a monitor (alert policy + NRQL condition)
 
@@ -99,7 +99,7 @@ NerdGraph objects and mutations named below, never as a wording source.
 ## Known limitations
 
 - The older REST Alerts API (endpoints like `alerts_policies.json`, `alerts_nrql_conditions.json`,
-  `alerts_violations.json`) still exists in New Relic's published API surface as of the sources,
+  `alerts_violations.json`) still exists in New Relic's published API surface as of the sources' retrieval date (2026-09-29),
   but New Relic's own end-of-life notice covers the REST API v2 family broadly — treat
   NerdGraph as the durable path for new integration work rather than building against the REST
   surface, even where a REST endpoint still technically responds today.
