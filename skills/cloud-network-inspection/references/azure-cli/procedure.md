@@ -26,7 +26,7 @@ This procedure is diagnostic-shaped and read-only: every command below lists or 
 
 ## Read effective NIC state
 
-`az network nic show --resource-group <group> --name <nic>` returns the NIC. `az network nic list-effective-nsg --resource-group <group> --name <nic>` returns the effective security rules and `az network nic show-effective-route-table --resource-group <group> --name <nic>` the effective routes. Run both without the no-wait option so the result is complete. A failure does not show that no rule or route applies. Not documented in the CLI reference: the prerequisites for these two commands (for example whether the attached VM must be running); consult Microsoft's effective-security-rule and effective-route troubleshooting guidance.
+`az network nic show --resource-group <group> --name <nic>` returns the NIC. `az network nic list-effective-nsg --resource-group <group> --name <nic>` returns the effective security rules and `az network nic show-effective-route-table --resource-group <group> --name <nic>` the effective routes. Both run in their default waiting mode; the no-wait option is not used here. A failure does not show that no rule or route applies. Not documented in the CLI reference: the prerequisites for these two commands (for example whether the attached VM must be running); consult Microsoft's effective-security-rule and effective-route troubleshooting guidance.
 
 ## Read hybrid connectivity
 
@@ -37,7 +37,7 @@ These return configuration and reported status, not a live packet test. `az netw
 
 ## Read load-balancing evidence
 
-`az network lb list` and `az network lb show --resource-group <group> --name <lb>` return load balancer configuration, which does not establish backend health. `az network application-gateway show-backend-health --resource-group <group> --name <gateway>` returns backend health; run it without the optional probe overrides. Keep native health values; an unknown value is not healthy. Per-member health for Azure Load Balancer is not covered.
+`az network lb list` and `az network lb show --resource-group <group> --name <lb>` return load balancer configuration, which does not establish backend health. `az network application-gateway show-backend-health --resource-group <group> --name <gateway>` returns backend health; the optional probe overrides are not used here. Keep native health values; an unknown value is not healthy. Per-member health for Azure Load Balancer is not covered.
 
 ## Read supporting services
 

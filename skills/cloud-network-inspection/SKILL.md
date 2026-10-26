@@ -37,7 +37,7 @@ This router changes only to correct shared concepts or to point at a newly suppo
 
 ## Tools
 
-An authenticated MCP client (AWS) or CLI session (Azure) with read permissions. Each procedure's Tools table names its mechanism; AWS operation bindings are in that platform's `endpoints.md`.
+An authenticated client for the selected platform with read permissions. Each platform's `procedure.md` names its mechanism; see `references/INDEX.md`.
 
 ## Verification checklist
 

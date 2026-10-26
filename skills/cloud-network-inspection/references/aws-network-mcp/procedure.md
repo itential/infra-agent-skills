@@ -42,11 +42,11 @@ List AWS Network Firewalls in the region, then read the chosen firewall's statel
 
 ## Read traffic evidence
 
-Query VPC, Transit Gateway, or Network Firewall flow logs, or fetch Cloud WAN topology and routing events. Flow-log tools work only where logs are delivered to CloudWatch Logs; logs delivered to S3 or Kinesis Data Firehose are unreachable by them. When a flow-log query returns nothing, check the logging destination, the time window, whether the traffic occurred, and the caller's permission to run log queries before concluding anything. A failed or partial query stays reported as such; it is never converted into "no drops" or "no changes".
+Query VPC, Transit Gateway, or Network Firewall flow logs, or fetch Cloud WAN topology and routing events. Flow-log tools work only where logs are delivered to CloudWatch Logs; logs delivered to S3 or Kinesis Data Firehose are unreachable by them. When a flow-log query returns nothing, check the logging destination, the time window, whether the traffic occurred, and the caller's permission to run log queries before concluding anything. These queries run through CloudWatch Logs Insights, which is billed and subject to concurrency quotas (Unverified: amounts); keep the time range and log group set as narrow as the request allows. A failed or partial query stays reported as such; it is never converted into "no drops" or "no changes".
 
 ## Simulate route change
 
-Submit a proposed Cloud WAN change for one region and report the modeled impact. Only one region is simulated per call. Inputs and any caveats in the answer come from the tool's schema and output; changes the tool cannot model remain unverified.
+Submit a proposed Cloud WAN change for one region and report the modeled impact. Only one region is simulated per call. Inputs and any caveats in the answer come from the tool's schema and output; changes the tool cannot model remain unverified. Unverified: whether the tool ever applies a change; the server's documented permission set lists no write action, so treat the result as a model only, and stop and confirm with the operator before relying on it for a live change decision.
 
 ## Patterns
 
@@ -56,7 +56,7 @@ Submit a proposed Cloud WAN change for one region and report the modeled impact.
 
 ## Known limitations
 
-- Per-tool input schemas, response formats, error strings, rate limits, and quotas are not documented in the sources read. On throttling or an unexplained failure, back off, honor any retry hint, and report the native error with the scope it applied to.
+- Per-tool input schemas, response formats, error strings, rate limits, and quotas are not documented. On throttling or an unexplained failure, back off, honor any retry hint, and report the native error with the scope it applied to.
 - The server runs only on the same host as the MCP client.
 - No resource modification and no compliance or health verdict.
 

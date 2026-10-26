@@ -94,7 +94,7 @@ one vendor's behavior from ever touching the shared file.
 | [`automation-job-execution`](skills/automation-job-execution/) | AWX *(job template launch, poll, output, cancel)*, Jenkins *(build trigger; queue/state/stop details unverified)*, Azure DevOps *(pipeline run, poll, logs, cancel)*, Rundeck *(job run, poll, output, abort)*, Puppet Enterprise *(orchestrator task/plan run, poll, report, stop)* |
 | [`cloud-network-inspection`](skills/cloud-network-inspection/) | AWS Network MCP server, Azure CLI *(read-only: cloud network configuration, effective rules/routes, flow-log and backend-health evidence)* |
 
-**125** vendor references across **33** capabilities (3 more are scaffolded with no coverage yet).
+**123** vendor references across **32** capabilities (3 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 

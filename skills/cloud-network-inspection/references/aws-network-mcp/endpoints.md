@@ -4,7 +4,7 @@ Sources: AWS Labs MCP documentation, "AWS Network MCP Server" reference page and
 
 The server is an MCP server run locally on the same host as the MCP client. Each operation in `procedure.md` resolves to one of the tools below by name. If the tool is not available in the connected server, report the operation as unsupported rather than substituting a call.
 
-Parameters: the sources read do not publish per-tool input parameters. Read each tool's input schema from the connected server before calling it. Documented only generally: a `profile_name` input selects an AWS CLI profile for cross-account access, and some tools take separate `tgw_account_profile_name` and `cloudwan_account_profile_name` inputs (which tools is not documented). The server also honors the `AWS_PROFILE` and `AWS_REGION` environment variables.
+Parameters: Not documented: per-tool input parameters. Read each tool's input schema from the connected server before calling it. Documented only generally: a `profile_name` input selects an AWS CLI profile for cross-account access, and some tools take separate `tgw_account_profile_name` and `cloudwan_account_profile_name` inputs (which tools is not documented). The server also honors the `AWS_PROFILE` and `AWS_REGION` environment variables.
 
 Response and error formats: Not documented. Preserve whatever status, message, and resource identity a tool returns.
 
