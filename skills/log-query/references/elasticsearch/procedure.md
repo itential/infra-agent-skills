@@ -14,7 +14,7 @@ Retrieve the field definitions of the target index, data stream, or alias so the
 
 ## Run search
 
-Send a query over the target with the caller's time restriction. Needs the read privilege on the target. Only ten documents come back unless a size is requested, and the from-plus-size window is capped by the index's result-window setting (10,000 by default). A short-form query-string parameter, if used, overrides a query in the request body.
+Send a query over the target with the caller's time restriction. Needs the read privilege on the target. Only ten documents come back unless a size is requested, and the paging window (offset plus size) is capped at 10,000 results by default. A short-form query parameter, if used, overrides a query in the request body.
 - Success: a hit list, a total with a relation of equal or at-least, a timed-out flag, and shard counts.
 - A timeout or shard failures can return partial results: report them.
 

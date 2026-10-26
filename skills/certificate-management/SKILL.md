@@ -1,7 +1,7 @@
 ---
 name: certificate-management
-description: Issue, renew, read, and revoke TLS/SSL certificates on a supported certificate-management platform or protocol — currently the ACME protocol (e.g. Let's Encrypt), HashiCorp Vault's PKI secrets engine, AWS Certificate Manager, DigiCert ONE Trust Lifecycle Manager, and Sectigo Certificate Manager. Use when an agent needs to manage certificate lifecycle itself, distinct from installing/binding an already-issued certificate to a specific application, device, or load-balancer VIP (that binding step belongs to the consuming platform's own skill, e.g. load-balancing). Assumes an authenticated client/credential for the target platform's API is already available; this skill does not provision or authenticate it. See references/INDEX.md for the full vendor/protocol list.
-argument-hint: "[platform] [action: issue|renew|read|revoke] [certificate identifier/CSR, fields]"
+description: Issue, renew, read, and revoke TLS/SSL certificates, and where a platform documents it set up the certificate authority and issuance roles, on a supported certificate-management platform or protocol — currently the ACME protocol (e.g. Let's Encrypt), HashiCorp Vault's PKI secrets engine, AWS Certificate Manager, DigiCert ONE Trust Lifecycle Manager, and Sectigo Certificate Manager. Use when an agent needs to manage certificate lifecycle itself, distinct from installing/binding an already-issued certificate to a specific application, device, or load-balancer VIP (that binding step belongs to the consuming platform's own skill, e.g. load-balancing). Assumes an authenticated client/credential for the target platform's API is already available; this skill does not provision or authenticate it. See references/INDEX.md for the full vendor/protocol list.
+argument-hint: "[platform] [action: issue|renew|read|revoke|configure-ca|configure-role] [certificate identifier/CSR, fields]"
 ---
 
 # Certificate Management
@@ -14,6 +14,8 @@ documented procedure exactly.
 
 - Issuing, renewing, reading (expiry, SANs, chain), or revoking a certificate on a supported
   platform/protocol.
+- Where a platform's reference documents it (see the INDEX): creating a certificate authority
+  and defining or changing issuance roles.
 - Not for installing or binding an already-issued certificate to a specific consuming system — e.g.
   binding a certificate to a load-balancer VIP is `load-balancing`'s concern, not this skill's; this
   skill's job ends at producing/managing the certificate itself.
@@ -54,7 +56,8 @@ how it implements this shape concretely.
 
 1. **Identify the target platform/protocol** — from the caller's request or the `platform` argument.
    Check `references/INDEX.md`; if no matching row exists, stop: this skill doesn't cover it yet.
-2. **Open `references/<platform>/procedure.md`** and follow it exactly — it contains that platform's
+2. **Open the procedure file the INDEX lists for that platform and action** (where a platform lists
+   more than one procedure, choose the one matching the action) and follow it exactly — it contains that platform's
    full operational procedure, error handling, patterns, known limitations, tools, and verification
    checklist.
 3. **Report the outcome** using that platform procedure's own status vocabulary — don't normalize it

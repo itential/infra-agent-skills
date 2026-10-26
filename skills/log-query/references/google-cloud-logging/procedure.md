@@ -18,7 +18,7 @@ Request entries with a page size (default 50; negative is rejected) and an order
 
 ## Continue with page tokens
 
-Repeat the same request with the previous token and everything else unchanged. An empty page that carries a token means the search ran out of time before covering everything: keep going. The search is complete when a response carries no token, or when the caller's own result bound is reached and reported.
+Repeat the same request with the previous token and everything else unchanged. An empty page can still carry a token and more entries may exist: keep going. The search is complete when a response carries no token, or when the caller's own result bound is reached and reported.
 
 ## Patterns
 

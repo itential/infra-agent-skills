@@ -9,7 +9,7 @@ Sources: Splunk Enterprise REST API Reference 10.2, Search endpoint descriptions
 
 ## Prerequisites
 
-The platform's management REST interface must be reachable and the account must be allowed to search the target indexes. Splunk Cloud needs REST access enabled through a support request, and free trial accounts cannot use it. A search can include commands that write data (for example into a lookup or index). Unverified: a documented read-only search flag. If the supplied search contains a writing command, stop and confirm with the operator before submitting it.
+The platform's management REST interface must be reachable and the account must be allowed to search the target indexes. Splunk Cloud needs REST access enabled through a support request, and free trial accounts cannot use it. A Splunk search can include commands that write data (for example into a lookup or index), and this skill does not issue writes. Unverified: a documented read-only search flag. If the supplied search contains a writing command, report it instead of submitting it, unless the operator's standing instructions pre-authorize the write.
 
 ## Submit search job
 
