@@ -4,7 +4,7 @@ Reads the devices, networks, interfaces, and components Auvik has discovered, pe
 
 Source: Auvik API v1 OpenAPI specification (retrieved 2026-10-26); wire details are in [endpoints.md](endpoints.md).
 
-Unverified: Auvik's API integration guide could not be retrieved (the support site blocked automated access), so documented request-rate limits and any IP-based blocking behavior are not confirmed. See Patterns for how to react safely.
+Unverified: request-rate limits and any IP-based blocking behavior are not documented in the API specification. See Patterns for how to react safely.
 
 ## Common Sequences
 
@@ -19,7 +19,7 @@ Verify the credentials first, then list the tenants the account can reach. Succe
 
 Read device records, optionally filtered by network, device type, make and model, vendor, online status, modified-after, not-seen-since, and known-state. The device detail relationship can be included in the same call.
 Success is a list of device records. A successful empty list is still a success response and means no device matched in that tenant; it is not evidence of a healthy network. Online status values are Auvik's own observations (online, offline, unreachable, testing, unknown, dormant, not present, lower-layer down) and are reported as returned, not re-tested.
-A device name or IP does not identify a device: resolve it to the Auvik device identifier before reading one record.
+Single-device reads take the Auvik device identifier; resolve a device name or IP to that identifier through a filtered list first (caution, not from the vendor).
 
 ## Read device detail
 
@@ -27,7 +27,7 @@ Device detail and extended detail add discovery and platform information beyond 
 
 ## Read networks, interfaces, and components
 
-Each has its own list read with filters (for interfaces: type, parent device, administrative and operational status; for components: owning device and current status ok, degraded, or failed). Keep each record's own identifier and its relationship to the parent device.
+Each has its own list read with filters (for interfaces: type, parent device, administrative and operational status; for components: owning device and current status; Unverified: the status values are not listed in this skill, report them as returned). Keep each record's own identifier and its relationship to the parent device.
 
 ## Handle paging and errors
 
@@ -36,9 +36,9 @@ The specification names these failures: 400 bad request (correct the parameters)
 
 ## Patterns
 
-- **A 403 can have more than one cause.** The specification lists 403 as forbidden, which fits a user whose role lacks permission. Unverified: Auvik's integration guide is reported to describe an IP-level block on excessive requests that also surfaces as 403. When a 403 follows a burst of calls from one address, or hits calls that worked before, stop sending requests and report it as a possible block, rather than assuming a role fault or retrying in a loop.
+- **A 403 can have more than one cause.** The specification lists 403 as forbidden, which fits a user whose role lacks permission. Unverified: excessive requests from one address may be blocked at IP level, which would also surface as 403. When a 403 follows a burst of calls from one address, or hits calls that worked before, stop sending requests and report it as a possible block, rather than assuming a role fault or retrying in a loop.
 - Not documented in the specification: rate limits and a 429 response. Pause on any throttling or repeated 403 and resume later.
-- Dates in filters use the ISO 8601 form with milliseconds and a trailing Z.
+- Date filters: Unverified: the exact accepted timestamp format; ISO 8601 with milliseconds and a trailing Z is the assumed form.
 
 ## Known limitations
 
