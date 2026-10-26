@@ -4,7 +4,7 @@ Evaluate a PromQL expression against a Prometheus server, instantly or over a ra
 
 Sources: Prometheus HTTP API reference and management API reference (rolling "latest" docs, retrieved 2026-10-26). Bindings: [endpoints.md](endpoints.md).
 
-Read-only: no confirmation gates apply. Authentication to the server depends on how the deployment is exposed; the HTTP API pages read do not define one.
+Read-only: no confirmation gates apply. Authentication to the server depends on how the deployment is exposed; the HTTP API reference does not define one.
 
 ## Common Sequences
 
