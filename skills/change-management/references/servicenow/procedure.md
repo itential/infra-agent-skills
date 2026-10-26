@@ -50,6 +50,9 @@ state "New" and approval "Not Yet Requested" unless overridden.
 Update the given fields on the change record. Use for any non-close change (priority, description,
 assignment, implementation plan, etc.).
 
+If the update changes the record's state, run Check Gates first, then **stop and confirm with the
+operator before proceeding**. Field-only edits need no confirmation.
+
 ### Check Gates (required before Close, and before any state-changing Update)
 
 Retrieve available next states and their transition conditions for the change record — the documented,
@@ -76,7 +79,9 @@ fields.
 
 ### Approve / Reject
 
-Submit the approval decision (approved or rejected) for the change record.
+**Stop and confirm with the operator before proceeding** — an approval or rejection changes the
+change's workflow state and is not reversed by this skill. Then submit the approval decision
+(approved or rejected) for the change record.
 
 - A comment is required when rejecting — submit no rejection without a reason.
 - A denied-authority error is a documented, specific failure mode distinct from a generic bad request —
