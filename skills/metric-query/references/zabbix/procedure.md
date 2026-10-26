@@ -25,7 +25,7 @@ Read samples for item IDs, one value type per request.
 
 - The history type must match the item's value type: float, character, log, unsigned, text, or binary. Query items of different types in separate requests. The default type is unsigned and is wrong for other items.
 - Time bounds are inclusive. Results carry item ID, time, and value. A sort field, sort order, and limit can be set; a limited result is bounded, so say so.
-- Success: a `result` array. Empty results can reflect selection or retention, not zero usage.
+- Success: a result array. Empty results can reflect selection or retention, not zero usage.
 
 ## Retrieve trends
 
@@ -35,11 +35,11 @@ Read trend aggregates for numeric items over the interval. Each row has a time, 
 
 - A JSON-RPC error object (code, message, data) is a failure even on HTTP 200. Invalid parameters need correction, not reinterpretation as no data.
 - Authentication or permission errors leave the observations unavailable.
-- Rate limits and quotas: not documented. On an HTTP 429 from a fronting proxy, back off and honor any Retry-After header.
+- Rate limits and quotas: not documented. On an HTTP 429, back off and honor any Retry-After header.
 
 ## Patterns
 
-- Match response `id` to the request `id`.
+- Match the response identifier to the request identifier.
 
 ## Known limitations
 

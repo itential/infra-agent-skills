@@ -19,7 +19,7 @@ Reads time-series samples for a named metric or monitored item over a bounded wi
 This capability has no wire-level standard behind it; each platform defines its own query model. Where documented, the following hold on every platform listed:
 
 - A query names a series (metric or item, plus any label/dimension selection) and a time window.
-- Results are timestamp/value pairs whose meaning depends on the platform's own aggregation, resolution, and units.
+- Results carry timestamps and values, or aggregates over a period, and their meaning depends on the platform's own aggregation, resolution, and units.
 - A result can be bounded, paginated, or aggregated by the platform; a bounded or aggregated result is not the full raw record.
 - An empty result or an error does not show that a resource is healthy, idle, or unmonitored.
 

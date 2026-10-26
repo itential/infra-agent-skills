@@ -94,7 +94,7 @@ one vendor's behavior from ever touching the shared file.
 | [`automation-job-execution`](skills/automation-job-execution/) | AWX *(job template launch, poll, output, cancel)*, Jenkins *(build trigger; queue/state/stop details unverified)*, Azure DevOps *(pipeline run, poll, logs, cancel)*, Rundeck *(job run, poll, output, abort)*, Puppet Enterprise *(orchestrator task/plan run, poll, report, stop)* |
 | [`metric-query`](skills/metric-query/) | Prometheus, Zabbix, Datadog *(v2 timeseries query)*, Amazon CloudWatch, Google Cloud Monitoring *(read-only metric samples)* |
 
-**128** vendor references across **33** capabilities (3 more are scaffolded with no coverage yet).
+**123** vendor references across **32** capabilities (3 more are scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 

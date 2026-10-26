@@ -1,6 +1,6 @@
 # Amazon CloudWatch metric query
 
-Read metric statistics or metric-math results for a bounded window with the GetMetricData operation.
+Read metric statistics or metric-math results for a bounded window with the metric-data retrieval operation.
 
 Sources: AWS CloudWatch API reference pages for GetMetricData and MetricDataResult (retrieved 2026-10-26). Bindings: [endpoints.md](endpoints.md).
 

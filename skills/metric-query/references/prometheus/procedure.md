@@ -41,11 +41,11 @@ Evaluate the expression at each step between an inclusive start and end. Start, 
 
 ## Handle errors
 
-- HTTP 400, missing or malformed parameter: correct the parameter and retry once.
+- HTTP 400, missing or malformed parameter: correct the parameter and resubmit.
 - HTTP 422, the expression cannot be executed: review the expression; do not retry unchanged.
 - HTTP 503, query timed out or was aborted: report the query as unsuccessful; narrow the window or series set before retrying.
 - Other transport errors: report separately from query results.
-- Rate limits and quotas: not documented for the API. On an HTTP 429 from a fronting proxy, back off and honor any Retry-After header.
+- Rate limits and quotas: not documented for the API. On an HTTP 429, back off and honor any Retry-After header.
 
 ## Patterns
 
