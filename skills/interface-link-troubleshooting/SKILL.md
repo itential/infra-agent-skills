@@ -10,15 +10,14 @@ Diagnoses physical and logical interface/link problems on whichever platform the
 by reading interface state and counters and mapping them to that platform's own documented likely
 causes — not a configuration-change skill.
 
-## Why this skill has a different shape than most others in this repo
+## How this skill works
 
-This skill is **diagnostic-shaped**, not CRUD-shaped (see `AGENTS.md` rule 2) — the "procedure" is a
-decision tree keyed by symptom, and the useful output is a diagnosis plus the literal evidence that
-supports it, not a created/updated/deleted record. This skill has no destructive-action confirmation
-gates because reading interface state and counters doesn't change anything on the platform. If a
-future addition to this skill ever proposes a remediation action (clearing counters, forcing a
-speed/duplex setting, administratively flapping the interface), that action needs its own
-confirmation gate exactly like any CRUD skill's destructive step.
+This skill is **diagnostic-shaped**, not CRUD-shaped — the "procedure" is a decision tree keyed by
+symptom, and the useful output is a diagnosis plus the literal evidence that supports it, not a
+created/updated/deleted record. It is read-only: reading interface state and counters changes
+nothing on the platform, so it has no confirmation gates. A remediation action (clearing counters,
+forcing a speed/duplex setting, administratively flapping the interface) is outside it; any such
+action needs its own confirmation first, like any destructive step.
 
 ## When to use this skill
 
@@ -31,28 +30,27 @@ confirmation gate exactly like any CRUD skill's destructive step.
 
 ## Universal concepts (shared interface-state vocabulary, not a wire standard)
 
-Confirmed against the three platforms currently listed in `references/INDEX.md` (Cisco IOS-XE,
-Juniper Junos, Arista EOS) as of the research pass that added them — re-check every claim below
-against any newly added vendor before assuming it still holds (`AGENTS.md` rule 4):
+Checked against the three platforms listed in `references/INDEX.md` (Cisco IOS-XE, Juniper Junos,
+Arista EOS); they do not extend automatically to a platform not listed there:
 
 - **There is no single wire-level standard grounding interface/link state the way RFC 4271 grounds
-  BGP session state, or RFC 1035/2136/1123 ground DNS.** Every platform researched so far defines its
+  BGP session state, or RFC 1035/2136/1123 ground DNS.** Every listed platform defines its
   own state names, its own error-counter field names, and its own documented likely-cause mappings —
   do not assume a counter name, a status string, or a documented cause from one vendor's file applies
-  to another's; each vendor's `procedure.md` says explicitly where it could not confirm something
+  to another's; each vendor's `procedure.md` says explicitly where something is unverified
   rather than borrowing another vendor's confirmed behavior.
-- **Administratively disabled vs. operationally down is a distinction every platform researched so
-  far draws in some form** — an interface an operator has explicitly disabled in configuration is a
+- **Administratively disabled vs. operationally down is a distinction every listed platform draws
+  in some form** — an interface an operator has explicitly disabled in configuration is a
   different condition, needing a different response, than one that is enabled but not passing link
   for some other reason. The exact state string and command differ per platform; see each vendor's
   `procedure.md`.
-- **Every platform researched so far documents a mechanism, or at least a display artifact, in which
+- **Every listed platform documents a mechanism, or at least a display artifact, in which
   the interface's reported state does not fully explain why it's in that state** without a further
   check — Cisco's err-disabled state names a specific detected cause that must be read separately
   (`show errdisable recovery`), and Junos's damping feature can make an interface report down without
   its state display distinguishing "suppressed" from "actually down for a new reason." Arista's
-  Dynamic Link Flap Damping is confirmed to exist but its detail wasn't retrieved this pass, so it is
-  not yet confirmed to share this same caveat — don't assume it does until checked.
+  Dynamic Link Flap Damping is documented by name only, with its detail unverified, so it is not
+  confirmed to share this same caveat — don't assume it does until checked.
 - Beyond these, do not assume any specific error-counter name (CRC, FCS, alignment, symbol, etc.),
   duplex/speed auto-negotiation display convention, or documented root-cause list is shared across
   vendors — each is confirmed or explicitly flagged as unconfirmed in that vendor's own file.

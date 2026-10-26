@@ -4,7 +4,7 @@ Read-only diagnosis of physical/logical interface and link problems on Cisco IOS
 organized by symptom. Follow the entry point matching the observed symptom; each branch names the
 next check to run and, where the source states one, the documented likely cause.
 
-Sources consulted (own words below, not quoted) — retrieval date 2026-09-17:
+Sources, retrieved 2026-09-17:
 - Cisco IOS Interface and Hardware Component Command Reference, "show interfaces" sample output
   (chapter covering `show hw-module slot tech-support` through `show interfaces vg-anylan`),
   cisco.com.
@@ -13,11 +13,11 @@ Sources consulted (own words below, not quoted) — retrieval date 2026-09-17:
   retrieval time; content style suggests it predates current IOS-XE branding, but it is Cisco's own
   published material and nothing in it is IOS-XE-version-specific).
 
-Cisco's own field-by-field prose definitions for every `show interfaces` counter could not be
-retrieved during this research pass (only the field *names* appearing in sample output were
-confirmed) — where this procedure explains what a counter means, treat that explanation as a
-reasonable operator-level restatement, not a quoted Cisco definition, and re-verify against
-current platform documentation before relying on it for an unfamiliar counter.
+Not documented in the sources: Cisco's field-by-field prose definitions for every `show interfaces`
+counter (only the field *names* appearing in sample output are confirmed). Where this procedure
+explains what a counter means, treat that explanation as a reasonable operator-level restatement,
+not a vendor definition, and re-verify against current platform documentation before relying on it
+for an unfamiliar counter.
 
 ## Entry point: interface_down
 
@@ -50,9 +50,8 @@ current platform documentation before relying on it for an unfamiliar counter.
    interface_down condition by Cisco's own state model — move to the no_link or high_errors entry
    point depending on what the caller actually observed.
 5. If neither administratively down nor err-disabled explains it: report the literal state string
-   from `show interfaces status` as the evidence and note that this procedure's confirmed source
-   material does not document every possible down-state string — say so explicitly rather than
-   guessing at an unconfirmed cause.
+   from `show interfaces status` as the evidence. Not documented in the sources: every possible
+   down-state string — say so explicitly rather than guessing at an unconfirmed cause.
 
 ## Entry point: flapping
 
@@ -68,10 +67,10 @@ current platform documentation before relying on it for an unfamiliar counter.
    entry point below are common contributors to instability, not just to a static error count —
    cross-check that entry point's evidence (CRC/frame/alignment counters) before concluding the
    cause is something else entirely.
-4. This procedure's confirmed source material does not give a general-purpose "why is this
-   specific interface flapping" root-cause list beyond the errdisable flap detector and the
-   duplex/cabling signs covered elsewhere — if those don't explain it, say so explicitly as an
-   unresolved cause needing platform-specific or hardware-level follow-up rather than inventing one.
+4. Not documented in the sources: a general-purpose "why is this specific interface flapping"
+   root-cause list beyond the errdisable flap detector and the duplex/cabling signs covered
+   elsewhere. If those don't explain it, say so explicitly as an unresolved cause needing
+   platform-specific or hardware-level follow-up rather than inventing one.
 
 ## Entry point: high_errors
 
@@ -136,19 +135,19 @@ current platform documentation before relying on it for an unfamiliar counter.
 3. `show interfaces <interface> capabilities` shows what speed/duplex/media types the local port
    itself supports — use it to rule out a transceiver/port mismatch (for example, an installed
    optic the port doesn't support) as the cause before assuming the cable itself is at fault.
-4. This procedure's confirmed source material does not document a further breakdown of no-link
-   -light causes beyond what's covered above (administratively down, err-disabled, and a physical/
-   transceiver fault manifesting as `notconnect`) — if none of these explain the observed state,
-   report the literal reported state as evidence and flag that root cause as unresolved by this
-   procedure's current source material rather than guessing further.
+4. Not documented in the sources: a further breakdown of no-link-light causes beyond what's
+   covered above (administratively down, err-disabled, and a physical/transceiver fault manifesting
+   as `notconnect`). If none of these explain the observed state, report the literal reported state
+   as evidence and flag that root cause as unresolved by the documented causes rather than guessing
+   further.
 
-## Known gaps in this vendor's coverage (be explicit about these, don't paper over)
+## Known gaps in this vendor's coverage
 
-- No confirmed, retrieved Cisco field-by-field prose definition of every `show interfaces` counter
-  — this file explains counters using the field names Cisco's own sample output confirms exist, with
-  operator-level restatements of what each represents; treat as reasonable inference, not verbatim
-  vendor definition.
-- No confirmed IOS-XE-current (17.x) counterpart command reference was retrieved distinct from the
-  general IOS Interface and Hardware Component Command Reference material actually used above —
-  re-verify command availability/output format against the specific IOS-XE release in use before
-  relying on exact field layout.
+- No Cisco field-by-field prose definition of every `show interfaces` counter is available from the
+  sources — this file explains counters using the field names Cisco's own sample output confirms
+  exist, with operator-level restatements of what each represents; treat as reasonable inference,
+  not vendor definition.
+- No IOS-XE-current (17.x) command reference distinct from the general IOS Interface and Hardware
+  Component Command Reference material above is available from the sources — re-verify command
+  availability and output format against the specific IOS-XE release in use before relying on exact
+  field layout.
