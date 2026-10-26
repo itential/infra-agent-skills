@@ -86,8 +86,8 @@ operator.
 ### 5. Delete a zone — confirmation gate required
 
 **Stop and confirm with the operator before deleting any zone.** This removes Cloudflare's zone
-configuration for the domain outright. Cloudflare documents no precondition for zone deletion (such as Route 53's requirement that
-a zone be reduced to only its default records first) — treat that absence as an open question rather than assuming deletion
+configuration for the domain outright. No precondition for zone deletion (such as Route 53's requirement that
+a zone be reduced to only its default records first) is documented in the sources — treat that absence as an open question rather than assuming deletion
 either requires or doesn't require an empty zone; if the operator needs that guarantee met, verify
 record contents first regardless. State to the operator: the zone name and ID, and that this action is
 being treated as irreversible via this API absent evidence otherwise.
@@ -99,7 +99,7 @@ See `endpoints.md` § "Delete a Zone" for the exact request/response shape.
 Cloudflare's API returns a consistent envelope on every call: `success` (boolean), `result`, `errors[]`
 (each with a numeric `code`, a `message`, and optionally a `documentation_url` and a `source.pointer`
 identifying the offending field), and `messages[]` for non-error informational notices. No
-zone-specific error codes beyond this general shape are documented — when a call
+zone-specific error codes beyond this general shape are documented in the sources — when a call
 fails, report the literal `code`/`message` pair from the response to the operator rather than guessing
 at which documented error category it falls into.
 

@@ -27,8 +27,8 @@ generated RRsets.
 Response (201 Created): the created zone object, including the auto-generated SOA and NS RRsets (if
 `rrsets` was left `true`).
 
-Errors: a default JSON error-object response on failure; no specific error code/string is documented
-— report whatever literal error body the server returns.
+Errors: a default JSON error-object response on failure; no specific error code/string is documented in the
+sources — report whatever literal error body the server returns.
 
 ## Retrieve a Zone
 
@@ -69,7 +69,7 @@ applied or rejected.
 Response: `204 No Content` on success.
 
 Errors: `422 Unprocessable Entity` when the requested change itself is invalid (exact trigger
-conditions not documented); a default JSON error-object response for other malformed
+conditions not documented in the sources); a default JSON error-object response for other malformed
 input.
 
 ## Delete a Zone
@@ -82,8 +82,8 @@ No request body. Removes the zone's own configuration/metadata and every RRset i
 
 Response: `204 No Content` on success.
 
-Errors: a default JSON error-object response on failure; no specific error code/string is documented,
-and no "zone must be empty first" precondition is documented either — see
+Errors: a default JSON error-object response on failure; no specific error code/string is documented in the sources,
+and no "zone must be empty first" precondition is documented there either — see
 `procedure.md`'s Known limitations.
 
 ## Notify Zone
@@ -114,7 +114,7 @@ Literal route: `PUT /servers/{server_id}/zones/{zone_id}/axfr-retrieve`
 Body: optionally, a specific primary server address to pull from instead of the zone's already
 configured one(s).
 
-Response: not documented beyond that it triggers an immediate transfer attempt
+Response: not documented in the sources beyond that it triggers an immediate transfer attempt
 for a secondary zone — behavior against a non-secondary zone is unconfirmed (see `procedure.md`'s
 Known limitations).
 

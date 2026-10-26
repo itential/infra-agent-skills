@@ -32,13 +32,13 @@ verified true across all three currently listed:
 - **Zone deletion is treated as destructive and effectively irreversible in this skill's own
   procedures**, even though the vendors differ on whether they document a hard precondition for it
   (Route 53 explicitly requires the zone hold only its default records first and states deletion can't
-  be undone; Cloudflare's and PowerDNS's documentation shows no equivalent explicit
-  precondition or explicit "can't be undone" statement) — every platform
+  be undone; no equivalent explicit precondition or "can't be undone" statement appears in the sources for
+  Cloudflare or PowerDNS) — every platform
   procedure below still gates deletion on operator confirmation regardless, since the absence of a
   documented safeguard on some platforms is a reason for more caution, not less.
 - **SOA/NS auto-generation on zone creation is a real behavior on some, not all, platforms** — Route 53
-  and PowerDNS both auto-generate an SOA and NS record set from caller input at creation time; Cloudflare's
-  zone API documents no caller-facing SOA record at all (Cloudflare
+  and PowerDNS both auto-generate an SOA and NS record set from caller input at creation time; no caller-facing SOA record
+  is documented in the sources for Cloudflare's zone API (Cloudflare
   manages its own zone metadata differently) — do not assume every platform in this skill has an
   SOA/NS pair the same way `dns-record-management` assumes for individual zones.
 
@@ -65,7 +65,7 @@ contradicts a generalization above.
   for that.
 - Subdomain delegation is only documented in depth for the case where the parent domain's authority is
   hosted elsewhere and a subdomain is being handed to one of these platforms — see each platform's own
-  `procedure.md` for exactly which delegation shapes it verified versus flagged as unconfirmed.
+  `procedure.md` for exactly which delegation shapes are documented versus flagged as unconfirmed.
 
 ## Contributing to this skill
 

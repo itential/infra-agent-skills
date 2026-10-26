@@ -27,7 +27,7 @@ least: `id`, `name`, `status` (`initializing` \| `pending` \| `active` \| `moved
 prior nameservers), `created_on`, `activated_on`, `account`, `owner`, `type`.
 
 Errors: general `errors[]` entries in the standard envelope shape (`code` numeric ≥1000, `message`,
-optional `documentation_url`, optional `source.pointer`) — no zone-specific error codes are documented;
+optional `documentation_url`, optional `source.pointer`) — no zone-specific error codes are documented in the sources;
 report the literal code/message returned rather than mapping it to an
 assumed category.
 
@@ -53,7 +53,8 @@ email+key credentials with equivalent access).
 Response: envelope `{success, result: {id}, errors[], messages[]}` — `result.id` echoes the deleted
 zone's ID.
 
-No pre-delete constraint (e.g. requiring the zone to be record-empty first) is documented — see `procedure.md`'s Known limitations.
+No pre-delete constraint (e.g. requiring the zone to be record-empty first) is documented in the
+sources — see `procedure.md`'s Known limitations.
 
 ## Field reference (zone-level fields only)
 
