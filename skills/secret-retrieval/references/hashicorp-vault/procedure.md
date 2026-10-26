@@ -6,8 +6,8 @@ authenticated Vault client already holding a valid client token — obtaining th
 auth method (userpass, AppRole, cloud auth, etc.) is out of scope here.
 
 Source: HashiCorp's own Vault API documentation for the KV v2 secrets engine and the KV v1
-secrets engine (developer.hashicorp.com/vault/api-docs/secret/kv/kv-v2 and .../kv-v1), retrieved
-2026-09-29.
+secrets engine (developer.hashicorp.com/vault/api-docs/secret/kv/kv-v1, retrieved 2026-09-29,
+and .../kv-v2, retrieved 2026-10-26).
 
 ## Operational procedure
 
@@ -33,13 +33,20 @@ See `endpoints.md` for the exact paths of each.
   secret's full contents (whatever keys were written) — there is no separate `version` in the
   payload, since v1 has none.
 - **KV v2**: issue a read against the `data` sub-path. To read a specific historical version rather
-  than the latest, supply the `version` query parameter — omitting it returns the newest,
-  non-destroyed version. The response separates the secret's own key/value map (under `data.data`)
+  than the latest, supply the `version` query parameter — omitting it returns the latest version,
+  whatever that version's state. No skip to an earlier version is documented when the latest
+  version is deleted or destroyed. The response separates the secret's own key/value map (under `data.data`)
   from Vault-managed version metadata (under `data.metadata`: `created_time`, `version`,
   `destroyed`, and deletion state).
-- If the read returns nothing where a value was expected, check whether the KV v2 version was
-  soft-deleted (see step 4) before concluding the secret doesn't exist — a soft-deleted version
-  still shows up in metadata history but returns no data on a plain read.
+- If the read returns nothing where a value was expected, check whether the requested (or latest)
+  KV v2 version was soft-deleted or destroyed (see step 4) before concluding the secret doesn't
+  exist — such a version still shows up in metadata history but yields no secret data. Unverified:
+  the exact status code and body of a read against a deleted or destroyed version; report the read
+  as failed and read the secret's metadata resource (see `endpoints.md`), whose per-version entries
+  carry `deletion_time` and `destroyed`, to tell the states apart.
+- Vault documents no fallback to an earlier version when the requested or latest version is deleted
+  or destroyed, so do not expect an older version's value from such a read. Reading a
+  named earlier version is a separate, explicit read.
 
 ### 3. Create or overwrite a secret's value
 
@@ -69,10 +76,12 @@ delete, since it has no version history to soft-delete from):
   with a `versions` array in the body). **Confirm with the operator before this step** even though
   it's recoverable, since a caller depending on that secret loses access immediately.
 - **Undelete** (reverse a soft delete) — same `versions` array shape, against the `undelete`
-  sub-path. Restores read access to those specific versions.
+  sub-path. Restores read access to those specific versions. **Always stop and confirm with the
+  operator before submission** — it makes secret data readable again.
 - **Destroy** (irreversible; the underlying data is actually removed) — same `versions` array shape,
-  against the `destroy` sub-path. **This step always needs explicit operator confirmation before
-  submission** — the source is explicit that this is not recoverable, unlike a soft delete.
+  against the `destroy` sub-path. A destroyed version cannot be brought back with undelete.
+  **This step always needs explicit operator confirmation before submission** — Vault documents
+  this as not recoverable, unlike a soft delete.
 - **KV v1 delete**: removes the value at the path outright, with no soft-delete/undelete tier at
   all. Treat every KV v1 delete as equivalent in severity to a KV v2 destroy, and gate it the same
   way.
@@ -116,19 +125,19 @@ Every operation maps to the Vault HTTP API — see `endpoints.md` for literal re
 
 | Operation | Description | Category |
 |---|---|---|
-| KV v1 read | `GET` a secret's current (only) value | Secret Read |
-| KV v2 read | `GET` a secret's latest or a specific version's value plus metadata | Secret Read |
-| KV v1 write | `POST` to fully replace a secret's stored key/value map | Secret Write |
-| KV v2 write | `POST` to create a new version with a fully replaced key/value map | Secret Write |
-| KV v1 delete | `DELETE` to permanently remove the secret | Secret Delete |
-| KV v2 soft delete | `DELETE`/`POST` to mark version(s) deleted, recoverable | Secret Delete |
-| KV v2 undelete | `POST` to restore soft-deleted version(s) | Secret Delete |
-| KV v2 destroy | `POST` to permanently remove version(s) | Secret Delete |
+| KV v1 read | Read a secret's current (only) value | Secret Read |
+| KV v2 read | Read a secret's latest or a specific version's value plus metadata | Secret Read |
+| KV v1 write | Fully replace a secret's stored key/value map | Secret Write |
+| KV v2 write | Create a new version with a fully replaced key/value map | Secret Write |
+| KV v1 delete | Permanently remove the secret | Secret Delete |
+| KV v2 soft delete | Mark version(s) deleted, recoverable | Secret Delete |
+| KV v2 undelete | Restore soft-deleted version(s) | Secret Delete |
+| KV v2 destroy | Permanently remove version(s) | Secret Delete |
 
 ## Verification checklist
 
 - [ ] KV engine version (v1 vs v2) for the target mount was confirmed, not assumed
 - [ ] For KV v2 reads, whether a specific version or the latest was intended was made explicit
-- [ ] Any overwrite, delete, or destroy of an existing value was confirmed with the operator first
+- [ ] Any overwrite, delete, undelete, or destroy of an existing value was confirmed with the operator first
 - [ ] A `cas` value was used on KV v2 writes where a concurrent writer was a realistic risk
 - [ ] The retrieved secret value was not written into any log, report, or status message
