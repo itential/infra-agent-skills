@@ -21,7 +21,7 @@ Sources (retrieved 2026-10-19):
   API documentation page): request/response schemas and parameters. **Verify field names against the target server's own API documentation page
   before automating.**
 
-The product documentation reads for this pass say little about validation behavior (naming conflicts,
+The product documentation says little about validation behavior (naming conflicts,
 apex handling, TTL inheritance, error strings). Those items are marked **unknown** below rather than
 guessed.
 

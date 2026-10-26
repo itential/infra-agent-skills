@@ -19,23 +19,19 @@ plus wire-level `endpoints.md` and, where the vendor has non-obvious per-type fi
 **Not in scope for this skill:** NetBox IPAM (prefix/IP address allocation is a different capability —
 see the separate `ipam-allocation` skill, not a DNS vendor variant).
 
-**BlueCat Horizon vs. BlueCat Address Manager (found adding Address Manager):** these are two distinct
-BlueCat products, not two names for the same API, confirmed against BlueCat's own product pages and
-API guides. Address Manager (`bluecat-address-manager/`) is part of BlueCat's Integrity line — a
+**BlueCat Horizon vs. BlueCat Address Manager:** these are two distinct BlueCat products, not two
+names for the same API. Address Manager (`bluecat-address-manager/`) is part of BlueCat's Integrity line — a
 self-hosted DDI appliance with its own resource model and REST API rooted at `/api/v2`. Horizon
 (`bluecat/`) is a separately-sold, cloud-hosted control plane that overlays and governs existing
 DNS/DHCP/IPAM systems (which can include an Address Manager instance, Active Directory-integrated DNS,
 BIND, Kea, or cloud DNS) rather than being one of those systems itself. Do not treat one vendor
 directory as covering the other.
 
-**Universal-concepts correction (found adding PowerDNS):** `SKILL.md`'s "Known limitations" originally
-said DNSSEC record types are out of scope on every platform "that offers them" — PowerDNS's zone
-rectification (needed after any RRset change on a DNSSEC-enabled zone) is genuinely in scope for this
-skill, since it's a required follow-up step to a record change, not a DNSSEC *record type* (DS/DNSKEY)
-being created directly. `SKILL.md` was corrected to distinguish "creating DNSSEC record types
-directly" (still out of scope everywhere) from "DNSSEC-related post-change housekeeping a platform
-requires" (in scope where a platform's own record-change procedure requires it).
+**DNSSEC scope (PowerDNS):** PowerDNS requires zone rectification after any RRset change on a
+DNSSEC-enabled zone. That is a required follow-up step to a record change, so it is in scope, whereas
+creating DNSSEC record types (DS/DNSKEY) directly is out of scope on every platform. DNSSEC-related
+post-change housekeeping is in scope where a platform's own record-change procedure requires it.
 
-**Universal-concepts correction (found adding Akamai Edge DNS and GoDaddy):** `SKILL.md` said apex SOA/NS are restricted or auto-managed on every platform, and that Azure's record-set model was the only departure from per-record handling. Akamai's docs are silent on apex SOA/NS, and Akamai and GoDaddy both use grouped addressing (record sets, type+name groups), so the claims were hedged.
+**Apex SOA/NS and record addressing (Akamai Edge DNS, GoDaddy):** Akamai's documentation is silent on apex SOA/NS, so a restriction or auto-management there is not documented. Azure, Akamai, and GoDaddy address grouped records (record sets, type+name groups) rather than single records, so do not assume per-record addressing.
 
-**Universal-concepts correction (found adding Micetro):** `SKILL.md` said apex SOA/NS are restricted or auto-managed on every platform. Micetro's documentation treats SOA and NS as ordinary record types and does not state such a restriction, so the claim was hedged to "where a platform documents it".
+**Apex SOA/NS (Micetro):** Micetro's documentation treats SOA and NS as ordinary record types and states no apex restriction. Apex SOA/NS restrictions apply only where a platform documents them.

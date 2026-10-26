@@ -13,9 +13,8 @@ at docs.infoblox.com) — the introduction, transport/authentication, object-ref
 GET/POST/PUT/DELETE method sections, retrieved 2026-09-29. Per-record-type field names (which fields
 each record object exposes, and which of them are mandatory on creation) were cross-checked against
 Infoblox's own generated WAPI object-schema documentation for WAPI version 2.13.7 (the same schema a
-Grid Master itself serves per object type; browsed via a third-party-hosted mirror of that generated
-output, since the official PDF reference spreads its individual object pages across 800+ pages and a
-full page-by-page pull wasn't practical in this pass) — flagged here per this repo's sourcing rule.
+Grid Master itself serves per object type), read through a third-party-hosted mirror of that
+generated output because the official PDF reference spreads its object pages across 800+ pages.
 Both sources describe the same underlying generated WAPI schema rather than two independent opinions,
 and nothing in the cross-check contradicted the official reference guide's own general method/object
 model.
@@ -101,7 +100,7 @@ return fields on the same create call rather than issuing a separate read.
 same address+view), the server rejects the create as a data conflict — treat this as `ALREADY_EXISTS`
 rather than a generic failure; do not retry the same create call unchanged. See `endpoints.md`'s error
 section for what's confirmed about this response shape and what remains unconfirmed (an exact error
-string was not found in the sources read for this pass).
+string is not documented in the sources).
 
 ### 6. Confirm before a destructive or already-live change
 
@@ -148,8 +147,8 @@ object's `_ref` is returned as confirmation. This step always needs step 6's con
   recreated — re-resolve a `_ref` via search (step 4) rather than assuming a previously captured one is
   still valid, once a meaningful amount of time or intervening activity has passed.
 - **Use-flag pairing (`ttl`/`use_ttl`) is a recurring shape** in NIOS objects generally, not unique to
-  DNS records — if a future addition to this skill's Infoblox scope introduces another field with a
-  `use_<field>` counterpart, treat it the same way (writing the value field alone implicitly turns the
+  DNS records — any field with a
+  `use_<field>` counterpart works the same way (writing the value field alone implicitly turns the
   flag on).
 - **PTR is the one type here with a conditional required-field set** — `ptrdname` plus exactly one of
   `ipv4addr`/`ipv6addr` always; `name` only inside a forward-mapping zone. Every other type in this
@@ -159,11 +158,11 @@ object's `_ref` is returned as confirmation. This step always needs step 6's con
 
 - Scope is exactly six record types — A, AAAA, CNAME, MX, TXT, PTR. NS and DHCP Fixed Address handling
   (covered by an earlier version of this file) are out of scope now; WAPI supports them through the
-  same general object model (`record:ns`, `fixedaddress`) if a future addition needs them.
+  same general object model (`record:ns`, `fixedaddress`).
 - View cannot be changed on an existing record via update (step 7) — only via delete-and-recreate,
   which is destructive and needs the confirmation gate from step 6.
-- The exact wire-level string(s) NIOS uses to signal "object already exists" on a duplicate create were
-  not confirmed against the sources read in this pass (see step 5 and `endpoints.md`) — treat any 400
+- The exact wire-level string(s) NIOS uses to signal "object already exists" on a duplicate create are
+  unverified in the sources (see step 5 and `endpoints.md`) — treat any 400
   response whose `text` field describes a conflicting/duplicate object as `ALREADY_EXISTS`, and verify
   the precise string against the target Grid Master's actual behavior before relying on string-matching
   it in an automated pipeline.

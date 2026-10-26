@@ -66,7 +66,7 @@ PUT /api/v2/resourceRecords/{id}
 ```
 
 Full-object replace, same schema as create. No separate endpoint or field is documented in the sources
-reviewed for changing only the `type` of an existing record in place — see `procedure.md`'s Patterns
+for changing only the `type` of an existing record in place — see `procedure.md`'s Patterns
 section for how to treat a type-correction request.
 
 ## Delete a resource record

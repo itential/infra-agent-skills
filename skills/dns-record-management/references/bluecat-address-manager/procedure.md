@@ -59,7 +59,7 @@ describe the API's shape and conventions rather than every resource's full schem
   creation — a lookup-by-name step (zone, and afterward the record if a separate confirmation read is
   needed) is a normal, expected part of any sequence here, not an extra safety step.
 - **Record type is chosen at creation via the payload's `type` field and is not covered by a documented
-  in-place type-change path** in the sources reviewed — if a correction of a wrong-type record is
+  in-place type-change path** in the sources — if a correction of a wrong-type record is
   needed, treat it as delete-then-recreate unless the target instance's own live Swagger doc shows
   otherwise (this differs from `references/bluecat/`'s Horizon procedure, which states this as an
   explicit vendor-documented warning; the Address Manager v2 guide simply doesn't document an update
@@ -72,11 +72,11 @@ describe the API's shape and conventions rather than every resource's full schem
   management, bulk import/export, or PTR-from-host auto-generation.
 - Only host, CNAME, alias, MX, TXT, and SRV records are confirmed to go through the `resourceRecords`
   collection endpoint documented here. Other record types (NS, PTR, SOA, DNSSEC types, etc.) are not
-  documented as available through this same path in the sources reviewed — this is a real coverage gap,
+  documented as available through this same path in the sources — this is a real coverage gap,
   not an oversight, and should be checked against the target instance's own Swagger doc before assuming
   they're unsupported outright.
 - Exact validation-error message text for a duplicate or conflicting record is not enumerated in the
-  sources reviewed — don't invent specific error strings; surface the tool's actual response.
+  sources — don't invent specific error strings; surface the tool's actual response.
 
 ## Tools
 

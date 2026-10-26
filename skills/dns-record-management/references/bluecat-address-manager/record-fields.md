@@ -33,7 +33,7 @@ resource model.
 ## Not confirmed through this endpoint
 
 NS, PTR, SOA, and DNSSEC-related record types are not documented as available through the
-`resourceRecords` collection in the sources reviewed for this procedure. Address Manager's broader
+`resourceRecords` collection in the sources. Address Manager's broader
 object model manages some of these through other resource paths (e.g. zone-level SOA/NS settings tied
 to the zone object itself rather than a standalone record). Treat a request for one of these as outside
 this procedure's confirmed scope — check the target instance's own live Swagger documentation
