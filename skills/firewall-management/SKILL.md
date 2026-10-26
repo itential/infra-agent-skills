@@ -35,7 +35,8 @@ and holds as stated; it is not assumed to extend automatically to a platform not
   platform blocks for you.** Enforcement varies and is partial at best. PAN-OS, FortiOS, Cisco ASA,
   FortiManager and WatchGuard procedures found no platform-enforced reference check preventing
   deletion of an in-use object or rule (ASA's docs explicitly note this for network-service
-  objects). Juniper SRX documents some commit-time enforcement for specific cases only, and AWS
+  objects). Zscaler ZIA documents no reference check on rule deletion, and its referenced objects
+  are not edited by its procedure. Juniper SRX documents some commit-time enforcement for specific cases only, and AWS
   Network Firewall rejects deleting something still in use. Treat "check for existing references
   before deleting" as this skill's own discipline in every vendor procedure, not a safety net the
   platform itself is confirmed to provide.
@@ -55,8 +56,8 @@ and holds as stated; it is not assumed to extend automatically to a platform not
   (configured differently, at the policy level); Cisco ASA nests static/auto NAT as a subcommand
   inside the network object it translates, not as an independent rule list; Juniper SRX keeps NAT in
   its own rule sets, separate from security policies. NAT modeling for FortiManager, WatchGuard,
-  AWS Network Firewall and Zscaler ZIA was not confirmed. Confirm the target vendor's own NAT model before assuming
-  any of these shapes carries over to another platform.
+  AWS Network Firewall and Zscaler ZIA was not confirmed. Confirm the target vendor's own NAT model
+  before assuming any of these shapes carries over to another platform.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.
