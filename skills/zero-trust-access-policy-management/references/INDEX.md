@@ -8,11 +8,15 @@ step-by-step) plus wire-level `endpoints.md`.
 | Zscaler Internet Access (ZIA) | `zscaler-zia/` | Create/update/delete a URL/cloud-application filtering rule | Rules are evaluated in an explicit `order`; action vocabulary includes `ISOLATE` (cloud browser isolation), not just allow/block |
 | Zscaler Private Access (ZPA) | `zscaler-zpa/` | Create/update/delete an access-policy rule (which users/groups may reach which application segments) under the `ACCESS_POLICY` policy set | Rule scope is expressed as a list of boolean `conditions`/operands, not flat fields; reordering is a separate dedicated endpoint from update |
 | Netskope | `netskope/` | Create/update/delete a private-access (NPA) policy rule via REST API v2 | Update is a partial `PATCH`, not a full `PUT`; rule placement uses a `rule_order` directive (`top`/`bottom`/`before`/`after`) rather than a numeric field in the request body |
+| Cloudflare One Gateway | `cloudflare-gateway/` | List/create/update/reorder/disable/delete a DNS, network (layer 4), or HTTP policy rule | One rule object with a filter value per type, ordered by ascending `precedence`. Not covered: egress and DNS-resolver rules, lists, TLS settings, and the packet-level network firewall product. Separate from Cloudflare's entries under other skills. Token permission, rate limits, and API error codes are undocumented. |
+| Cloudflare One Access | `cloudflare-access/` | List/get/create/update/delete a reusable Access policy (Allow, Block, Bypass, Service Auth) and convert a legacy application policy to reusable | Policy order is set per application, not on the policy, and an update reaches every application using it. Not covered: applications, attaching a policy, rule groups, identity providers, lists, service tokens, posture checks. Separate from Cloudflare Gateway above. Rate limits and API error codes are undocumented. |
 
 **Boundary with neighbouring capabilities:** network-layer firewall rule changes belong to
 `firewall-management`, and SaaS/CASB inline data-control policy belongs to `casb-policy-management`;
-this skill is for user/group-to-resource access rules on SASE/ZTNA platforms. (Zscaler ZIA firewall
-filtering and Netskope real-time CASB rules are listed below as out of scope for that reason.)
+this skill is for user/group-to-resource access rules on SASE/ZTNA platforms.
+Gateway network rules are identity-aware access rules on that platform, so they belong here.
+
+**Evaluation note:** Cloudflare Access orders each application's policies itself, running Bypass and Service Auth ahead of Allow and Block, and a shared policy's position is set on each application. Cloudflare Gateway evaluates DNS, network, and HTTP rules in separate phases, matching the first rule per phase, and runs HTTP Do Not Inspect rules ahead of Allow and Block regardless of position.
 
 **Not in scope for this skill:** ZIA firewall filtering / DLP / file-type-control rules, ZPA policy
 set types other than access policy (timeout, client-forwarding, inspection, isolation), and Netskope
