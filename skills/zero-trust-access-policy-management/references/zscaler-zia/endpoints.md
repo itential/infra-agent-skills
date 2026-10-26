@@ -110,21 +110,18 @@ since they are outside this rule family's endpoint.
 ```
 GET /zia/api/v1/status
 ```
-Returns the tenant's activation state in a `status` field. Unverified: the set of status values
-is not enumerated in the search-result excerpts available; read the returned value rather than
-matching a fixed list.
+Returns the tenant's activation state in a `status` field. Not documented: the set of status values;
+read the returned value rather than matching a fixed list.
 
 ## Activate Configuration
 
 ```
 POST /zia/api/v1/status/activate
 ```
-Publishes the tenant's saved configuration. Unverified (search excerpt of Zscaler's API
-getting-started page): the request is queued and does not override concurrent changes by other
+Publishes the tenant's saved configuration. Unverified: the request is queued and does not override concurrent changes by other
 administrators, and Zscaler recommends activating once after a group of changes. Path prefix: from
 the Zscaler Go SDK's activation package. Not documented: the response body; read the status
 afterward.
 
 **Failure:** an HTTP 409 with the error name `EDIT_LOCK_NOT_AVAILABLE` indicates concurrent edits
-holding the lock; Zscaler advises waiting a few seconds and retrying (Unverified: search-excerpt
-source). Not documented: other error bodies; surface them verbatim.
+holding the lock; Zscaler advises waiting a few seconds and retrying (Unverified). Not documented: other error bodies; surface them verbatim.

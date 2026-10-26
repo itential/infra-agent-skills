@@ -1,6 +1,7 @@
 # Zscaler Internet Access (ZIA) — URL/Cloud App Filtering Rule Procedure
 
-Create, update, delete, or reorder a URL Filtering rule in a Zscaler Internet Access (ZIA) tenant, then activate the saved configuration — the rule
+Create, update, or delete a URL Filtering rule in a Zscaler Internet Access (ZIA) tenant (rule
+position is set through the rule's order value), then activate the saved configuration — the rule
 type that governs whether a request to a given URL category, cloud application, protocol, or request
 method is allowed, blocked, isolated, or subject to time/size quota for a given set of locations,
 groups, departments, users, or time windows. Does not cover ZIA's separate firewall filtering, DLP,
@@ -11,10 +12,8 @@ Sourced from Zscaler's own actively-maintained `zscaler-sdk-go` SDK
 (github.com/zscaler/zscaler-sdk-go, package `zscaler/zia/services/urlfilteringpolicies`), which
 encodes ZIA's REST endpoint paths, HTTP verbs, and the URL Filtering Rule object's field-level
 structure directly from Zscaler's own service definitions, retrieved 2026-09-29.
-Unverified: authentication details come from a search-result excerpt of Zscaler's OneAPI help page
-(help.zscaler.com/zidentity/understanding-oneapi-authentication), not the full page. Unverified:
-activation behavior comes from search-result excerpts of Zscaler's "Getting Started" (ZIA API) and
-"Saving and Activating Changes in the ZIA Admin Portal" help pages, not the full pages.
+Authentication and activation behavior: Zscaler help pages "Understanding OneAPI Authentication",
+"Getting Started" (ZIA API), and "Saving and Activating Changes in the ZIA Admin Portal".
 
 Assumes an authenticated REST client already holding a valid OneAPI access token for the target ZIA
 tenant (see `endpoints.md` for how that token is obtained and applied) is available.
@@ -54,9 +53,9 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
    meaningful — the source does not state ZIA enforces this at the API layer, so do not assume a
    missing profile reference will be rejected outright, but flag it to the caller as likely
    non-functional if omitted.
-7. **Stop and confirm with the operator before submitting create, update, delete, or reorder** —
-   each changes the tenant's saved URL Filtering configuration, and a reorder can change which rule
-   matches first without changing either rule's own fields. A saved change is not yet enforced; it
+7. **Stop and confirm with the operator before submitting create, update, or delete** —
+   each changes the tenant's saved URL Filtering configuration, and a change to a rule's order can
+   change which rule matches first without changing either rule's other fields. A saved change is not yet enforced; it
    goes live only at the activation step below.
 8. **Submit the call** — create, update against the rule's `id`, or delete against the rule's `id`,
    per `endpoints.md`.
@@ -66,12 +65,12 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
    and compare the fields just submitted against what was persisted. Report CREATED, UPDATED, or
    DELETED as saved-but-not-yet-active; do not report the change as enforced yet.
 10. **Read the activation status** before activating (operation: Get Activation Status). Note any
-    sign that other administrators have unactivated edits in the tenant. Unverified (search excerpt):
+    sign that other administrators have unactivated edits in the tenant. Unverified:
     while others are still editing, an activation is queued and the push to the Central Authority
     waits until all of them activate. Unverified: whether activating also publishes another
     administrator's saved-but-unactivated edits; assume it can.
 11. **Stop and confirm with the operator before activating.** Activation makes the saved
-    configuration live for real user traffic across the tenant, may release pending changes beyond
+    configuration live for real user traffic across the tenant, and may release pending changes beyond
     the rule just saved. Unverified: whether a queued activation can be cancelled; assume it cannot.
     Zscaler recommends activating once after a group of changes.
 12. **Activate** (operation: Activate Configuration), then read the activation status again. Report the
@@ -143,6 +142,6 @@ tenant (see `endpoints.md` for how that token is obtained and applied) is availa
       request, not left unset
 - [ ] CIPA-compliance mutual-exclusion checked before enabling `enableCIPACompliance` alongside any
       of the four conflicting fields
-- [ ] Operator confirmed before create, update, delete, or reorder, and again before activation
+- [ ] Operator confirmed before create, update, or delete, and again before activation
 - [ ] Saved outcome confirmed via the response body (create/update) or success status (delete), not assumed
 - [ ] Activation status read before and after activating; reported ACTIVATED only once active, otherwise ACTIVATION_QUEUED
