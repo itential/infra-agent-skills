@@ -4,8 +4,8 @@ Literal REST calls behind each operation named in `sectigo-procedure.md`. Instan
 the auth host are confirmed by Sectigo's "Understanding REST endpoints" documentation
 (https://docs.sectigo.com/scm/scm-administrator/understanding-rest-endpoints, retrieved 2026-10-19).
 Everything else is *(unverified)*: it comes from the API's OpenAPI definition as packaged by a third party, a
-secondary source, because Sectigo's per-endpoint reference was not
-fetchable.
+secondary source, because Sectigo's per-endpoint reference is not available as a
+source here.
 
 **Host.** Per-customer enrollment host: `https://<customer>.enroll.enterprise.sectigo.com` (Prod),
 `https://<customer>.enroll.hard.sectigo.com` (Hard), or a `<customer>.rest.eu.sectigo.com` host (EU).

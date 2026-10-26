@@ -132,7 +132,7 @@ CA continues to exist (and continues to be billed) independently of any certific
 - The exact numeric revocation-reason vocabulary ACM surfaces (`RevocationReason`) includes both
   `SUPERCEDED` and `SUPERSEDED` as separate documented values in AWS's own reference — this looks
   like a vendor documentation inconsistency (likely a legacy duplicate spelling) rather than two
-  genuinely distinct reasons; no canonical spelling is documented.
+  genuinely distinct reasons; the sources do not identify a canonical spelling.
 - Does not cover binding a certificate to a consuming resource (attaching it to a load balancer
   listener, a CloudFront distribution, etc.) — that belongs to the consuming service's own
   provisioning process, not this certificate-management procedure.

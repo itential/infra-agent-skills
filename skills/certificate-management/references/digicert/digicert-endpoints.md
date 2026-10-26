@@ -4,7 +4,7 @@ Literal REST calls behind each operation named in `digicert-procedure.md`. Route
 renew, and revoke is confirmed by DigiCert's Trust Lifecycle API documentation
 (https://dev.digicert.com/trust-lifecycle-api.html, retrieved 2026-10-19). All other details are
 *(unverified)*: they come from the API's OpenAPI definition as packaged by a third party, a
-secondary source, because DigiCert's per-endpoint reference pages were not fetchable.
+secondary source, because DigiCert's per-endpoint reference pages are not available as a source here.
 
 **Host and auth.** Requests go to the account's DigiCert ONE host (`https://<host>`; `one.digicert.com`
 is the default in the OpenAPI definition *(unverified)*). Authentication is a service-user API token

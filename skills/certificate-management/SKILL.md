@@ -26,7 +26,8 @@ No wire-level standard grounds every platform in this category the way, say, RFC
 DNS — the ACME protocol (RFC 8555) is itself a standard, but Vault PKI, AWS ACM, DigiCert, and Sectigo are each a
 vendor-specific API with no shared protocol underneath them. The claims below hold for the platforms checked;
 DigiCert and Sectigo details are partly unverified (see their procedure files). They do not extend
-automatically to a platform not listed in `references/INDEX.md`. Several plausible-sounding claims do
+automatically to a platform not listed in `references/INDEX.md`; verify against that platform's own
+behavior first. Several plausible-sounding claims do
 not hold on every platform and are deliberately left out below (see each platform's own
 `procedure.md` "Patterns"/"Known limitations" for specifics):
 
