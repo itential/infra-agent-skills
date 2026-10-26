@@ -5,7 +5,7 @@ JSON request/response bodies, authenticated with an `X-Vault-Token` header carry
 token. `{mount}` is the path a KV engine was enabled at (commonly `secret`, but caller-defined);
 `{path}` is the secret's location under that mount.
 
-Source: developer.hashicorp.com/vault/api-docs/secret/kv/kv-v1 and .../kv-v2, retrieved 2026-09-29; destroy method and version-omitted read re-checked 2026-10-26.
+Source: developer.hashicorp.com/vault/api-docs/secret/kv/kv-v1 (retrieved 2026-09-29) and .../kv-v2 (retrieved 2026-10-26). The KV v2 reference lists the destroy call as a PUT; delete and undelete are listed as POST.
 
 ## KV v1 — Read a Secret
 
@@ -35,8 +35,7 @@ Permanent removal — no soft-delete tier exists at this engine version.
 `GET /{mount}/data/{path}?version={version}`
 
 `version` is optional; omitted, returns the latest version. No fallback to an earlier version is
-documented when the requested or latest version is deleted or destroyed, and none should be
-performed by the caller.
+documented when the requested or latest version is deleted or destroyed.
 
 Response: `data.data` — the secret's key/value map. `data.metadata` — `created_time`, `version`
 (integer), `destroyed` (boolean), and `deletion_time`.
@@ -90,7 +89,7 @@ latest version.
 
 Body: `{ "versions": [<integer>, ...] }`
 
-Restores read access to the listed soft-deleted versions.
+Restores read access to the listed soft-deleted versions. Always gate this call behind explicit operator confirmation (see `procedure.md` step 4).
 
 ## KV v2 — Destroy Specific Versions
 
