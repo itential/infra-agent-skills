@@ -1,6 +1,6 @@
 ---
 name: metric-query
-description: Read historical or current metric samples (time series) for a resource from a monitoring platform, for troubleshooting or before/after comparison. Use when you need observed numbers for a known metric over a time window. Covers Prometheus, Zabbix, Datadog, Amazon CloudWatch, and Google Cloud Monitoring. Read-only. Assumes an authenticated API client for the chosen platform is already available. Not for creating monitors or acknowledging alerts (see alert-monitor-management).
+description: Read historical or current metric samples (time series) for a resource from a monitoring platform, for troubleshooting or before/after comparison. Use when you need observed numbers for a known metric over a time window. Covers Prometheus, Zabbix, and Amazon CloudWatch. Read-only. Assumes an authenticated API client for the chosen platform is already available. Not for creating monitors or acknowledging alerts (see alert-monitor-management).
 argument-hint: "[platform] [metric or item] [start] [end]"
 ---
 

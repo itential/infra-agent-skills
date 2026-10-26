@@ -14,8 +14,16 @@ Read-only: no confirmation gates apply.
 
 Identify the AWS account and region, then for each query give a unique ID and either a metric (namespace, metric name, dimensions, period, statistic, optional unit) or a math expression over other queries. Add a start and end time.
 
-- Start is inclusive, end is exclusive. Older starts are rounded down: to the minute if under 15 days old, to a 5-minute boundary at 15 to 63 days, to an hour beyond 63 days.
-- Retention by resolution: periods under 60 seconds for 3 hours (custom high-resolution metrics only), 60 seconds for 15 days, 5 minutes for 63 days, 1 hour for 455 days. Older data is only available at the coarser resolution.
+- Start is inclusive and end is exclusive. How far back the start lies sets both its rounding and the finest period available:
+
+  | Age of start | Start rounded down to | Finest period kept |
+  |---|---|---|
+  | Under 3 hours | the minute | under 60 s (custom high-resolution metrics only) |
+  | 3 hours to 15 days | the minute | 60 s |
+  | 15 to 63 days | a 5-minute boundary | 5 min |
+  | 63 to 455 days | an hour | 1 hour |
+
+  Older data is only available at the coarser resolution.
 - A specified unit that does not match the collected unit returns null results; no unit conversion occurs. Omit the unit to get all.
 - Up to 500 queries per request and 100,800 data points per page by default.
 

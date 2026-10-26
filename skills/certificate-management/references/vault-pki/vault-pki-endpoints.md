@@ -82,7 +82,7 @@ Tool hint: `LIST /pki/certs/revoked` (serials revoked at this cluster); `LIST
 /pki/certs/revocation-queue` (serials with cross-cluster revocation requests pending, relevant to
 Vault installations using performance replication across clusters).
 
-## Roles (read-only reference — role creation/update is out of scope for this procedure)
+## Roles (read-only reference here; creating and changing roles is in `vault-pki-ca-configuration-endpoints.md`)
 
 Tool hint: `LIST /pki/roles`, `GET /pki/roles/:name`. A role response includes (among other fields)
 `allow_any_name`, `allowed_domains`, `allow_bare_domains`, `allow_subdomains`, `allow_glob_domains`,
