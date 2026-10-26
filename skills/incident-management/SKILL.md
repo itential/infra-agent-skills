@@ -26,8 +26,8 @@ fields.
 
 ## Universal concepts (shared incident-handling vocabulary, not a wire standard)
 
-Several platforms are documented today, so these are claims expected to hold for any listed platform and
-must be re-checked when a further platform is added (`AGENTS.md` rules 4 and 14). Where a platform
+Several platforms are documented today, so these are claims expected to hold for any listed platform, and
+do not extend automatically to a platform not listed in `references/INDEX.md`. Where a platform
 differs, its own procedure wins.
 
 - **An incident moves through named states from open to resolved.** Some platforms add states before

@@ -31,7 +31,7 @@ Steps marked (gated) contain an operator confirmation.
 Request statuses are defined by each instance's administrators; the documentation names Open, In Progress, and Closed as examples and describes the transitions as configurable. This file therefore does not assume a fixed list.
 
 - Closing is a distinct operation that takes closure details (see Close), separate from editing the status field.
-- Whether the instance has a separate resolved status, whether it can be reopened through the API, and which transitions are allowed are not stated in the sources read. Read the instance's configured statuses rather than guessing a status name.
+- Whether the instance has a separate resolved status, whether it can be reopened through the API, and which transitions are allowed are not stated in the sources. Read the instance's configured statuses rather than guessing a status name.
 - There is no hold or acknowledge operation documented for this API. Do not map `hold` or `acknowledge` requests to another state; report that the platform procedure has no such step. Picking a request up (below) is the documented way for a technician to claim it.
 
 ## Operations
@@ -82,7 +82,7 @@ Binds to: assign_request.
 Binds to: create_note.
 
 - Add the note text. Optional documented switches: show the note to the requester, notify the technician, copy it to linked requests, and mark it as the first response.
-- Show-to-requester is a boolean; the sources read do not state its default. Set it explicitly to false for internal content and to true only when the requester should see it.
+- Show-to-requester is a boolean; the sources do not state its default. Set it explicitly to false for internal content and to true only when the requester should see it.
 - Success: NOTED, with the note present when the request's notes are read back.
 
 ### Add the resolution
@@ -114,7 +114,7 @@ After every change, read the request and compare status, type, group, technician
 - **Mandatory fields are instance-specific.** The same call can succeed on one instance and fail on another because an administrator made another field mandatory or tied closing to a resolution.
 - **Input is a JSON document in a single form parameter.** Writes carry their payload as a JSON string named input_data, not as a raw JSON body (see `endpoints.md`).
 - **Success is reported in the response body.** The documented success code is 2000 in the response's status block; check it as well as the HTTP status.
-- **Rate limits.** The sources read state none. Treat limits as unknown: send requests one at a time, and on an HTTP 429 or any throttling response back off and honor a Retry-After header if present.
+- **Rate limits.** The sources state none. Treat limits as unknown: send requests one at a time, and on an HTTP 429 or any throttling response back off and honor a Retry-After header if present.
 
 ## Known limitations
 
