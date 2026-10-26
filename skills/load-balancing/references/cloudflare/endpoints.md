@@ -88,7 +88,7 @@ tcp, udp and smtp types, defaults to 80 or 443 for http and https), `path`, `met
   limited.
 - Lists use `page` and `per_page` query parameters.
 
-## Not documented in the pages retrieved
+## Not documented
 
 - What happens when a pool still referenced by a load balancer is deleted. Use the References call
   first and treat the outcome of a direct delete as unknown.

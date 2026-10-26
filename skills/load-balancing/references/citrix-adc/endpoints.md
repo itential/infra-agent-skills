@@ -23,7 +23,7 @@ CRUD mapping confirmed for object-type resources such as `lbvserver`:
 
 Binding-type resources follow the naming convention `<resource-type>_<bound-resource-type>_binding`
 (confirmed for `lbvserver_service_binding`). The equivalent name for a `servicegroup` member binding
-was not independently confirmed with a worked example in this research pass — do not assume a
+is Unverified, with no worked example — do not assume a
 specific literal name for it without checking the target NetScaler's own current reference.
 
 ## Create a service (pool-member equivalent)
@@ -68,7 +68,7 @@ Content-Type: application/json
 
 Note the VIP's own address field is `ipv46`, not `ip` (that name is used by the service object
 instead — see above). No further optional-field catalog (e.g. an `lbmethod` load-balancing-algorithm
-field) was confirmed with a worked example in this research pass; if a caller needs to set the LB
+field) is documented with a worked example; if a caller needs to set the LB
 algorithm, confirm the exact field name against the target NetScaler's own current reference before
 scripting it rather than assuming a remembered field name is correct.
 
@@ -106,8 +106,7 @@ example retrieved omitted `delay` even though the field is documented, and used 
 IP/user (not a real credential — do not reuse literal doc placeholders as if they were realistic
 production values).
 
-**Re-enable:** not independently confirmed with a worked example in this research pass — by
-extension of the same `?action=` query-parameter convention an `?action=enable` call is expected to
+**Re-enable:** Unverified, with no worked example — by extension of the same `?action=` query-parameter convention an `?action=enable` call is expected to
 exist, but its exact required body was not found. Confirm directly against the target system's own
 current reference before relying on it.
 
@@ -124,7 +123,7 @@ for a condition not itemized here — surface the platform's actual response.
 
 ## Authentication
 
-Two methods are both documented on this platform, and the retrieved sources did not fully reconcile
+Two methods are both documented on this platform, and the sources do not fully reconcile
 them into a single mechanism:
 
 1. **Session login:** `POST /nitro/v1/config/login` with body
@@ -136,7 +135,7 @@ them into a single mechanism:
    `X-NITRO-PASS:<password>` alongside `Content-Type: application/json`, described as an alternative
    to establishing a session.
 
-One retrieved worked example (the disable-service use case) instead used a generic HTTP Basic Auth
+One documented worked example (the disable-service use case) instead used a generic HTTP Basic Auth
 flag (`curl -u <user>:<password>`) rather than either of the two mechanisms above spelled out
 literally as headers — it is not confirmed from these sources whether that's a third equivalent
 mechanism the platform accepts, or shorthand the doc author used that maps onto one of the two above.

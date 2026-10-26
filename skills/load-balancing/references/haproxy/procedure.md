@@ -14,10 +14,7 @@ Source: HAProxy configuration-basics documentation
 config-file block shape, and the HAProxy Runtime API reference
 (https://www.haproxy.com/documentation/haproxy-runtime-api/reference/ and its `set-server` page) for
 the live state-management commands, both retrieved 2026-09-17. Some general `server`-line parameter
-semantics (exact behavior of `check`, `weight`, `disabled`) could not be retrieved verbatim from a
-primary source in this research pass despite repeated attempts (the full configuration manual page
-truncated before reaching that section on every attempt) — those are flagged below as commonly-known
-HAProxy convention rather than presented as directly page-sourced.
+semantics (exact behavior of `check`, `weight`, `disabled`) are Unverified against HAProxy's documentation — they are flagged below as commonly-known HAProxy convention rather than presented as documented.
 
 This is a CLI/config-driven procedure per this repository's own convention: the literal
 configuration-file syntax and Runtime API commands are the payload passed to a generic "edit this
@@ -32,20 +29,17 @@ no separate `endpoints.md` wiring layer for this vendor.
    `frontend`/`backend`/`listen` sections; confirm the intended name doesn't already exist in the
    target configuration before adding a new section under it.
 2. **Write the backend block** with one `server` line per pool member, in the confirmed minimal
-   form: `server <member-name> <address>:<port>`. This bare form was the only shape independently
-   confirmed as a verbatim worked example in this research pass; commonly-documented additional
+   form: `server <member-name> <address>:<port>`. This bare form is the only shape with a documented worked example; commonly-documented additional
    per-server keywords include `weight` (relative load-balancing weight) and `check` (enables active
    health checking for that server) — both are real, widely-documented HAProxy keywords, but their
-   exact parameter ranges/defaults were not independently confirmed verbatim from a primary source
-   in this pass. State any specific weight/check value the caller wants explicitly rather than
+   exact parameter ranges/defaults are Unverified. State any specific weight/check value the caller wants explicitly rather than
    assuming a default if precision matters, and confirm the exact accepted syntax against the target
    HAProxy version's own current documentation before relying on anything beyond the bare
    `server <name> <address>:<port>` form.
 3. **Apply the change** — HAProxy's configuration file is declarative; a new/changed backend or
    server line takes effect only once the running process reloads its configuration (the exact
    reload mechanism — an init-system reload command, a container replacement, or HAProxy's own
-   `-sf`/seamless-reload behavior — depends on how the target instance is deployed and was not
-   itself confirmed from a primary source in this pass; use whatever reload mechanism the target
+   `-sf`/seamless-reload behavior — depends on how the target instance is deployed and is Unverified; use whatever reload mechanism the target
    environment's own operational runbook specifies).
 4. **Confirm the reload succeeded** — HAProxy validates its configuration on reload and will refuse
    to apply a broken config; check the process's own reload outcome (exit status / log output)
@@ -121,20 +115,14 @@ no separate `endpoints.md` wiring layer for this vendor.
 
 - HAProxy also offers a separate REST-based "Data Plane API" management layer for the same
   frontend/backend/server configuration, using a transactional POST/PUT/DELETE model. This
-  procedure does **not** cover it — its reference documentation is served as a JS-rendered
-  interactive page that could not be retrieved as page content in this research pass. A future
-  contribution covering the Data Plane API specifically needs its own independent research pass
-  (e.g. against its underlying OpenAPI/Swagger spec) rather than being inferred from this procedure.
+  procedure does **not** cover it — its reference documentation is an interactive page, and none of its content is carried here; do not infer Data Plane API calls from this procedure.
 - Exact parameter ranges/defaults for common `server`-line keywords (`weight`, `check`, `disabled`,
-  `maxconn`) were not independently confirmed verbatim from a primary source in this pass (see step
-  2) — confirm against the target HAProxy version's own current configuration manual before relying
+  `maxconn`) are Unverified (see step 2) — confirm against the target HAProxy version's own current configuration manual before relying
   on anything beyond the bare `server <name> <address>:<port>` form and the Runtime API commands
   explicitly quoted above.
 - The exact reload mechanism (init-system command, container orchestration action, or HAProxy's own
-  seamless-reload flag) is deployment-specific and wasn't itself confirmed from a primary source in
-  this pass — defer to the target environment's own operational runbook.
-- Runtime API command syntax has changed across major HAProxy versions historically (general
-  release-history awareness, not independently re-verified in this pass) — re-check the exact syntax
+  seamless-reload flag) is deployment-specific and is Unverified — defer to the target environment's own operational runbook.
+- Runtime API command syntax has changed across major HAProxy versions historically (unverified against release notes) — re-check the exact syntax
   against the target instance's own version before relying on it verbatim.
 - Does not cover ACL-based routing rules, GSLB equivalents, or TLS certificate/profile provisioning
   (see `certificate-management` for the last of these).

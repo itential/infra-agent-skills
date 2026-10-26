@@ -133,8 +133,7 @@ all, that is called out explicitly below rather than presented as page-confirmed
   community-contributed content not monitored by F5 — see the sourcing caveat at the top of this
   file.
 - Authentication mechanism for iControl REST (HTTP Basic Auth vs. a token obtained from a login
-  endpoint) was not independently confirmed against a primary F5 source in this research pass — an
-  authenticated client is assumed already available per this skill's scope, but do not extend that
+  endpoint) is Unverified against F5's documentation — an authenticated client is assumed already available per this skill's scope, but do not extend that
   assumption into asserting a specific auth flow as F5-documented without your own confirmation.
 - Does not cover FQDN-based pool members (a member that tracks a DNS name rather than a static
   address), GTM/wide-IP configuration, or iRule authoring.

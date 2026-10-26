@@ -64,7 +64,7 @@ its `name` field, so this procedure's "VIP" is that hostname.
 ### Delete
 
 10. **Before deleting a pool or monitor, call its References endpoint** and stop if any load balancer
-    or pool still uses it; the retrieved reference documents no behavior for deleting an in-use object.
+    or pool still uses it; the reference documents no behavior for deleting an in-use object.
 11. **Stop and confirm with the operator before deleting a load balancer**: the hostname stops being
     answered by Cloudflare's load balancing. Delete the balancer first, then unused pools, then unused
     monitors.

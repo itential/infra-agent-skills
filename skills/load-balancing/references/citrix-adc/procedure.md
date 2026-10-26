@@ -66,8 +66,7 @@ confirmed general naming pattern rather than found in a worked example, that is 
     whatever virtual server(s) the service is bound to.
 12. **Re-enabling** — this source's disable-service page did not include the enable call's own
     worked example. By extension of the same action-query-parameter pattern used for disable, an
-    enable action is expected to exist, but its exact call was not independently confirmed in this
-    research pass — do not assert its literal form as page-sourced; confirm the exact syntax against
+    enable action is expected to exist, but its exact call is Unverified — do not assert its literal form as documented; confirm the exact syntax against
     the target NetScaler's own current NITRO reference before relying on it, and report this gap
     rather than guessing at the payload shape if the calling tool needs to re-enable a service.
 
@@ -78,7 +77,7 @@ confirmed general naming pattern rather than found in a worked example, that is 
     all virtual servers removes it from every load-balancing decision that referenced it.
 14. **Delete the target object or binding.** See `endpoints.md`. Treat a 2xx/success response as
     confirmation; if the platform rejects the delete (e.g. an object still in use elsewhere), report
-    the failure verbatim — this source's retrieved error catalog does not list every possible
+    the failure verbatim — this source's error catalog does not list every possible
     still-in-use rejection string, so don't fabricate one.
 
 ## Patterns
@@ -92,23 +91,19 @@ confirmed general naming pattern rather than found in a worked example, that is 
 - **`servicegroup` is a documented alternative to individual `service` objects** for grouping many
   backend members under one named group with its own member-binding sub-resource — this procedure
   was researched and grounded specifically for the plain `service`/`lbvserver` model; the
-  `servicegroup` variant's exact binding object name and fields were not independently confirmed
-  with a worked example in this research pass (see `endpoints.md`). Treat `servicegroup` as a known
-  gap, not as covered by this procedure, until a follow-up research pass confirms it directly.
+  `servicegroup` variant's exact binding object name and fields are Unverified, with no worked example (see `endpoints.md`). Treat `servicegroup` as a known gap, not as covered by this procedure.
 
 ## Known limitations
 
 - Grounded in the plain `service` + `lbvserver` + `lbvserver_service_binding` model only — the
   `servicegroup` object (and its own member sub-binding) is a documented alternative on this
-  platform for larger member pools, but was not independently confirmed with a worked example in
-  this research pass. Do not extend this procedure to `servicegroup` calls without that follow-up.
+  platform for larger member pools, but is Unverified, with no worked example. Do not extend this procedure to `servicegroup` calls.
 - Two different authentication mechanisms are both documented for this platform (a session login
-  returning a cookie-based token, and a per-call header-based credential pair) but one retrieved
-  worked example used a generic HTTP Basic Auth flag in a way that isn't clearly reconciled with the
+  returning a cookie-based token, and a per-call header-based credential pair) but one documented worked example uses a generic HTTP Basic Auth flag in a way that isn't clearly reconciled with the
   header-based mechanism as described elsewhere in the same source — see `endpoints.md`'s
   Authentication section. Confirm which mechanism the target environment actually expects before
   scripting against it.
-- Re-enabling a disabled service was not independently confirmed with a worked example (step 12) —
+- Re-enabling a disabled service is Unverified, with no worked example (step 12) —
   treat the exact call as unverified until confirmed against the target NetScaler's own reference.
 - Does not cover content-switching virtual servers, GSLB, rewrite/responder policy binding, or SSL
   certificate/profile provisioning (see `certificate-management` for the last of these).

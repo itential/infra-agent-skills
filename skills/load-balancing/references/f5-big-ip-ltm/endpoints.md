@@ -28,8 +28,7 @@ Fields relevant to basic VIP CRUD (see `procedure.md` for how to use them):
 - `source` — accepted traffic source address/network.
 - `enabled` / `disabled` — admin state. (Source lists both as boolean fields on the same object;
   confirm against a live read which one the target system actually toggles before assuming they're
-  simple opposites — the retrieved reference table's own default-value column was internally
-  inconsistent on this pair, see local research notes.)
+  simple opposites — the reference table's own default-value column is internally inconsistent on this pair.)
 - `profiles` — array of associated profiles (e.g. TCP/HTTP/client-SSL/server-SSL); no field-level
   sub-schema for an individual profile entry was retrieved.
 - `rules` — associated iRule names.
@@ -38,7 +37,7 @@ Fields relevant to basic VIP CRUD (see `procedure.md` for how to use them):
 
 **Success:** 2xx response containing the object's own fields plus a `selfLink`.
 **Failure:** no specific error-string catalog was found for virtual-server-specific failures in the
-pages retrieved — surface the response body verbatim.
+reference — surface the response body verbatim.
 
 ## Pool (`ltm/pool`)
 
@@ -63,7 +62,7 @@ Fields relevant to basic pool CRUD:
 **Success:** 2xx response containing the object's own fields plus `selfLink`.
 **Failure:** no specific error-string catalog found for pool-specific failures — surface the
 response body verbatim. A pool delete while still referenced by a virtual server is expected to be
-rejected by the platform, but the exact rejection string was not found in the pages retrieved for
+rejected by the platform, but the exact rejection string is not documented in the reference for
 this contribution — do not fabricate one; report whatever the platform actually returns.
 
 ## Pool members (`ltm/pool/<pool>/members`)
@@ -101,7 +100,7 @@ response body verbatim.
 
 ## Authentication
 
-Not independently confirmed against a primary F5 source in this research pass — this skill assumes
+Unverified against F5's documentation — this skill assumes
 an authenticated REST client is already available (per `SKILL.md`'s stated assumption) rather than
 asserting a specific login/token flow here. If a calling tool needs to establish that session
 itself, confirm the exact mechanism against the target BIG-IP's own current documentation before
