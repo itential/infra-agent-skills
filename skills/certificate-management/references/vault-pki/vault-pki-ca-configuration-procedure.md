@@ -34,11 +34,14 @@ permission to create a replacement.
 Create a new self-signed root. The operator supplies the common name, validity, key type and size,
 and a unique issuer name (it must be unique within the mount and cannot be `default`).
 
-**Stop and confirm with the operator before proceeding** — this creates a new signing authority on a
-live mount. Also confirm the key handling: with internal key handling the private key is never
+**Unless the operator's standing instructions pre-authorize it, stop and confirm with the operator
+before proceeding** — this creates a new signing authority on a live mount. Also confirm the key
+handling: with internal key handling the private key is never
 returned and can never be fetched afterwards; with exported key handling the private key comes back
 once in the response and must be stored by the operator immediately (a hard-to-undo exposure — do not
-request it unless the operator explicitly asks for it).
+request it unless the operator explicitly asks for it). Never print, log, quote or include a
+returned private key in any report: hand it only to the operator's secret-handling channel and report
+metadata only (issuer ID, key ID, serial, subject).
 
 Success: the response carries the certificate, serial number, issuer identifier and key identifier.
 Generating a root never replaces an existing issuer. The new issuer becomes the default only when the
@@ -49,23 +52,23 @@ list issuers before any retry; a repeat can create a second authority.
 ## Generate intermediate CSR
 
 Request a signing request for an intermediate, optionally creating a fresh key. This call creates no
-issuer. **Stop and confirm with the operator before proceeding** (it can create key material on the
-live mount). Success is a returned CSR (plus a private key only if exported handling was chosen).
+issuer. It can create key material on the live mount; use internal key handling unless the operator
+explicitly asks for exported handling, and apply the same private-key rule as for a root. Success is
+a returned CSR (plus a private key only if exported handling was chosen).
 The CSR must be signed by an external CA; that signing step is outside this procedure and the
 signing CA's own parameters govern the final certificate.
 
 ## Import signed intermediate
 
 Submit the signed certificate (and its chain, concatenated as PEM) to the same mount that produced
-the CSR, so it pairs with the key already held there. **Stop and confirm with the operator before
-proceeding.** Success: the response names the newly imported issuer and the key it maps to. A
+the CSR, so it pairs with the key already held there. Success: the response names the newly imported issuer and the key it maps to. A
 certificate without a matching key in the mount becomes a key-less issuer, which cannot issue
 certificates or sign CRLs. Only certificates asserting CA status are accepted.
 
 ## Set default issuer
 
 Choose which issuer serves requests that do not name one (including roles whose issuer reference is
-`default`). **Stop and confirm with the operator before proceeding**: this changes which authority
+`default`). This changes which authority
 signs for every role and path that relies on the default, and some mount functions do not work with
 no default configured. Success: reading the default-issuer setting returns the chosen issuer.
 
@@ -80,21 +83,22 @@ The operator supplies the complete definition: issuer reference, permitted names
 matching modes that apply to them), SAN permissions, validity (default and maximum), key type and
 size, usage flags, and whether certificates are stored. This procedure derives none of those values.
 
-**Stop and confirm with the operator before proceeding.** A write to an existing role replaces it
+A write to an existing role replaces it
 entirely, and any property left out reverts to its default, which can widen what the role allows.
-Read the current role first and send every property that should survive. Success: reading the role
+Read the current role first, keep a copy for rollback, and send every property that should survive. Success: reading the role
 back shows exactly the approved values. A rejected value is corrected and re-confirmed, not
 retried blindly; after a timeout, read the role before writing again.
 
 ## Patch role
 
-Change only specific properties of an existing role. **Stop and confirm with the operator before
-proceeding**, showing the before and after values for each property. Success: the read-back shows
+Change only specific properties of an existing role; read the role before and after to record the
+change. Success: the read-back shows
 the requested changes and every untouched property unchanged.
 
 ## Delete role
 
-**Stop and confirm with the operator before proceeding.** Removing a role stops further issuance
+**Unless the operator's standing instructions pre-authorize it, stop and confirm with the operator
+before proceeding.** Removing a role stops further issuance
 under that name but does not revoke certificates it already issued; revoke those separately via the
 issue/sign/revoke procedure if needed. Success: the role no longer appears in the role list.
 
@@ -146,7 +150,9 @@ issue/sign/revoke procedure if needed. Success: the role no longer appears in th
 
 ## Verification checklist
 
-- [ ] Operator confirmation obtained before every write above
+- [ ] Operator confirmation obtained for generating a root and deleting a role, unless pre-authorized by
+      standing instructions
+- [ ] No private key appears in the reported output
 - [ ] Reading the new issuer shows the intended subject, validity and key handling (no private key
       returned unless explicitly requested), with any exported-key warning surfaced
 - [ ] Default-issuer setting is what the operator intended

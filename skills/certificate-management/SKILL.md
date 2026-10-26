@@ -14,7 +14,7 @@ documented procedure exactly.
 
 - Issuing, renewing, reading (expiry, SANs, chain), or revoking a certificate on a supported
   platform/protocol.
-- Where a platform's reference documents it (Vault PKI today): creating a certificate authority
+- Where a platform's reference documents it (see the INDEX): creating a certificate authority
   and defining or changing issuance roles.
 - Not for installing or binding an already-issued certificate to a specific consuming system — e.g.
   binding a certificate to a load-balancer VIP is `load-balancing`'s concern, not this skill's; this
@@ -56,7 +56,8 @@ how it implements this shape concretely.
 
 1. **Identify the target platform/protocol** — from the caller's request or the `platform` argument.
    Check `references/INDEX.md`; if no matching row exists, stop: this skill doesn't cover it yet.
-2. **Open `references/<platform>/procedure.md`** and follow it exactly — it contains that platform's
+2. **Open the procedure file the INDEX lists for that platform and action** (where a platform lists
+   more than one procedure, choose the one matching the action) and follow it exactly — it contains that platform's
    full operational procedure, error handling, patterns, known limitations, tools, and verification
    checklist.
 3. **Report the outcome** using that platform procedure's own status vocabulary — don't normalize it
