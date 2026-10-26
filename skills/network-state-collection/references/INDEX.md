@@ -10,4 +10,4 @@
 The platform reference contains its source citations, execution sequence, tools, and verification.
 New platforms require their own procedure and a check of the router's shared claims.
 
-Shared-concept note: with IP Fabric, Forward Networks, and Arista CloudVision listed (CloudVision reads live or time-bounded state rather than snapshots), the router no longer claims that volatile-field exclusions or parser support apply everywhere; those are stated as conditional, and coverage is described as varying by tool and platform.
+Zabbix, Auvik, Arista CloudVision, and Cisco ACI APIC read current or time-bounded state and keep no snapshot or diff. To compare, save the first result and repeat the same read with the same filters and time bounds.

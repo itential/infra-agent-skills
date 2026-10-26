@@ -15,7 +15,7 @@ post-change verification belong to `network-health-verification`. Applying chang
 
 ## Universal concepts
 
-- Snapshots, or reads of live or time-bounded state, are comparable only when both sides cover the same devices, commands or features, and scope.
+- Snapshots, or reads of live state, are comparable only when both sides cover the same devices, commands or features, and scope.
 - Where volatile fields (counters, timers) are present, they are handled by documented defaults or
   explicit exclusions, and state being checked is never excluded.
 - A collection failure or empty result is incomplete data, not a healthy network.

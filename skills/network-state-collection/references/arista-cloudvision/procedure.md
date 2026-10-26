@@ -16,7 +16,7 @@ Success is a set of device records carrying identifier, software version, model,
 
 ## Read events
 
-Retrieve the event collection. Without time bounds the result reflects current state. With a start and end time (RFC 3339 style timestamps), the result covers every event that was active at any point in that window, including events that began before the window and stayed active. Do not read the result as only events created inside the window.
+Retrieve the event collection. Without time bounds the result reflects current state. With a start and end time (timestamps; exact accepted format is unverified, see endpoints.md), the result covers every event that was active at any point in that window, including events that began before the window and stayed active. Do not read the result as only events created inside the window.
 An equality filter on severity and event type narrows the read; several filter objects are alternatives (OR), while several properties inside one object must all match (AND). Severity may be given as a number or as its enum name.
 Success is event records with identifier, severity, title, description, event type and component references.
 
@@ -28,13 +28,13 @@ A single event is addressed by two values together: its key and its timestamp. S
 
 A collection read returns a stream of result messages, not one array, and delivers the first message as soon as it exists. The read is complete only when the stream ends normally. A failure to open the stream and a failure partway through are different errors; after a mid-stream failure the records already received are partial coverage and are reported as such, not as the full inventory or event list.
 With a start time but no end, the stream carries the state as of the start followed by later changes (partial updates). Apply those changes to the record they identify; do not count them as additional devices or events.
-Errors follow gRPC status conventions, with an HTTP mapping on the REST surface. The exact per-code mapping is not given in the documentation read; report the native status and detail rather than treating any failure as an empty result.
+Errors follow gRPC status conventions, with an HTTP mapping on the REST surface. The exact per-code mapping is not documented; report the native status and detail rather than treating any failure as an empty result.
 
 ## Patterns
 
-- Credential: a service-account token. The inventory examples pass it as a cookie named `access_token`; the events examples also show an `Authorization` bearer header. Service-account tokens are long-lived and cannot be viewed again after creation.
+- Credential: a service-account token; the accepted presentation forms are in endpoints.md. Unverified: token lifetime and whether a lost token can be re-displayed; assume it must be reissued.
 - TLS: when the deployment uses a private certificate authority, trust that CA for the connection rather than disabling certificate verification.
-- Hostnames: the cloud-hosted service requires its regional hostname with the `www` prefix; the unprefixed form is unsupported. Both deployment styles use port 443.
+- Hostnames: cloud-hosted and on-premises deployments are addressed differently; the form for each is in endpoints.md.
 - The REST bindings exist from CloudVision 2021.1 onward. Unverified: which resources are present in a given release; confirm on the deployment.
 
 ## Known limitations

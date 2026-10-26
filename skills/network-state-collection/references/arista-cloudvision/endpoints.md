@@ -2,13 +2,15 @@
 
 Sources (Arista CloudVision APIs documentation, retrieved 2026-10-26): REST inventory examples, REST events examples, connecting guide. Placeholders: `{host}`, `{access_token}`, `{device_id}`, `{event_key}`, `{event_timestamp}`.
 
-Base: `https://{host}` on port 443. Cloud-hosted deployments use the regional hostname with the `www` prefix.
+Base: `https://{host}` on port 443 for both deployment styles. Cloud-hosted deployments require the regional hostname with the `www` prefix; the unprefixed form is unsupported.
+
+All calls here are reads. The `POST` forms carry only a filter body and change nothing.
 
 ## Authentication
 
 | Method | Form | Notes |
 |---|---|---|
-| Service-account token as cookie | `access_token={access_token}` | Shown in the inventory examples |
+| Service-account token as cookie | `access_token={access_token}` | Shown in the inventory examples; no documented rule for choosing between the two forms (unverified) |
 | Service-account token as bearer | `Authorization: Bearer {access_token}` | Shown in the events examples |
 
 ## Calls
@@ -28,6 +30,6 @@ Streamed reads return one JSON object per line, each with `result` wrapping `val
 
 ## Unverified
 
-- Exact timestamp format accepted by `time.start`/`time.end` beyond "ISO 8601 style".
-- Whether the unfiltered `GET .../all` calls also accept `time.start`/`time.end` for devices; only events show it in the pages read.
+- Exact timestamp format accepted by `time.start`/`time.end` beyond "ISO 8601 style"; RFC 3339 is assumed.
+- Whether the unfiltered `GET .../all` calls also accept `time.start`/`time.end` for devices; only the events documentation shows it.
 - HTTP status values returned for each gRPC error code.
