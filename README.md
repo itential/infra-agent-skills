@@ -82,7 +82,7 @@ one vendor's behavior from ever touching the shared file.
 | [`secret-retrieval`](skills/secret-retrieval/) | HashiCorp Vault, 1Password (Connect API), CyberArk Conjur, CyberArk Privilege Cloud, AWS Secrets Manager, Azure Key Vault, Delinea Secret Server |
 | [`repository-pull-request-management`](skills/repository-pull-request-management/) | GitHub, GitLab, Bitbucket Cloud, Bitbucket Server & Data Center |
 | [`container-workload-deployment`](skills/container-workload-deployment/) | Kubernetes (apps/v1 Deployments), Docker Engine, Docker Hub |
-| [`zero-trust-access-policy-management`](skills/zero-trust-access-policy-management/) | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope |
+| [`zero-trust-access-policy-management`](skills/zero-trust-access-policy-management/) | Zscaler Internet Access (ZIA), Zscaler Private Access (ZPA), Netskope, Cloudflare One Gateway |
 | [`network-state-collection`](skills/network-state-collection/) | Cisco pyATS / Genie (parse commands, learn features, compare snapshots), IP Fabric and Forward Networks (read and compare platform snapshots) |
 | [`network-health-verification`](skills/network-health-verification/) | Cisco pyATS (Health Check, integrated job mode) |
 | [`incident-management`](skills/incident-management/) | ServiceNow *(incident create, update, assign, hold, resolve, reopen, close)*, PagerDuty *(incident create, acknowledge, reassign, escalate, snooze, merge, resolve, reopen)*, Opsgenie *(incident create, note, resolve, close, reopen, delete)*, Jira Service Management *(incident create, comment, assign, resolve, reopen)*, ManageEngine ServiceDesk Plus *(incident create, edit, assign, note, resolve, close)* |
