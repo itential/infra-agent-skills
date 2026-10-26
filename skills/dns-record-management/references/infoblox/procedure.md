@@ -147,9 +147,8 @@ object's `_ref` is returned as confirmation. This step always needs step 6's con
   recreated — re-resolve a `_ref` via search (step 4) rather than assuming a previously captured one is
   still valid, once a meaningful amount of time or intervening activity has passed.
 - **Use-flag pairing (`ttl`/`use_ttl`) is a recurring shape** in NIOS objects generally, not unique to
-  DNS records — any field with a
-  `use_<field>` counterpart works the same way (writing the value field alone implicitly turns the
-  flag on).
+  DNS records — treat any other field with a `use_<field>` counterpart the same way (writing the
+  value field alone implicitly turns the flag on).
 - **PTR is the one type here with a conditional required-field set** — `ptrdname` plus exactly one of
   `ipv4addr`/`ipv6addr` always; `name` only inside a forward-mapping zone. Every other type in this
   skill's scope has a fixed required-field set.
@@ -157,7 +156,7 @@ object's `_ref` is returned as confirmation. This step always needs step 6's con
 ## Known limitations
 
 - Scope is exactly six record types — A, AAAA, CNAME, MX, TXT, PTR. NS and DHCP Fixed Address handling
-  (covered by an earlier version of this file) are out of scope now; WAPI supports them through the
+  are out of scope; WAPI supports them through the
   same general object model (`record:ns`, `fixedaddress`).
 - View cannot be changed on an existing record via update (step 7) — only via delete-and-recreate,
   which is destructive and needs the confirmation gate from step 6.

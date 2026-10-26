@@ -138,7 +138,7 @@ Status-code classes:
 - **400** — malformed request syntax, or a data-conflict/validation failure evaluated server-side. A
   duplicate-object create (same identity already exists) falls in this class; so does an illegal
   CNAME/other-record-type collision at the same name. **The exact `code`/`text` string NIOS uses
-  specifically for "object already exists" was not confirmed against the sources read for this file** —
+  specifically for "object already exists" was not confirmed against the sources** —
   pattern-match on the `text` field describing a conflicting/duplicate object as a heuristic, and verify
   the precise string against the target Grid Master before relying on it in an automated pipeline (see
   `procedure.md`'s Known limitations).

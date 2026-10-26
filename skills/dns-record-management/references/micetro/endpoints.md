@@ -33,7 +33,7 @@ Windows NTLM or Kerberos. Keep credentials out of URLs and logs.
 | Remove record | `DELETE /dnsRecords/{dnsRecordRef}` | `204`, no body |
 
 A bulk-add call exists (`POST /dnsRecords`, body with a `dnsRecords` array and a `dnsZoneRef`) but is not
-used by `procedure.md`; its per-record failure behavior is undocumented in the sources read.
+used by `procedure.md`; its per-record failure behavior is undocumented in the sources.
 
 ### List zone records — query options
 
@@ -101,4 +101,4 @@ out-of-scope names in the same list include `ALIAS`, `DNSKEY`, `RRSIG`, `DS`, `S
 | Condition | Wire signal | Handling |
 |---|---|---|
 | Any failure | non-2xx status, JSON `{code, message}` | Surface `message` to the operator |
-| Not found / duplicate / validation / permission | **Unknown** — specific statuses and messages not documented in the sources read | Do not pattern-match on guessed strings; consult the target server's behavior |
+| Not found / duplicate / validation / permission | **Unknown** — specific statuses and messages not documented in the sources | Do not pattern-match on guessed strings; consult the target server's behavior |

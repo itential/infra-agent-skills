@@ -73,7 +73,7 @@ lists batch edits until submitted; this procedure uses direct operations only.
   `Retry-After` header.
 - Whether the 412 concurrency tag is mandatory or optional on these operations is not stated
   (unverified); send it when the client has one from a prior read.
-- Delete is irreversible per the sources; no restore procedure is documented for a deleted set.
+- Delete is irreversible per the sources; no restore procedure is documented in the sources for a deleted set.
 - Zone-apex SOA/NS handling is undocumented in the sources used (see step 3).
 
 ## Tools

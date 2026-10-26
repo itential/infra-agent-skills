@@ -29,7 +29,7 @@ directory as covering the other.
 
 **DNSSEC scope (PowerDNS):** PowerDNS requires zone rectification after any RRset change on a
 DNSSEC-enabled zone. That is a required follow-up step to a record change, so it is in scope, whereas
-creating DNSSEC record types (DS/DNSKEY) directly is out of scope on every platform. DNSSEC-related
+creating DNSSEC record types (DS/DNSKEY) directly is out of scope on every platform that offers them. DNSSEC-related
 post-change housekeeping is in scope where a platform's own record-change procedure requires it.
 
 **Apex SOA/NS and record addressing (Akamai Edge DNS, GoDaddy):** Akamai's documentation is silent on apex SOA/NS, so a restriction or auto-management there is not documented. Azure, Akamai, and GoDaddy address grouped records (record sets, type+name groups) rather than single records, so do not assume per-record addressing.

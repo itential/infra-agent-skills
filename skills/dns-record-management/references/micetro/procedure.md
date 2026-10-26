@@ -65,9 +65,9 @@ A record carries these fields. `name`, `type`, and `data` are mandatory on creat
   space-separated list, in the standard RFC field order: MX is preference then mail host; SRV is
   priority, weight, port, then target host. Single-value types carry just the value: an address for
   A/AAAA, free text for TXT. For CNAME and PTR the value is the target name (Assumption: not spelled
-  out in the sources read; consistent with the other types — confirm against the target server).
+  out in the sources; consistent with the other types — confirm against the target server).
 - `ttl` — optional, as a string. Micetro accepts shorthand durations (seconds, minutes, hours, days,
-  weeks). **Unknown:** whether an omitted TTL inherits the zone default — the sources read do not say;
+  weeks). **Unknown:** whether an omitted TTL inherits the zone default — the sources do not say;
   supply `ttl` explicitly when the TTL matters.
 - `comment` — optional free text. Only records in static zones can carry a comment.
 - `enabled` — optional boolean; defaults to enabled. A disabled record is kept but not served.
@@ -115,7 +115,7 @@ a record is not reversible through the API; recreating it requires submitting th
 
 Submit the changed values for the record's `ref` as a property set. The documented example changes the
 record's `data`. (Assumption: other fields — `ttl`, `comment`, `enabled`, `name` — are accepted through
-the same property set; the sources read show only `data`. Verify the others against the target server
+the same property set; the sources show only `data`. Verify the others against the target server
 before relying on them.) An option to clear properties not explicitly listed exists on the property-set
 call — leave it unset, so unlisted fields stay as they are. Success is a "no content" response with no
 body; confirm the change with a read (step 3) rather than expecting the new values in the response.
@@ -129,7 +129,7 @@ not to a `ref`-addressed update.
 
 Submit a delete for the record's `ref`. Options exist to attach a save-comment to the action and to
 force removal where the server would otherwise refuse; **do not use the force option** unless the
-operator explicitly asks for it, since the sources read do not document what a refusal protects. Success
+operator explicitly asks for it, since the sources do not document what a refusal protects. Success
 is a "no content" response; confirm with a search (step 3) that the record is gone. Always preceded by
 step 5's confirmation.
 
@@ -159,7 +159,7 @@ is safe.
 ## Known limitations
 
 - Scope is A, AAAA, CNAME, MX, TXT, PTR, and SRV records. NS and SOA records, including at the zone
-  apex, are not covered: Micetro lists them as ordinary record types, but the sources read give no apex
+  apex, are not covered: Micetro lists them as ordinary record types, but the sources give no apex
   rules, so they are left to platform-specific guidance. CAA and the other multi-field types are
   excluded because their field layouts were not confirmed.
 - Zone creation, DNS server and view management, and DHCP/IPAM objects are out of scope; the zone must
@@ -168,7 +168,7 @@ is safe.
 - A record's type cannot be changed (step 2).
 - Delete cannot be undone through the API (step 5).
 - TTL inheritance, naming-conflict enforcement, apex behavior, and exact error strings are
-  undocumented in the sources read (marked **unknown** above).
+  undocumented in the sources (marked **unknown** above).
 - Only the REST API v2 is covered, not Micetro's Management Console, command-line interface, or
   automation modules.
 
