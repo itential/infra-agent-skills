@@ -19,7 +19,7 @@ Verify the credentials first, then list the tenants the account can reach. Succe
 
 Read device records, optionally filtered by network, device type, make and model, vendor, online status, modified-after, not-seen-since, and known-state. The device detail relationship can be included in the same call.
 Success is a list of device records. A successful empty list is still a success response and means no device matched in that tenant; it is not evidence of a healthy network. Online status values are Auvik's own observations (online, offline, unreachable, testing, unknown, dormant, not present, lower-layer down) and are reported as returned, not re-tested.
-Single-device reads take the Auvik device identifier; resolve a device name or IP to that identifier through a filtered list first (caution, not from the vendor).
+Single-device reads take the Auvik device identifier; resolve a device name or IP to that identifier through a filtered list first.
 
 ## Read device detail
 
@@ -27,7 +27,7 @@ Device detail and extended detail add discovery and platform information beyond 
 
 ## Read networks, interfaces, and components
 
-Each has its own list read with filters (for interfaces: type, parent device, administrative and operational status; for components: owning device and current status; Unverified: the status values are not listed in this skill, report them as returned). Keep each record's own identifier and its relationship to the parent device.
+Each has its own list read with filters (for interfaces: type, parent device, administrative and operational status; for components: owning device and current status; Not documented: the accepted status values; report them as returned). Keep each record's own identifier and its relationship to the parent device.
 
 ## Handle paging and errors
 
