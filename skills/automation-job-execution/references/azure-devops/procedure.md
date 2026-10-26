@@ -43,7 +43,7 @@ Update Build", "Builds - Get Build Log", "Logs - Get", and "Use personal access 
 
 - Pipeline/YAML authoring, approvals and environment checks, service connections, and agent pools are
   out of scope; an approval gate can hold a run in progress and is not modeled here.
-- The sources read do not state that a run id equals the build id used by the Build resource; this
+- The sources do not state that a run id equals the build id used by the Build resource; this
   skill treats that as unverified and requires confirmation before cancelling.
 - Using a status update to cancel is an assumption (see step 7).
 - Launching and cancelling are hard to reverse; both are gated above.

@@ -25,8 +25,7 @@ exactly.
 
 ## Universal concepts (shared SD-WAN vocabulary, not a wire standard)
 
-These claims were re-checked against both documented platforms (`AGENTS.md` rules 4 and 14) and
-must be re-checked whenever another is added. Where a platform differs, its own procedure wins.
+These claims were checked against both documented platforms and do not extend automatically to a platform not listed in `references/INDEX.md`. Where a platform differs, its own procedure wins.
 
 - **Saving a policy and putting it into effect may be separate states.** Where a platform separates
   them, saving or editing does not change network behavior; activation does. Where it does not (a

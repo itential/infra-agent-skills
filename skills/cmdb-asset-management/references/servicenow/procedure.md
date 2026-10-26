@@ -107,7 +107,7 @@ deleting, not after.
 - Covers Configuration Item CRUD (preferring CMDB Instance API for writes, class-table reads for reads/
   bulk/relationships) and relationship reads — does not cover CI class schema administration,
   Discovery/Service Mapping configuration, or writing new relationship records (creating/modifying
-  relationship rows directly) — only reading existing relationships was extracted in this pass.
+  relationship rows directly) — only reading existing relationships is covered.
 - **The CMDB Instance API is one-record-at-a-time** — no bulk insert/update/delete. A caller needing
   bulk writes must either loop calls to this capability (accepting IRE matching per call) or use a
   class-table write directly (accepting no IRE matching).

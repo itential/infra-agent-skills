@@ -87,7 +87,7 @@ This call also returns a task identifier to poll, same pattern as create.
 
 - Covers SSID create/provision and fabric SSID-to-VLAN mapping — does not cover AP Profile creation,
   RF profile management, or general device provisioning/onboarding (separate Catalyst Center Intent
-  API areas not extracted in this pass).
+  API areas not covered here).
 - Async completion polling logic (exact terminal-state values, retry/backoff guidance) was not fully
   detailed in the extracted source — confirm the specific status values the target cluster's API
   version returns before assuming a fixed set.

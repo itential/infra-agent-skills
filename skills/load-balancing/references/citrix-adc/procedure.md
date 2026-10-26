@@ -90,7 +90,7 @@ confirmed general naming pattern rather than found in a worked example, that is 
   wired up.
 - **`servicegroup` is a documented alternative to individual `service` objects** for grouping many
   backend members under one named group with its own member-binding sub-resource — this procedure
-  was researched and grounded specifically for the plain `service`/`lbvserver` model; the
+  covers only the plain `service`/`lbvserver` model; the
   `servicegroup` variant's exact binding object name and fields are Unverified, with no worked example (see `endpoints.md`). Treat `servicegroup` as a known gap, not as covered by this procedure.
 
 ## Known limitations

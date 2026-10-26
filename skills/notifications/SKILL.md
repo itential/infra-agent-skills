@@ -23,8 +23,8 @@ own documented procedure and formatting rules exactly.
 There is no single wire spec grounding this capability the way RFC 1035 grounds DNS — chat platforms
 each define their own model. The claims below are only the ones verified true across every platform
 currently listed in `references/INDEX.md` (Slack, Cisco Webex, Microsoft Teams, Twilio,
-SendGrid, Mattermost); re-verify each one against any new platform's actual behavior before assuming it still
-holds (see `AGENTS.md` rule 4).
+SendGrid, Mattermost). They do not extend automatically to a platform not listed in
+`references/INDEX.md`; verify against that platform's own behavior first.
 
 - **A successful call confirms the platform accepted the message, not that a person has read it.**
   Every platform currently covered distinguishes "the request was accepted" from any notion of a

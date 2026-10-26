@@ -10,9 +10,8 @@ plus wire-level `endpoints.md`.
 
 ## Notes on the shared concepts
 
-Adding Prisma SD-WAN as the second platform corrected `SKILL.md`'s universal concepts (`AGENTS.md`
-rule 4). Cisco saves a policy and then activates it; Prisma has no activate step, and attaching a
-stack to a site is what makes it live. The concepts on saved versus effective state, and on
-asynchronous completion, were reworded so they no longer assume an activation step. In the
+Cisco saves a policy and then activates it; Prisma has no activate step, and attaching a stack to a
+site is what makes it live. The shared concepts on saved versus effective state, and on asynchronous
+completion, therefore do not assume an activation step. In the
 `activate_policy` and `deactivate_policy` arguments, "activate" and "deactivate" mean bind and unbind
 a stack to sites on Prisma SD-WAN.

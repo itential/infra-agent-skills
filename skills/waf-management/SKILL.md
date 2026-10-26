@@ -19,9 +19,8 @@ platform the caller is targeting, following that platform's own documented proce
 
 ## Universal concepts (shared WAF vocabulary, not a wire standard)
 
-*(To be filled in as vendors are added — see `AGENTS.md` rule 4: only claims verified true across
-every vendor actually listed belong here. Do not pre-populate this section with assumptions before
-a vendor's real behavior has been checked against them.)*
+No vendor is listed yet, so no claims are stated as shared. Do not assume any shared behavior for a
+platform until its own procedure exists.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.

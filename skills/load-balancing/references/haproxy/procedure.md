@@ -16,7 +16,7 @@ config-file block shape, and the HAProxy Runtime API reference
 the live state-management commands, both retrieved 2026-09-17. Some general `server`-line parameter
 semantics (exact behavior of `check`, `weight`, `disabled`) are Unverified against HAProxy's documentation — they are flagged below as commonly-known HAProxy convention rather than presented as documented.
 
-This is a CLI/config-driven procedure per this repository's own convention: the literal
+This is a CLI/config-driven procedure the literal
 configuration-file syntax and Runtime API commands are the payload passed to a generic "edit this
 config file" / "run this command against the target's management interface" capability — there is
 no separate `endpoints.md` wiring layer for this vendor.

@@ -183,7 +183,7 @@ No poll interval or timeout is documented. Use backoff, report TIMED_OUT after t
 
 - Covers the VM lifecycle only; clusters, datastores, networks, content libraries, clone and template
   deployment, and permissions are not covered.
-- No snapshot or revert operation is documented in the sources reviewed.
+- No snapshot or revert operation is documented in the sources.
 - Much of the detail is secondary-source; see the note at the top.
 - The session and credential model are not defined here.
 - **Deleting a VM cannot be undone.**

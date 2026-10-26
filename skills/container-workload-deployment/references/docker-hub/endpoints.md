@@ -79,8 +79,7 @@ forbidden, `404` not found.
 
 `HEAD` on the same path checks whether that specific tag exists (`200` vs `404`, no body).
 
-**No `DELETE` is documented on either the collection or single-tag path** — confirmed absent as of
-this research (see `procedure.md` step 5).
+**No `DELETE` is documented on either the collection or single-tag path** — absent from the published API reference (see `procedure.md` step 5).
 
 ## `tag` object field reference
 

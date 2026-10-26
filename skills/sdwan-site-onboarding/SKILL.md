@@ -25,7 +25,7 @@ platform allows, reverses it, following the target platform's own documented pro
 ## Universal concepts (shared SD-WAN vocabulary, not a wire standard)
 
 Only two platforms are documented today, so these are claims expected to hold for any SD-WAN platform and
-must be re-checked when another is added (`AGENTS.md` rules 4 and 14). Where a platform differs,
+do not extend automatically to a platform not listed in `references/INDEX.md`. Where a platform differs,
 its own procedure wins.
 
 - **A site and its edge device are separate objects.** Where the platform allows it, site

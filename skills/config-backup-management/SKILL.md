@@ -23,8 +23,8 @@ documented procedure exactly.
 
 ## Universal concepts (no wire standard; one implementation today)
 
-Only one platform is documented, so these are expectations to be re-checked when a second platform is
-added (`AGENTS.md` rules 4 and 14). Where a platform differs, its own procedure wins.
+Only one platform is documented, so these are expectations that do not extend automatically to a platform not listed in
+`references/INDEX.md`. Where a platform differs, its own procedure wins.
 
 - **A saved copy is a file of configuration at a moment in time.** Where the platform exposes it, it is
   produced by a capture request, not by editing live state.

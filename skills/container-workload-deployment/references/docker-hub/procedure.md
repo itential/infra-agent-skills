@@ -60,14 +60,13 @@ per the source's own definition).
 
 ### 5. Tag or repository deletion — a confirmed gap, do not fabricate an endpoint
 
-As of this research, Docker Hub's currently published v2 API reference does not document a delete
+Docker Hub's currently published v2 API reference does not document a delete
 operation for an individual tag, nor for a whole repository — only create/list/read operations appear
-for both. This is stated explicitly here per this skill's own rule against inventing steps a source
-doesn't document: if a caller needs to remove a tag or repository, there is no documented REST
+for both. No endpoint is invented here: if a caller needs to remove a tag or repository, there is no documented REST
 endpoint in this file to do it with. The source's own "Resources" section points to a separate,
 explicitly experimental Docker Hub CLI tool as the documented alternative — that tool is out of scope
 for this API-driven procedure, and its use would need its own confirmation gate if pulled in later,
-given deletion is inherently destructive (see this skill's rule 7-style requirement).
+given deletion is inherently destructive (like any destructive step).
 
 ### 6. Handle documented errors
 

@@ -25,9 +25,8 @@ caller is targeting, following that platform's own documented procedure exactly.
 
 ## Universal concepts (shared DCIM vocabulary, not a wire standard)
 
-*(To be filled in as vendors are added — see `AGENTS.md` rule 4: only claims verified true across
-every vendor actually listed belong here. Do not pre-populate this section with assumptions before
-a vendor's real behavior has been checked against them.)*
+No claims are stated as shared across vendors. Each platform's own procedure states what holds for
+it; do not assume shared behavior.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.

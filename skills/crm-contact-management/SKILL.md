@@ -23,8 +23,8 @@ that platform's own documented procedure exactly.
 ## Universal concepts (shared CRM vocabulary, not a wire standard)
 
 There is no wire-level standard behind CRM contact records the way DNS has RFC 1035 — these claims are
-drawn from Salesforce's own documented behavior, the only vendor covered so far, and must be
-re-checked against each new vendor added (see `AGENTS.md` rule 4):
+drawn from Salesforce's own documented behavior, the only vendor covered, and do not
+extend automatically to a platform not listed in `references/INDEX.md`:
 
 - **A contact record's identity is platform-assigned, not caller-supplied.** The unique record
   identifier is generated at creation time; a create call never accepts a caller-chosen ID.

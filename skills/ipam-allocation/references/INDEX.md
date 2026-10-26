@@ -18,7 +18,7 @@ SolarWinds' reserve-then-finish flow) is a product design decision, not a shared
 therefore states shared IPAM vocabulary (parent/child address-space hierarchy, allocation vs.
 reservation, pool exhaustion) rather than RFC-derived rules.
 
-**A genuinely different call mechanism, found adding SolarWinds:** every other platform in this index
+**A different call mechanism (SolarWinds):** every other platform in this index
 (and in `dns-record-management`) is REST/HTTP. SolarWinds IPAM is SOAP-style verb invocation
 (`Invoke-SwisVerb <namespace> <method> <args>`) — there's no GET/POST/PUT/DELETE distinction to map
 against. `SKILL.md`'s "Tools" section states this per-platform rather than assuming REST universally,

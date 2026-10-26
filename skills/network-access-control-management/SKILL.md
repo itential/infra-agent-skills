@@ -24,8 +24,8 @@ assignment — following that platform's own documented procedure exactly.
 - Endpoints are identified by hardware (MAC) address where a platform documents that.
 - Whether an endpoint is admitted is decided by the platform's own policy; a record change affects
   access only where that policy uses it, so confirm the platform's own semantics before relying on it.
-- Only one platform is documented today; these claims are deliberately minimal and must be
-  re-checked against each platform added (`AGENTS.md` rule 4).
+- Only one platform is documented today; these claims are deliberately minimal and
+  do not extend automatically to a platform not listed in `references/INDEX.md`.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.

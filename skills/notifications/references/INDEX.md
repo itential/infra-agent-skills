@@ -13,17 +13,11 @@ the platform is REST/API-driven.
 | SendGrid | `sendgrid/` | Send an email (plain text and/or HTML, up to 1,000 personalizations per request) via the v3 Mail Send call (create-only) | Recipient-only (email addresses); no channel or thread. 202 means accepted, not delivered; no delivery confirmation in this skill. Mail Send-specific rate limit not stated; 429 resets per a timestamp header |
 | Mattermost | `mattermost/` | Post a new message or thread reply via the REST create-post operation (create-only); incoming-webhook alternate path noted | Destination is a channel ID on the REST path; rate-limit state is in `X-Ratelimit-*` headers, no `Retry-After` documented; REST needs a bearer token, webhook needs only its URL |
 
-**Universal-concepts population (first three platforms added):** `SKILL.md`'s "Universal concepts"
-section started as an intentionally empty placeholder (per `AGENTS.md` rule 4 — don't pre-populate
-before a vendor's real behavior has been checked). Adding Slack, Cisco Webex, and Microsoft Teams
-together let it be filled with claims verified across all three at once, rather than one platform's
-behavior being generalized prematurely. The most consequential finding: Microsoft Teams' primary
-current mechanism (a Workflows/Power Automate webhook) does not take a destination as a runtime
-parameter the way Slack's `channel` and Webex's `roomId`/`toPersonId`/`toPersonEmail` do — the
-destination is fixed when the webhook is configured. Any future platform addition should re-check
-this claim, not assume it.
+**Destination addressing.** Microsoft Teams' primary current mechanism (a Workflows/Power Automate
+webhook) does not take a destination as a runtime parameter the way Slack's `channel` and Webex's
+`roomId`/`toPersonId`/`toPersonEmail` do — the destination is fixed when the webhook is configured.
+Twilio and SendGrid are recipient-only.
 
-Correction recorded when Twilio and SendGrid were added: the universal claims that every platform has a
-richer formatted body and returns a `Retry-After`-style 429 signal were wrong for them (SMS has no rich
-format; neither vendor documents `Retry-After`), and destination addressing now notes that both are
-recipient-only. Twilio and SendGrid are separate products and are kept as separate vendors.
+**Formatting and rate-limit signals.** Not every platform has a richer formatted body or returns a
+`Retry-After`-style 429 signal: SMS has no rich format, and neither Twilio nor SendGrid documents
+`Retry-After`. Twilio and SendGrid are separate products and are kept as separate vendors.

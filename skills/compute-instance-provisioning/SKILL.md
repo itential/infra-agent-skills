@@ -23,8 +23,8 @@ documented procedure exactly.
 
 ## Universal concepts (shared virtual-instance vocabulary, not a wire standard)
 
-These are claims expected to hold for any hypervisor or cloud platform, and were re-checked against each
-platform listed in `references/INDEX.md` (`AGENTS.md` rules 4 and 14). Where a platform differs, its own
+These are claims expected to hold for any hypervisor or cloud platform, and were checked against each
+platform listed in `references/INDEX.md`. Where a platform differs, its own
 procedure wins.
 
 - **An instance has a lifecycle state that decides which operations are allowed, and write calls are

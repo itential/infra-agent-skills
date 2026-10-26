@@ -87,7 +87,7 @@ REJECTED_INVALID_ASSEMBLY naming the offending list or site.
   directions. A policy for all directions combined with one of the others at the same site is
   unsupported, and so are two in the same direction. Cisco's guide also states the broader "one data
   policy per site" elsewhere; the per-direction statement is the more specific one and is followed here
-  (source inconsistency, flagged per `AGENTS.md` rule 1).
+  (the source is inconsistent here).
 - At most one application-aware routing policy per site.
 
 ### Check the name and description
