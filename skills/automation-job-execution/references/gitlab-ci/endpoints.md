@@ -8,7 +8,7 @@ Base: `https://<gitlab-host>/api/v4`. `{id}` is the numeric project id or the UR
 ## Authentication
 
 Header `PRIVATE-TOKEN: <token>`. Inside a running CI job the job token is used instead. Required
-token scopes: Not stated in the pages read.
+token scopes: Not documented.
 
 ## Operations
 
