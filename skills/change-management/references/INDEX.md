@@ -21,14 +21,14 @@ endpoint (`status` is a plain field with no transition-validation call) and cann
 API at all (only cancel). Check the target platform's row before assuming any approval or gating
 capability.
 
-**Four different transition/approval models exist across these platforms:**
+**Transition and approval models differ across these platforms:**
 - **Transition discovery, without a readiness gate:** Jira exposes "get available transitions" (so
   the caller isn't guessing IDs) but doesn't validate *readiness* to reach any particular one the way
   ServiceNow's gate-check does — it just lists what the workflow currently permits.
 - **No discovery mechanism at all:** BMC's simplified REST API documents no "what transitions/states are
   available" call in the sources — the caller is expected to know the target instance's
   configured status values already.
-- **Approve/reject as a third variant, not a second:** ServiceNow (full API approve/reject),
+- **Approve/reject takes three shapes:** ServiceNow (full API approve/reject),
   Freshservice (cancel-only, no approve/reject), and Jira (API-capable approve/decline, but
   strictly assignee-only and one-shot — no re-decision, no approve-on-behalf) are three meaningfully
   different capability shapes, not a binary "can/can't." Check the specific platform's row, not a

@@ -75,7 +75,7 @@ Second worked example (verbatim, `conditions` as a proper array this time):
 }
 ```
 (`neq` = not-equal, `eq` = equal — the two documented operations shown; other comparison operations
-may exist but weren't confirmed in this extraction.)
+may exist but are not confirmed in the sources.)
 
 ## Retrieve a Change Request by ID
 

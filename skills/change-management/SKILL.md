@@ -1,6 +1,6 @@
 ---
 name: change-management
-description: Create, update, and manage the approval/close lifecycle of a change request on a supported ITSM platform — currently ServiceNow (sn_chg_rest, full gate-check/approve/reject/close), Freshservice (API v2 — cancel-only, no API-level approve/reject or gate-check), Jira Service Management (customer request on a change-configured request type; discoverable transitions, no readiness gate; assignee-only one-shot approve/decline), and BMC Helix ITSM (simplified REST API — search/retrieve/update, no way found to discover transitions or gates). Use when an agent needs to run any part of an ITSM change request lifecycle. Assumes an authenticated client/tool for the target platform's change management API is already available; this skill does not provision or authenticate it. Does not cover delete, CI association, conflict-checking, scheduling, or change-task endpoints. Not every platform supports every action — check references/INDEX.md before assuming approve/reject or gate-check are available.
+description: Create, update, and manage the approval/close lifecycle of a change request on a supported ITSM platform — currently ServiceNow (sn_chg_rest, full gate-check/approve/reject/close), Freshservice (API v2 — cancel-only, no API-level approve/reject or gate-check), Jira Service Management (customer request on a change-configured request type; discoverable transitions, no readiness gate; assignee-only one-shot approve/decline), and BMC Helix ITSM (simplified REST API — search/retrieve/update, no documented way to discover transitions or gates). Use when an agent needs to run any part of an ITSM change request lifecycle. Assumes an authenticated client/tool for the target platform's change management API is already available; this skill does not provision or authenticate it. Does not cover delete, CI association, conflict-checking, scheduling, or change-task endpoints. Not every platform supports every action — check references/INDEX.md before assuming approve/reject or gate-check are available.
 argument-hint: "[platform] [action: create|update|approve|reject|check_gates|close|cancel_approval|transition] [change id or fields]"
 ---
 
@@ -27,8 +27,8 @@ RFC-derived rules. **Not every concept below is guaranteed on every platform** �
 - **A change moves through named states, but "how do I know what's next" varies by platform.**
   ServiceNow gates transitions with a dedicated readiness check; Jira exposes a "get available
   transitions" list (discoverable, but not a readiness gate — it just says what the workflow currently
-  permits); Freshservice and BMC treat status as a plain field with no discovery mechanism found at
-  all. Where no gate/discovery exists, the calling agent is responsible for sequencing status changes
+  permits); Freshservice and BMC treat status as a plain field with no discovery mechanism
+  documented in the sources. Where no gate/discovery is documented, the calling agent is responsible for sequencing status changes
   sensibly — the API itself won't stop an out-of-order one.
 - **Approve/reject capability is a spectrum, not binary — check the specific platform.** ServiceNow
   lets this skill submit the approval decision directly on anyone's behalf (permission allowing). Jira
