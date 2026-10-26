@@ -67,8 +67,7 @@ Query parameters: `location`, `name` (current name), `newname` (target name).
 ## Create a security policy rule
 
 Tool hint: `POST /restapi/v11.0/Policies/SecurityRules` (vsys-scoped) — Panorama pre-rulebase uses
-`POST /restapi/v11.0/Policies/SecurityPreRules` instead (the post-rulebase equivalent was not
-independently confirmed by name this pass; check the target version's reference before assuming a
+`POST /restapi/v11.0/Policies/SecurityPreRules` instead (the post-rulebase equivalent is unverified; check the target version's reference before assuming a
 `SecurityPostRules` path).
 
 Query parameters: `location` (`vsys` with `vsys=<name>`, or `device-group` with
@@ -130,11 +129,11 @@ parameters, `:rename` and `:move` as security rules. Confirm against the device'
 
 ## Commit — requires the XML API (not the REST API)
 
-The REST API documentation available for this pass states it covers only a subset of firewall/
+The REST API documentation states it covers only a subset of firewall/
 Panorama configuration, and that commit specifically requires the XML API. Confirmed: the XML API's
 `type=commit` request parameter supports both a full commit and a partial/scoped commit. The exact
 request body (cmd XML shape), response job-ID field name, and the precise `type=op` job-status query
-used to poll a commit job to completion were not confirmed during this pass — consult the target
+used to poll a commit job to completion are unverified — consult the target
 PAN-OS version's own XML API reference for those exact literal parameters before relying on them.
 
 ## Push to managed devices (XML API, Panorama only)

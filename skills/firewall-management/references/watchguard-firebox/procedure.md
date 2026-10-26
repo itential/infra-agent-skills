@@ -7,8 +7,7 @@ available. See `endpoints.md` for literal request shapes.
 
 Scope note: the API documents policy CRUD, an enable/disable operation, read-only access to policy
 groups and to the aliases that policies reference, and a **deployment** command that pushes saved
-configuration to devices. Alias create/update/delete were not found in the endpoint set used for
-this pass (read-only), so this skill does not manage address objects on this platform.
+configuration to devices. Alias create/update/delete are not in the documented endpoint set (read-only), so this skill does not manage address objects on this platform.
 
 Sources: WatchGuard, Firebox Management API release notes and Cloud help (watchguard.com/help),
 retrieved 2026-10-19. Wording is original. Items marked *(assumption)* or *(assets)* are not
@@ -62,8 +61,7 @@ appliances and carries every pending saved change for those devices, not only th
 
 ## Known limitations
 
-- Policy schema fields, alias writes, NAT policy modeling and deployment status polling were not
-  verified from vendor pages this pass.
+- Policy schema fields, alias writes, NAT policy modeling and deployment status polling are unverified.
 - Standalone (non-Cloud-managed) Fireboxes and Fireware CLI are out of scope.
 - API version drift: policy endpoints arrived in v1.27.0; confirm the target API version.
 

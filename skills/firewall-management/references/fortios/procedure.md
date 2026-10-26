@@ -3,8 +3,7 @@
 Manages firewall policies (rules), address objects, and destination-NAT virtual IP (VIP) objects on
 a FortiGate device running FortiOS, via its command-line interface. This procedure is deliberately
 CLI-driven rather than REST-driven: FortiOS does expose a REST/CMDB API, but its dedicated API
-reference is published on Fortinet's developer network behind an account login, and could not be
-independently verified against a publicly reachable page during this research pass — so this
+reference is published on Fortinet's developer network behind an account login, so this
 procedure covers the CLI surface, which is documented in Fortinet's public CLI reference, instead.
 If a REST integration is required, confirm the current REST API contract directly from Fortinet's
 developer portal rather than assuming it matches the CLI syntax below field-for-field. Per this
@@ -25,7 +24,7 @@ Enter the address table, select the object by name (creating it if it doesn't al
 set its type along with the fields that type requires: a subnet (IP and netmask) for a plain
 IP/netmask object, a start/end IP pair for a range object, or a fully-qualified domain name for an
 FQDN-type object. FortiOS documents additional address types (geography-based, dynamic, MAC-based)
-that this pass didn't verify field-by-field — confirm the exact required fields for those types
+whose fields are unverified — confirm the exact required fields for those types
 against the target FortiOS version before using them. Optional fields include a display color, a
 free-text comment, and one or more tags.
 
@@ -57,7 +56,7 @@ its own configuration.
 
 **Stop and confirm with the operator before proceeding** — an address object still referenced by a
 policy or a NAT (VIP) rule should not be removed without first confirming nothing depends on it,
-since FortiOS documentation available for this pass did not describe the address table itself
+since FortiOS documentation does not describe the address table itself
 blocking deletion of an in-use object.
 
 ```
@@ -113,7 +112,7 @@ end
 
 FortiOS's VIP table covers destination NAT / inbound port-forwarding style rules specifically — it
 is not the mechanism for source NAT, which FortiOS configures separately at the policy level (a
-policy's own NAT setting plus an IP pool) and which this pass did not verify in CLI-syntax detail;
+policy's own NAT setting plus an IP pool) and whose CLI syntax is unverified;
 treat source-NAT syntax as a separate, unconfirmed topic rather than assuming it follows the VIP
 shape below.
 
@@ -159,23 +158,22 @@ end
   is consistent across address, policy, and VIP tables and is the simplest way to confirm a specific
   object's current state after a write.
 - **Whether a config-mode write applies immediately to the running configuration, or requires a
-  separate save/commit step, was not independently confirmed during this research pass** — do not
+  separate save/commit step, is unverified** — do not
   assume either behavior without confirming against the target FortiOS version's own documentation
   or observed device behavior, since this procedure's source material did not state this explicitly
   where it was checked.
 
 ## Known limitations
 
-- REST/CMDB API detail (authentication, base path, request/response shapes) was not independently
-  verified from a publicly reachable source during this pass — Fortinet's dedicated API reference is
+- REST/CMDB API detail (authentication, base path, request/response shapes) is unverified — Fortinet's dedicated API reference is
   gated behind a developer-network login. This procedure is CLI-only until that gap is closed with a
   verified public or otherwise properly-sourced reference.
-- Source NAT (SNAT/IP-pool) CLI syntax was not covered in this pass — only destination NAT via the
+- Source NAT (SNAT/IP-pool) CLI syntax is not covered — only destination NAT via the
   VIP table is documented above.
 - Address-group (`config firewall addrgrp`) and VIP-group CRUD are adjacent but out of scope for this
   pass — only single address objects and single VIP objects are covered.
 - Whether FortiOS applies config-mode writes immediately or requires a separate persist/commit step
-  was not confirmed this pass — see Patterns above.
+  is unverified — see Patterns above.
 
 ## Tools
 

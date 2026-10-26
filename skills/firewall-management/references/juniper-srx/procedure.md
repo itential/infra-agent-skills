@@ -67,8 +67,7 @@ network address, or use a /32 for a single host.
 Naming rules: `any`, `any-ipv4` and `any-ipv6` are reserved and cannot be created; address names must
 not start with `static_nat_`, `incoming_nat_` or `junos_`; an address and an address set in the same
 zone cannot share a name. An address set holds only addresses from the same zone and may mix IPv4 and
-IPv6. Nesting an address set inside a set is documented as supported; its exact statement was not
-captured in this pass, so confirm it on the device before relying on it. Wildcard addresses, DNS names,
+IPv6. Nesting an address set inside a set is documented as supported; Unverified: its exact statement; confirm it on the device before relying on it. Wildcard addresses, DNS names,
 and mixed IPv4/IPv6 sets are not usable in NAT rules (NAT is out of scope here).
 
 ### Read address books

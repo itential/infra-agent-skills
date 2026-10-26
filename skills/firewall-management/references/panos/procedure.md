@@ -50,8 +50,7 @@ value — a network/mask pair, a single host address, an address range, or a ful
 name (PAN-OS defines other address-type variants beyond these two; treat any type this procedure
 doesn't explicitly cover as needing a documentation check before assuming its request shape matches).
 Optional fields include a free-text description and one or more tags for organizing objects in the
-PAN-OS UI. A successful create response indicates the command succeeded; PAN-OS does not appear (from
-the documentation available for this pass) to distinguish "created new" from "matched existing" the
+PAN-OS UI. A successful create response indicates the command succeeded; PAN-OS does not appear (per the documentation) to distinguish "created new" from "matched existing" the
 way some other platforms' identification engines do — treat a name collision at the same scope as
 something to check for before creating, not something the API resolves for you silently.
 
@@ -72,7 +71,7 @@ separately confirmed for the field in question.
 
 **Stop and confirm with the operator before proceeding.** Removing an address object that a security
 rule or NAT rule still references is destructive to that rule's intended matching behavior; PAN-OS
-documentation available for this pass did not describe a built-in reference check blocking deletion
+documentation does not describe a built-in reference check blocking deletion
 of an in-use object, so confirm via a rule/object read that nothing currently depends on the object
 before deleting it, and only then submit the delete request naming its scope and name.
 
@@ -127,8 +126,7 @@ one rule can change which rule now matches traffic that used to hit the deleted 
 ### NAT rules
 
 NAT rules follow the same location/name addressing, the same rename and move actions, and, on
-Panorama, the same pre-rule/post-rule split as security rules. Palo Alto's REST documentation that
-was reachable for this pass names only security rule families, so the NAT family names in
+Panorama, the same pre-rule/post-rule split as security rules. Palo Alto's REST documentation names only security rule families, so the NAT family names in
 `endpoints.md` come from a secondary source (a third-party OpenAPI description) and are **unverified against
 vendor docs**: check them in the target version's own API reference (served by the device itself)
 before relying on them. Deleting or reordering a NAT rule changes address translation for live
@@ -139,8 +137,7 @@ traffic: **stop and confirm with the operator first.**
 Every create/update/delete above lands only in the candidate configuration. To apply pending changes
 to the running configuration, a commit must be issued; PAN-OS documentation confirms the commit
 mechanism supports committing the full pending change set or a scoped/partial commit, but this
-procedure's source material did not yield the literal request body or job-status field names for
-this pass — those exact mechanics should be confirmed against the target PAN-OS version's own API
+the REST documentation does not give the literal request body or job-status field names — those exact mechanics should be confirmed against the target PAN-OS version's own API
 reference before an agent relies on a specific field name. What is confirmed and safe to rely on:
 commit is a distinct, required step, separate from every object/rule write above, and a commit
 returns a job that can be polled for completion using the platform's own operational job-status
@@ -194,8 +191,7 @@ PAN-OS XML API request types, retrieved 2026-10-19.)
   the REST API only covers a subset of configuration operations and that some operations (commit
   among them) require the older XML API — confirm which API surface a given PAN-OS/Panorama version
   actually exposes before assuming REST alone is sufficient for the full workflow.
-- Address-type variants beyond network/mask, host, range, and FQDN were not independently confirmed
-  during this pass — check the target version's documentation before assuming a specific type name
+- Address-type variants beyond network/mask, host, range, and FQDN are unverified — check the target version's documentation before assuming a specific type name
   or field shape for a type not named above.
 
 ## Tools

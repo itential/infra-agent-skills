@@ -2,14 +2,10 @@
 
 Manages network objects, extended access-list rules (and their application to an interface), and
 static (auto) NAT on a Cisco ASA appliance. This procedure targets ASA specifically, not Cisco's
-newer FTD/FMC (Firepower Management Center) platform — FMC's own REST API documentation could not be
-reached from a public source during this research pass (its Quick Start Guide and reference pages
-returned not-found from every path attempted), so FTD/FMC coverage is not included here; treat FTD/
+newer FTD/FMC (Firepower Management Center) platform — FMC's own REST API documentation is not covered, so FTD/FMC coverage is not included here; treat FTD/
 FMC as a distinct, not-yet-covered platform rather than assuming this ASA procedure applies to it.
 ASA itself supports both a CLI and a REST API; this procedure is written CLI-first because the CLI
-syntax was directly confirmed against Cisco's public configuration guides for every operation below,
-while the REST API's publicly-reachable documentation confirmed only its authentication model and a
-single example resource (network objects) — see `endpoints.md` for exactly what was confirmed on the
+syntax is documented in Cisco's configuration guides for every operation below, while the REST API is confirmed only for its authentication model and a single example resource (network objects) — see `endpoints.md` for exactly what was confirmed on the
 REST side, and Known limitations for what wasn't. Assumes CLI access to the target ASA (console, SSH,
 or an orchestration layer executing commands on your behalf) is already available.
 
@@ -35,8 +31,7 @@ observed variant, not one object's full field set.)
 ### Delete a network object
 
 **Stop and confirm with the operator before proceeding.** Confirm the object isn't currently
-referenced by an access-list entry or a NAT rule before removing it. Cisco's documentation available
-for this pass specifically notes that for network-*service* objects/groups referenced by an ACL,
+referenced by an access-list entry or a NAT rule before removing it. Cisco's documentation notes that for network-*service* objects/groups referenced by an ACL,
 deleting the object clears its contents rather than fully removing its definition from the
 configuration — that specific behavior was documented for network-service objects, not confirmed
 equally for a plain network object of the host/subnet/range/fqdn kind above, so don't assume identical
@@ -74,7 +69,7 @@ access-group <acl-name> {in | out} interface <interface-name>
 
 ### Remove an access-list entry
 
-Cisco's documentation for this pass specifically states that the command used to remove an entry
+Cisco's documentation states that the command used to remove an entry
 must reproduce the exact same parameter string used to create it (or reference it by its `line`
 number) — a partial or approximate match will not identify the entry to delete. Read the list first
 (see Read below) to get the exact current parameter string or line number before attempting removal.
@@ -111,7 +106,7 @@ object network <object-name>
 Field notes, per Cisco's documentation: `service` translates a specific port rather than the whole
 address; `dns` rewrites DNS reply addresses to match the translation; `unidirectional` restricts
 which side of the translation can initiate a new connection; `inactive` disables the NAT rule without
-removing it; `description` is limited to 200 characters per the documentation for this pass.
+removing it; `description` is limited to 200 characters per the documentation.
 
 ### Remove static NAT from a network object
 
@@ -126,7 +121,7 @@ mapping.
 
 ### Clear existing translations after a NAT change
 
-Cisco's documentation for this pass specifically warns that changing a NAT configuration does not
+Cisco's documentation warns that changing a NAT configuration does not
 clear currently active translations built under the previous mapping — they persist until they time
 out on their own unless explicitly cleared. If the caller's intent requires the new NAT mapping to
 take effect immediately for already-established connections, clear the translation table as its own
@@ -151,21 +146,16 @@ clear xlate
 
 ## Known limitations
 
-- This procedure covers ASA, not Cisco's newer FTD/FMC platform — FMC's REST API documentation was
-  not reachable from a public source during this pass. FTD/FMC needs its own research pass and its
-  own reference file; don't apply this ASA procedure to an FTD/FMC-managed device.
+- This procedure covers ASA, not Cisco's newer FTD/FMC platform — FMC's REST API is not covered here. FTD/FMC would need its own reference file; don't apply this ASA procedure to an FTD/FMC-managed device.
 - ASA's REST API was only confirmed for authentication basics and a single object-type example (see
-  `endpoints.md`) — access-list and NAT REST resource paths were not found in the publicly reachable
-  quick-start guide for this pass. Use the CLI operations above for access-list and NAT work until
+  `endpoints.md`) — access-list and NAT REST resource paths are not documented in the confirmed material. Use the CLI operations above for access-list and NAT work until
   REST paths for those are independently confirmed.
 - Whether ASA CLI configuration-mode commands apply to the running configuration immediately (before
-  any save step) was not independently re-confirmed against a reachable page during this pass — this
-  procedure assumes the common Cisco-platform pattern of immediate application to the running
+  any save step) is Unverified — this procedure assumes the common Cisco-platform pattern of immediate application to the running
   configuration, with a separate persist step (`write memory` / `copy running-config startup-config`)
-  needed only to survive a reload; flagged here as not independently re-verified this pass rather than
-  asserted as fully confirmed.
+  needed only to survive a reload; this is an assumption, not a confirmed behavior.
 - Manual ("twice") NAT, address-group CRUD, and NAT on multiple objects/groups together are out of
-  scope for this pass — only single-object static/auto NAT is covered.
+  scope — only single-object static/auto NAT is covered.
 - Cisco's product direction has been shifting new capability toward FTD/FMC; confirm ASA is genuinely
   the intended target platform, and that its REST/CLI surface for a specific ASA software version
   still matches what's described here, before relying on this procedure for a long-lived integration.

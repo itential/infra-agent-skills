@@ -84,7 +84,7 @@ requires in-sync plus all endpoints ready. Report "applied" only when sync state
 
 - No standalone address objects, service objects or NAT rules exist here; requests for those must
   be mapped to rule definitions (e.g. IP sets/variables inside a stateful rule group) or declined.
-  Rule-variable and Suricata rule syntax details were not covered this pass; check the vendor
+  Rule-variable and Suricata rule syntax details are not covered; check the vendor
   guide for the rule string format.
 - Capacity sizing numbers per rule type were not captured; use the dry-run capacity report.
 - Firewall creation, subnet/endpoint management, logging and TLS inspection are out of scope.
