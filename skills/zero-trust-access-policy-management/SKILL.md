@@ -1,6 +1,6 @@
 ---
 name: zero-trust-access-policy-management
-description: Create, update, or delete an access/segmentation policy rule on a SASE or Zero Trust Network Access (ZTNA) platform — Zscaler Internet Access (ZIA) URL/cloud-app filtering rules, Zscaler Private Access (ZPA) application-segment access policy rules, Netskope private-access (NPA) policy rules via Netskope's REST API v2, or Cloudflare One Gateway DNS, network, and HTTP policy rules. Use when a policy rule governing what a user, group, or device may reach (a URL/cloud app on ZIA, a private application segment on ZPA, a private app on Netskope NPA, or a DNS, network, or HTTP destination on Cloudflare Gateway) needs to be created, changed, or removed. Assumes an authenticated API client for the target platform is already available (Zscaler OneAPI OAuth2 client-credentials token for ZIA/ZPA, a Netskope API v2 token for Netskope, a Cloudflare API token for Gateway); this skill does not provision or authenticate that client.
+description: Create, update, or delete an access/segmentation policy rule on a SASE or Zero Trust Network Access (ZTNA) platform — Zscaler Internet Access (ZIA) URL/cloud-app filtering rules, Zscaler Private Access (ZPA) application-segment access policy rules, Netskope private-access (NPA) policy rules via Netskope's REST API v2, Cloudflare One Gateway DNS, network, and HTTP policy rules, or Cloudflare One Access reusable access policies. Use when a policy rule governing what a user, group, or device may reach (a URL/cloud app on ZIA, a private application segment on ZPA, a private app on Netskope NPA, a DNS, network, or HTTP destination on Cloudflare Gateway, or access to a protected application on Cloudflare Access) needs to be created, changed, or removed. Assumes an authenticated API client for the target platform is already available (Zscaler OneAPI OAuth2 client-credentials token for ZIA/ZPA, a Netskope API v2 token for Netskope, a Cloudflare API token); this skill does not provision or authenticate that client.
 argument-hint: "[platform] [action] [rule_name] [fields...]"
 ---
 
@@ -18,23 +18,26 @@ following that platform's own documented procedure, field rules, and ordering/va
 - A private-access (NPA) policy rule needs to be created, updated, or deleted on Netskope.
 - A DNS, network, or HTTP policy rule needs to be created, updated, reordered, or deleted on
   Cloudflare One Gateway.
+- A reusable policy that decides who may reach an Access-protected application needs to be
+  created, updated, converted from a legacy policy, or deleted on Cloudflare One Access.
 - Not for creating the underlying resource a rule references (a ZPA application segment/segment
   group as a standalone object with no rule, a Netskope private app definition, a ZIA URL category
   definition) unless the platform's own rule-creation procedure requires defining it inline as part
   of the same call — check the vendor's `procedure.md` for where that line falls.
 - Not for device- or ACL-style network firewall rules (see `firewall-management`) or SaaS/CASB
   inline data-control policies (see `casb-policy-management`) — this skill covers identity-aware
-  access to URLs, cloud apps, DNS destinations, network connections, and private application
-  segments on a SASE/ZTNA platform.
+  access to URLs, cloud apps, DNS destinations, network connections, private application
+  segments, and protected applications on a SASE/ZTNA platform.
 
 ## Universal concepts (apply regardless of platform)
 
 - **A policy rule is an ordered match-then-action record.** Every platform here evaluates rules in a
   defined sequence and stops at the first match within an evaluation phase (a platform may run
   several phases and may evaluate some rule types ahead of their list position) — where a new rule
-  lands in that order (explicit `order`/`rule_order`/`priority` field, or an implicit top/bottom
-  insertion) determines whether it ever actually applies. Confirm the platform's ordering behavior before creating a rule that must
-  take precedence over (or defer to) an existing one.
+  lands in that order (explicit `order`/`rule_order`/`priority` field, an implicit top/bottom
+  insertion, or a position held outside the rule itself) determines whether it ever actually
+  applies. Confirm the platform's ordering behavior before creating a rule that must take
+  precedence over (or defer to) an existing one.
 - **Rules bind a scope (who/what/where) to an action (allow/block/isolate/etc.).** The scope side
   varies enormously by platform (users, groups, locations, device posture, source IP, destination
   app/category) but the create/update/delete lifecycle and the "does this match, then what happens"
