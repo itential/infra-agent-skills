@@ -81,9 +81,9 @@ A peer that reaches Established but does not stay there — repeated transitions
 
 ## Explicit unknowns for this vendor (do not fill from general knowledge or another vendor)
 
-- Not documented: a Junos-specific active-route-selection tie-break order — do not borrow
+- Unverified: a Junos-specific active-route-selection tie-break order — do not borrow
   Cisco's or FRR's ordering and present it as Junos's; Junos is documented to implement its own
   route-selection process and the exact tie-break sequence must come from a Junos source directly.
-- Not documented: Junos "hidden" routes (routes present in the table but not active) — this is a real gap for the `route_missing` symptom category specifically,
+- Unverified: Junos documentation of "hidden" routes (routes present in the table but not active) — this is a real gap for the `route_missing` symptom category specifically,
   since a Junos-hidden route is a plausible real-world cause of "the route I expect isn't there."
-- Not documented: a structured list of session-establishment root causes (AS mismatch, authentication mismatch, address-family mismatch, TCP port reachability) from Junos's own troubleshooting guidance — the two sources used here are command/field references, not a troubleshooting narrative page.
+- Unverified: a structured list of session-establishment root causes (AS mismatch, authentication mismatch, address-family mismatch, TCP port reachability) from Junos's own troubleshooting guidance — the two sources used here are command/field references, not a troubleshooting narrative page.

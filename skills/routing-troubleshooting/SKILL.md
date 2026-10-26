@@ -30,7 +30,7 @@ This skill only reads session and route state, so it has **no destructive-action
 ## Universal concepts (shared BGP vocabulary — RFC 4271)
 
 The BGP session state machine's six named states — Idle, Connect, Active, OpenSent, OpenConfirm,
-Established — come from RFC 4271, and each vendor's own CLI reports them verbatim: Juniper Junos's `show bgp neighbor` output uses these exact six words for its State/Last state fields, and Cisco IOS-XE and FRRouting use the same vocabulary, though their documentation gives less field-by-field confirmation than Juniper's — see each vendor's own `procedure.md` for exactly what is and isn't verified. Only Established has a consistent, universally-observed second meaning
+Established — come from RFC 4271, and each vendor's own CLI reports them verbatim: Juniper Junos's `show bgp neighbor` output uses these exact six words for its State/Last state fields (confirmed in Juniper's command-reference documentation), and Cisco IOS-XE and FRRouting are consistent with this vocabulary, though the documentation used here gives less field-by-field confirmation than Juniper's — see each vendor's own `procedure.md` for exactly what is and isn't verified. Only Established has a consistent, universally-observed second meaning
 across all three vendors: once a session reaches Established, the same output field that showed the
 state name is commonly repurposed to show a route/prefix count instead (confirmed for both Cisco
 IOS-XE's summary-table state/PfxRcd column and Juniper's `show bgp summary` State field) — a numeric
@@ -49,7 +49,7 @@ state machine itself.
 - Unverified: Junos's own active-route-selection tie-break order (see `references/juniper-junos/procedure.md`'s explicit-unknowns section); it is not safe to assume it matches either Cisco's or FRR's documented order just because the underlying concepts
   are similar.
 - There is no confirmed-universal set of session-establishment root causes (AS mismatch, TCP/179
-  reachability, authentication mismatch, hold-time mismatch) across these three vendors' own documentation — each vendor file states which specific causes its own source documents, and none of the three gives a complete list covering all of these common real-world causes. Don't treat a cause documented for
+  reachability, authentication mismatch, hold-time mismatch) across these three vendors' own documentation — each vendor file states which specific causes its own source documents, and none of the three vendors' documentation used here gives a complete list covering all of these common real-world causes. Don't treat a cause documented for
   one vendor as automatically applicable to another without that vendor's own source confirming it.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it

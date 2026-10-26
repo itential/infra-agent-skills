@@ -44,7 +44,7 @@ A peer that never reaches Established.
      on the peer's response or acknowledgment. The documentation does not give a structured
      breakdown of causes at this specific stage; report the state and treat root-causing it further
      as an explicit unknown for this vendor file rather than guessing (e.g. do not assert AS-number
-     mismatch, hold-time mismatch, or authentication mismatch as Cisco-documented causes — none of those is confirmed in Cisco's documentation, despite being common real-world BGP failure modes).
+     mismatch, hold-time mismatch, or authentication mismatch as Cisco-documented causes — none of those is confirmed in the Cisco sources used here, despite being common real-world BGP failure modes).
 3. If the neighbor detail output shows a recent teardown, check the reported reason. The source
    material's own logged examples for a session that came up and then dropped are the
    `BGP_SESSION-5-ADJCHANGE` messages "Peer closed the session" and "Unknown path error" — report

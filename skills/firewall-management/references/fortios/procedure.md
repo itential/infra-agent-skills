@@ -56,7 +56,7 @@ its own configuration.
 
 **Stop and confirm with the operator before proceeding** — an address object still referenced by a
 policy or a NAT (VIP) rule should not be removed without first confirming nothing depends on it,
-since FortiOS documentation does not describe the address table itself
+since FortiOS documentation available to this skill does not describe the address table itself
 blocking deletion of an in-use object.
 
 ```

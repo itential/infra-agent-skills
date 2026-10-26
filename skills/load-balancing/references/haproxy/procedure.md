@@ -29,7 +29,7 @@ no separate `endpoints.md` wiring layer for this vendor.
    `frontend`/`backend`/`listen` sections; confirm the intended name doesn't already exist in the
    target configuration before adding a new section under it.
 2. **Write the backend block** with one `server` line per pool member, in the confirmed minimal
-   form: `server <member-name> <address>:<port>`. This bare form is the only shape with a documented worked example; commonly-documented additional
+   form: `server <member-name> <address>:<port>`. This bare form is the only shape confirmed as a worked example from the sources used; commonly-documented additional
    per-server keywords include `weight` (relative load-balancing weight) and `check` (enables active
    health checking for that server) — both are real, widely-documented HAProxy keywords, but their
    exact parameter ranges/defaults are Unverified. State any specific weight/check value the caller wants explicitly rather than

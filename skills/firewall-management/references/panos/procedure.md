@@ -71,7 +71,7 @@ separately confirmed for the field in question.
 
 **Stop and confirm with the operator before proceeding.** Removing an address object that a security
 rule or NAT rule still references is destructive to that rule's intended matching behavior; PAN-OS
-documentation does not describe a built-in reference check blocking deletion
+documentation available to this skill does not describe a built-in reference check blocking deletion
 of an in-use object, so confirm via a rule/object read that nothing currently depends on the object
 before deleting it, and only then submit the delete request naming its scope and name.
 
@@ -126,7 +126,7 @@ one rule can change which rule now matches traffic that used to hit the deleted 
 ### NAT rules
 
 NAT rules follow the same location/name addressing, the same rename and move actions, and, on
-Panorama, the same pre-rule/post-rule split as security rules. Palo Alto's REST documentation names only security rule families, so the NAT family names in
+Panorama, the same pre-rule/post-rule split as security rules. The Palo Alto REST documentation used here names only security rule families, so the NAT family names in
 `endpoints.md` come from a secondary source (a third-party OpenAPI description) and are **unverified against
 vendor docs**: check them in the target version's own API reference (served by the device itself)
 before relying on them. Deleting or reordering a NAT rule changes address translation for live
@@ -137,7 +137,7 @@ traffic: **stop and confirm with the operator first.**
 Every create/update/delete above lands only in the candidate configuration. To apply pending changes
 to the running configuration, a commit must be issued; PAN-OS documentation confirms the commit
 mechanism supports committing the full pending change set or a scoped/partial commit, but this
-the REST documentation does not give the literal request body or job-status field names — those exact mechanics should be confirmed against the target PAN-OS version's own API
+the documentation used here does not give the literal request body or job-status field names — those exact mechanics should be confirmed against the target PAN-OS version's own API
 reference before an agent relies on a specific field name. What is confirmed and safe to rely on:
 commit is a distinct, required step, separate from every object/rule write above, and a commit
 returns a job that can be polled for completion using the platform's own operational job-status

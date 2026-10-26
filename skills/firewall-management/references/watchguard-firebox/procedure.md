@@ -7,7 +7,7 @@ available. See `endpoints.md` for literal request shapes.
 
 Scope note: the API documents policy CRUD, an enable/disable operation, read-only access to policy
 groups and to the aliases that policies reference, and a **deployment** command that pushes saved
-configuration to devices. Alias create/update/delete are not in the documented endpoint set (read-only), so this skill does not manage address objects on this platform.
+configuration to devices. Alias create/update/delete are not in the endpoint set used here (read-only), so this skill does not manage address objects on this platform.
 
 Sources: WatchGuard, Firebox Management API release notes and Cloud help (watchguard.com/help),
 retrieved 2026-10-19. Wording is original. Items marked *(assumption)* or *(assets)* are not
