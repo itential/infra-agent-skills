@@ -31,7 +31,7 @@ Security / IPsec VPN administration guide), current version, docs.paloaltonetwor
    encryption algorithm, an authentication algorithm, and a Diffie-Hellman group for Perfect Forward
    Secrecy (or explicitly no PFS). See `endpoints.md` for the full documented option lists. The exact
    default lifetime/lifesize values were not independently confirmed for the on-box configuration
-   interface in the source reviewed for this skill — confirm the current default against the target
+   interface in the source — confirm the current default against the target
    firewall's own configuration rather than assuming a specific number, and set an explicit value if
    the requirement is anything other than "whatever the platform defaults to."
 4. **Create the IKE Gateway object** (phase 1 peer definition):
@@ -50,7 +50,7 @@ Security / IPsec VPN administration guide), current version, docs.paloaltonetwor
    - Set Passive Mode only if this gateway must never initiate the IKE exchange itself (it will only
      respond to the peer's initiation). Enable NAT Traversal only if a NAT device sits between the
      two tunnel endpoints; exact validation behavior for this setting was not independently confirmed
-     in the source reviewed — treat as "enable when a NAT is known to be in the path," not as a
+     in the source — treat as "enable when a NAT is known to be in the path," not as a
      default-on setting.
 5. **Create the IPsec Tunnel object** (phase 2 / the tunnel itself):
    - Reference the tunnel interface from step 1.
@@ -103,7 +103,7 @@ operational-command mechanism):
 - `show vpn ipsec-sa` — lists phase 2 (IPsec) security associations; use to confirm the tunnel itself
   is up, as distinct from phase 1 alone being established.
 - `show vpn ipsec-sa tunnel <tunnel-name>` is not independently confirmed as valid syntax in the
-  source reviewed for this skill — the source instead shows `show vpn ike-sa tunnel <tunnel>` (phase
+  source — the source instead shows `show vpn ike-sa tunnel <tunnel>` (phase
   1, scoped by tunnel) and a separate `show vpn flow`/`show vpn tunnel` pairing for phase 2/tunnel
   listing; use `show vpn tunnel` to list configured auto-key tunnels and `show vpn flow` for
   IPsec traffic counters rather than assuming an unconfirmed command variant works.
@@ -133,8 +133,8 @@ operational-command mechanism):
   procedure does not detail its SPI/key-management operational burden beyond noting it exists.
 - Exact default lifetime/lifesize values for the IPSec Crypto Profile, and the precise validation
   behavior of the IKE Gateway's NAT Traversal setting, were not independently confirmed against the
-  on-box configuration interface in the source reviewed — confirm current defaults on the target
-  firewall rather than assuming the values found during this skill's research.
+  on-box configuration interface in the source — confirm current defaults on the target
+  firewall rather than assuming any particular values.
 - The `clear vpn ike-sa`/`clear vpn ipsec-sa` operational commands are documented in this skill's
   source in an IKEv1 troubleshooting context; whether they apply unchanged to an IKEv2-only gateway
   was not confirmed — verify before relying on them against an IKEv2-only deployment.

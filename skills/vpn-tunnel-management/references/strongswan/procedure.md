@@ -108,7 +108,7 @@ the `swanctl`(8) command reference, both at docs.strongswan.org, version 5.9 lin
   "loaded configuration" from "active SA," and reporting one as if it were the other is a status
   error, not a rounding difference.
 - No documented single "success" exit code or output string beyond a subcommand completing normally
-  was found in the sources reviewed for this skill; if the executing tool surfaces `swanctl`'s exit
+  was found in the sources; if the executing tool surfaces `swanctl`'s exit
   status or stderr output, report that verbatim on failure rather than inferring a specific error
   condition that wasn't independently confirmed against the source documentation.
 
@@ -124,7 +124,7 @@ the `swanctl`(8) command reference, both at docs.strongswan.org, version 5.9 lin
   connection, `rekey_time` defaults to `0` (rekeying disabled) unless also set explicitly — a
   connection intended to both reauthenticate and rekey needs both values set, not just one.
 - Exact CLI exit codes and machine-parseable error strings for `swanctl` subcommands were not found
-  in the documentation reviewed for this skill; error handling here relies on the executing tool's
+  in the documentation; error handling here relies on the executing tool's
   own captured stderr/exit status rather than a documented error vocabulary.
 - Editing a live connection's negotiated parameters does not retroactively change an already
   established SA — see step 7; forcing immediate effect requires an explicit, confirmed terminate.

@@ -5,24 +5,21 @@ referenced from `procedure.md` steps 3 and 6. Source: Junos OS CLI Reference (st
 `authentication-algorithm (Security IKE)`, `dh-group`, `encryption-algorithm (Security IKE)`,
 `proposal (Security IPsec)`), juniper.net/documentation, retrieved 2026-09-17.
 
-Naming note: this file is prefixed with a description of its own scope (`ike-ipsec-proposal-fields`)
-rather than a bare `endpoints.md`, since Junos here is CLI-driven (no wire-level REST/API to
-document) and Juniper is expected to eventually need more than one platform-family file under this
-vendor directory (see this skill's own `references/INDEX.md` naming rule) — keeping the name
-descriptive from the first file avoids a future collision.
+This file is a field reference for the Junos CLI statements used in `procedure.md`; Junos here is
+CLI-driven, so there is no wire-level REST/API to document.
 
 ## IKE proposal — `[edit security ike proposal <name>]`
 
 - `authentication-method` — one of `pre-shared-keys`, `rsa-signatures`, `dsa-signatures` (per the
-  legacy M/T-series proposal page; the modern SRX-era proposal path was not found as a single
-  consolidated statement page during this research pass, so this specific option list should be
+  legacy M/T-series proposal page; the modern SRX-era proposal path has no single consolidated
+  statement page in the sources, so this specific option list should be
   confirmed against the target device's own command-completion help before being treated as
   exhaustive for current SRX releases).
 - `authentication-algorithm` — documented values: `md5`, `sha1`, `sha-256`, `sha-384` (from the
   current, non-M/T-series-scoped `authentication-algorithm (Security IKE)` statement page).
 - `dh-group` — documented values from the dedicated `dh-group` statement page: `group1` (768-bit),
-  `group2` (1024-bit), `group5` (1536-bit), `group14` (2048-bit). This research pass could not
-  fully confirm whether this specific page's scope includes the higher groups (`group15`,
+  `group2` (1024-bit), `group5` (1536-bit), `group14` (2048-bit). Unverified: whether this
+  specific page's scope includes the higher groups (`group15`,
   `group16`, `group19`, `group20`, `group21`) that other platforms in this same skill document as
   IKEv2-capable options — treat those higher groups as unconfirmed for Junos in this procedure and
   verify via the target device's own command-completion help before relying on one.
@@ -34,8 +31,8 @@ descriptive from the first file avoids a future collision.
   on the SRX1500 platform specifically). `3des-cbc` and `des-cbc` are documented as still present but
   marked "NOT RECOMMENDED" in CLI help text starting in a Junos OS release using the IKED daemon with
   the `junos-ike` package installed — avoid choosing either for a new configuration.
-- `lifetime-seconds` — a numeric value in seconds; exact documented range/default was not
-  independently confirmed in this research pass for the modern SRX proposal statement — confirm
+- `lifetime-seconds` — a numeric value in seconds; Unverified: the exact documented range/default
+  for the modern SRX proposal statement — confirm
   against the target device's own configuration or current documentation.
 
 ## IKE policy — `[edit security ike policy <name>]`
@@ -54,8 +51,8 @@ Fields confirmed directly from the worked configuration example in `procedure.md
 `ike-policy <policy-name>`, `address <peer-ip-or-fqdn>`, `external-interface <interface-name>`. The
 source's separate configuration-overview page additionally describes setting local/remote IKE
 identification when the remote gateway's IP isn't known in advance, and selecting an IKE version —
-exact statement/keyword syntax for identification and version was not captured verbatim from a
-dedicated statement-reference page in this research pass; confirm exact keywords via the target
+exact statement/keyword syntax for identification and version is not documented on a dedicated
+statement-reference page in the sources; confirm exact keywords via the target
 device's own command-completion help (`set security ike gateway <name> ?`) before scripting against
 them.
 
@@ -89,7 +86,7 @@ Fields confirmed directly from the worked configuration example in `procedure.md
 `bind-interface <st0-unit>`, `ike gateway <gateway-name>`, `ike ipsec-policy <ipsec-policy-name>`,
 `establish-tunnels immediately`. The source's configuration-overview page also references specifying
 proxy IDs as part of phase 2 negotiation and a `df-bit` setting observed in the worked example's own
-`show security ipsec` detail output (`DF-bit: clear`) but not independently documented at the
-statement-reference level in this research pass — confirm exact syntax and accepted values for
+`show security ipsec` detail output (`DF-bit: clear`) but not documented at the
+statement-reference level in the sources — confirm exact syntax and accepted values for
 proxy-ID and `df-bit` configuration via the target device's own command-completion help before
 scripting against them.

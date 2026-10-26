@@ -37,11 +37,11 @@ following that platform's own documented procedure exactly.
   configuration/commit success alone — confirm with the platform's own state command.
 - **Tearing down or deleting a live tunnel/gateway/SA is disruptive on the platforms checked** — it
   drops in-flight traffic through that tunnel. Each vendor file that documents delete/clear/terminate
-  operations gates them behind an explicit operator-confirmation step for this reason
-  (see AGENTS.md rule 7). The Cisco ASA source documents no delete operation; it gates its other
+  operations gates them behind an explicit operator-confirmation step for this reason.
+  The Cisco ASA source documents no delete operation; it gates its other
   disruptive actions the same way.
 - **Do not assume a specific proposal/algorithm-naming convention, DH-group numbering, or default
-  lifetime value is common across platforms.** All three platforms researched for this skill use
+  lifetime value is common across platforms.** PAN-OS, strongSwan, and Junos SRX use
   different exact keyword sets for the same underlying algorithms (e.g. PAN-OS's `aes-256-gcm`
   crypto-profile field vs. strongSwan's dash-joined proposal strings vs. Junos's
   `encryption-algorithm` statement using the same literal keyword `aes-256-gcm` in one case but a

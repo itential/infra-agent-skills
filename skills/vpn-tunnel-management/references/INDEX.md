@@ -2,7 +2,7 @@
 
 One row per supported vendor/platform. Each vendor directory holds its own `procedure.md` (the full
 step-by-step) plus a companion field-reference file (`endpoints.md` for REST/API-driven platforms, or
-a descriptively-named field-reference file for CLI-driven platforms per `AGENTS.md` rule 8).
+a descriptively-named field-reference file for CLI-driven platforms).
 
 | Vendor / Platform | Directory | Scope | Notes |
 |---|---|---|---|

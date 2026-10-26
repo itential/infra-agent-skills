@@ -58,10 +58,10 @@ two-phase structure.
    ike-policy <policy-name>`, `set security ike gateway <name> address <peer-ip-or-fqdn>`, and
    `set security ike gateway <name> external-interface <interface-name>` (the local, outgoing
    interface the gateway is anchored to). Set local/remote IKE identification (local-identity/
-   remote-identity) if the peer requires an identity other than its IP address — this skill's
-   research did not independently confirm the exact `version` statement/keyword values (e.g. an
-   IKEv1-only vs. IKEv2-only vs. either selector) against a current SRX-scoped page, so state the
-   requirement generically here rather than asserting unconfirmed keyword values; consult the
+   remote-identity) if the peer requires an identity other than its IP address — unverified: the
+   exact `version` statement/keyword values (e.g. an IKEv1-only vs. IKEv2-only vs. either selector)
+   against a current SRX-scoped page, so the requirement is stated generically here rather than
+   asserting unconfirmed keyword values; consult the
    target device's own current command-completion help (`set security ike gateway <name> version ?`)
    to confirm the exact accepted values before scripting against them.
 6. **Configure the IPsec proposal (phase 2 algorithm set)** under `[edit security ipsec]`:
@@ -95,11 +95,10 @@ two-phase structure.
     running any `delete security ike gateway ...`, `delete security ipsec vpn ...`, `delete
     interfaces st0 ...`, or equivalent removal of a routing statement that currently carries live
     traffic through the tunnel** — each of these tears down the live tunnel path or removes the means
-    to re-establish it. This skill's research did not directly capture a worked example demonstrating
-    the exact `delete` command sequence for these objects (the source example used only `set`); the
-    `delete <hierarchy>`-mirrors-`set` pattern is a well-established general Junos CLI convention, not
-    something this specific research pass independently confirmed against a VPN-object-specific
-    example — confirm the exact hierarchy path against the target device's own configuration (`show
+    to re-establish it. Not documented in the sources: a worked example of the exact `delete`
+    command sequence for these objects (the source example used only `set`); the
+    `delete <hierarchy>`-mirrors-`set` pattern is a well-established general Junos CLI convention,
+    unverified against a VPN-object-specific example — confirm the exact hierarchy path against the target device's own configuration (`show
     security ike` / `show security ipsec` output) before issuing the delete, rather than assuming the
     object name alone is sufficient without matching the real configured hierarchy.
 
@@ -139,26 +138,25 @@ Run these from operational mode:
 - Covers route-based, autokey-IKE, site-to-site VPN only — policy-based VPN, remote-access/dial-up
   VPN, Auto Discovery VPN, and hub-and-spoke NHTB are each documented as distinct configurations with
   their own considerations and are out of this procedure's scope.
-- This skill's research did not independently confirm the exact `version` keyword values available on
+- Unverified: the exact `version` keyword values available on
   `set security ike gateway <name> version` against a current SRX-scoped source — consult the target
   device's own command-completion help rather than assuming specific keyword values from this
   procedure.
-- The exact Diffie-Hellman group list available on current SRX/Junos releases was only partially
-  confirmed — `group1`, `group2`, `group5`, and `group14` are confirmed from a dedicated `dh-group`
-  statement reference page, but that same page's scope (whether it's the current SRX-era page or an
-  older one) was not fully disambiguated during this research; additional higher groups may be
-  supported on current releases but were not independently confirmed here. Confirm the full accepted
+- The exact Diffie-Hellman group list available on current SRX/Junos releases is only partially
+  confirmed — `group1`, `group2`, `group5`, and `group14` are documented on a dedicated `dh-group`
+  statement reference page, but that page's scope (whether it's the current SRX-era page or an
+  older one) is unverified; additional higher groups may be supported on current releases but are
+  unconfirmed. Confirm the full accepted
   value list against the target device's own command-completion help before relying on a specific
   higher DH group (e.g. group19-group21) being available.
-- Exact `delete` command sequences for removing IKE/IPsec objects were not directly captured from a
-  worked example in this research pass — see step 13; the general Junos `set`/`delete` symmetry
-  convention is well established but wasn't independently confirmed against this specific object type
-  in the sources reviewed.
+- Exact `delete` command sequences for removing IKE/IPsec objects are not documented in a worked
+  example in the sources — see step 13; the general Junos `set`/`delete` symmetry convention is well
+  established but unverified for this specific object type.
 - Changing a proposal's algorithms does not retroactively renegotiate an already-established SA; the
   existing SA continues under its originally negotiated parameters until it naturally rekeys or is
   explicitly cleared.
 - Exact default lifetime/lifesize numeric values for the IPsec proposal were not independently
-  confirmed in the sources reviewed for this skill — confirm current defaults on the target device
+  confirmed in the sources — confirm current defaults on the target device
   rather than assuming a specific number.
 
 ## Tools

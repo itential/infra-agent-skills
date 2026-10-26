@@ -30,10 +30,10 @@ administration), current version, docs.paloaltonetworks.com, retrieved 2026-09-1
 - **DH Group (PFS)** — one of: `group1`, `group2`, `group5`, `group14`, `group15`, `group16`,
   `group19`, `group20`, `group21`, or `no-pfs` to disable Perfect Forward Secrecy.
 - **Lifetime** — a duration in seconds, minutes, hours, or days; documented range is 3 minutes to
-  365 days. An exact on-box default was not independently confirmed in the source reviewed for this
-  skill — confirm the current default on the target firewall rather than assuming a specific value.
+  365 days. An exact on-box default was not independently confirmed in the source —
+  confirm the current default on the target firewall rather than assuming a specific value.
 - **Lifesize** — a data-volume threshold after which the SA must rekey. Units and default were not
-  independently confirmed in the source reviewed — treat as an explicit unknown rather than assuming
+  independently confirmed in the source — treat as an explicit unknown rather than assuming
   a value; consult the target firewall's own configuration or current PAN-OS documentation before
   setting one deliberately.
 
@@ -61,7 +61,7 @@ administration), current version, docs.paloaltonetworks.com, retrieved 2026-09-1
   initiates it.
 - **NAT Traversal** — boolean; enables UDP encapsulation of IKE/IPsec traffic for a path with a NAT
   device between the two endpoints. Exact validation/error behavior when enabled unnecessarily (no
-  NAT present) was not independently confirmed in the source reviewed.
+  NAT present) was not independently confirmed in the source.
 
 ## IPsec Tunnel object fields
 
@@ -111,5 +111,5 @@ its own confirmation-gate requirements for the destructive ones.
 
 No specific machine-parseable success/failure string or exit-code vocabulary for these commands (or
 for the config-side create/update/delete operations, however the calling tool executes them) was
-found in the source reviewed for this skill — surface the executing tool's own output/exit status
-verbatim rather than asserting an error string this research didn't confirm.
+found in the source — surface the executing tool's own output/exit status
+verbatim rather than asserting an unconfirmed error string.
