@@ -12,7 +12,7 @@ Source (Cisco, APIC REST API Configuration Guide, "Using the REST API", retrieve
 
 ## Open a session
 
-The controller authenticates by username and password and returns a token that is presented afterwards as a session cookie. A session lasts 600 seconds by default; refresh it before it lapses or log in again. An authentication or authorization failure is a failed read, not an empty fabric.
+The controller authenticates by username and password and returns a token that is presented afterwards as a session cookie. A session lasts 600 seconds by default; refresh it before it lapses or log in again. An authentication or authorization failure is a failed read, not an empty fabric. The token is a secret credential: keep it and the password out of reported output.
 
 ## Read a class collection
 
@@ -39,7 +39,7 @@ Password properties come back blank on reads. Posting a read response back to th
 
 - Read-only. Creating tenants, policies or any managed object, and subscriptions or event streams, are outside this procedure.
 - Log-record queries have their own ordering and paging rules and are not covered.
-- No health threshold, fault-severity judgement, contract analysis or reachability verdict is made. Any write needs its own procedure with an operator confirmation gate.
+- No health threshold, fault-severity judgement, contract analysis or reachability verdict is made.
 - No comparison operation: to compare, repeat the same class query with the same filters at two times and diff outside the platform, noting the paging caveat above.
 
 ## Tools
@@ -49,6 +49,7 @@ Password properties come back blank on reads. Posting a read response back to th
 | Open session | Authenticate and obtain the session cookie | REST API |
 | Read class collection | Retrieve instances of a class, optionally filtered and paged | REST API |
 | Read managed object | Retrieve one object by distinguished name | REST API |
+| Refresh session | Reset the session timer and obtain a new token | REST API |
 
 ## Verification checklist
 

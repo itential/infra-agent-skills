@@ -1,11 +1,11 @@
 ---
 name: network-state-collection
-description: Capture structured network state before and after a change, or gather evidence while troubleshooting, by parsing command output, learning feature state, querying platform state or snapshots, and comparing saved snapshots. Use when you need observed state data to compare or inspect. Covers Cisco pyATS / Genie, IP Fabric, Forward Networks, and Cisco ACI APIC; assumes the chosen tool's access (a pyATS testbed or captured output, or an authenticated platform API client). It reports what was observed; it does not diagnose root causes or approve a change.
+description: Capture structured network state before and after a change, or gather evidence while troubleshooting, by parsing command output, learning feature state, querying platform state or snapshots, and comparing saved snapshots. Use when you need observed state data to compare or inspect. Covers Cisco pyATS / Genie, IP Fabric, Forward Networks, Arista CloudVision, Zabbix, Auvik, and Cisco ACI APIC; assumes the chosen tool's access (a pyATS testbed or captured output, or an authenticated platform API client). It reports what was observed; it does not diagnose root causes or approve a change.
 ---
 
 # Network State Collection
 
-Parse command output, learn feature state, query platform snapshots, and compare saved snapshots to produce evidence of network state.
+Parse command output, learn feature state, query platform state or snapshots, and compare saved snapshots to produce evidence of network state.
 
 ## When to use this skill
 
@@ -40,7 +40,7 @@ Vendor details belong in that vendor's references. Recheck shared claims before 
 
 ## Tools
 
-A local pyATS/Genie CLI with device transport or the Genie parser library for captured text, or an authenticated API client for the IP Fabric, Forward Networks, or Cisco ACI APIC platform.
+A local pyATS/Genie CLI with device transport or the Genie parser library for captured text, or an authenticated API client for the IP Fabric, Forward Networks, Arista CloudVision, Zabbix, Auvik, or Cisco ACI APIC platform.
 
 ## Verification checklist
 
