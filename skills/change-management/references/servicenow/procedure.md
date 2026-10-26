@@ -21,8 +21,8 @@ report success.
 
 **Submit a new change that requires approval, then close once approved:**
 1. Create — with the given fields.
-2. Approve / Reject — submit the decision (requires confirmation per that section). If rejected, stop here and report REJECTED; do not attempt
-   Check Gates or Close on a rejected change.
+2. Approve / Reject — submit the decision (requires confirmation per that section). If rejected,
+   stop here and report REJECTED; do not attempt Check Gates or Close on a rejected change.
 3. Check Gates — against the intended closed target state.
 4. Close.
 
