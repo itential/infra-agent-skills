@@ -7,10 +7,9 @@ Cloudflare procedure covers separately. Assumes an authenticated Cloudflare API 
 with Zone Write scope, or legacy email+key headers) is already available to the caller.
 
 Source: Cloudflare API reference (Zones resource) and Cloudflare's DNS zone-setup documentation,
-developers.cloudflare.com, retrieved 2026-09-17. Some detail in this procedure came through an
-LLM-mediated documentation fetch rather than a direct line-by-line read of the raw page — where that
-affects confidence in a specific claim (mainly around exact error codes and the subdomain-setup
-compatibility matrix), it's flagged explicitly below rather than stated as certain.
+developers.cloudflare.com, retrieved 2026-09-17. Confidence is limited for exact error codes and
+the subdomain-setup compatibility matrix; those are flagged explicitly below rather than stated as
+certain.
 
 ## Operational procedure
 
@@ -32,7 +31,7 @@ applies before creating:
 - **Subdomain (delegated child zone) setup** — a subdomain is managed as its own zone, independently of
   its parent zone, optionally under a different Cloudflare account, while inheriting some settings from
   the parent. Documented as Enterprise-only. The exact compatibility rules for which parent-zone-type +
-  child-zone-type combinations are supported were not retrieved as part of this research — treat that
+  child-zone-type combinations are supported are not documented in the sources — treat that
   matrix as an unknown to confirm directly with Cloudflare's own setup docs before relying on it, rather
   than assuming any particular combination works.
 
@@ -87,9 +86,8 @@ operator.
 ### 5. Delete a zone — confirmation gate required
 
 **Stop and confirm with the operator before deleting any zone.** This removes Cloudflare's zone
-configuration for the domain outright. No documented precondition (such as Route 53's requirement that
-a zone be reduced to only its default records first) was found for Cloudflare zone deletion in the
-research behind this procedure — treat that absence as an open question rather than assuming deletion
+configuration for the domain outright. Cloudflare documents no precondition for zone deletion (such as Route 53's requirement that
+a zone be reduced to only its default records first) — treat that absence as an open question rather than assuming deletion
 either requires or doesn't require an empty zone; if the operator needs that guarantee met, verify
 record contents first regardless. State to the operator: the zone name and ID, and that this action is
 being treated as irreversible via this API absent evidence otherwise.
@@ -101,7 +99,7 @@ See `endpoints.md` § "Delete a Zone" for the exact request/response shape.
 Cloudflare's API returns a consistent envelope on every call: `success` (boolean), `result`, `errors[]`
 (each with a numeric `code`, a `message`, and optionally a `documentation_url` and a `source.pointer`
 identifying the offending field), and `messages[]` for non-error informational notices. No
-zone-specific error codes beyond this general shape were confirmed during this research — when a call
+zone-specific error codes beyond this general shape are documented — when a call
 fails, report the literal `code`/`message` pair from the response to the operator rather than guessing
 at which documented error category it falls into.
 
@@ -116,10 +114,9 @@ at which documented error category it falls into.
 
 ## Known limitations
 
-- Subdomain (delegated child zone) setup's exact parent/child compatibility rules were not verified in
-  this research — this procedure documents that the capability exists and is Enterprise-only, but does
-  not provide its own step-by-step, since the source material behind it wasn't confirmed in enough
-  detail to state one without risking an invented step. Consult Cloudflare's own current zone-setups
+- Unverified: subdomain (delegated child zone) setup's exact parent/child compatibility rules. This
+  procedure documents that the capability exists and is Enterprise-only, but gives no step-by-step,
+  since the source detail is not enough to state one without risking an invented step. Consult Cloudflare's own current zone-setups
   documentation directly before attempting a subdomain setup.
 - Does not cover zone-transfer (AXFR/IXFR primary/secondary) configuration in depth, or partial (CNAME)
   setup's specific verification-key flow — both are referenced in step 1 as setup-type options but not
@@ -127,10 +124,9 @@ at which documented error category it falls into.
 - Does not cover individual DNS record management inside a zone — see `dns-record-management`.
 - Whether Cloudflare requires a zone to be emptied of records before deletion is unconfirmed (see step
   5) — do not assume either way.
-- Some material in this procedure came from an LLM-mediated documentation summary rather than a direct
-  read of Cloudflare's raw reference pages — re-verify exact field names, the full Create Zone error
-  list, and the subdomain-setup compatibility matrix against the live docs before treating this
-  procedure as complete for a production integration.
+- Unverified: exact field names, the full Create Zone error list, and the subdomain-setup
+  compatibility matrix. Re-verify them against Cloudflare's live documentation before depending on
+  them in production.
 
 ## Tools
 

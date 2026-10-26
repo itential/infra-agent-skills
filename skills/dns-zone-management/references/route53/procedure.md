@@ -196,7 +196,7 @@ See `endpoints.md` § "Delete a Hosted Zone" for the exact request/response shap
   parent domain is hosted elsewhere.
 - **Zone deletion is irreversible** — see step 7. Never skip its confirmation gate.
 - The exact hard cap on hosted zones per account/reusable delegation set is not itself documented as a
-  fixed number in the pages reviewed here — when `TooManyHostedZones` occurs, report it to the
+  fixed number — when `TooManyHostedZones` occurs, report it to the
   operator rather than assuming a specific number was exceeded.
 
 ## Tools

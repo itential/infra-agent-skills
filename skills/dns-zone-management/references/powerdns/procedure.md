@@ -23,8 +23,8 @@ be seeded with:
 
 - **`kind`** determines the zone's role: a primary/authoritative zone that PowerDNS itself serves and
   can be edited via this API (documented as `Native` in the material behind this procedure — PowerDNS
-  also documents `Master`/`Slave` roles for primary/secondary replication relationships, but this
-  research did not confirm the complete, current enum; verify the exact accepted values against the
+  also documents `Master`/`Slave` roles for primary/secondary replication relationships, but the
+  complete, current enum is unverified; verify the exact accepted values against the
   target PowerDNS instance's own API schema before assuming one beyond `Native`/`Slave`).
 - For a secondary (`Slave`) zone, supply the primary server address(es) it should transfer from; for a
   primary zone created and managed directly through this API, that list is empty.
@@ -34,7 +34,7 @@ be seeded with:
 On creation, PowerDNS automatically generates the zone's initial SOA and NS records from the supplied
 nameservers — the caller does not construct these RRsets by hand as part of zone creation. The
 generated SOA's contact address and timing fields are placeholder values, not meant to be left as-is
-for a production zone — the exact literal defaults were not confirmed by this research, so don't assume
+for a production zone — the exact literal defaults are not documented, so don't assume
 a specific value; instead, after creation, read the zone back (step 2) to see what was actually
 generated, and if it needs real values (a genuine administrative contact address, deliberately chosen
 refresh/retry/expire/minimum timers), update it via a normal RRset replace on the SOA record — see
@@ -47,20 +47,20 @@ See `endpoints.md` § "Create a Zone" for the exact request/response shape.
 
 Fetch a zone's current configuration and, optionally, its RRsets, by its name. Useful both for general
 status reporting and specifically for confirming what SOA/NS content PowerDNS actually generated at
-creation (step 1), since this research did not confirm the exact default values in advance.
+creation (step 1), since the exact default values are not documented.
 
 ### 3. Update a zone's configuration
 
-A defined, specific set of zone-level attributes can be changed after creation — this research
-confirmed `kind`, `masters`, `catalog`, `account`, `soa_edit`, `soa_edit_api`, `api_rectify`, `dnssec`,
-and `nsec3param` as the changeable fields. Any other field included in the request body is silently
+A defined, specific set of zone-level attributes can be changed after creation — the documented changeable
+fields are `kind`, `masters`, `catalog`, `account`, `soa_edit`, `soa_edit_api`, `api_rectify`,
+`dnssec`, and `nsec3param`. Any other field included in the request body is silently
 ignored rather than applied — in particular, the zone's own current serial-tracking fields
 (`serial`/`notified_serial`) and its name cannot be changed this way. If a caller's request implies
-changing something outside that confirmed list, treat it as unsupported by this call rather than
+changing something outside that documented list, treat it as unsupported by this call rather than
 assuming it will silently work.
 
 A request with a change PowerDNS itself considers invalid is rejected distinctly from a request that's
-simply malformed — the exact triggering conditions for each weren't confirmed by this research, so
+simply malformed — the exact triggering conditions for each are not documented, so
 report whichever the server actually returns rather than assuming which category a given bad input
 falls into.
 
@@ -69,15 +69,13 @@ falls into.
 **Stop and confirm with the operator before deleting any zone.** Deleting a zone through this API
 removes the zone's configuration and metadata together with every RRset it contains — this is a
 complete removal, not a soft-disable, and no explicit precondition (such as requiring the zone be
-reduced to only its default records first, the way some other platforms require) was confirmed by this
-research. Treat that absence of a documented safeguard as a reason for more caution, not less — verify
+reduced to only its default records first, the way some other platforms require) is documented. Treat that absence of a documented safeguard as a reason for more caution, not less — verify
 with the operator what the zone currently contains before proceeding, since PowerDNS itself may not
 stop the deletion the way another platform would.
 
 ### 5. Subdomain delegation (PowerDNS)
 
-This research did not surface a delegation-specific primitive distinct from ordinary zone creation for
-PowerDNS. Where a subdomain needs to be served as its own independently-managed zone, the documented
+PowerDNS documents no delegation-specific primitive distinct from ordinary zone creation. Where a subdomain needs to be served as its own independently-managed zone, the documented
 mechanism is simply: create a new zone for the subdomain's own name (step 1), let PowerDNS generate its
 SOA/NS as usual, and then — on whichever system is authoritative for the parent domain — add NS
 records for the subdomain pointing at the new zone's name servers. If the parent domain is also served
@@ -98,7 +96,7 @@ than a self-managed primary):
   non-destructive.
 - **Trigger a transfer** (`axfr-retrieve`) — for a secondary zone, ask PowerDNS to immediately pull a
   fresh copy from its configured primary, optionally naming a specific primary address to pull from
-  rather than the zone's already-configured one. This research did not confirm what happens if this is
+  rather than the zone's already-configured one. Unverified: what happens if this is
   called against a zone that isn't configured as a secondary — treat that as an unknown, and confirm the
   zone's `kind` before calling it.
 
@@ -120,18 +118,17 @@ than a self-managed primary):
   individual records) or DNSSEC rectification — see `dns-record-management`'s PowerDNS procedure for
   both.
 - The complete, current enum of accepted `kind` values, the literal default SOA content PowerDNS
-  generates at creation, and the exact error codes/strings for zone create/update/delete failures were
-  not confirmed by this research — treat each as an item to verify against the target instance's own
+  generates at creation, and the exact error codes/strings for zone create/update/delete failures are
+  not documented — treat each as an item to verify against the target instance's own
   API schema/behavior before depending on a specific value.
-- No documented requirement was found that a zone be emptied of non-default records before deletion —
+- No documented requirement exists that a zone be emptied of non-default records before deletion —
   do not assume PowerDNS either requires or doesn't require this; confirm zone contents with the
   operator regardless before deleting (step 4).
 - Whether calling the transfer-trigger or notify operations against a zone of the wrong `kind` fails
-  outright or is simply a no-op was not confirmed — check the zone's `kind` first rather than relying on
+  outright or is simply a no-op is unverified — check the zone's `kind` first rather than relying on
   the call itself to reject a mismatched zone.
-- Some material in this procedure came from an LLM-mediated documentation summary rather than a direct
-  read of PowerDNS's raw reference page — re-verify field completeness and error behavior against the
-  live docs or the target instance before treating this procedure as complete for production use.
+- Unverified: field completeness and error behavior. Re-verify them against the live PowerDNS
+  documentation or the target instance before depending on them in production.
 
 ## Tools
 

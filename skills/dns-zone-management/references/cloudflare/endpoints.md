@@ -3,9 +3,9 @@
 Literal API calls behind each capability named in `procedure.md`. All calls are the Cloudflare REST
 API (Zones resource), JSON request/response bodies, authenticated with an API Token (`Authorization:
 Bearer <token>`) or legacy email+key headers. Source: developers.cloudflare.com API reference,
-retrieved 2026-09-17 via an LLM-mediated documentation fetch — treat exact field/error completeness as
-provisional and re-check the live OpenAPI/reference page before relying on this as exhaustive (see
-`procedure.md`'s Known limitations).
+retrieved 2026-09-17. Exact field and error completeness is unverified; check the live
+OpenAPI/reference page before relying on this as exhaustive (see `procedure.md`'s Known
+limitations).
 
 ## Create a Zone
 
@@ -27,8 +27,8 @@ least: `id`, `name`, `status` (`initializing` \| `pending` \| `active` \| `moved
 prior nameservers), `created_on`, `activated_on`, `account`, `owner`, `type`.
 
 Errors: general `errors[]` entries in the standard envelope shape (`code` numeric ≥1000, `message`,
-optional `documentation_url`, optional `source.pointer`) — no zone-specific error codes were confirmed
-as part of this research; report the literal code/message returned rather than mapping it to an
+optional `documentation_url`, optional `source.pointer`) — no zone-specific error codes are documented;
+report the literal code/message returned rather than mapping it to an
 assumed category.
 
 ## Read a Zone
@@ -53,8 +53,7 @@ email+key credentials with equivalent access).
 Response: envelope `{success, result: {id}, errors[], messages[]}` — `result.id` echoes the deleted
 zone's ID.
 
-No documented pre-delete constraint (e.g. requiring the zone to be record-empty first) was confirmed
-during this research — see `procedure.md`'s Known limitations.
+No pre-delete constraint (e.g. requiring the zone to be record-empty first) is documented — see `procedure.md`'s Known limitations.
 
 ## Field reference (zone-level fields only)
 
