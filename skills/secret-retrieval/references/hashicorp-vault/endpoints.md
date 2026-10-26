@@ -5,7 +5,7 @@ JSON request/response bodies, authenticated with an `X-Vault-Token` header carry
 token. `{mount}` is the path a KV engine was enabled at (commonly `secret`, but caller-defined);
 `{path}` is the secret's location under that mount.
 
-Source: developer.hashicorp.com/vault/api-docs/secret/kv/kv-v1 (retrieved 2026-09-29) and .../kv-v2 (retrieved 2026-10-26). The KV v2 reference lists the destroy call as a PUT; delete and undelete are listed as POST.
+Source: developer.hashicorp.com/vault/api-docs/secret/kv/kv-v1 (retrieved 2026-09-29) and .../kv-v2 (retrieved 2026-10-26). Destroy uses PUT; delete and undelete use POST.
 
 ## KV v1 — Read a Secret
 
@@ -89,7 +89,8 @@ latest version.
 
 Body: `{ "versions": [<integer>, ...] }`
 
-Restores read access to the listed soft-deleted versions. Always gate this call behind explicit operator confirmation (see `procedure.md` step 4).
+Restores read access to the listed soft-deleted versions. Gate this call behind explicit operator
+confirmation (see `procedure.md` step 4).
 
 ## KV v2 — Destroy Specific Versions
 

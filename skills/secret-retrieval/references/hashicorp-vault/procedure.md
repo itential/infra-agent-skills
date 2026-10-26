@@ -6,8 +6,8 @@ authenticated Vault client already holding a valid client token — obtaining th
 auth method (userpass, AppRole, cloud auth, etc.) is out of scope here.
 
 Source: HashiCorp's own Vault API documentation for the KV v2 secrets engine and the KV v1
-secrets engine (developer.hashicorp.com/vault/api-docs/secret/kv/kv-v2 and .../kv-v1), retrieved
-2026-09-29.
+secrets engine (developer.hashicorp.com/vault/api-docs/secret/kv/kv-v1, retrieved 2026-09-29,
+and .../kv-v2, retrieved 2026-10-26).
 
 ## Operational procedure
 
@@ -34,8 +34,8 @@ See `endpoints.md` for the exact paths of each.
   payload, since v1 has none.
 - **KV v2**: issue a read against the `data` sub-path. To read a specific historical version rather
   than the latest, supply the `version` query parameter — omitting it returns the latest version,
-  whatever that version's state. A latest version that is deleted or destroyed is not skipped in
-  favor of an earlier one. The response separates the secret's own key/value map (under `data.data`)
+  whatever that version's state. No skip to an earlier version is documented when the latest
+  version is deleted or destroyed. The response separates the secret's own key/value map (under `data.data`)
   from Vault-managed version metadata (under `data.metadata`: `created_time`, `version`,
   `destroyed`, and deletion state).
 - If the read returns nothing where a value was expected, check whether the requested (or latest)
@@ -45,7 +45,7 @@ See `endpoints.md` for the exact paths of each.
   as failed and read the secret's metadata resource (see `endpoints.md`), whose per-version entries
   carry `deletion_time` and `destroyed`, to tell the states apart.
 - Vault documents no fallback to an earlier version when the requested or latest version is deleted
-  or destroyed, so a read of such a version does not return an older version's value. Reading a
+  or destroyed, so do not expect an older version's value from such a read. Reading a
   named earlier version is a separate, explicit read.
 
 ### 3. Create or overwrite a secret's value
@@ -79,9 +79,9 @@ delete, since it has no version history to soft-delete from):
   sub-path. Restores read access to those specific versions. **Always stop and confirm with the
   operator before submission** — it makes secret data readable again.
 - **Destroy** (irreversible; the underlying data is actually removed) — same `versions` array shape,
-  against the `destroy` sub-path. A destroyed version cannot
-  be brought back with undelete. **This step always needs explicit operator confirmation before
-  submission** — the source is explicit that this is not recoverable, unlike a soft delete.
+  against the `destroy` sub-path. A destroyed version cannot be brought back with undelete.
+  **This step always needs explicit operator confirmation before submission** — Vault documents
+  this as not recoverable, unlike a soft delete.
 - **KV v1 delete**: removes the value at the path outright, with no soft-delete/undelete tier at
   all. Treat every KV v1 delete as equivalent in severity to a KV v2 destroy, and gate it the same
   way.
