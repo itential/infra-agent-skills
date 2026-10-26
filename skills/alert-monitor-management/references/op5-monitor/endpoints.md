@@ -48,5 +48,5 @@ Body fields: `host_name`, `service_description`, `comment`, `sticky`, `notify`, 
 ## Command help
 
 The source states the server publishes help for its commands at a `help/command` page under the
-API path (unverified path shape: taken from a search-result summary rather than the pages above).
+API path (unverified path shape: not confirmed in the sources above).
 Use it to confirm parameters and to find the command for removing an acknowledgement.

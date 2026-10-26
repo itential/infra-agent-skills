@@ -9,9 +9,8 @@ available.
 Sources (retrieved 2026-09-29): Datadog API reference, "Monitors" section
 (https://docs.datadoghq.com/api/latest/monitors/); Datadog API reference, "Downtimes" section
 (https://docs.datadoghq.com/api/latest/downtimes/); Datadog "Monitor API Options" guide
-(https://docs.datadoghq.com/monitors/guide/monitor_api_options/); Datadog's own published OpenAPI
-description of the v1 Monitors resource and v2 Downtimes resource, used only to cross-check field
-names already stated in the prose sources above, never as a wording source.
+(https://docs.datadoghq.com/monitors/guide/monitor_api_options/); Datadog's published OpenAPI
+description of the v1 Monitors resource and v2 Downtimes resource, for field names.
 
 ## Operational procedure — create a monitor
 
@@ -40,7 +39,7 @@ names already stated in the prose sources above, never as a wording source.
    call.
 6. **Confirm creation** — a successful response returns the created monitor object including a
    numeric `id`. Report `CREATED` with that id. If the call fails, report `FAILED` with the
-   response body verbatim rather than guessing at the cause — the sources for this skill do not
+   response body verbatim rather than guessing at the cause — the sources do not
    enumerate every possible validation-error string.
 
 ## Operational procedure — suppress, acknowledge, or resolve an alert

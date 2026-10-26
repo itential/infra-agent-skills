@@ -53,14 +53,14 @@ Each step names a section below; follow that section for inputs, errors and gate
    resolution.
 3. **Submit the acknowledge command for the host or service.** A comment is required. Optional
    arguments are sticky, send-notification, persistent-comment and comment-author. Provide a real
-   comment; do not submit an empty or placeholder value. The pages do not describe the effect or
-   default of each option; defer to the Naemon external-command documentation the pages point to if
+   comment; do not submit an empty or placeholder value. The sources do not describe the effect or
+   default of each option; defer to the Naemon external-command documentation the sources point to if
    the caller has not specified them. Report `ACKNOWLEDGED` on success.
 4. **To remove an acknowledgement**, submit the matching remove-acknowledgement command (no
    arguments). **Stop and confirm with the operator first**, because notifications resume.
    Report `ACKNOWLEDGEMENT_CANCELLED` on success.
 5. **There is no manual "resolve" call.** A problem leaves its non-OK state when a later check
-   result is healthy; the pages document no call that forces it.
+   result is healthy; the sources document no call that forces it.
 
 ## Patterns
 
