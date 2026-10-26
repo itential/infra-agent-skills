@@ -1,6 +1,6 @@
 ---
 name: firewall-management
-description: Create, read, update, and delete firewall security policy objects (rules, address/service objects, NAT rules) on a supported firewall platform — currently Palo Alto Networks PAN-OS/Panorama (REST API), Fortinet FortiOS/FortiGate (CLI), Cisco ASA (CLI, with limited confirmed REST coverage), Juniper SRX/Junos OS (CLI), Fortinet FortiManager (JSON-RPC, central policy packages), WatchGuard Firebox (WatchGuard Cloud REST API), AWS Network Firewall (rule groups and policies via API), and Zscaler ZIA cloud firewall filtering rules (REST API). Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it. Does not cover Cisco FTD/FMC (not yet researched).
+description: Create, read, update, and delete firewall security policy objects (rules, address/service objects, NAT rules) on a supported firewall platform — currently Palo Alto Networks PAN-OS/Panorama (REST API), Fortinet FortiOS/FortiGate (CLI), Cisco ASA (CLI, with limited confirmed REST coverage), Juniper SRX/Junos OS (CLI), Fortinet FortiManager (JSON-RPC, central policy packages), WatchGuard Firebox (WatchGuard Cloud REST API), AWS Network Firewall (rule groups and policies via API), Zscaler ZIA cloud firewall filtering rules (REST API), and Cloudflare Network Firewall (custom and managed rules via the Rulesets API). Assumes an authenticated client for the target platform's API/CLI is already available; this skill does not provision or authenticate it. Does not cover Cisco FTD/FMC (not yet researched).
 argument-hint: "[platform] [action: create_rule|read_rule|update_rule|delete_rule|create_object] [rule/object identifier, fields]"
 ---
 
@@ -13,8 +13,8 @@ firewall platform the caller is targeting, following that platform's own documen
 
 - Creating, reading, updating, or deleting a firewall rule, address/service object, or NAT rule on a
   supported platform.
-- Not for web application firewall (WAF) rules, rate-limit rules, or managed-ruleset bindings — see
-  `waf-management` for that. A platform may offer both network-layer and application-layer
+- Not for application-layer (HTTP) web application firewall (WAF) rules, rate-limit rules, or
+  managed-ruleset bindings — see `waf-management` for that. A platform may offer both network-layer and application-layer
   protection under one product line; this skill covers only the network-layer rule/object model.
 
 ## Universal concepts (shared firewall vocabulary, not a wire standard)
@@ -22,21 +22,22 @@ firewall platform the caller is targeting, following that platform's own documen
 There is no wire-level standard behind firewall rule/object management the way DNS has RFC 1035 —
 every claim below was checked against the vendors currently listed in `references/INDEX.md`
 (PAN-OS, FortiOS, Cisco ASA, Juniper SRX, FortiManager, WatchGuard Firebox, AWS Network Firewall,
-Zscaler ZIA)
+Zscaler ZIA, Cloudflare Network Firewall)
 and holds as stated; it is not assumed to extend automatically to a platform not yet added.
 
 - **A rule matches traffic by referencing named objects (addresses, and where the platform defines
   them, services), and some platforms also accept raw values inline.** PAN-OS, FortiOS, Cisco ASA,
   Juniper SRX, FortiManager and WatchGuard model an address as its own named object that a rule
   references by name — read or confirm an object's current definition separately from the rule. AWS
-  Network Firewall has no address objects, and Zscaler ZIA rules take both inline addresses and
-  references to IP groups by id, so check each procedure.
+  Network Firewall has no address objects, Zscaler ZIA rules take both inline addresses and
+  references to IP groups by id, and Cloudflare Network Firewall rules carry their match values in an
+  expression, optionally naming an account IP list, so check each procedure.
 - **Deleting an object or rule that something else still depends on is not something to assume the
   platform blocks for you.** Enforcement varies and is partial at best. PAN-OS, FortiOS, Cisco ASA,
   FortiManager and WatchGuard procedures found no platform-enforced reference check preventing
   deletion of an in-use object or rule (ASA's docs explicitly note this for network-service
-  objects). Zscaler ZIA documents no reference check on rule deletion, and its referenced objects
-  are not edited by its procedure. Juniper SRX documents some commit-time enforcement for specific cases only, and AWS
+  objects). Zscaler ZIA and Cloudflare Network Firewall document no reference check on rule deletion, and ZIA's
+  referenced objects are not edited by its procedure. Juniper SRX documents some commit-time enforcement for specific cases only, and AWS
   Network Firewall rejects deleting something still in use. Treat "check for existing references
   before deleting" as this skill's own discipline in every vendor procedure, not a safety net the
   platform itself is confirmed to provide.
@@ -46,7 +47,8 @@ and holds as stated; it is not assumed to extend automatically to a platform not
   devices, and Zscaler ZIA stages each change until the tenant configuration is activated (a
   tenant-wide step). Cisco ASA's REST API is documented as writing only to the running configuration,
   requiring a separate persist step to survive a reload. AWS Network Firewall applies writes
-  without a commit step, but check its procedure for how changes propagate. Whether FortiOS's and
+  without a commit step, and Cloudflare Network Firewall documents none, but check each procedure for how
+  changes propagate. Whether FortiOS's and
   ASA's CLI writes apply immediately was not independently confirmed. Don't assume "the write call
   returned success" means "this is now enforced" — check each vendor's own procedure for what
   apply/commit/persist step (if any) it requires.
@@ -56,7 +58,8 @@ and holds as stated; it is not assumed to extend automatically to a platform not
   (configured differently, at the policy level); Cisco ASA nests static/auto NAT as a subcommand
   inside the network object it translates, not as an independent rule list; Juniper SRX keeps NAT in
   its own rule sets, separate from security policies. NAT modeling for FortiManager, WatchGuard,
-  AWS Network Firewall and Zscaler ZIA was not confirmed. Confirm the target vendor's own NAT model
+  AWS Network Firewall and Zscaler ZIA was not confirmed, and Cloudflare Network Firewall documents no
+  NAT. Confirm the target vendor's own NAT model
   before assuming any of these shapes carries over to another platform.
 
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
@@ -74,7 +77,7 @@ implements this shape concretely.
 
 ## Known limitations
 
-- Covers PAN-OS/Panorama, FortiOS/FortiGate, Cisco ASA, Juniper SRX, FortiManager, WatchGuard Firebox, AWS Network Firewall and Zscaler ZIA only — see
+- Covers PAN-OS/Panorama, FortiOS/FortiGate, Cisco ASA, Juniper SRX, FortiManager, WatchGuard Firebox, AWS Network Firewall, Zscaler ZIA and Cloudflare Network Firewall only — see
   `references/INDEX.md` for exactly what's confirmed for each. A platform not listed there (including
   Cisco FTD/FMC) needs a new reference file before this skill can be used for it.
 - Each vendor file also carries its own gaps (e.g. PAN-OS's NAT-rule REST path, FortiOS's REST API
