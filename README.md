@@ -86,6 +86,7 @@ one vendor's behavior from ever touching the shared file.
 | [`network-state-collection`](skills/network-state-collection/) | Cisco pyATS / Genie (parse commands, learn features, compare snapshots), IP Fabric and Forward Networks (read and compare platform snapshots), Arista CloudVision (read device inventory and events), Zabbix (read current host, interface, and item state), Auvik (read current discovered device and network state), Cisco ACI APIC (read fabric nodes, endpoints, faults, objects), AWS and Azure cloud network configuration *(read-only; AWS Network MCP server, Azure CLI)* |
 | [`network-health-verification`](skills/network-health-verification/) | Cisco pyATS (Health Check, integrated job mode) |
 | [`incident-management`](skills/incident-management/) | ServiceNow *(incident create, update, assign, hold, resolve, reopen, close)*, PagerDuty *(incident create, acknowledge, reassign, escalate, snooze, merge, resolve, reopen)*, Opsgenie *(incident create, note, resolve, close, reopen, delete)*, Jira Service Management *(incident create, comment, assign, resolve, reopen)*, ManageEngine ServiceDesk Plus *(incident create, edit, assign, note, resolve, close)* |
+| [`connector-tunnel-management`](skills/connector-tunnel-management/) | Cloudflare Tunnel *(remotely managed `cloudflared` tunnels: publish, route, diagnose, retire)* |
 | [`compute-instance-provisioning`](skills/compute-instance-provisioning/) | Amazon EC2 *(launch, start/stop/reboot, resize, snapshot/image, terminate)*; Google Compute Engine *(create, stop/start, suspend/resume, resize, disk snapshot, delete)*; VMware vSphere *(create, power, resize, delete)*; Morpheus *(create, stop/start, resize, snapshot, delete)* |
 | [`sdwan-policy-management`](skills/sdwan-policy-management/) | Cisco Catalyst SD-WAN Manager *(centralized policy, original template-policy model)*, Palo Alto Networks Prisma SD-WAN *(stacked path and QoS policy sets, rules, and stacks; bind to sites)* |
 | [`config-backup-management`](skills/config-backup-management/) | Prisma SD-WAN *(site snapshot capture, retrieve, and redeploy as YAML)* |
@@ -96,7 +97,7 @@ one vendor's behavior from ever touching the shared file.
 | [`metric-query`](skills/metric-query/) | Prometheus, Zabbix, Amazon CloudWatch *(read-only metric samples)* |
 | [`log-query`](skills/log-query/) | Splunk *(search job, poll, paged results)*, Elasticsearch *(mapping, bounded search, hit-total qualification)*, AWS CloudWatch Logs *(Logs Insights start, poll, page)*, Google Cloud Logging *(entries list, page tokens)*; all read-only |
 
-**147** vendor references across **37** capabilities (1 more is scaffolded with no coverage yet).
+**148** vendor references across **38** capabilities (1 more is scaffolded with no coverage yet).
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
