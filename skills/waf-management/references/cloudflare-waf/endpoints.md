@@ -16,16 +16,17 @@ Phases: `http_request_firewall_custom`, `http_ratelimit`, `http_request_firewall
 | Create ruleset | `POST /zones/{zone_id}/rulesets` | Only when the entry point read returned 404; body has `name`, `kind` `zone`, `phase`, `rules[]` |
 | Add rule | `POST /zones/{zone_id}/rulesets/{ruleset_id}/rules` | Optional `position`; returns the whole ruleset |
 | Update rule | `PATCH /zones/{zone_id}/rulesets/{ruleset_id}/rules/{rule_id}` | Send all fields to keep, or only `position`; new ruleset version |
+| Update managed overrides (documented method) | `PUT /zones/{zone_id}/rulesets/{ruleset_id}` | Replaces the entry point ruleset including the execute rule and its `overrides`; send every rule to keep |
 | Delete rule | `DELETE /zones/{zone_id}/rulesets/{ruleset_id}/rules/{rule_id}` | 200 with the remaining ruleset |
 
-Token permission: `Zone WAF Write` is among the documented permissions for the rule calls. Unverified:
-the read permission name.
+Token permissions: `Zone WAF Read` (documented for the entry point read) and `Zone WAF Write`
+(documented for add and update). Unverified: the permission listed for the delete call.
 
 ## Rule fields
 
 - `expression` and `action` (required), `description`, `enabled`, `ref`.
-- `action`: `block`, `managed_challenge`, `js_challenge`, `challenge`, `skip`, `log` (Enterprise
-  only), `execute` (managed deployment).
+- `action`: `block`, `managed_challenge`, `js_challenge`, `challenge`, `log` (Enterprise only),
+  `execute` (managed deployment).
 - `action_parameters` for a custom response on `block`: `response` with `status_code`, `content`,
   `content_type`. For a rate limiting rule the status code must be 400 to 499 (default 429), the
   content type one of `application/json`, `text/html`, `text/xml`, `text/plain`, and the content up to
@@ -50,8 +51,9 @@ and for complexity-based counting `score_per_period` and `score_response_header_
 | ASN, country | `ip.src.asnum`, `ip.src.country` |
 
 Further characteristics (JA3/JA4 fingerprints, JSON, form, JWT, body, clearance, custom) exist on
-higher plans. Supported period and timeout values by plan: 10, 15, 20, 30, 40, 45, 60, 90, 120, 180,
-240, 300, 480, 600, 900, 1200, 1800, 2400, 3600, 65535, 86400 seconds; not all on every plan.
+higher plans. API values: `period` 10, 60, 120, 300, 600, 3600; `mitigation_timeout` 0, 10, 60, 120, 300, 600, 3600,
+86400, both narrowed by plan. The plan availability table lists a longer set of period values (up to
+65535 seconds); Unverified: whether the API accepts them.
 
 ## Managed deployment
 

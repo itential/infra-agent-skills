@@ -23,10 +23,11 @@ Only one platform is listed, so each claim below holds only where that platform 
 
 - **A rule pairs a match expression with an action and is evaluated in order.** Where documented, some
   actions end evaluation for that request, so position decides whether a rule ever applies.
-- **Rate-limit rules count requests by a chosen identity over a period.** Where documented, the action
-  applies once the count passes the limit, and counting is approximate rather than exact.
-- **A managed ruleset is a vendor-curated rule group bound to the application with optional
-  overrides.** Where documented, its availability depends on the plan.
+- **A rate-limit rule counts requests per chosen identity over a time window.** Where documented, its
+  action applies once the count passes the limit.
+- **A managed ruleset is a vendor-maintained rule group, bound to the application with optional
+  overrides.** Where documented, a deployment can be tuned per rule.
+
 See `references/INDEX.md` for which platforms have a procedure, and each platform file for how it
 implements this shape concretely.
 
