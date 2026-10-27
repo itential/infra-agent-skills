@@ -67,7 +67,7 @@ one vendor's behavior from ever touching the shared file.
 | [`cmdb-asset-management`](skills/cmdb-asset-management/) | ServiceNow CMDB, iTop |
 | [`wireless-network-management`](skills/wireless-network-management/) | Cisco Meraki, HPE Aruba Networking Central, Cisco Catalyst Center |
 | [`firewall-management`](skills/firewall-management/) | Palo Alto PAN-OS/Panorama, Fortinet FortiOS, Cisco ASA, Juniper SRX, Fortinet FortiManager, WatchGuard Firebox, AWS Network Firewall, Zscaler ZIA, Cloudflare Network Firewall |
-| [`waf-management`](skills/waf-management/) | _(scaffolded — no vendor coverage yet)_ |
+| [`waf-management`](skills/waf-management/) | Cloudflare WAF *(zone custom rules, rate limiting rules, managed ruleset deployment)* |
 | [`load-balancing`](skills/load-balancing/) | F5 BIG-IP LTM, Citrix ADC/NetScaler, HAProxy, Cloudflare Load Balancing |
 | [`certificate-management`](skills/certificate-management/) | ACME (e.g. Let's Encrypt), HashiCorp Vault PKI, AWS Certificate Manager, DigiCert ONE Trust Lifecycle Manager, Sectigo Certificate Manager |
 | [`vpn-tunnel-management`](skills/vpn-tunnel-management/) | strongSwan, Palo Alto PAN-OS, Juniper SRX, Cisco ASA *(VTI tunnel creation only)*, Cloudflare WAN *(GRE and IPsec tunnels)* |
@@ -97,7 +97,7 @@ one vendor's behavior from ever touching the shared file.
 | [`metric-query`](skills/metric-query/) | Prometheus, Zabbix, Amazon CloudWatch *(read-only metric samples)* |
 | [`log-query`](skills/log-query/) | Splunk *(search job, poll, paged results)*, Elasticsearch *(mapping, bounded search, hit-total qualification)*, AWS CloudWatch Logs *(Logs Insights start, poll, page)*, Google Cloud Logging *(entries list, page tokens)*; all read-only |
 
-**148** vendor references across **38** capabilities (1 more is scaffolded with no coverage yet).
+**149** vendor references across **39** capabilities.
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
