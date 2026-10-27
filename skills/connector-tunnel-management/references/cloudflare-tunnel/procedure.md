@@ -28,7 +28,7 @@ through the API.
    Cloudflare.
 2. Success is a returned tunnel `id` with status `inactive`, meaning the tunnel exists but a connector
    has never run. The response also carries a connector token and a credentials object. These are
-   secrets: anyone holding the token can run the tunnel. Keep them out of logs and reports, and hand
+   secrets: whoever holds the token can run the tunnel, so keep them out of logs and reports, and hand
    the token only to the host that will run the connector. The token can be read again later through
    the token operation.
 3. Report `CREATED` with the tunnel `id` and name only.
@@ -39,15 +39,16 @@ The connector (`cloudflared`) is installed on a host inside the private network 
 tunnel token. This is a host-side step; the executing agent needs a way to run commands on that host.
 
 1. Before installing, confirm the host can reach Cloudflare outbound on port 7844 over both TCP and
-   UDP, and can resolve the tunnel region endpoints. Recent connector versions run these checks at
-   start; `cloudflared tunnel diag` runs them on demand.
+   UDP, and can resolve the tunnel region endpoints. Connector version 2026.5.2 and later runs these
+   checks at start; `cloudflared tunnel diag` runs them on demand.
 2. Run the service install with the token: `sudo cloudflared service install <TUNNEL_TOKEN>` on Linux
    and macOS, `cloudflared.exe service install <TUNNEL_TOKEN>` from an administrator prompt on
    Windows, or `docker run cloudflare/cloudflared:latest tunnel --no-autoupdate run --token <TUNNEL_TOKEN>`
    for a container.
-3. Only one `cloudflared` instance can run as a service on a machine. If the install reports that the
-   service is already installed, add routes to the existing tunnel instead, or uninstall the service
-   first with `sudo cloudflared service uninstall` if that instance is not needed.
+3. A machine runs at most one `cloudflared` service. If the install reports that a service is already
+   installed, add routes to the existing tunnel instead. Removing that service with
+   `sudo cloudflared service uninstall` stops whatever tunnel it carries: **stop and confirm with the
+   operator before uninstalling it** (unless the operator's standing instructions pre-authorize it).
 4. Success is the tunnel status leaving `inactive` (see Check health). Running the same tunnel on
    additional hosts adds replicas: each replica opens its own four connections and all serve the one
    tunnel. Replicas give failover, not load distribution or a choice of which replica serves a request.
@@ -66,8 +67,9 @@ Precondition: the hostname's zone is on Cloudflare with its nameservers pointing
    is required. The service value names the protocol and address of the internal service (see
    `endpoints.md` for the accepted service types); wrap an IPv6 literal in square brackets.
 3. Create a DNS record for the hostname: a proxied CNAME pointing to the tunnel's identifier at the
-   tunnel domain. If a record already exists for that name, choose another hostname or remove the
-   existing record deliberately; do not overwrite it silently.
+   tunnel domain. If a record already exists for that name, choose another hostname, or **stop and
+   confirm with the operator before deleting the existing record** (unless the operator's standing
+   instructions pre-authorize it); never overwrite it silently.
 4. A hostname with more than one subdomain level needs an Advanced Certificate for that hostname; the
    standard certificate does not cover it, and clients otherwise see a "can't provide a secure
    connection" error.
@@ -79,8 +81,8 @@ Precondition: the hostname's zone is on Cloudflare with its nameservers pointing
 
 ## Create a virtual network
 
-Needed only when two routes would otherwise use the same address range, for example production and
-staging networks that both use `10.128.0.0/24`. Every account has a default virtual network that routes
+Needed only when two routes would otherwise use the same address range, for example two sites that both use
+`192.0.2.0/24`. Every account has a default virtual network that routes
 use when none is named.
 
 1. Create one virtual network per isolated environment, with a name and optional comment.
@@ -95,9 +97,9 @@ use when none is named.
 2. A CIDR inside `100.96.0.0/12` is rejected because that range is reserved for client routing; the
    private network must be renumbered or routed another way.
 3. Success is the route `id` returned and the route appearing when routes are listed for the tunnel.
-   Report `ROUTED`. A route makes the network reachable through the tunnel; it does not by itself
-   capture end-user traffic. Client-side connectivity and policy are configured separately and are not
-   covered here.
+   Report `ROUTED`. A route makes the network reachable through the tunnel; end-user traffic is not
+   steered into it automatically. Client-side connectivity and policy are configured separately and are
+   not covered here.
 4. Pinging or tracing addresses behind the tunnel works only when the connector is set to allow ICMP.
 
 ## Check health
@@ -105,25 +107,24 @@ use when none is named.
 1. Read the tunnel and read its connections. Status is one of `inactive` (never run), `healthy`
    (serving through four connections), `degraded` (serving, but at least one connection has failed),
    or `down` (previously connected, now disconnected).
-2. Status describes only the link between the connector and Cloudflare. It does not show that the
-   connector can reach the internal service, so a `healthy` tunnel can still return errors to users.
-3. Report the status value and the number of connections as read. Treat fewer than four connections
-   as degraded availability even if the status reads healthy.
+2. A `healthy` status together with user-facing errors points at the path from the connector to the
+   internal service, which status does not measure; check that path separately.
+3. Report the status value and the number of connections as read.
 
 ## Diagnose
 
 | Observation | Meaning and next step |
 |---|---|
 | `inactive` | The connector never ran with this tunnel's token; run it (see Run the connector) |
-| `down` | The connector process stopped or the host or its outbound path failed; check the service on the host, its logs, and the outbound-port pre-checks |
-| `degraded` | Some connections failed; read the connector logs, re-run the pre-checks, and consider additional replicas |
+| `down` | The connector process stopped or the host is unavailable; check the service on the host and its logs |
+| `degraded` | Some connections failed; read the connector logs and re-run the outbound pre-checks |
 | Error 1033 with an inactive or down tunnel | Cloudflare found no healthy connector; resolve the status first |
 | Error 1033 with a healthy tunnel | The DNS record points at the wrong tunnel domain; confirm the CNAME target matches the tunnel identifier, using the federal tunnel domain on FedRAMP High accounts |
 | 502 Bad Gateway | The tunnel is connected but the connector cannot reach the internal service; check the service is running and listening, the service URL's protocol and port match it, and certificate trust (below) |
-| `x509: certificate signed by unknown authority` | The connector does not trust the origin's certificate or an inspecting proxy; add the CA to the host trust store or the connector's CA pool; disabling TLS verification is a temporary last resort and must be turned off again |
+| `x509: certificate signed by unknown authority` | The connector does not trust the origin's certificate or an inspecting proxy; add the CA to the host trust store or the connector's CA pool; disabling TLS verification is a temporary last resort that lowers security: confirm with the operator first and turn it off again once trust is fixed |
 | Idle long-lived sessions drop | Add application-level keepalives; idle UDP can be dropped by network devices when the connector uses QUIC |
 
-Not documented in the sources: a complete error-code catalogue for the tunnel API. Surface the
+Not documented: a complete error-code catalogue for the tunnel API. Surface the
 returned `errors` array unchanged.
 
 ## Remove routes
@@ -148,9 +149,9 @@ removes all of them. It is also the documented follow-up after the token is rota
 
 Deleting a tunnel is permanent, and the tunnel must have no active connections.
 
-1. Confirm no routes or published hostnames still reference the tunnel, and that the connector hosts
-   are stopped or cleaned up. Remove the matching DNS records separately; deleting the tunnel does not
-   remove them, and a left-over record points at a tunnel that no longer exists.
+1. The documented precondition is that the tunnel has no active connections: stop the connector hosts or
+   clean up connectors first. Assumption: routes referencing the tunnel and its DNS records are removed
+   as part of retiring it; the delete call is not documented to remove them.
 2. **Stop and confirm with the operator before deleting the tunnel** (unless the operator's standing
    instructions pre-authorize it).
 3. Success is a successful delete response and the tunnel no longer appearing in a default list. Report `DELETED`.
@@ -171,9 +172,9 @@ Deleting a tunnel is permanent, and the tunnel must have no active connections.
 ## Known limitations
 
 - Locally managed tunnels, private hostname routes, and Cloudflare Mesh are not covered.
-- Unverified: the call that rotates a tunnel's token; the sources reviewed mention rotation only as a
-  reason to clean up connectors.
-- Not documented in the sources: rate limits for these calls; on an HTTP 429, back off and honor any
+- Unverified: the call that rotates a tunnel's token; the documented token operation only reads it, and
+  connector cleanup is recommended after a rotation.
+- Not documented: rate limits for these calls; on an HTTP 429, back off and honor any
   `Retry-After` header.
 - Irreversible: tunnel deletion.
 

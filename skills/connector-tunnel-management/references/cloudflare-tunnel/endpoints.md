@@ -12,10 +12,10 @@ placeholders. Responses use the standard `success`, `errors[]`, `messages[]`, `r
 |---|---|---|
 | Create tunnel | `POST /accounts/{account_id}/cfd_tunnel` | Body `name`, `config_src` (`cloudflare` = remotely managed, `local`). Result carries `id`, `status`, `token`, `credentials_file` (secrets) |
 | List tunnels | `GET /accounts/{account_id}/cfd_tunnel` | Filters: `name`, `status`, `is_deleted`, `uuid`, `include_prefix`, `exclude_prefix`, `existed_at`, `was_active_at`, `was_inactive_at`, `page`, `per_page` |
-| Read tunnel | `GET /accounts/{account_id}/cfd_tunnel/{tunnel_id}` | `status`: `inactive`, `degraded`, `healthy`, `down`. The `connections` array on the tunnel object is deprecated and may come back empty; use the connections call |
+| Read tunnel | `GET /accounts/{account_id}/cfd_tunnel/{tunnel_id}` | `status`: `inactive`, `degraded`, `healthy`, `down`. The `connections` array on the tunnel object is deprecated; use the connections call |
 | Read connections | `GET /accounts/{account_id}/cfd_tunnel/{tunnel_id}/connections` | Connector ids, versions, locations. A healthy tunnel shows four |
 | Read token | `GET /accounts/{account_id}/cfd_tunnel/{tunnel_id}/token` | `result` is the token string (secret) |
-| Read configuration | `GET /accounts/{account_id}/cfd_tunnel/{tunnel_id}/configurations` | Assumption: the read path matches the write path |
+| Read configuration | `GET /accounts/{account_id}/cfd_tunnel/{tunnel_id}/configurations` | Same path as the write call |
 | Replace configuration | `PUT /accounts/{account_id}/cfd_tunnel/{tunnel_id}/configurations` | Replaces the whole configuration. Body `config.ingress[]` (each `hostname`, `service`, optional `path`, `originRequest`) and optional `config.originRequest` |
 | Clean up connectors | `DELETE /accounts/{account_id}/cfd_tunnel/{tunnel_id}/connections` | Optional connector id (`client_id`); omitted removes all connectors |
 | Delete tunnel | `DELETE /accounts/{account_id}/cfd_tunnel/{tunnel_id}` | Permanent; requires no active connections |
@@ -27,9 +27,11 @@ placeholders. Responses use the standard `success`, `errors[]`, `messages[]`, `r
 
 Token permissions: tunnel create, configuration, connection, token, and delete calls accept any of
 `Cloudflare One Connectors Write`, `Cloudflare One Connector: cloudflared Write`, or `Cloudflare Tunnel
-Write`; the read calls also accept the matching Read permissions. Route and virtual-network writes
-accept `Cloudflare One Networks Write` or `Cloudflare Tunnel Write`. The DNS record needs `DNS Write`.
-Unverified: the permission names for route and virtual-network reads.
+Write`; the tunnel and connection reads also accept the matching Read permissions, but the token read accepts
+only the Write ones. Route and virtual-network writes accept `Cloudflare One Networks Write` or
+`Cloudflare Tunnel Write`; the route list also accepts `Cloudflare One Networks Read` and
+`Cloudflare Tunnel Read`. The DNS record needs `DNS Write`. Unverified: the permission names for the
+virtual-network and configuration reads.
 
 ## Ingress service types
 

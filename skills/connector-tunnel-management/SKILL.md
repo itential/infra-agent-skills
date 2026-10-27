@@ -18,7 +18,7 @@ its health, and retires it, following the platform's own documented procedure
   that network: create the tunnel and add a route.
 - A tunnel shows as inactive, down, or degraded, or users get an error for a published application:
   diagnose it.
-- A tunnel, its routes, or its connectors need to be rotated or removed.
+- A tunnel, its routes, or its connectors need to be removed (retired).
 - Not for site-to-site IPsec or GRE tunnels between routers (see `vpn-tunnel-management`), for the
   access policy that decides who may reach the application (see
   `zero-trust-access-policy-management`), or for the DNS records of a zone beyond the one the
@@ -32,10 +32,11 @@ its health, and retires it, following the platform's own documented procedure
   make it carry traffic until a connector runs with the tunnel's credential.
 - **The tunnel credential is a secret.** Anyone holding it can run the tunnel. Handle it as a secret
   and do not echo it into logs or reports.
-- **Tunnel health reports the connector's link to the provider, not whether the internal service
-  answers.** A tunnel can read healthy while the application behind it fails.
-- **Routing is a separate record from the tunnel.** Reaching a service needs a route or published
-  hostname attached to the tunnel, and removing the tunnel does not necessarily remove them first.
+- **Where the platform documents it, tunnel health describes the connector's link to the provider
+  only.** A tunnel can read healthy while the application behind it fails, so check the internal
+  service separately.
+- **Where the platform documents it, routing is a separate record from the tunnel.** Reaching a
+  service needs a route or published hostname attached to the tunnel.
 - Only one implementation is listed in `references/INDEX.md`; each claim above holds only where the
   platform documents it.
 
