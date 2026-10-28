@@ -2,13 +2,16 @@
 
 List, read, create, update, and delete the GRE and IPsec tunnels that connect a customer router to
 Cloudflare WAN's anycast tunnel endpoints, including generating or setting an IPsec pre-shared key
-and the per-tunnel health-check settings. Source: Cloudflare Docs "GRE and IPsec tunnels",
-"Configure tunnel endpoints", "Tunnel health checks", "Troubleshoot tunnel health", and the API
-reference for IPsec and GRE tunnels under the Magic Transit resource (retrieved 2026-10-26).
+and the per-tunnel health-check settings, then read and diagnose tunnel health. Source: Cloudflare
+Docs "GRE and IPsec tunnels", "Configure tunnel endpoints", "Tunnel health checks", "Troubleshoot
+tunnel health", "Check tunnel health in the dashboard", "Update tunnel health checks frequency",
+"Querying tunnel health check results with GraphQL", and the API reference for IPsec and GRE
+tunnels under the Magic Transit resource (retrieved 2026-10-26 and 2026-10-28).
 
-Scope: the tunnel objects only. BGP settings and filter profiles, static routes, Network
-Interconnect, the Cloudflare One Appliance, tunnel health analytics, and the customer router's own
-configuration are separate and not covered. Bind each operation through `endpoints.md`.
+Scope: the tunnel objects and the health of the tunnels. BGP settings and filter profiles, static
+routes, Network Interconnect, the Cloudflare One Appliance, tunnel health alerts (notification
+policies), traffic analytics, and the customer router's own configuration are separate and not
+covered. Bind each operation through `endpoints.md`.
 
 ## Common Sequences
 
@@ -20,6 +23,8 @@ configuration are separate and not covered. Bind each operation through `endpoin
 3. **Change a tunnel:** read it → keep a copy → validate → update with the full desired tunnel →
    read back.
 4. **Remove a tunnel:** read it → confirm → delete → confirm it no longer appears in the list.
+5. **Diagnose an unhealthy tunnel:** read tunnel health (Step 8) → match the symptom (Step 9) →
+   apply the fix through Update a tunnel (Step 6) or the router → read health again.
 
 ## Step 0: Choose the tunnel type and collect inputs
 
@@ -119,14 +124,61 @@ Success: the read-back shows the intended settings and the health check recovers
    not documented: check them first.
 3. Delete by ID, then confirm the tunnel is gone from the list.
 
-## Step 8: Confirm the tunnel is working
+## Step 8: Read tunnel health
 
 A successful configuration call is not an established tunnel. Cloudflare probes each tunnel with
-ICMP health checks and reports one of three states per data center: Healthy (more than 80% of
-probes pass), Degraded (40% to 80%), or Down (under 40%). A failed probe is retried twice before it
-counts. Expect at least five minutes in a degraded state before recovery registers, and up to 30 minutes to return to Healthy. A data center showing "100% degraded" means the tunnel entered the degraded state there; it does not measure loss, so judge by the data centers that carry the tunnel's traffic. These percentages are the dashboard's view; Cloudflare's health-check reference gives a different failure-rate rule that drives route steering. The call that returns health state is not bound here (Unverified): use the dashboard's Network health page or the tunnel health API, and if neither is available report the tunnel as configured with health not confirmed, never as up.
+ICMP health checks from its data centers, and each data center keeps its own state for each tunnel:
+healthy, degraded, or down.
 
-Success: the tunnel shows Healthy in the data centers that carry its traffic.
+1. Read the tunnel health results through the analytics query (see `endpoints.md`), for the tunnel's
+   name over the period of interest. It returns an average state per tunnel and data center: 1 is
+   healthy, 0.5 degraded, 0 down. The query reaches at most one week of data, starting no more than
+   three months back. The dashboard's Network health page, Connector health tab, shows the same
+   states with traffic volume for the last hour, and holds only about an hour of history.
+2. Judge the data centers that carry the tunnel's traffic: the dashboard's one-hour traffic volume
+   column shows which. A data center with no traffic reporting degraded or down is informational, and
+   some locations reporting unhealthy at any time is normal because paths across the Internet differ.
+   A data center showing "100% degraded" means the tunnel is in the degraded state there; it is not a
+   loss figure, and a few seconds of intermittent loss are enough to cause it.
+3. Know how the states are reached. Degraded: at least 0.1% of checks failed over the last five
+   minutes, with at least two failures. Down: every check in at least three samples within one second
+   failed. A failed probe is retried twice before it counts. The dashboard presents the same states as
+   percentages of passing checks: healthy above 80%, degraded between 40% and 80%, down below 40%.
+4. Expect fast entry and slow exit. A degraded or down tunnel stays that way for at least five
+   minutes. Down moves to degraded after three consecutive good probes, and degraded returns to
+   healthy only when the failure rate over the previous 30 probes is under 0.1%, which can take up to
+   30 minutes. A tunnel always passes through degraded on the way back from down.
+5. Know what the state does to routing. An unhealthy tunnel's routes are not removed: a degraded tunnel
+   has 500,000 added to its route priority and a down tunnel 1,000,000, so lower-valued routes
+   through healthy tunnels win. When every tunnel is unhealthy, traffic still takes the route with
+   the lowest priority value.
+
+Success: each tunnel shows healthy in the data centers that carry its traffic, and the report names
+those data centers and the state read. If neither the query nor the dashboard is available, report
+the tunnel as configured with health not confirmed, never as up.
+
+## Step 9: Diagnose an unhealthy tunnel
+
+Match the observation to the row, apply its first action, and read health again (Step 8). Each fix
+that changes the tunnel goes through Update a tunnel (Step 6); replacing a key goes through Step 5
+with its confirmation.
+
+| Observation | Likely cause and first action |
+|---|---|
+| Down and never healthy (IPsec) | Router and tunnel disagree, or IKE does not arrive. Check that the router uses IKEv2 with AES-GCM-16 or AES-CBC-256, SHA-256, SHA-384 (key exchange only) or SHA-512, and DH group 14, 15, 16, 19, or 20 for the key exchange and the child SA. Check the pre-shared key and the IKE ID type the router sends (see Patterns). Check that UDP 500, UDP 4500, and IP protocol 50 pass the edge firewall. "No proposal chosen" in the router log points to the algorithm mismatch; authentication failures in phase 1 point to the key or the IKE ID. |
+| Down or degraded, yet user traffic flows | A stateful firewall (Palo Alto Networks, Check Point, Cisco, and Fortinet are named) drops the default reply-style probe as out of state. Change the health-check type to request. If the firewall also drops the request, permit ICMP on the tunnel interface. |
+| Health checks fail only on a policy-based IPsec tunnel | The reply-style probe is addressed outside the tunnel's traffic selectors. Use the request type with a target that is routable from the router and inside the selectors, such as a loopback; for bidirectional checks, the tunnel's interface address must also be inside a selector. The probe may use its own child SA, which can fail on its own. |
+| Bidirectional checks fail, unidirectional work | The router must accept ICMP sent to both interface addresses and route the reply back into the tunnel. Permit both addresses in the traffic selectors and allow ICMP on the tunnel interface. |
+| Flaps between healthy and down, router logs "replay check failed", "invalid sequence number", or "invalid SPI" | Anti-replay on the router rejects out-of-order packets from Cloudflare's many servers. Disable anti-replay, or set its window to 0. A router that cannot disable it needs replay protection turned on in the tunnel, which routes the tunnel through one server and gives up the anycast benefits. On Cisco IOS or IOS-XE, `crypto isakmp invalid-spi-recovery` helps the router resynchronize for "invalid SPI". |
+| Degraded or down at intervals matching rekeying, recovering in one to three minutes | Rekey propagation. Cloudflare only responds to a rekey, so the router must restart the IKE session after a temporary-failure reply: set dead peer detection to restart. Longer SA lifetimes, staggered lifetimes across tunnels, or a lower health-check rate reduce the effect. |
+| Healthy until Cloudflare Network Firewall rules were added | A rule blocks the ICMP probes. Add an allow rule for ICMP from Cloudflare's published addresses above every ICMP block. |
+| Every tunnel degraded or down in one region | A path problem between that region and the network. Run traceroute or MTR from the tunnel endpoint toward Cloudflare; it reaches only the nearest data center because the endpoints are anycast. |
+| Every tunnel degraded or down everywhere | A fault at the customer's edge: check the tunnel endpoint router and its upstream links. |
+
+Where a fix is a router setting, the executing agent needs a session on the router; otherwise report
+the fix to the operator. Not documented: a way to see which data center forwarded which packet,
+a link between health events and Cloudflare network incidents, and health data older than what the
+query and dashboard retain.
 
 ## Patterns
 
@@ -145,6 +197,12 @@ Success: the tunnel shows Healthy in the data centers that carry its traffic.
   Internet MTU (typical values: 1476 for GRE, 1400 to 1450 for IPsec).
 - **Keep health checks on.** With health checks disabled a working tunnel looks 100% down, and
   Cloudflare cannot detect or steer around a failure.
+- **Health-check rate.** The rate is low, mid (default), or high per tunnel; use low for a site that
+  tolerates slow failover and high for one that needs the earliest failover. It is set in the tunnel
+  object and, like any other change, goes through Update a tunnel.
+- **Probes are not user traffic.** A healthy state says Cloudflare can reach the endpoint; it does not
+  show that applications work. Probes are ICMP wrapped in the tunnel's own protocol, and a router
+  that filters ICMP or limits it by session breaks them.
 - **Health-check type and direction.** Reply style is the default; use Request style when a stateful
   firewall drops reply probes. The dashboard defaults to bidirectional; the API's default direction
   is not stated. IPsec tunnels need traffic selectors that accept the probes. If Cloudflare Network
@@ -159,8 +217,11 @@ Success: the tunnel shows Healthy in the data centers that carry its traffic.
 
 ## Known limitations
 
-- Covers GRE and IPsec tunnel objects only. BGP settings, static routes, Network Interconnect, the
-  Cloudflare One Appliance, health analytics, and Cloudflare Network Firewall rules are out of scope.
+- Covers GRE and IPsec tunnel objects and their health only. BGP settings, static routes, Network
+  Interconnect, the Cloudflare One Appliance, tunnel health alerts, traffic analytics, and Cloudflare
+  Network Firewall rules are out of scope.
+- Not documented: the token permission the health query needs, and an API for per-data-center traffic
+  volume.
 - Not documented: rate limits, error codes, whether update merges or replaces, what delete does to
   routes that reference a tunnel, and the default health-check direction through the API. On
   HTTP 429, back off and honor any `Retry-After` header.
@@ -176,6 +237,8 @@ Success: the tunnel shows Healthy in the data centers that carry its traffic.
 | Create tunnel | Add a GRE or IPsec tunnel (validate-only available) | Write |
 | Update tunnel | Replace a tunnel's settings (validate-only available) | Write |
 | Delete tunnel | Remove a tunnel | Write (destructive) |
+| Query tunnel health | Per-tunnel, per-data-center health state over time | Analytics API |
+| Router session | Apply router-side fixes and collect SA state | SSH/console session |
 | Generate pre-shared key | Create and store an IPsec key, returned once | Write |
 | Set pre-shared keys | Apply supplied keys to IPsec tunnels | Write |
 
@@ -186,4 +249,5 @@ Success: the tunnel shows Healthy in the data centers that carry its traffic.
 - [ ] IPsec tunnel has a key, and the key never appears in reported output
 - [ ] A key replacement or a delete was confirmed with the operator, or pre-authorized by standing instructions
 - [ ] Customer router configured with the matching endpoints, key, and supported parameters
-- [ ] Health state read after creation and not reported as up before it shows Healthy
+- [ ] Health state read after creation and not reported as up before it shows Healthy in the data centers that carry traffic
+- [ ] Unhealthy states matched to Step 9 before any change, and health read again after the fix
