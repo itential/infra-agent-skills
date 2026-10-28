@@ -2,17 +2,20 @@
 
 Manages the packet-filtering rules that Cloudflare Network Firewall (formerly Magic Firewall)
 applies to traffic entering a Magic Transit or Cloudflare WAN network: list, add, change, reorder,
-enable or disable, and delete custom rules, and enable or override Cloudflare's managed rules. Rules
+enable or disable, and delete custom rules, enable or override Cloudflare's managed rules, and turn
+on or off its intrusion detection system (IDS). Rules
 are stored in an account-level ruleset and take effect on write; no commit step is documented. Bind each
 operation through `endpoints.md`. Assumes an authenticated API client holding a token with Magic
 Firewall write access.
 
 Layer 3 and 4 filtering only (IP, protocol, ports, packet length, TCP flags). Not covered:
-account IP lists as objects (rules only reference them), rate limiting (beta, by request), intrusion
-detection, protocol validation rules, packet captures, analytics, Gateway network or HTTP policies,
-and the application-layer WAF. Source: Cloudflare Docs "Cloudflare Network Firewall" (ruleset logic,
-add policies, form expressions, use IP lists, enable managed rulesets, list types, plans, Unified
-Routing changes) and "Ruleset Engine" Rulesets API pages (retrieved 2026-10-26).
+account IP lists as objects (rules only reference them), rate limiting (beta, by request; its
+documentation describes only the dashboard and one match field), the Logpush job that delivers IDS
+detections, IDS analytics queries, protocol validation rules, packet captures, analytics, Gateway
+network or HTTP policies, and the application-layer WAF. Source: Cloudflare Docs "Cloudflare Network
+Firewall" (ruleset logic, add policies, form expressions, use IP lists, enable managed rulesets, IDS,
+use Logpush with IDS, create rate limiting policies, list types, plans, Unified Routing changes) and
+"Ruleset Engine" Rulesets API pages (retrieved 2026-10-26 and 2026-10-28).
 
 ## Common Sequences
 
@@ -24,6 +27,9 @@ Routing changes) and "Ruleset Engine" Rulesets API pages (retrieved 2026-10-26).
 4. **Retire a rule:** inspect → confirm with the operator → delete the rule → read the ruleset back.
 5. **Enable managed rules:** inspect the managed ruleset → add or patch the single deployment rule
    with the chosen override, starting in log mode → read back.
+6. **Turn IDS on:** inspect the IDS phase → deploy the IDS ruleset with its single execute rule →
+   read back → make sure a detection destination exists.
+7. **Turn IDS off:** inspect the IDS phase → patch the execute rule to disabled → read back.
 
 ## Step 0: Find the ruleset
 
@@ -136,6 +142,33 @@ be entitled by the account team before they can be used.
 Success: the deployment rule shows the intended overrides. Removing a deployment is the ordinary
 delete-rule call and takes the confirmation in Step 5.
 
+## Step 7: Turn IDS on or off
+
+IDS compares traffic against Cloudflare's threat signatures and reports detections; the documentation
+describes detection and logging only. Not documented: any action that blocks or drops a packet.
+It needs the Advanced plan and entitlement through the account team. It is beta for Cloudflare WAN
+accounts on Unified Routing and is not available to Magic Transit accounts on Unified Routing. It runs on a
+subset of packets, covering WAN-to-WAN traffic, Magic Transit ingress with direct server return, and
+Magic Transit ingress and egress when the egress option is enabled.
+
+1. List the account's rulesets and find the one in the IDS phase (phase name in `endpoints.md`) with
+   kind `managed`; its ID is the managed ruleset to execute. If none is listed, the account is not
+   entitled: stop and tell the operator to contact the account team.
+2. Read the IDS phase's entry-point ruleset. If a root ruleset already exists there, patch its execute
+   rule instead of creating another. (Assumption: the one-deployment-rule pattern of the managed
+   phase also holds here; the IDS documentation shows only the create.)
+3. If none exists, create a root ruleset in the IDS phase with a single enabled rule that executes
+   the managed ruleset ID, with the expression `true`. Inspection starts once the rule is enabled.
+4. To turn IDS off or back on, patch that rule's enabled field. The patch must repeat the rule's
+   expression, action, and action parameters as well, since an update carries the whole definition.
+5. Read the ruleset back.
+6. Detections reach nothing until a Logpush job exists for them. The job's dataset is account-scoped,
+   so its calls use the account path rather than a zone path, and the dataset name is in
+   `endpoints.md`. Report IDS as enabled with detections not yet delivered if no job exists.
+
+Success: the execute rule appears in the IDS phase's ruleset as enabled (or disabled, as intended).
+Deleting the rule is the ordinary delete-rule call and takes the confirmation in Step 5.
+
 ## Patterns
 
 - **Default is permit.** With no matching rule, traffic passes. A positive security model needs an
@@ -153,12 +186,17 @@ delete-rule call and takes the confirmation in Step 5.
   list in place of many address clauses to keep an expression under the complexity limit.
 - **Managed rules in log mode first.** Log mode shows what would have matched before any packet is
   dropped.
+- **IDS only reports.** Turning it on changes no packet's fate, so a quiet IDS is not evidence that
+  traffic is clean, and a noisy one has blocked nothing.
 - **Two ruleset layers.** Packets are checked against the custom phase first and the managed phase
   second; a custom rule can override a managed rule's behavior.
 
 ## Known limitations
 
-- Custom and managed rules only; the other products listed in the scope paragraph are not covered.
+- Custom rules, managed rules, and IDS enablement only; the other products listed in the scope
+  paragraph are not covered. Rate limiting has its own phase (`magic_transit_ratelimit`), but its
+  documentation shows only dashboard steps, with colo name as the sole match field and no rate or
+  threshold fields; Not documented: its rule format through the API.
 - Not documented: rate limits on the API, the response when the phase has no entry point, how to
   restore a deleted rule or an earlier ruleset version, whether custom actions other than block and
   skip exist, and whether the dry-run flag works for this phase. On HTTP 429, back off and honor any
@@ -167,6 +205,8 @@ delete-rule call and takes the confirmation in Step 5.
   values are written into the expression.
 - The advanced features (customizable IP lists, managed lists, geo and ASN matching, protocol
   validation, IDS, packet captures) need the Advanced plan.
+- Not documented: the response when IDS is requested without entitlement, and whether IDS detections
+  can be read through the API other than by the analytics and Logpush routes named in Step 7.
 - The whole ruleset is rewritten as a new version on every change; two writers editing at once can
   overwrite one another. Not documented: any optimistic-lock token for this API.
 
@@ -191,3 +231,4 @@ delete-rule call and takes the confirmation in Step 5.
 - [ ] Deletion confirmed with the operator unless standing instructions pre-authorize it
 - [ ] Read-back shows the rule enabled (or disabled, as intended) at the intended position
 - [ ] Managed rules started in log mode, with the single deployment rule preserved
+- [ ] IDS entitlement confirmed by a managed ruleset in the IDS phase; execute rule read back with its enabled state; Logpush destination status reported
