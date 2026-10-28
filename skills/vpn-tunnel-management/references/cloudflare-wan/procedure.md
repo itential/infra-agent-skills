@@ -130,9 +130,11 @@ A successful configuration call is not an established tunnel. Cloudflare probes 
 ICMP health checks from its data centers, and each data center keeps its own state for each tunnel:
 healthy, degraded, or down.
 
-1. Read the tunnel health results through the analytics query (see `endpoints.md`), for the tunnel's
-   name over the period of interest. It returns an average state per tunnel and data center: 1 is
-   healthy, 0.5 degraded, 0 down. The query reaches at most one week of data, starting no more than
+1. Read the tunnel health results through the analytics query (see `endpoints.md`) over the period of
+   interest. It returns an average state per tunnel and data center for the whole account, so pick
+   the tunnel's rows by its name; a filter by name is not documented. If exactly the requested row
+   limit comes back, narrow the time window and ask again, since truncation behavior is not
+   documented. A value of 1 is healthy, 0.5 degraded, 0 down. The query reaches at most one week of data, starting no more than
    three months back. The dashboard's Network health page, Connector health tab, shows the same
    states with traffic volume for the last hour, and holds only about an hour of history.
 2. Judge the data centers that carry the tunnel's traffic: the dashboard's one-hour traffic volume
@@ -161,19 +163,22 @@ the tunnel as configured with health not confirmed, never as up.
 
 Match the observation to the row, apply its first action, and read health again (Step 8). Each fix
 that changes the tunnel goes through Update a tunnel (Step 6); replacing a key goes through Step 5
-with its confirmation.
+with its confirmation. **Unless the operator's standing instructions pre-authorize it, stop and
+confirm with the operator before changing router configuration or the tunnel's replay-protection
+or health-check settings**: turning off anti-replay lowers the router's protection, and turning on
+replay protection in the tunnel can interrupt it.
 
 | Observation | Likely cause and first action |
 |---|---|
 | Down and never healthy (IPsec) | Router and tunnel disagree, or IKE does not arrive. Check that the router uses IKEv2 with AES-GCM-16 or AES-CBC-256, SHA-256, SHA-384 (key exchange only) or SHA-512, and DH group 14, 15, 16, 19, or 20 for the key exchange and the child SA. Check the pre-shared key and the IKE ID type the router sends (see Patterns). Check that UDP 500, UDP 4500, and IP protocol 50 pass the edge firewall. "No proposal chosen" in the router log points to the algorithm mismatch; authentication failures in phase 1 point to the key or the IKE ID. |
-| Down or degraded, yet user traffic flows | A stateful firewall (Palo Alto Networks, Check Point, Cisco, and Fortinet are named) drops the default reply-style probe as out of state. Change the health-check type to request. If the firewall also drops the request, permit ICMP on the tunnel interface. |
+| Down or degraded, yet user traffic flows | The default reply-style probe has no matching request, so a stateful firewall (Palo Alto Networks, Check Point, Cisco, and Fortinet are named) discards it. Change the health-check type to request. If the firewall also drops the request, permit ICMP on the tunnel interface. |
 | Health checks fail only on a policy-based IPsec tunnel | The reply-style probe is addressed outside the tunnel's traffic selectors. Use the request type with a target that is routable from the router and inside the selectors, such as a loopback; for bidirectional checks, the tunnel's interface address must also be inside a selector. The probe may use its own child SA, which can fail on its own. |
 | Bidirectional checks fail, unidirectional work | The router must accept ICMP sent to both interface addresses and route the reply back into the tunnel. Permit both addresses in the traffic selectors and allow ICMP on the tunnel interface. |
 | Flaps between healthy and down, router logs "replay check failed", "invalid sequence number", or "invalid SPI" | Anti-replay on the router rejects out-of-order packets from Cloudflare's many servers. Disable anti-replay, or set its window to 0. A router that cannot disable it needs replay protection turned on in the tunnel, which routes the tunnel through one server and gives up the anycast benefits. On Cisco IOS or IOS-XE, `crypto isakmp invalid-spi-recovery` helps the router resynchronize for "invalid SPI". |
-| Degraded or down at intervals matching rekeying, recovering in one to three minutes | Rekey propagation. Cloudflare only responds to a rekey, so the router must restart the IKE session after a temporary-failure reply: set dead peer detection to restart. Longer SA lifetimes, staggered lifetimes across tunnels, or a lower health-check rate reduce the effect. |
+| Degraded or down at intervals matching rekeying, recovering in one to three minutes | Rekey propagation. Cloudflare only responds to a rekey, so the router must restart the IKE session after a temporary-failure reply: set dead peer detection to restart. Longer SA lifetimes (the lifetime range recommended in Patterns, or the 8 to 24 hours for the IKE SA and 1 to 8 hours for the child SA the troubleshooting guide cites as common), staggered lifetimes across tunnels, or a lower health-check rate reduce the effect. |
 | Healthy until Cloudflare Network Firewall rules were added | A rule blocks the ICMP probes. Add an allow rule for ICMP from Cloudflare's published addresses above every ICMP block. |
-| Every tunnel degraded or down in one region | A path problem between that region and the network. Run traceroute or MTR from the tunnel endpoint toward Cloudflare; it reaches only the nearest data center because the endpoints are anycast. |
-| Every tunnel degraded or down everywhere | A fault at the customer's edge: check the tunnel endpoint router and its upstream links. |
+| Every tunnel degraded or down in one region | The network path from that region to the site is at fault. Run traceroute or MTR from the tunnel endpoint toward Cloudflare; it reaches only the nearest data center because the endpoints are anycast. |
+| Every tunnel degraded or down everywhere | The cause sits at the site's own edge: check the tunnel endpoint router and the links upstream of it. |
 
 Where a fix is a router setting, the executing agent needs a session on the router; otherwise report
 the fix to the operator. Not documented: a way to see which data center forwarded which packet,

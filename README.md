@@ -70,7 +70,7 @@ one vendor's behavior from ever touching the shared file.
 | [`waf-management`](skills/waf-management/) | Cloudflare WAF *(zone custom rules, rate limiting rules, managed ruleset deployment)* |
 | [`load-balancing`](skills/load-balancing/) | F5 BIG-IP LTM, Citrix ADC/NetScaler, HAProxy, Cloudflare Load Balancing |
 | [`certificate-management`](skills/certificate-management/) | ACME (e.g. Let's Encrypt), HashiCorp Vault PKI, AWS Certificate Manager, DigiCert ONE Trust Lifecycle Manager, Sectigo Certificate Manager |
-| [`vpn-tunnel-management`](skills/vpn-tunnel-management/) | strongSwan, Palo Alto PAN-OS, Juniper SRX, Cisco ASA *(VTI tunnel creation only)*, Cloudflare WAN *(GRE and IPsec tunnels)* |
+| [`vpn-tunnel-management`](skills/vpn-tunnel-management/) | strongSwan, Palo Alto PAN-OS, Juniper SRX, Cisco ASA *(VTI tunnel creation only)*, Cloudflare WAN *(GRE and IPsec tunnels, tunnel health)* |
 | [`routing-troubleshooting`](skills/routing-troubleshooting/) | Cisco IOS-XE, Juniper Junos, FRRouting *(diagnostic: BGP session/route troubleshooting)* |
 | [`interface-link-troubleshooting`](skills/interface-link-troubleshooting/) | Cisco IOS-XE, Juniper Junos, Arista EOS *(diagnostic: interface/link troubleshooting)* |
 | [`vulnerability-lookup`](skills/vulnerability-lookup/) | NVD (National Vulnerability Database), Cisco PSIRT openVuln API *(diagnostic: CVE/CVSS lookup)* |

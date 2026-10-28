@@ -16,7 +16,6 @@ Base URL: `https://api.cloudflare.com/client/v4`. All calls send `Authorization:
 | Create IPsec tunnel | `POST /accounts/{account_id}/magic/ipsec_tunnels` | `Magic WAN Write` or `Magic Transit Write` |
 | Update IPsec tunnel | `PUT /accounts/{account_id}/magic/ipsec_tunnels/{ipsec_tunnel_id}` | Write |
 | Delete IPsec tunnel | `DELETE /accounts/{account_id}/magic/ipsec_tunnels/{ipsec_tunnel_id}` | Write |
-
 | Generate pre-shared key | `POST /accounts/{account_id}/magic/ipsec_tunnels/{ipsec_tunnel_id}/psk_generate` | Write |
 | Set pre-shared keys | `POST /accounts/{account_id}/magic/ipsec_tunnels/psk` | Write; the response lists `successfully_applied_psks` and `unapplied_psks`. Unverified: request body shape |
 | List GRE tunnels | `GET /accounts/{account_id}/magic/gre_tunnels` | Read or Write |
@@ -83,8 +82,9 @@ The query asks the account for the `magicTransitTunnelHealthChecksAdaptiveGroups
 `avg { tunnelState }` with the dimensions `tunnelName` and `edgeColoName`. `tunnelState` is 1
 healthy, 0.5 degraded, 0 down, as an average over the window per tunnel and data center. Not
 documented: how a value between those three is to be read. The window reaches at most one week, and
-its start no more than three months back. The token needs analytics access; Not documented: its exact
-permission name.
+its start no more than three months back. Assumption: the token needs analytics read access. Not
+documented: its exact permission name, any filter by tunnel name, and what happens when more rows
+exist than the limit; the executor narrows the window instead.
 
 The documentation's example response is inconsistent with its query: it nests the results under a
 different key and repeats `tunnelState` inside the dimensions. Read the rows under the dataset name
