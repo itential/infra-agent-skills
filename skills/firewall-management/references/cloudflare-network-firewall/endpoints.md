@@ -13,6 +13,7 @@ Network Firewall rules are ordinary Rulesets API objects in account-level phases
 | `magic_transit` | Custom rules (root kind entry-point ruleset) |
 | `magic_transit_managed` | The single deployment rule that executes a managed ruleset with overrides |
 | `magic_transit_ids_managed` | The single execute rule that turns IDS on or off |
+| `magic_transit_ratelimit` | Rate limiting rules (beta); Not documented: the rule format |
 
 ## Calls
 
@@ -59,8 +60,8 @@ The IDS phase holds one `managed`-kind ruleset supplied by Cloudflare, found by 
 rulesets. The account's own root ruleset in that phase holds one rule: `action: "execute"`,
 `expression: "true"`, `enabled`, and `action_parameters` with `id` set to the managed ruleset ID.
 Disable or re-enable it with the rule update call, sending `enabled` together with the same
-`expression`, `action`, and `action_parameters`. The IDS page writes the phase name with hyphens once
-and with underscores in its request body; use the underscore form, which matches the phase list.
+`expression`, `action`, and `action_parameters`. The phase name is `magic_transit_ids_managed`, with
+underscores; Unverified: whether a hyphenated spelling is accepted.
 
 IDS detections are a Logpush dataset named `magic_ids_detections`. It is account-scoped, so the
 Logpush job calls use `/accounts/{account_id}/` where the generic examples use `/zones/{zone_id}/`.

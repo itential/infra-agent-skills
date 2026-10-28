@@ -10,7 +10,7 @@ Firewall write access.
 
 Layer 3 and 4 filtering only (IP, protocol, ports, packet length, TCP flags). Not covered:
 account IP lists as objects (rules only reference them), rate limiting (beta, by request; its
-documentation describes only the dashboard and one match field), the Logpush job that delivers IDS
+API rule format is not documented), the Logpush job that delivers IDS
 detections, IDS analytics queries, protocol validation rules, packet captures, analytics, Gateway
 network or HTTP policies, and the application-layer WAF. Source: Cloudflare Docs "Cloudflare Network
 Firewall" (ruleset logic, add policies, form expressions, use IP lists, enable managed rulesets, IDS,
@@ -146,9 +146,9 @@ delete-rule call and takes the confirmation in Step 5.
 
 IDS compares traffic against Cloudflare's threat signatures and reports detections; the documentation
 describes detection and logging only. Not documented: any action that blocks or drops a packet.
-It needs the Advanced plan and entitlement through the account team. It is beta for Cloudflare WAN
-accounts on Unified Routing and is not available to Magic Transit accounts on Unified Routing. It runs on a
-subset of packets, covering WAN-to-WAN traffic, Magic Transit ingress with direct server return, and
+It needs the Advanced plan and access arranged through the account team. Under Unified Routing it is
+available (as a beta) to Cloudflare WAN accounts only; Magic Transit accounts on Unified Routing are
+excluded. It runs on a subset of packets, covering WAN-to-WAN traffic, Magic Transit ingress with direct server return, and
 Magic Transit ingress and egress when the egress option is enabled.
 
 1. List the account's rulesets and find the one in the IDS phase (phase name in `endpoints.md`) with
@@ -194,9 +194,9 @@ Deleting the rule is the ordinary delete-rule call and takes the confirmation in
 ## Known limitations
 
 - Custom rules, managed rules, and IDS enablement only; the other products listed in the scope
-  paragraph are not covered. Rate limiting has its own phase (`magic_transit_ratelimit`), but its
-  documentation shows only dashboard steps, with colo name as the sole match field and no rate or
-  threshold fields; Not documented: its rule format through the API.
+  paragraph are not covered. Rate limiting (phase name in `endpoints.md`): Not documented: its rule
+  format through the API, including how the rate and threshold are expressed; its one documented
+  match field is the colo name.
 - Not documented: rate limits on the API, the response when the phase has no entry point, how to
   restore a deleted rule or an earlier ruleset version, whether custom actions other than block and
   skip exist, and whether the dry-run flag works for this phase. On HTTP 429, back off and honor any
@@ -206,7 +206,7 @@ Deleting the rule is the ordinary delete-rule call and takes the confirmation in
 - The advanced features (customizable IP lists, managed lists, geo and ASN matching, protocol
   validation, IDS, packet captures) need the Advanced plan.
 - Not documented: the response when IDS is requested without entitlement, and whether IDS detections
-  can be read through the API other than by the analytics and Logpush routes named in Step 7.
+  can be read through the API other than through Logpush.
 - The whole ruleset is rewritten as a new version on every change; two writers editing at once can
   overwrite one another. Not documented: any optimistic-lock token for this API.
 
