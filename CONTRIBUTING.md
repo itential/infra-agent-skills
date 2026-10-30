@@ -132,8 +132,10 @@ Examples:
 - [ ] Capability, `name`, and vendor/tool directories are lowercase kebab-case, and the capability is
       named for the operation, not a tool (AGENTS.md rule 2). A tool, API, or MCP server fits as a
       vendor only under AGENTS.md rule 14
-- [ ] The diff touches only `skills/` and root governance/README files — no adaptation maps,
+- [ ] The diff touches only `skills/`, `CATALOG.yaml`, and root governance/README files — no adaptation maps,
       provenance write-ups, or validation logs in the repo (put that in the PR description)
+- [ ] `CATALOG.yaml` is updated when this PR adds or removes a capability or vendor, or changes a
+      skill's scope (AGENTS.md, "The catalog"), and the catalog check passes
 - [ ] Ensure your branch is up to date with `main`
 - [ ] New/changed vendor content lives under that vendor's own `references/<vendor>/` files, not
       in the shared `SKILL.md` — unless this PR is specifically fixing a bug in the shared/router

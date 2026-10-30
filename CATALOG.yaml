@@ -1,0 +1,579 @@
+# CATALOG.yaml — feeds the skills website. One entry per skill.
+
+skills:
+  - id: alert-monitor-management
+    source: Itential
+    title: Alert and Monitor Management
+    summary: Create threshold monitors and acknowledge or resolve the alerts they raise on supported observability platforms.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/alert-monitor-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/alert-monitor-management/SKILL.md
+    category: observability
+    tags: [monitoring, alerts, thresholds]
+    vendors:
+      - Datadog
+      - New Relic
+      - LogicMonitor
+      - Paessler PRTG
+      - Centreon
+      - OP5 Monitor
+      - Thruk
+    status: stable
+
+  - id: automation-job-execution
+    source: Itential
+    title: Automation Job Execution
+    summary: Launch a predefined automation job, such as an Ansible template, a CI pipeline or a build, and follow it to completion.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/automation-job-execution
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/automation-job-execution/SKILL.md
+    category: automation
+    tags: [automation, ci-cd, jobs]
+    vendors:
+      - AWX (Ansible)
+      - Jenkins
+      - Azure DevOps
+      - Rundeck
+      - Puppet Enterprise
+      - GitHub Actions
+      - GitLab CI/CD
+    status: stable
+
+  - id: casb-policy-management
+    source: Itential
+    title: CASB Policy Management
+    summary: Create, read, update, enable or disable, and delete policies on a Cloud Access Security Broker.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/casb-policy-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/casb-policy-management/SKILL.md
+    category: security
+    tags: [casb, saas-security, policy]
+    vendors:
+      - Cloudflare One CASB
+    status: stable
+
+  - id: casb-posture-assessment
+    source: Itential
+    title: CASB Posture Assessment
+    summary: Read the risk and compliance findings a CASB reports for connected SaaS and cloud integrations.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/casb-posture-assessment
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/casb-posture-assessment/SKILL.md
+    category: security
+    tags: [casb, posture, compliance]
+    vendors:
+      - Cloudflare One CASB
+    status: stable
+
+  - id: certificate-management
+    source: Itential
+    title: Certificate Management
+    summary: Issue, renew, read and revoke TLS certificates on ACME, PKI and certificate-manager platforms.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/certificate-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/certificate-management/SKILL.md
+    category: security
+    tags: [certificates, tls, pki, acme]
+    vendors:
+      - ACME protocol (RFC 8555) — e.g. Let's Encrypt
+      - HashiCorp Vault — PKI secrets engine
+      - AWS Certificate Manager (ACM)
+      - DigiCert ONE — Trust Lifecycle Manager
+      - Sectigo Certificate Manager (SCM)
+    status: stable
+
+  - id: change-management
+    source: Itential
+    title: Change Management
+    summary: Create a change request and take it through approval, implementation and close on a supported ITSM platform.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/change-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/change-management/SKILL.md
+    category: itsm
+    tags: [itsm, change-request, approvals]
+    vendors:
+      - ServiceNow
+      - Freshservice
+      - Jira Service Management
+      - BMC Helix ITSM
+    status: stable
+
+  - id: cmdb-asset-management
+    source: Itential
+    title: CMDB Asset Management
+    summary: Create, read, update and delete configuration items in a CMDB and read the relationships between them.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/cmdb-asset-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/cmdb-asset-management/SKILL.md
+    category: itsm
+    tags: [cmdb, configuration-items, assets]
+    vendors:
+      - ServiceNow
+      - iTop
+    status: stable
+
+  - id: compute-instance-provisioning
+    source: Itential
+    title: Compute Instance Provisioning
+    summary: Create, resize, snapshot, power-control and decommission virtual machines on cloud and hypervisor platforms.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/compute-instance-provisioning
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/compute-instance-provisioning/SKILL.md
+    category: compute
+    tags: [virtual-machines, cloud, hypervisor]
+    vendors:
+      - Amazon EC2
+      - Google Compute Engine
+      - VMware vSphere
+      - Morpheus
+    status: stable
+
+  - id: config-backup-management
+    source: Itential
+    title: Config Backup Management
+    summary: Capture a network site configuration as a portable file, retrieve it, and redeploy a saved copy.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/config-backup-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/config-backup-management/SKILL.md
+    category: network
+    tags: [backup, configuration, sd-wan]
+    vendors:
+      - Prisma SD-WAN (unified API)
+    status: stable
+
+  - id: connector-tunnel-management
+    source: Itential
+    title: Connector Tunnel Management
+    summary: Create, publish, check and retire an outbound-only tunnel that exposes an internal application or private network.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/connector-tunnel-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/connector-tunnel-management/SKILL.md
+    category: network
+    tags: [tunnels, zero-trust, private-network]
+    vendors:
+      - "Cloudflare Tunnel (`cloudflared`)"
+    status: stable
+
+  - id: container-workload-deployment
+    source: Itential
+    title: Container Workload Deployment
+    summary: Create, scale, update and remove containerized workloads, and manage the images behind them.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/container-workload-deployment
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/container-workload-deployment/SKILL.md
+    category: compute
+    tags: [containers, kubernetes, docker]
+    vendors:
+      - Kubernetes
+      - Docker Engine
+      - Docker Hub
+    status: stable
+
+  - id: crm-contact-management
+    source: Itential
+    title: CRM Contact Management
+    summary: Create, read, update and delete contact records on a customer relationship management platform.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/crm-contact-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/crm-contact-management/SKILL.md
+    category: collaboration
+    tags: [crm, contacts, customer-data]
+    vendors:
+      - Salesforce
+    status: stable
+
+  - id: dcim-asset-management
+    source: Itential
+    title: DCIM Asset Management
+    summary: Create, read, update and delete physical data-center assets and their rack-unit placement.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/dcim-asset-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/dcim-asset-management/SKILL.md
+    category: itsm
+    tags: [dcim, data-center, racks]
+    vendors:
+      - NetTerrain (Graphical Networks)
+      - NetBox
+      - Nautobot
+    status: stable
+
+  - id: dhcp-scope-management
+    source: Itential
+    title: DHCP Scope Management
+    summary: Create, read, update and delete DHCP scopes and their lease reservations.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/dhcp-scope-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/dhcp-scope-management/SKILL.md
+    category: ddi
+    tags: [dhcp, scopes, reservations]
+    vendors:
+      - Infoblox NIOS
+      - ISC Kea
+      - Microsoft DHCP Server
+    status: stable
+
+  - id: dns-record-management
+    source: Itential
+    title: DNS Record Management
+    summary: Create, update and delete DNS records on cloud, appliance and open-source DNS platforms.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/dns-record-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/dns-record-management/SKILL.md
+    category: ddi
+    tags: [dns, records, ddi]
+    vendors:
+      - AWS Route 53
+      - Azure DNS
+      - Cloudflare
+      - Infoblox NIOS
+      - BlueCat Horizon / DDI Orchestrator
+      - BlueCat Address Manager
+      - PowerDNS Authoritative Server
+      - Akamai Edge DNS
+      - GoDaddy
+      - Micetro (Men and Mice)
+    status: stable
+
+  - id: dns-zone-management
+    source: Itential
+    title: DNS Zone Management
+    summary: Create, read, update and delete DNS zones, including SOA and NS settings and subdomain delegation.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/dns-zone-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/dns-zone-management/SKILL.md
+    category: ddi
+    tags: [dns, zones, delegation]
+    vendors:
+      - AWS Route 53
+      - Cloudflare
+      - PowerDNS Authoritative Server
+    status: stable
+
+  - id: firewall-management
+    source: Itential
+    title: Firewall Management
+    summary: Create, read, update and delete firewall rules, address and service objects, and NAT rules across vendors.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/firewall-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/firewall-management/SKILL.md
+    category: security
+    tags: [firewall, policy, nat]
+    vendors:
+      - Palo Alto Networks PAN-OS / Panorama
+      - Fortinet FortiOS (FortiGate)
+      - Cisco ASA
+      - Juniper SRX (Junos OS)
+      - Fortinet FortiManager
+      - WatchGuard Firebox (WatchGuard Cloud)
+      - AWS Network Firewall
+      - Zscaler ZIA (cloud firewall)
+      - Cloudflare Network Firewall (formerly Magic Firewall)
+    status: stable
+
+  - id: incident-management
+    source: Itential
+    title: Incident Management
+    summary: Create, assign, acknowledge, hold, resolve, reopen and close incidents on ITSM and incident-response platforms.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/incident-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/incident-management/SKILL.md
+    category: itsm
+    tags: [incidents, on-call, itsm]
+    vendors:
+      - ServiceNow
+      - PagerDuty
+      - Opsgenie
+      - Jira Service Management
+      - ManageEngine ServiceDesk Plus
+    status: stable
+
+  - id: infrastructure-plan-execution
+    source: Itential
+    title: Infrastructure Plan Execution
+    summary: Prepare, review and apply a declarative infrastructure plan, then inspect the recorded state and outputs.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/infrastructure-plan-execution
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/infrastructure-plan-execution/SKILL.md
+    category: automation
+    tags: [infrastructure-as-code, terraform, state]
+    vendors:
+      - HashiCorp Terraform CLI
+    status: stable
+
+  - id: interface-link-troubleshooting
+    source: Itential
+    title: Interface and Link Troubleshooting
+    summary: Diagnose interface-down, flapping, error-counter and duplex problems on network devices.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/interface-link-troubleshooting
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/interface-link-troubleshooting/SKILL.md
+    category: network
+    tags: [troubleshooting, interfaces, layer-2]
+    vendors:
+      - Cisco IOS-XE
+      - Juniper Junos
+      - Arista EOS
+    status: stable
+
+  - id: ipam-allocation
+    source: Itential
+    title: IPAM Allocation
+    summary: Allocate IP prefixes and individual addresses on supported IPAM platforms.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/ipam-allocation
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/ipam-allocation/SKILL.md
+    category: ddi
+    tags: [ipam, prefixes, ip-addresses]
+    vendors:
+      - NetBox
+      - Infoblox NIOS
+      - SolarWinds
+      - Nautobot
+      - Micetro (Men and Mice)
+      - phpIPAM
+    status: stable
+
+  - id: load-balancing
+    source: Itential
+    title: Load Balancing
+    summary: Create, read, update and delete load-balancer virtual servers, pools and pool members.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/load-balancing
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/load-balancing/SKILL.md
+    category: network
+    tags: [load-balancer, vip, pools]
+    vendors:
+      - F5 BIG-IP LTM
+      - Citrix ADC (NetScaler)
+      - HAProxy
+      - Cloudflare Load Balancing
+    status: stable
+
+  - id: log-query
+    source: Itential
+    title: Log Query
+    summary: Retrieve stored log events for a stated store, filter and time window, and report what was and was not covered.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/log-query
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/log-query/SKILL.md
+    category: observability
+    tags: [logs, troubleshooting, search]
+    vendors:
+      - Splunk
+      - Elasticsearch
+      - AWS CloudWatch Logs
+      - Google Cloud Logging
+    status: stable
+
+  - id: metric-query
+    source: Itential
+    title: Metric Query
+    summary: Read current or historical metric samples for a resource, for troubleshooting or before-and-after comparison.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/metric-query
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/metric-query/SKILL.md
+    category: observability
+    tags: [metrics, time-series, troubleshooting]
+    vendors:
+      - Prometheus
+      - Zabbix
+      - Amazon CloudWatch
+    status: stable
+
+  - id: network-access-control-management
+    source: Itential
+    title: Network Access Control Management
+    summary: Register, quarantine, release and remove endpoints, and read their session state on a NAC platform.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/network-access-control-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/network-access-control-management/SKILL.md
+    category: network
+    tags: [nac, endpoints, quarantine]
+    vendors:
+      - Aruba ClearPass Policy Manager
+    status: stable
+
+  - id: network-health-verification
+    source: Itential
+    title: Network Health Verification
+    summary: Screen devices for CPU, memory, log and core-file problems after a change or during troubleshooting.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/network-health-verification
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/network-health-verification/SKILL.md
+    category: network
+    tags: [health-check, verification, troubleshooting]
+    vendors:
+      - Cisco pyATS Health Check
+    status: stable
+
+  - id: network-state-collection
+    source: Itential
+    title: Network State Collection
+    summary: Capture structured network state before and after a change, or gather evidence while troubleshooting.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/network-state-collection
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/network-state-collection/SKILL.md
+    category: network
+    tags: [state, pre-post-check, evidence]
+    vendors:
+      - Cisco pyATS / Genie
+      - IP Fabric
+      - Forward Networks
+      - Arista CloudVision
+      - Zabbix
+      - Auvik
+      - Cisco ACI APIC
+      - AWS network (MCP server)
+      - Azure network (CLI)
+    status: stable
+
+  - id: notifications
+    source: Itential
+    title: Notifications
+    summary: Send a message, notification or report to a channel, thread or recipient on a communications platform.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/notifications
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/notifications/SKILL.md
+    category: collaboration
+    tags: [messaging, chat, alerts]
+    vendors:
+      - Slack
+      - Cisco Webex
+      - Microsoft Teams
+      - Twilio
+      - SendGrid
+      - Mattermost
+    status: stable
+
+  - id: repository-pull-request-management
+    source: Itential
+    title: Repository Pull Request Management
+    summary: Open, review, update, merge and close pull requests or merge requests on GitHub, GitLab and Bitbucket.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/repository-pull-request-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/repository-pull-request-management/SKILL.md
+    category: automation
+    tags: [git, pull-requests, source-control]
+    vendors:
+      - GitHub
+      - GitLab
+      - Bitbucket Cloud
+      - Bitbucket Server & Data Center
+    status: stable
+
+  - id: routing-troubleshooting
+    source: Itential
+    title: Routing Troubleshooting
+    summary: Diagnose BGP session and route-propagation problems such as flapping sessions and missing routes.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/routing-troubleshooting
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/routing-troubleshooting/SKILL.md
+    category: network
+    tags: [bgp, routing, troubleshooting]
+    vendors:
+      - Cisco IOS-XE
+      - Juniper Junos
+      - FRRouting
+    status: stable
+
+  - id: sdwan-policy-management
+    source: Itential
+    title: SD-WAN Policy Management
+    summary: Look up, create, edit, activate, deactivate and delete centralized SD-WAN policies.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/sdwan-policy-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/sdwan-policy-management/SKILL.md
+    category: network
+    tags: [sd-wan, policy, activation]
+    vendors:
+      - Cisco Catalyst SD-WAN Manager
+      - Palo Alto Networks Prisma SD-WAN
+    status: stable
+
+  - id: sdwan-site-onboarding
+    source: Itential
+    title: SD-WAN Site Onboarding
+    summary: Bring a new branch site onto an SD-WAN fabric from a blueprint, attach its devices and confirm it works.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/sdwan-site-onboarding
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/sdwan-site-onboarding/SKILL.md
+    category: network
+    tags: [sd-wan, branch, onboarding]
+    vendors:
+      - Prisma SD-WAN
+      - Versa Director
+    status: stable
+
+  - id: secret-retrieval
+    source: Itential
+    title: Secret Retrieval
+    summary: Read, create, update or rotate a single secret value held in a secrets-management platform.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/secret-retrieval
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/secret-retrieval/SKILL.md
+    category: security
+    tags: [secrets, vault, credentials]
+    vendors:
+      - HashiCorp Vault
+      - 1Password (Connect API)
+      - CyberArk Conjur
+      - CyberArk Privilege Cloud
+      - AWS Secrets Manager
+      - Azure Key Vault
+      - Delinea Secret Server
+    status: stable
+
+  - id: software-upgrade-lifecycle
+    source: Itential
+    title: Software Upgrade Lifecycle
+    summary: Upgrade device software with the platform stage, activate, confirm and commit procedure and the documented rollback.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/software-upgrade-lifecycle
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/software-upgrade-lifecycle/SKILL.md
+    category: network
+    tags: [upgrade, firmware, maintenance]
+    vendors:
+      - Cisco
+      - Arista
+      - Juniper
+      - Extreme Networks
+      - NVIDIA
+      - Palo Alto Networks
+    status: stable
+
+  - id: vpn-tunnel-management
+    source: Itential
+    title: VPN Tunnel Management
+    summary: Create, read, update and delete site-to-site VPN tunnels on firewall, router and cloud platforms.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/vpn-tunnel-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/vpn-tunnel-management/SKILL.md
+    category: network
+    tags: [vpn, ipsec, tunnels]
+    vendors:
+      - strongSwan
+      - Palo Alto Networks
+      - Juniper SRX (Junos OS)
+      - Cisco ASA
+      - Cloudflare WAN
+    status: stable
+
+  - id: vulnerability-lookup
+    source: Itential
+    title: Vulnerability Lookup
+    summary: Look up known vulnerabilities by product, CPE or CVE identifier.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/vulnerability-lookup
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/vulnerability-lookup/SKILL.md
+    category: security
+    tags: [vulnerabilities, cve, advisories]
+    vendors:
+      - NVD (National Vulnerability Database)
+      - Cisco PSIRT openVuln API
+    status: stable
+
+  - id: waf-management
+    source: Itential
+    title: WAF Management
+    summary: Create, read, update and delete web application firewall rules, rate-limit rules and managed-ruleset bindings.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/waf-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/waf-management/SKILL.md
+    category: security
+    tags: [waf, rate-limiting, managed-rules]
+    vendors:
+      - Cloudflare WAF (zone)
+    status: stable
+
+  - id: wireless-network-management
+    source: Itential
+    title: Wireless Network Management
+    summary: Provision, update and read SSID and WLAN configuration on wireless-management platforms.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/wireless-network-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/wireless-network-management/SKILL.md
+    category: network
+    tags: [wireless, ssid, wlan]
+    vendors:
+      - Cisco Meraki
+      - HPE Aruba Networking Central
+      - Cisco Catalyst Center
+    status: stable
+
+  - id: zero-trust-access-policy-management
+    source: Itential
+    title: Zero Trust Access Policy Management
+    summary: Create, update and delete access and segmentation policy rules on SASE and ZTNA platforms.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/zero-trust-access-policy-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/zero-trust-access-policy-management/SKILL.md
+    category: security
+    tags: [zero-trust, sase, access-policy]
+    vendors:
+      - Zscaler Internet Access (ZIA)
+      - Zscaler Private Access (ZPA)
+      - Netskope
+      - Cloudflare One Gateway
+      - Cloudflare One Access
+    status: stable

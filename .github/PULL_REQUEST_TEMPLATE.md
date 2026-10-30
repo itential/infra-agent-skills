@@ -41,7 +41,8 @@ Closes #123
       command/transport wrapper, or developer tooling
 - [ ] Capability, `name`, and vendor/tool directories are kebab-case (hyphens); the capability
       is named for the operation, not a tool (AGENTS.md rules 2 and 14)
-- [ ] Nothing in the diff sits outside `skills/` and root governance/README files
+- [ ] `CATALOG.yaml` is updated if this PR adds or removes a capability or vendor, or changes a skill's scope
+- [ ] Nothing in the diff sits outside `skills/`, `CATALOG.yaml`, and root governance/README files
 - [ ] Branch is up to date with `main`
 - [ ] New/changed vendor content lives under `references/<vendor>/`, not in the shared `SKILL.md`
       (unless this PR is specifically fixing a bug in the shared/router content)

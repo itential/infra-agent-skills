@@ -43,7 +43,7 @@ skills/<capability>/
       endpoints.md                 # literal wire-level calls
 ```
 
-Nothing else belongs in the repository beyond `skills/` and the root governance/README files:
+Nothing else belongs in the repository beyond `skills/`, `CATALOG.yaml`, and the root governance/README files:
 no adaptation maps, provenance narratives, local validation logs, or contributor write-ups. That
 material belongs in the PR description.
 
@@ -51,6 +51,33 @@ material belongs in the PR description.
 short notes a vendor-selecting agent needs (scope limits, caveats, corrections to shared concepts).
 Contributor guidance — how to add a vendor, grouping and naming rationale — lives
 in this file, not in any `INDEX.md`.
+
+## The catalog
+
+`CATALOG.yaml` at the repository root has one entry per skill and feeds the skills website. It is
+the one place that holds site-facing facts (a short summary, category, tags, and links) that
+`SKILL.md` frontmatter cannot carry, because frontmatter is limited to the fields in rule 2.
+
+```yaml
+skills:
+  - id: dns-record-management        # equals the skills/ directory name
+    source: Itential                 # publisher; external skills name their own
+    title: DNS Record Management
+    summary: One sentence for a website card, 160 characters or fewer.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/dns-record-management
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/dns-record-management/SKILL.md
+    category: ddi                    # one of the categories in the catalog check
+    tags: [dns, records, ddi]        # lowercase kebab-case
+    vendors:                         # first column of references/INDEX.md, in order, each once
+      - AWS Route 53
+    status: stable                   # draft | beta | stable | deprecated
+```
+
+Update the entry in the same PR as any change that makes it wrong: a new capability gets a new
+entry, a removed one loses its entry, and adding or removing a vendor row in `INDEX.md` changes
+`vendors`. A scope change that makes `summary` inaccurate changes `summary`. An external skill uses
+its own publisher name in `source` and its own URLs, and is checked only for required fields.
+The `summary` is written for people; the agent-facing description stays in `SKILL.md`.
 
 Your own local research notes for a vendor (not part of the repository shape — never committed;
 see rule 1) can live wherever you keep them, entirely outside this directory tree.
@@ -491,8 +518,8 @@ them.
    API (say so rather than building a thinner skill).
 3. Re-check the "Universal concepts" claims against the new vendor (rule 4). Record any correction
    in a short note under the INDEX table and in the PR description.
-4. Keep vendor detail out of `SKILL.md` (rule 5), and update the root README table (see the review
-   checklist).
+4. Keep vendor detail out of `SKILL.md` (rule 5), and update the root README table and the skill's
+   `CATALOG.yaml` entry (see the review checklist).
 5. A vendor that also appears under a neighbouring capability gets its own directory in each skill.
    Never merge reference files across skills, because the object models differ (incident versus
    change, WAF versus firewall, NAC versus zero-trust access, DHCP versus IPAM, zone versus record,
@@ -516,7 +543,7 @@ how to report a suspected instance of this in already-merged content.
 
 ## Validate before you open a PR
 
-Run both checks from the repository root and fix every failure before opening a PR. They cover the
+Run all three checks from the repository root and fix every failure before opening a PR. They cover the
 specification's hard limits, which a reviewer cannot be expected to count by eye.
 
 1. The specification's reference validator, if you can install it:
@@ -547,6 +574,63 @@ for path in sorted(glob.glob("skills/*/SKILL.md")):
         problems.append(f"unexpected frontmatter fields: {sorted(extra)}")
     for problem in problems:
         print(f"{path}: {problem}"); ok = False
+raise SystemExit(0 if ok else 1)
+```
+
+3. The catalog check. `CATALOG.yaml` feeds the skills website, so it must agree with `skills/` (see
+   "The catalog" above). It needs only Python 3 and PyYAML:
+
+```python
+import glob, os, re, yaml
+
+CATEGORIES = {"automation", "collaboration", "compute", "ddi", "itsm", "network", "observability", "security"}
+REPO = "https://github.com/itential/infra-agent-skills"
+KEBAB = r"[a-z0-9]+(-[a-z0-9]+)*"
+entries = yaml.safe_load(open("CATALOG.yaml"))["skills"]
+ok = True
+
+def fail(who, msg):
+    global ok
+    print(f"CATALOG.yaml: {who}: {msg}"); ok = False
+
+directories = {os.path.basename(os.path.dirname(p)) for p in glob.glob("skills/*/SKILL.md")}
+ids = [e.get("id") for e in entries]
+for missing in sorted(directories - set(ids)):
+    fail(missing, "skill has no catalog entry")
+for e in entries:
+    who = e.get("id", "?")
+    if ids.count(who) > 1:
+        fail(who, "duplicate id")
+    for field in ("id", "source", "title", "summary", "url", "category", "tags", "status"):
+        if not e.get(field):
+            fail(who, f"missing {field}")
+    if not 1 <= len(e.get("summary", "")) <= 160:
+        fail(who, "summary must be 1-160 characters")
+    if e.get("category") not in CATEGORIES:
+        fail(who, f"category must be one of {sorted(CATEGORIES)}")
+    if e.get("status") not in {"draft", "beta", "stable", "deprecated"}:
+        fail(who, "status must be draft, beta, stable or deprecated")
+    if not all(re.fullmatch(KEBAB, t) for t in e.get("tags") or []):
+        fail(who, "tags must be lowercase kebab-case")
+    if e.get("source") != "Itential":
+        continue                                   # external entries: field checks above only
+    if who not in directories:
+        fail(who, "id matches no skills/ directory"); continue
+    if e.get("url") != f"{REPO}/tree/main/skills/{who}":
+        fail(who, "url does not point at the skill directory")
+    if e.get("skill_url") != f"{REPO}/blob/main/skills/{who}/SKILL.md":
+        fail(who, "skill_url does not point at SKILL.md")
+    rows, header = [], True
+    for line in open(f"skills/{who}/references/INDEX.md"):
+        if line.startswith("|"):
+            cell = [c.strip() for c in line.strip().strip("|").split("|")][0]
+            if header:
+                header = False                     # first table row is the header
+            elif not set(cell) <= set("-: "):
+                rows.append(cell)
+    rows = list(dict.fromkeys(rows))               # one row per platform family can repeat a vendor
+    if e.get("vendors") != rows:
+        fail(who, f"vendors differ from references/INDEX.md: {rows}")
 raise SystemExit(0 if ok else 1)
 ```
 
@@ -657,7 +741,11 @@ Before opening a PR, or before approving one, confirm:
       open a PR" checks pass.
 - [ ] Any tool, API, or MCP-server vendor satisfies rule 14: tool-neutral capability, hedged
       universal concepts, tool detail only under `references/<tool>/`, MCP bindings by tool name only.
-- [ ] The diff contains nothing outside `skills/` and the root governance/README files, and no
+- [ ] `CATALOG.yaml` is updated in the same PR whenever a capability is added or removed, a vendor is
+      added or removed, or a skill's scope changes: its entry's `vendors` list matches the rows in
+      that skill's `references/INDEX.md`, its `summary` still describes the scope, and the catalog
+      check in "Validate before you open a PR" passes.
+- [ ] The diff contains nothing outside `skills/`, `CATALOG.yaml`, and the root governance/README files, and no
       existing `SKILL.md` was changed beyond rule 5's two reasons (existing vendor content may still
       be corrected).
 - [ ] No contributor-facing wording in any file under `skills/` (rule 15): no research or fetch
