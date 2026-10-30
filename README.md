@@ -37,21 +37,8 @@ skills/<capability>/
         └── endpoints.md      # literal wire-level calls
 ```
 
-Capability, `name`, and vendor/tool directories are lowercase kebab-case, and a capability is named
-for the operation rather than a tool. A vendor can be a platform's API, a CLI/SDK framework, or an MCP
-server, as long as the operation is a real infrastructure process and the router stays tool-neutral
-— see [AGENTS.md](AGENTS.md) rules 13 and 14.
-
-For a large permutation space (e.g. software upgrades, where one vendor spans several platform
-families and install modes), the same shape holds one level deeper:
-`references/<vendor>/<platform-family>.md` — grouped by platform family/version line, not by every
-individual model, unless behavior genuinely differs at that granularity.
-
-**`SKILL.md` only changes for two reasons: a bug in the shared/router content, or a pointer to a
-newly added vendor.** Every vendor-specific fact — a new error code, a corrected field, a changed API
-path, a whole new procedure — goes in that vendor's own `references/<vendor>/` files. This keeps
-`SKILL.md` small and stable no matter how many vendors accumulate, and keeps a PR that only touches
-one vendor's behavior from ever touching the shared file.
+> 💡 **Adding or changing a skill?** See [Contributing](#-contributing) for the naming, scope, and
+> `SKILL.md` rules.
 
 ## ✅ Current Skills
 
@@ -111,6 +98,8 @@ through for Claude Code as one concrete example.
 
 ### General steps (any framework)
 
+New to git? Skip to [No git? Download a ZIP](#no-git-download-a-zip) below.
+
 1. **Clone or vendor this repo** wherever your project keeps third-party content:
    ```bash
    git clone https://github.com/itential/infra-agent-skills.git
@@ -122,6 +111,49 @@ through for Claude Code as one concrete example.
    skills in its own location (a `skills/` folder, a config-declared path, etc.), copy or symlink
    `skills/<capability>/` there — its internal `SKILL.md` + `references/` shape travels as-is,
    nothing needs restructuring.
+
+### No git? Download a ZIP
+
+You don't need git or a command line to get the skills.
+
+1. On the repository page, choose **Code**, then **Download ZIP**.
+
+   > 💡 **Direct link:** [main.zip](https://github.com/itential/infra-agent-skills/archive/refs/heads/main.zip)
+   > downloads the same file in one click.
+
+2. Unzip it. The folder is named `infra-agent-skills-main`.
+3. Open `infra-agent-skills-main/skills/` and copy the capability folders you want, for example
+   `dns-record-management`, into the place your framework looks for skills. Each folder is
+   self-contained, so you can leave the rest behind and delete the download.
+
+   > 💡 **Claude Code:** paste the folders into `<project>/.claude/skills/` for one project, or
+   > `~/.claude/skills/` for every project.
+
+A ZIP is a snapshot and doesn't update. To refresh a skill, download a new ZIP and replace its folder.
+
+### Install one skill with git, without cloning the whole repo
+
+A sparse checkout downloads only the capability you name, so the rest of the repo never lands on
+disk (needs git 2.25 or later):
+
+```bash
+git clone --depth 1 --filter=blob:none --sparse https://github.com/itential/infra-agent-skills.git
+cd infra-agent-skills
+git sparse-checkout set --no-cone skills/dns-record-management
+```
+
+Only `skills/dns-record-management/` is now present. Add another with
+`git sparse-checkout add --no-cone skills/<capability>`, and update with `git pull`. Then copy or
+symlink the directory as in step 3 above. To keep nothing but the skill, copy it out and delete the
+clone:
+
+```bash
+mkdir -p <project>/.claude/skills
+cp -R skills/dns-record-management <project>/.claude/skills/
+```
+
+Replace `<project>` with your project root and adjust the destination for your framework. A copy
+no longer updates with the repo, so repeat the steps to refresh it.
 
 ### Example: Claude Code
 
@@ -140,17 +172,31 @@ next time it scans `.claude/skills/` (a fresh session, or `/skills` to check wha
 
 ### Other frameworks
 
-Any framework that can read a `SKILL.md` + `references/` directory tree works the same way — adjust
-step 3's destination path to wherever that framework looks. If your framework has no directory
-convention of its own, `skills/<capability>/SKILL.md`'s content is plain markdown and can be pasted
-directly into whatever prompt/context-loading mechanism you use.
+Any framework that can read a `SKILL.md` + `references/` directory tree works the same way. Copy
+the capability folder to wherever that framework looks for skills.
+
+> 💡 **No skills folder?** Everything here is plain markdown. Paste `skills/<capability>/SKILL.md`
+> into your prompt or context-loading mechanism, and add files from its `references/` as the task
+> calls for them.
 
 ## 🤝 Contributing
 
-New skills and new vendor coverage are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for how this
-repo is organized and the process for submitting changes. This project is governed by our
-[Code of Conduct](CODE_OF_CONDUCT.md); report security issues per [SECURITY.md](SECURITY.md).
-Contributions require agreement to the [CLA](CLA.md).
+New skills and new vendor coverage are welcome.
+
+### ✍️ By hand
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for the process: setup, pull request guidelines, and how
+changes are reviewed.
+
+### 🤖 With a coding agent
+
+Point your agent at [AGENTS.md](AGENTS.md) before it writes anything. It holds the authoring rules:
+naming, scope, file shape, and what may change in a `SKILL.md`.
+
+### 📜 Good to know
+
+This project is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). Report security issues per
+[SECURITY.md](SECURITY.md). Contributions require agreement to the [CLA](CLA.md).
 
 ## 📄 License
 
