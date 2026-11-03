@@ -1,6 +1,6 @@
 ---
 name: log-query
-description: Retrieve stored log events from a log platform for a stated store, filter, and time window, and report what was and was not covered. Use when troubleshooting or verifying a change requires reading retained logs. Covers Splunk, Elasticsearch, AWS CloudWatch Logs, and Google Cloud Logging. Read-only. Assumes an authenticated API client for the selected platform is already available; the caller supplies the search expression, which this skill does not write for them.
+description: Retrieve stored log events from a log platform for a stated store, filter, and time window, and report what was and was not covered. Use when troubleshooting or verifying a change requires reading retained logs. Covers Splunk, Elasticsearch, AWS CloudWatch Logs, Google Cloud Logging, and Grafana Loki. Read-only. Assumes an authenticated API client for the selected platform is already available; the caller supplies the search expression, which this skill does not write for them.
 argument-hint: "[platform] [store/index/log group] [time window] [search expression]"
 ---
 
@@ -10,7 +10,7 @@ Reads retained log events from one supported log platform, using that platform's
 
 ## When to use this skill
 
-- Retained log events must be read from Splunk, Elasticsearch, AWS CloudWatch Logs, or Google Cloud Logging as evidence while troubleshooting or checking a change.
+- Retained log events must be read from Splunk, Elasticsearch, AWS CloudWatch Logs, Google Cloud Logging, or Grafana Loki as evidence while troubleshooting or checking a change.
 - Not for ingesting logs, changing retention, saving searches or alerts (alert creation is `alert-monitor-management`), or reading numeric time series.
 
 ## Universal concepts
