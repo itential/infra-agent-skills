@@ -1,11 +1,16 @@
 # Grafana Loki: Bounded Range Query over Log Streams
 
-Sources: Grafana Loki 3.6 documentation, HTTP API reference, Log queries, Manage multi-tenancy, and Configuration (`limits_config` defaults) (retrieved 2026-11-02).
+Sources: Grafana Loki 3.6 documentation, HTTP API reference, Log queries, Metric queries, Manage multi-tenancy, and Configuration (`limits_config` defaults) (retrieved 2026-11-02).
 
 ## Common Sequences
 
-- **Retrieve events:** Read build information → Confirm the stream → Run range query → Qualify response.
-- **Retrieve a window larger than one page:** Read build information → Confirm the stream → Read the window in slices.
+- **Retrieve events:** Check the query → Read build information → Confirm the stream → Run range query → Qualify response.
+- **Retrieve a window larger than one page:** Check the query → Read build information → Confirm the stream → Read the window in slices.
+
+## Check the query
+
+Before any call, confirm that the caller's expression is a log query: a stream selector in braces with at least one label matcher, optionally followed by filter or parser stages.
+- An expression that applies a function over a time range to a selector (such as `count_over_time` or `rate`), or aggregates the result (such as `sum by`), is a metric query. It returns numbers, not log lines, and this procedure does not cover it, even when the caller asks for it by name. Do not send it; report that it is outside this skill and stop.
 
 ## Read build information
 
@@ -21,7 +26,6 @@ For each label in the caller's stream selector, list that label's values over th
 ## Run range query
 
 Send the caller's log query with an explicit start and end; never rely on the defaults (start one hour before end, end now). Entries at the start are included and entries at the end are not.
-- The query must be a log query: a stream selector in braces with at least one label matcher, optionally followed by filter or parser stages. A metric query returns numbers, not lines; report that it is outside this procedure.
 - Set the entry limit; it defaults to 100 and the deployment caps it (5,000 by default). Not documented: the response to a limit above the cap, so keep the limit at or under it.
 - Order is newest first by default; oldest first (forward) is also available.
 - On a deployment that runs several tenants, name the tenant on every call (see `endpoints.md`); a single-tenant deployment needs none.
@@ -68,6 +72,7 @@ No push, deletion, rule or configuration calls. Metric queries, live tailing, an
 
 ## Verification checklist
 
+- [ ] Only a log query was sent; a metric query was reported as not covered, without running it.
 - [ ] The window was given as an explicit start and end, and the limit and order used are reported.
 - [ ] Every page's entry count was compared with the limit; a count from a full page is reported as bounded, never as a total.
 - [ ] A selector value missing from the label listing is reported as no matching stream.
