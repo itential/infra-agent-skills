@@ -63,4 +63,4 @@ If you have questions about this CLA, please contact us at:
 
 **Project:** Infrastructure Agent Skills
 **Organization:** Itential, Inc.
-**License:** Apache License, Version 2.0 (see [LICENSE.md](LICENSE.md))
+**License:** Apache License, Version 2.0 (see [LICENSE](LICENSE))
