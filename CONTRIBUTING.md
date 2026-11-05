@@ -12,6 +12,7 @@ guidelines and instructions for contributing to this project.
 - [Contributing Process](#contributing-process)
 - [Pull Request Guidelines](#pull-request-guidelines)
 - [Maintainer Fix-ups](#maintainer-fix-ups)
+- [Listing an External Skill](#listing-an-external-skill)
 - [Pull Request Labels](#pull-request-labels)
 - [Reporting Issues](#reporting-issues)
 - [Getting Help](#getting-help)
@@ -177,6 +178,60 @@ review is audited afterwards and corrected through a normal reviewed PR.
 
 Changes authored by an agent on a PR branch are treated the same as any other change: they still
 require a human approval and a human merge.
+
+## Listing an External Skill
+
+If you or your organization publish an infrastructure skill in your own public repository, you can
+list it in [`CATALOG.yaml`](CATALOG.yaml) so it appears on the skills website. The catalog links to
+your skill; it doesn't copy it, and the skill stays in your repository under your license. A
+listing is a pull request that changes **only** `CATALOG.yaml`. To contribute the skill's content
+to this repository instead, follow the rest of this guide and AGENTS.md.
+
+### How to submit
+
+1. Fork the repository and branch from `main` (for example `feature/list-your-skill`).
+2. Add one new entry to `CATALOG.yaml`, in alphabetical order by `id`:
+   ```yaml
+   - id: your-skill-name              # lowercase kebab-case, unique in the catalog
+     source: Your Organization        # who publishes it; never "Itential"
+     title: Your Skill Name
+     summary: One neutral sentence, 160 characters or fewer.
+     url: https://github.com/your-org/your-repo/tree/main/skills/your-skill
+     skill_url: https://github.com/your-org/your-repo/blob/main/skills/your-skill/SKILL.md   # optional
+     category: network                # one of the categories in AGENTS.md's catalog check
+     tags: [bgp, routing]             # lowercase kebab-case
+     vendors:                         # optional: the platforms it covers
+       - Cisco IOS-XE
+     status: beta                     # draft | beta | stable | deprecated
+   ```
+3. Run the catalog check in AGENTS.md ("Validate before you open a PR", check 3). For an external
+   entry it verifies the required fields, that `id` and `url` are unique, and that the links are
+   `https`.
+4. Open the pull request and sign the [CLA](CLA.md). In the description, say what the skill does
+   and how it differs from any similar skill already in the catalog.
+
+### What a listing needs
+
+- The `url` is public and loads without signing in, and the repository shows an open-source license.
+- The skill covers an infrastructure operation (AGENTS.md rule 13), not general developer tooling.
+- The `summary` describes the skill accurately and neutrally. It contains no instructions to a
+  reader or an agent, no marketing claims, and no links.
+- You are the publisher or are authorized to list it, and `source` names the real publisher.
+
+### What a listing is not
+
+Maintainers check that the entry is complete, that the links work, and that the text is accurate.
+They do not review the skill's content against AGENTS.md, and a listing is not an endorsement.
+Maintainers may remove an entry whose link breaks, whose license disappears, or that is reported
+as unsafe. To change or withdraw your entry later, open another pull request.
+
+### Overlap
+
+Two listings can legitimately cover the same platform or operation, because the catalog is a
+directory and not a ranking. What isn't allowed is a duplicate: the same `url` twice, or an `id`
+that matches a directory under `skills/` or another entry. If your skill covers ground an existing
+entry already covers, say how yours differs in the pull request description. Maintainers may ask
+you to sharpen the `summary` or tags so visitors can tell them apart.
 
 ## Pull Request Labels
 

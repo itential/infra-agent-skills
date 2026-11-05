@@ -75,9 +75,19 @@ skills:
 
 Update the entry in the same PR as any change that makes it wrong: a new capability gets a new
 entry, a removed one loses its entry, and adding or removing a vendor row in `INDEX.md` changes
-`vendors`. A scope change that makes `summary` inaccurate changes `summary`. An external skill uses
-its own publisher name in `source` and its own URLs, and is checked only for required fields.
+`vendors`. A scope change that makes `summary` inaccurate changes `summary`.
 The `summary` is written for people; the agent-facing description stays in `SKILL.md`.
+
+An entry whose `url` points outside this repository is an external listing: a skill someone else
+publishes in their own repository. External listings arrive as catalog-only pull requests (see
+CONTRIBUTING.md, "Listing an External Skill"). Such an entry uses its publisher's name in `source`
+(never `Itential`, which is reserved for entries that point into this repository), its own URLs,
+and an `id` that is unique and does not match any `skills/` directory. `vendors` and `skill_url`
+are optional for it. The catalog check verifies its required fields, unique `id` and `url`, and
+`https` links. It does not check the linked content, so a reviewer does: the URL loads publicly, the
+repository shows an open-source license, the skill covers an infrastructure operation (rule 13),
+`source` names the real publisher, and `summary` is accurate, neutral, and free of instructions
+or links (rule 10 applies to catalog text, which a website and an agent may both read).
 
 Your own local research notes for a vendor (not part of the repository shape — never committed;
 see rule 1) can live wherever you keep them, entirely outside this directory tree.
@@ -595,12 +605,18 @@ def fail(who, msg):
 
 directories = {os.path.basename(os.path.dirname(p)) for p in glob.glob("skills/*/SKILL.md")}
 ids = [e.get("id") for e in entries]
+urls = [e.get("url") for e in entries]
 for missing in sorted(directories - set(ids)):
     fail(missing, "skill has no catalog entry")
 for e in entries:
     who = e.get("id", "?")
     if ids.count(who) > 1:
         fail(who, "duplicate id")
+    if urls.count(e.get("url")) > 1:
+        fail(who, "duplicate url")
+    for key in ("url", "skill_url"):
+        if e.get(key) and not e[key].startswith("https://"):
+            fail(who, f"{key} must be an https URL")
     for field in ("id", "source", "title", "summary", "url", "category", "tags", "status"):
         if not e.get(field):
             fail(who, f"missing {field}")
@@ -612,8 +628,11 @@ for e in entries:
         fail(who, "status must be draft, beta, stable or deprecated")
     if not all(re.fullmatch(KEBAB, t) for t in e.get("tags") or []):
         fail(who, "tags must be lowercase kebab-case")
-    if e.get("source") != "Itential":
-        continue                                   # external entries: field checks above only
+    local = (e.get("url") or "").startswith(REPO)
+    if local != (e.get("source") == "Itential"):
+        fail(who, "source must be Itential exactly when the url points into this repository")
+    if not local:
+        continue                                   # external listing: field checks above only
     if who not in directories:
         fail(who, "id matches no skills/ directory"); continue
     if e.get("url") != f"{REPO}/tree/main/skills/{who}":
@@ -741,6 +760,9 @@ Before opening a PR, or before approving one, confirm:
       open a PR" checks pass.
 - [ ] Any tool, API, or MCP-server vendor satisfies rule 14: tool-neutral capability, hedged
       universal concepts, tool detail only under `references/<tool>/`, MCP bindings by tool name only.
+- [ ] A catalog-only PR that lists an external skill touches nothing else and meets the external-listing
+      checks in "The catalog" (public URL, open-source license, infrastructure scope, honest `source`,
+      neutral `summary`).
 - [ ] `CATALOG.yaml` is updated in the same PR whenever a capability is added or removed, a vendor is
       added or removed, or a skill's scope changes: its entry's `vendors` list matches the rows in
       that skill's `references/INDEX.md`, its `summary` still describes the scope, and the catalog
