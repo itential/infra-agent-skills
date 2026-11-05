@@ -200,7 +200,6 @@ This project is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). Report se
 
 ## 📄 License
 
-<!-- PLACEHOLDER — license not yet decided; repo is private until this is settled. -->
-Not yet finalized — see [LICENSE.md](LICENSE.md).
+Licensed under the [Apache License, Version 2.0](LICENSE.md).
 
-Copyright (c) 2026 Itential, Inc.
+Copyright 2026 Itential, Inc.
