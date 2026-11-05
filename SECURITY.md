@@ -1,9 +1,5 @@
 # Security Policy
 
-<!-- PLACEHOLDER — this repo contains skill/procedure content, not executable code, so this policy
-is scoped differently than a typical software project's SECURITY.md. See TODO.md (untracked,
-local) for open items. -->
-
 ## Reporting a Vulnerability or Unsafe Skill Content
 
 We take security seriously, even though this repository contains documentation and agent skill
