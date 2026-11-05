@@ -27,7 +27,7 @@ definitions rather than executable software. A "vulnerability" here most often m
 
 Instead, please report them through one of the following methods:
 
-1. **Email**: Send details to [PLACEHOLDER: contact email]
+1. **Email**: Send details to info@itential.com
 2. **Private vulnerability disclosure**: Use GitHub's private vulnerability reporting feature
 
 ### What to Include
@@ -74,7 +74,7 @@ only discussed publicly (e.g. in a PR) once a fix is available.
 
 ## Security Contact
 
-- **Reports**: [PLACEHOLDER: contact email] or GitHub's private vulnerability reporting feature
+- **Reports**: info@itential.com or GitHub's private vulnerability reporting feature
 
 ---
 

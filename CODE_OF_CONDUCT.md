@@ -38,7 +38,7 @@ Violations will be handled promptly and decisively:
 
 If you experience or witness a violation, **speak up**:
 
-- Email: [PLACEHOLDER: contact email]
+- Email: info@itential.com
 - Or DM a maintainer in private on our official chat
 
 All reports are confidential. Retaliation against reporters **will not be tolerated**.

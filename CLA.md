@@ -57,7 +57,7 @@ I have read the CLA Document and I hereby sign the CLA
 ## Contact Information
 
 If you have questions about this CLA, please contact us at:
-- Email: [PLACEHOLDER: contact email]
+- Email: info@itential.com
 - Website: https://itential.com
 
 ---
