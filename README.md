@@ -201,5 +201,3 @@ This project is governed by our [Code of Conduct](CODE_OF_CONDUCT.md). Report se
 ## 📄 License
 
 Licensed under the [Apache License, Version 2.0](LICENSE).
-
-Copyright 2026 Itential, Inc.
