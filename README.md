@@ -83,8 +83,9 @@ skills/<capability>/
 | [`infrastructure-plan-execution`](skills/infrastructure-plan-execution/) | HashiCorp Terraform CLI *(init, validate, plan, apply a saved plan, destroy plan, state and output reads, import)* |
 | [`metric-query`](skills/metric-query/) | Prometheus, Zabbix, Amazon CloudWatch *(read-only metric samples)* |
 | [`log-query`](skills/log-query/) | Splunk *(search job, poll, paged results)*, Elasticsearch *(mapping, bounded search, hit-total qualification)*, AWS CloudWatch Logs *(Logs Insights start, poll, page)*, Google Cloud Logging *(entries list, page tokens)*; all read-only |
+| [`cloud-security-group-audit`](skills/cloud-security-group-audit/) | AWS EC2 security groups, Azure network security groups, Google Cloud VPC firewall rules *(diagnostic, read-only: internet exposure, unattached groups, overlapping rules)* |
 
-**149** vendor references across **39** capabilities.
+**152** vendor references across **40** capabilities.
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 

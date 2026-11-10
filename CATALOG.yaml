@@ -92,6 +92,20 @@ skills:
       - BMC Helix ITSM
     status: stable
 
+  - id: cloud-security-group-audit
+    source: Itential
+    title: Cloud Security Group Audit
+    summary: Read-only audit of cloud security groups and firewall rules for internet exposure, unattached groups, and overlapping rules.
+    url: https://github.com/itential/infra-agent-skills/tree/main/skills/cloud-security-group-audit
+    skill_url: https://github.com/itential/infra-agent-skills/blob/main/skills/cloud-security-group-audit/SKILL.md
+    category: security
+    tags: [security-groups, audit, cloud]
+    vendors:
+      - AWS EC2 security groups
+      - Azure network security groups
+      - Google Cloud VPC firewall rules
+    status: draft
+
   - id: cmdb-asset-management
     source: Itential
     title: CMDB Asset Management
