@@ -1,6 +1,6 @@
 ---
 name: interface-link-troubleshooting
-description: Diagnose physical/logical interface and link problems (interface down, flapping, high error/discard counters, duplex/speed mismatch, no link light) by reading interface state and counters on a supported platform, and mapping observed state to the platform's own documented likely causes — currently Cisco IOS-XE, Juniper Junos, and Arista EOS (symptom coverage varies by vendor; see references/INDEX.md). Use when an agent needs to investigate why a link isn't behaving as expected — not for configuring interface settings from scratch (that is a create/update operation with a different shape; this skill is read-only diagnosis). Assumes an authenticated CLI/API session against the target device is already available; this skill does not provision or authenticate it.
+description: Diagnose physical/logical interface and link problems (interface down, flapping, high error/discard counters, duplex/speed mismatch, no link light) by reading interface state and, where the platform exposes them, counters on a supported platform, and mapping observed state to the platform's own documented likely causes — currently Cisco IOS-XE, Juniper Junos, Arista EOS, and FRRouting (symptom coverage varies by vendor; see references/INDEX.md). Use when an agent needs to investigate why a link isn't behaving as expected — not for configuring interface settings from scratch (that is a create/update operation with a different shape; this skill is read-only diagnosis). Assumes an authenticated CLI/API session against the target device is already available; this skill does not provision or authenticate it.
 argument-hint: "[platform] [symptom: interface_down|flapping|high_errors|duplex_mismatch|no_link] [interface identifier]"
 ---
 
@@ -30,13 +30,13 @@ action needs its own confirmation first, like any destructive step.
 
 ## Universal concepts (shared interface-state vocabulary, not a wire standard)
 
-Checked against the three platforms listed in `references/INDEX.md` (Cisco IOS-XE, Juniper Junos,
-Arista EOS); they do not extend automatically to a platform not listed there:
+Checked against the four platforms listed in `references/INDEX.md` (Cisco IOS-XE, Juniper Junos,
+Arista EOS, FRRouting); they do not extend automatically to a platform not listed there:
 
 - **There is no single wire-level standard grounding interface/link state the way RFC 4271 grounds
   BGP session state, or RFC 1035/2136/1123 ground DNS.** Every listed platform defines its
-  own state names, its own error-counter field names, and its own documented likely-cause mappings —
-  do not assume a counter name, a status string, or a documented cause from one vendor's file applies
+  own state names and, where it documents them, its own error-counter field names and
+  likely-cause mappings — do not assume a counter name, a status string, or a documented cause from one vendor's file applies
   to another's; each vendor's `procedure.md` says explicitly where something is unverified
   rather than borrowing another vendor's confirmed behavior.
 - **Administratively disabled vs. operationally down is a distinction every listed platform draws
@@ -44,8 +44,8 @@ Arista EOS); they do not extend automatically to a platform not listed there:
   different condition, needing a different response, than one that is enabled but not passing link
   for some other reason. The exact state string and command differ per platform; see each vendor's
   `procedure.md`.
-- **Every listed platform documents a mechanism, or at least a display artifact, in which
-  the interface's reported state does not fully explain why it's in that state** without a further
+- **Where a platform documents one, a mechanism or display artifact can mean the interface's
+  reported state does not fully explain why it's in that state** without a further
   check — Cisco's err-disabled state names a specific detected cause that must be read separately
   (`show errdisable recovery`), and Junos's damping feature can make an interface report down without
   its state display distinguishing "suppressed" from "actually down for a new reason." Arista's
@@ -75,7 +75,7 @@ implements this shape concretely.
 
 ## Known limitations
 
-- Currently covers Cisco IOS-XE, Juniper Junos, and Arista EOS — see `references/INDEX.md` for
+- Currently covers Cisco IOS-XE, Juniper Junos, Arista EOS, and FRRouting — see `references/INDEX.md` for
   exact symptom-category coverage per vendor (deliberately partial for some). A platform not
   listed there needs a new reference file before this skill can be used for it.
 - Read-only diagnosis only. Does not configure, remediate, or reset anything — a caller who needs to

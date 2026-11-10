@@ -59,7 +59,7 @@ skills/<capability>/
 | [`certificate-management`](skills/certificate-management/) | ACME (e.g. Let's Encrypt), HashiCorp Vault PKI, AWS Certificate Manager, DigiCert ONE Trust Lifecycle Manager, Sectigo Certificate Manager |
 | [`vpn-tunnel-management`](skills/vpn-tunnel-management/) | strongSwan, Palo Alto PAN-OS, Juniper SRX, Cisco ASA *(VTI tunnel creation only)*, Cloudflare WAN *(GRE and IPsec tunnels, tunnel health)* |
 | [`routing-troubleshooting`](skills/routing-troubleshooting/) | Cisco IOS-XE, Juniper Junos, FRRouting *(diagnostic: BGP session/route troubleshooting)* |
-| [`interface-link-troubleshooting`](skills/interface-link-troubleshooting/) | Cisco IOS-XE, Juniper Junos, Arista EOS *(diagnostic: interface/link troubleshooting)* |
+| [`interface-link-troubleshooting`](skills/interface-link-troubleshooting/) | Cisco IOS-XE, Juniper Junos, Arista EOS, FRRouting *(diagnostic: interface/link troubleshooting)* |
 | [`vulnerability-lookup`](skills/vulnerability-lookup/) | NVD (National Vulnerability Database), Cisco PSIRT openVuln API *(diagnostic: CVE/CVSS lookup)* |
 | [`casb-policy-management`](skills/casb-policy-management/) | Cloudflare One CASB *(finding-triggered remediation/webhook policies)* |
 | [`casb-posture-assessment`](skills/casb-posture-assessment/) | Cloudflare One CASB *(diagnostic: posture and DLP content findings)* |
@@ -85,7 +85,7 @@ skills/<capability>/
 | [`log-query`](skills/log-query/) | Splunk *(search job, poll, paged results)*, Elasticsearch *(mapping, bounded search, hit-total qualification)*, AWS CloudWatch Logs *(Logs Insights start, poll, page)*, Google Cloud Logging *(entries list, page tokens)*; all read-only |
 | [`cloud-security-group-audit`](skills/cloud-security-group-audit/) | AWS EC2 security groups, Azure network security groups, Google Cloud VPC firewall rules *(diagnostic, read-only: internet exposure, unattached groups, overlapping rules)* |
 
-**152** vendor references across **40** capabilities.
+**153** vendor references across **40** capabilities.
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 
