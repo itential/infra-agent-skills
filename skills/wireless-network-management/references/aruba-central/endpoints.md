@@ -1,7 +1,8 @@
-# Endpoint Wiring — HPE Aruba Networking Central WLAN Monitoring (Read-Only)
+# Endpoint Wiring — HPE Aruba Networking Central WLAN Provisioning and Monitoring
 
 Literal API calls behind each capability named in `procedure.md`. Base URL: the target Central
 account's regional API gateway (per Aruba's OAuth setup). Auth: OAuth 2.0 client credentials.
+The read operations below are bound to REST calls; the write operations are not (see the last section).
 
 ## Get a List of WLANs
 
@@ -56,9 +57,34 @@ access point."
 
 Tool hint: reference page `getaccesspointwlanthroughputv1`.
 
-## Not documented / not found (flagged, not guessed)
+## Write operations: binding
 
-No create, update, or delete endpoint for WLAN/SSID configuration was found in Aruba's public API
-reference (checked both Classic Central and New Central). The only documented provisioning path is a
-Python SDK workflow script (`create_ssid_workflow.py`, using the `pycentral` SDK) that does not expose
-its underlying REST calls on the documentation page. See `procedure.md`'s Known limitations.
+Create SSID profile, Set VLAN and forwarding, Set security, Set access rules, Edit SSID profile,
+Disable SSID, and Delete SSID profile act on a configuration group that contains at least one AP.
+Not documented: a REST route for these. Resolve each to whichever tool the caller has that performs
+it (an Itential workflow or tool, the `pycentral` SDK workflow, a Central API Gateway operation, or
+the Central UI). Report a gap only when none is available, naming the step it blocks.
+
+The Central UI path, for a binding that drives it:
+
+- Navigation (ArubaOS 10 and Instant AP groups): select the group, then Manage > Devices > Access
+  Points, the Config icon, and the WLANs tab, which lists the group's Wireless SSIDs.
+- Create: "+ Add SSID". Edit: select the row, then the edit icon. Disable: select the row, then the
+  disconnect icon and confirm. Delete: select the row, then the delete icon and confirm.
+- Wizard tabs for an ArubaOS 10 SSID: General, VLANs, Security, Access, Summary.
+- Instant AP groups use Configuration > Wireless > group > Networks, then "+"; Basic Settings, then
+  VLAN. The Extended SSID setting is under System > General.
+
+The account's API Gateway (Maintain > Organization > Platform Integration > REST API) lists, in
+Swagger form, the operations supported by the current software release.
+
+API access facts from the same guide: access tokens last two hours and cannot be extended; the
+refresh token lasts 14 days and refreshing invalidates the previous access token; tokens cannot be
+generated through federated SSO users. Starting rate limit is 5,000 calls per day and 7 per second,
+and scales with subscribed devices.
+
+## Not documented
+
+A REST route for WLAN/SSID create, update, or delete is not documented in the Classic or New Central
+references. The `pycentral` SDK workflow `create_ssid_workflow.py` performs it, with its underlying
+calls unpublished.
