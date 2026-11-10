@@ -1,6 +1,6 @@
 ---
 name: wireless-network-management
-description: Provision, update, or read SSID/WLAN configuration on a supported wireless-management platform — currently Cisco Meraki (SSID slot configuration, no create endpoint exists), HPE Aruba Networking Central (read-only — no public write endpoint documented), and Cisco Catalyst Center (async create-and-provision, fabric and non-fabric). Use when an agent needs to provision or inspect a wireless SSID. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Not every platform supports write operations — check references/INDEX.md before assuming SSID creation is possible on a given platform.
+description: Provision, update, or read SSID/WLAN configuration on a supported wireless-management platform — currently Cisco Meraki (SSID slot configuration, no create endpoint exists), HPE Aruba Networking Central, and Cisco Catalyst Center (async create-and-provision, fabric and non-fabric). Use when an agent needs to provision or inspect a wireless SSID. Assumes an authenticated client for the target platform's API is already available; this skill does not provision or authenticate it. Not every platform supports write operations — check references/INDEX.md before assuming SSID creation is possible on a given platform.
 argument-hint: "[platform] [action: list|get|create|update|disable|provision] [ssid/wlan name, fields]"
 ---
 
@@ -12,9 +12,9 @@ caller is targeting, following that platform's own documented procedure and capa
 ## When to use this skill
 
 - Listing, reading, creating, updating, or disabling an SSID/WLAN on a supported platform.
-- Not every platform supports every action — Aruba Central in particular is read-only in this skill
-  because no public write endpoint is documented; check `references/INDEX.md` before promising
-  provisioning capability on any given platform.
+- Not every platform supports every action through an API — Aruba Central documents provisioning
+  only as a console workflow and publishes no write endpoint; check `references/INDEX.md` before
+  promising provisioning capability on any given platform.
 
 ## Universal concepts (shared wireless-management vocabulary, not a wire standard)
 
@@ -49,7 +49,7 @@ implements this shape concretely.
 
 ## Known limitations
 
-- Currently covers Cisco Meraki, HPE Aruba Networking Central (read-only), and Cisco Catalyst Center.
+- Currently covers Cisco Meraki, HPE Aruba Networking Central, and Cisco Catalyst Center.
   A platform not listed in `references/INDEX.md` needs a new reference file before this skill can be
   used for it.
 - Write capability is platform-dependent, not guaranteed — check `references/INDEX.md` before telling
