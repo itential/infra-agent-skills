@@ -12,9 +12,8 @@ caller is targeting, following that platform's own documented procedure and capa
 ## When to use this skill
 
 - Listing, reading, creating, updating, or disabling an SSID/WLAN on a supported platform.
-- Not every platform supports every action through an API — Aruba Central documents provisioning
-  only as a console workflow and publishes no write endpoint; check `references/INDEX.md` before
-  promising provisioning capability on any given platform.
+- Not every platform documents every action as an API route — check `references/INDEX.md` for how each
+  platform's operations are bound before promising a specific mechanism.
 
 ## Universal concepts (shared wireless-management vocabulary, not a wire standard)
 

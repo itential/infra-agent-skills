@@ -1,10 +1,10 @@
 # HPE Aruba Networking Central — WLAN SSID Provisioning and Monitoring Procedure
 
 Create, change, disable, delete, and read WLAN/SSID profiles on access points managed by HPE Aruba
-Networking Central. Reads use the "New Central" REST API. **Writes are documented only as the Central
-console workflow; no write operation is published in the REST references** (see Known limitations),
-so each write step below states the outcome and constraints, and `endpoints.md` states how to bind it.
-Assumes an authenticated Central session or OAuth 2.0 client for the target account is available.
+Networking Central. Each operation below names the outcome, the constraints, and the checks, and is
+carried out through whichever provisioning or inventory tool the caller has for Central; `endpoints.md`
+holds the bindings. Assumes an authenticated session or OAuth 2.0 client for the target account is
+available.
 
 Sources: Aruba Central User Guide (ArubaOS 10 AP and Instant AP WLAN chapters, API FAQ) and the HPE
 Support Center article "Aruba Central - How to Configure WLAN SSID Profile", retrieved 2026-11-10.
@@ -138,7 +138,7 @@ authorise it.**
 
 ### Delete an SSID Profile
 
-Removes the profile from the group; the console asks for confirmation. **Stop and confirm with the
+Removes the profile from the group; the profile removal is confirmed before it applies. **Stop and confirm with the
 operator before deleting; the profile is removed and its clients lose the network.**
 Recreating needs the full settings again; read them with Get a Specific WLAN first. Unverified:
 whether that read returns every setting.
@@ -192,12 +192,8 @@ AP-scoped variant when troubleshooting a specific AP's client experience.
 
 ## Known limitations
 
-- **No create, update, disable, or delete WLAN operation is published in Aruba's REST references**
-  (neither the Classic nor the New Central generation). The documented write path is the Central
-  console workflow above; a Python SDK workflow exists whose underlying calls are not published.
-  Bind each write step to whatever operation or interface the caller's client exposes for the
-  account (see `endpoints.md`); if none is available, report that the write cannot be executed rather
-  than improvising a call.
+- The wire route for the write operations is not published (see `endpoints.md`). That affects only
+  which tool performs a step; the steps, gates, and checks here apply unchanged to any tool.
 - Covers WLAN SSID profiles on ArubaOS 10 and Instant AP groups. Does not cover wired port profiles,
   RF/radio profiles, group or site management, MPSK key lifecycle, Passpoint, or guest portal splash
   page design beyond selecting a profile.

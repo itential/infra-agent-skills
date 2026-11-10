@@ -57,33 +57,34 @@ access point."
 
 Tool hint: reference page `getaccesspointwlanthroughputv1`.
 
-## Write operations: Central console binding (no REST route published)
+## Write operations: binding
 
 Create SSID profile, Set VLAN and forwarding, Set security, Set access rules, Edit SSID profile,
-Disable SSID, and Delete SSID profile have no published REST route. The documented binding is the
-console, operating on a configuration group that contains at least one AP:
+Disable SSID, and Delete SSID profile act on a configuration group that contains at least one AP.
+Not documented: a REST route for these. Resolve each to whichever tool the caller has that performs
+it (an Itential workflow or tool, the `pycentral` SDK workflow, a Central API Gateway operation, or
+the Central UI). Report a gap only when none is available, naming the step it blocks.
+
+The Central UI path, for a binding that drives it:
 
 - Navigation (ArubaOS 10 and Instant AP groups): select the group, then Manage > Devices > Access
   Points, the Config icon, and the WLANs tab, which lists the group's Wireless SSIDs.
 - Create: "+ Add SSID". Edit: select the row, then the edit icon. Disable: select the row, then the
   disconnect icon and confirm. Delete: select the row, then the delete icon and confirm.
-- Wizard tabs for an ArubaOS 10 SSID: General, VLANs, Security, Access, Summary. Security uses
-  Advanced Settings for MAC authentication, reauthentication, denylisting, and DHCP enforcement.
+- Wizard tabs for an ArubaOS 10 SSID: General, VLANs, Security, Access, Summary.
 - Instant AP groups use Configuration > Wireless > group > Networks, then "+"; Basic Settings, then
   VLAN. The Extended SSID setting is under System > General.
 
-If the caller's client exposes a write operation for these steps, bind to that. The account's API
-Gateway (Maintain > Organization > Platform Integration > REST API) publishes a Swagger listing of
-the operations supported by the current software release; check it before assuming one exists.
+The account's API Gateway (Maintain > Organization > Platform Integration > REST API) lists, in
+Swagger form, the operations supported by the current software release.
 
 API access facts from the same guide: access tokens last two hours and cannot be extended; the
 refresh token lasts 14 days and refreshing invalidates the previous access token; tokens cannot be
 generated through federated SSO users. Starting rate limit is 5,000 calls per day and 7 per second,
 and scales with subscribed devices.
 
-## Not documented / not found (flagged, not guessed)
+## Not documented
 
-No create, update, or delete endpoint for WLAN/SSID configuration was found in Aruba's public API
-reference (Classic Central and New Central). A Python SDK workflow (`create_ssid_workflow.py`, using
-the `pycentral` SDK) exists but does not expose its underlying REST calls. See `procedure.md`'s Known
-limitations.
+A REST route for WLAN/SSID create, update, or delete is not documented in the Classic or New Central
+references. The `pycentral` SDK workflow `create_ssid_workflow.py` performs it, with its underlying
+calls unpublished.
