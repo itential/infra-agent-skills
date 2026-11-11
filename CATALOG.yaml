@@ -104,7 +104,7 @@ skills:
       - AWS EC2 security groups
       - Azure network security groups
       - Google Cloud VPC firewall rules
-    status: draft
+    status: stable
 
   - id: cmdb-asset-management
     source: Itential
