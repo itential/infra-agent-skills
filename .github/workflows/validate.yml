@@ -1,0 +1,37 @@
+name: Validate skills
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-python@v5.3.0
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml
+      # Runs the same checks AGENTS.md ("Validate before you open a PR") tells contributors to run,
+      # taken from that file so the two cannot drift apart.
+      - name: Run the AGENTS.md validation checks
+        run: |
+          python - <<'PY'
+          import re, subprocess, sys
+          text = open("AGENTS.md").read()
+          section = text[text.index("## Validate before you open a PR"):text.index("## Reviewing a PR")]
+          blocks = re.findall(r"```python\n(.*?)```", section, re.S)
+          if len(blocks) != 2:
+              sys.exit(f"expected 2 check scripts in AGENTS.md, found {len(blocks)}")
+          failed = False
+          for number, block in enumerate(blocks, start=2):
+              print(f"--- check {number}")
+              if subprocess.run([sys.executable, "-c", block]).returncode:
+                  failed = True
+          sys.exit(1 if failed else 0)
+          PY

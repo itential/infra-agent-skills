@@ -40,6 +40,19 @@ skills/<capability>/
 > 💡 **Adding or changing a skill?** See [Contributing](#-contributing) for the naming, scope, and
 > `SKILL.md` rules.
 
+### 📏 Agent Skills standard
+
+Every skill follows the open [Agent Skills specification](https://agentskills.io/specification),
+which asks for a short, self-describing `SKILL.md` with detail kept in separate reference files so
+an agent loads only what it needs. In practice that means:
+
+- a skill `name` of 64 characters or fewer, matching its directory
+- a `description` of 1,024 characters or fewer
+- a `SKILL.md` under about 500 lines and roughly 5,000 tokens
+
+Pull requests are checked automatically against the name and description limits; reviewers check
+the size. The full authoring rules are in [AGENTS.md](AGENTS.md).
+
 ## ✅ Current Skills
 
 | Skill | Vendors covered |
