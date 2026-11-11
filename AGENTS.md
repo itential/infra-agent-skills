@@ -158,7 +158,10 @@ Every `SKILL.md` uses the open [Agent Skills](https://agentskills.io/specificati
   It is at most 1024 characters (the specification's limit). Name each supported vendor, but keep
   per-vendor capability detail and quirks in `references/INDEX.md`; a description that carries
   them outgrows the limit as vendors are added. Measure the length after every edit that adds a
-  vendor. The frontmatter must also parse as strict YAML: a plain `description` cannot contain a
+  vendor. If adding a vendor would push the description past the limit, remove the vendor names
+  from it entirely rather than trimming other content, describe the operation, and say that the
+  supported platforms are listed in `references/INDEX.md` so the agent reads it before concluding
+  a platform is not covered. The frontmatter must also parse as strict YAML: a plain `description` cannot contain a
   colon followed by a space or a space followed by `#`, and cannot start with a quote, bracket, or
   other YAML indicator, so reword it or quote the whole value.
 - Body sections, in order: title + one-line purpose, "When to use this skill," "Universal concepts"
@@ -735,6 +738,8 @@ Before opening a PR, or before approving one, confirm:
       the table and runtime-relevant notes — no contributor-facing procedure text.
 - [ ] `argument-hint`, `description`, "When to use," body, `INDEX.md`, and the README row all
       describe the same scope (rule 2).
+      A description that has dropped its vendor names to stay under 1024 characters points to
+      `INDEX.md` for the supported platforms (rule 2).
 - [ ] Every "see X" / "listed in X" pointer resolves to content that exists in X, and every
       assumed or unverified detail is marked as such in the file itself (rules 1 and 6).
 - [ ] If this PR adds a new top-level capability, or adds/removes a vendor from an existing one,
