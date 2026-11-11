@@ -40,6 +40,17 @@ skills/<capability>/
 > 💡 **Adding or changing a skill?** See [Contributing](#-contributing) for the naming, scope, and
 > `SKILL.md` rules.
 
+### 📏 Agent Skills standard
+
+Every skill follows the open [Agent Skills specification](https://agentskills.io/specification):
+`SKILL.md` frontmatter with a lowercase kebab-case `name` of at most 64 characters that matches its
+directory, and a `description` of at most 1024 characters. A GitHub Actions check runs on every pull
+request and on `main`, and fails if any skill breaks those limits. It also checks that
+`CATALOG.yaml` agrees with `skills/`. `SKILL.md` is kept well under the specification's suggested
+500 lines and roughly 5,000 tokens; reviewers check that by hand against
+[AGENTS.md](AGENTS.md). Contributors can run the same checks locally from the repository root; the
+scripts are in AGENTS.md under "Validate before you open a PR".
+
 ## ✅ Current Skills
 
 | Skill | Vendors covered |
