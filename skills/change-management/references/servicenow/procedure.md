@@ -54,6 +54,25 @@ If the update changes the record's state, run Check Gates first, then **stop and
 operator before proceeding**, unless the operator's standing instructions pre-authorize state
 changes. Field-only edits need no confirmation.
 
+Work notes: to record progress, evidence, or implementation results on the change, set the work notes
+field in an Update. Work notes are internal; use the comments field for text the requester should see.
+Assumption: the field is accepted by the change update under the same name used on other task
+records; read the record back to confirm the entry was stored.
+
+Rich content: text wrapped in `[code]` and `[/code]` is rendered as HTML in a journal entry, so a work
+note can carry a table, list, link, or formatting, such as pre-change and post-change check results.
+Several `[code]` blocks can appear in one entry; text outside them stays plain. Without the tags, HTML
+shows as literal text.
+- Rendering requires the instance property `glide.ui.security.allow_codetag` to be true (the
+  default); a hardened instance may have it off, in which case the tags and markup show as text.
+- Script elements are escaped even inside `[code]`. Invalid HTML inside a block can display as blank
+  on some UI versions, so keep the markup simple and well formed.
+- A posted journal entry cannot be edited, so check the markup before writing it.
+- Not documented: whether the tags render in fields that are not journal fields, such as close notes;
+  use plain text there.
+- Assumption: the `[code]` convention applies to an entry written through the REST API; read the
+  entry back to confirm the tags were kept.
+
 ### Check Gates (required before Close, and before any state-changing Update)
 
 Retrieve available next states and their transition conditions for the change record — the documented,

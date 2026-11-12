@@ -103,6 +103,17 @@ Binds to: update_incident (additional comments or work notes).
 - Additional comments are visible to everyone who can see the incident, the caller included; work notes
   are visible only to the assigned group and the work notes list.
 - Use the field that matches the audience.
+- Rich content: text wrapped in `[code]` and `[/code]` is rendered as HTML in a journal entry, so a
+  work note can carry a table, list, link, or formatting, such as a structured diagnostic result.
+  Several `[code]` blocks can appear in one entry; text outside them stays plain. Without the tags,
+  HTML is shown as literal text.
+  - Rendering requires the instance property `glide.ui.security.allow_codetag` to be true (the
+    default); a hardened instance may have it off, in which case the tags and markup show as text.
+  - Script elements are escaped even inside `[code]`. Invalid HTML inside a block can display as
+    blank on some UI versions, so keep the markup simple and well formed.
+  - A posted journal entry cannot be edited, so check the markup before writing it.
+  - Assumption: the same `[code]` convention applies to an entry written through the REST API; read
+    the entry back to confirm it was stored with the tags intact.
 - Assumption: each write adds a journal entry rather than replacing a value.
 - Success: NOTED, with the entry present on read-back.
 
