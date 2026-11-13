@@ -7,7 +7,7 @@ Server address and credentials come from the existing client; Loki's API has no 
 | Operation | Method and path | Notes |
 |---|---|---|
 | Read build information | `GET /loki/api/v1/status/buildinfo` | Fields: `version`, `revision`, `branch`, `buildDate`, `buildUser`, `goVersion`. |
-| List label values | `GET /loki/api/v1/label/{name}/values` | `start` and `end` (default 6 h ago and now), `since` (a duration before `end`; an explicit `start` wins), `query` (a stream selector that narrows the streams considered). Response `data`: an array of strings. Not documented: a successful empty listing can come back without `data`; read that as no values. |
+| List label values | `GET /loki/api/v1/label/{name}/values` | `start` and `end` (default 6 h ago and now), `since` (a duration before `end`; an explicit `start` wins), `query` (a stream selector that narrows the streams considered). Response `data`: an array of strings. Not documented: an empty listing with status `success` can come back without `data`; read that as no values. |
 | Run range query | `GET /loki/api/v1/query_range` | `query`; `start` (default one hour ago; included); `end` (default now; excluded); `since`; `limit` (default 100, stream results only); `direction` (`forward` or `backward`, default `backward`). |
 
 Timestamps: an integer is a Unix time in nanoseconds, a float is Unix seconds with a fraction, and RFC 3339 or RFC 3339 nano strings are accepted.
