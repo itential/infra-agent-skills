@@ -19,7 +19,7 @@ Loki is multi-tenant unless configured otherwise, and then every call names the 
 ## Read build information
 
 Read the server's version. This procedure follows Loki 3.6; report the version found next to the result, and treat behavior on another release as unverified.
-- A refused request (an HTTP error status): report the version as unknown, with the status and Loki's message, and go on; behavior is then unverified.
+- A refused request (an HTTP error status other than 429, which Patterns covers): report the version as unknown, with the status and Loki's message, and go on; behavior is then unverified.
 
 ## Confirm the stream
 
@@ -42,7 +42,7 @@ Send the caller's log query with an explicit start and end; never rely on the de
 
 ## Qualify response
 
-Count the entries across every stream in the response. Loki returns no completion signal, so this count against the limit is the completeness check.
+Count the entries across every stream in the response.
 - Fewer than the limit: the limit was not reached, so that window was read in full, within the limits below.
 - Exactly the limit: the page is bounded, and more entries may exist anywhere in its window (see Patterns). Read the window in slices, or report the result as bounded with its count.
 - A deployment can cap how far back a query reaches. A window that reaches past the cap is shortened, not refused, and retention deletes older entries. Neither limit is visible in the response: report that the older end of the window may be cut by them.
@@ -54,7 +54,7 @@ Loki has no page cursor; a complete range is read with repeated range queries ov
 - Cut the window into consecutive slices, each no longer than the query length cap and each starting where the previous one ended, and run the range query on each with the same query, limit and order.
 - Read the slices oldest first when the order is forward, and newest first when it is backward.
 - A slice that comes back full is cut in two and both halves are read again, in the same order. Never continue from a full page's last timestamp.
-- If the caller set a result bound, merge each slice's entries across streams by timestamp, count them in reading order and stop once the count reaches the bound, keeping from the last slice read only the entries needed to reach it. Report the result as bounded there, with the part of the window read.
+- If the caller set a result bound, merge the entries of each slice that came back below the limit across streams by timestamp, count them in reading order and stop once the count reaches the bound, keeping from the last slice read only the entries needed to reach it. Report the result as bounded there, with the part of the window read.
 - A slice whose start and end are one nanosecond apart cannot be cut. If it still comes back full, report that part of the window as not fully readable.
 - The window is read in full when every slice came back with fewer entries than the limit. Report the total across slices and the number of slices read. Qualify response's lookback, retention and timeout points still apply.
 
