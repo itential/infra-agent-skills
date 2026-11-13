@@ -43,5 +43,5 @@ An authenticated API client for the selected platform. Each procedure's `endpoin
 ## Verification checklist
 
 - [ ] The platform and scope match the request and an index entry.
-- [ ] The platform's own completion signal was checked and reported.
+- [ ] The platform's own completion signal, or the completeness check its procedure names, was checked and reported.
 - [ ] Empty, bounded, or failed results are reported as such, not as an absence of events.
