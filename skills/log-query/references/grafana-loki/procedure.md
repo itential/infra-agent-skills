@@ -1,6 +1,6 @@
 # Grafana Loki: Bounded Range Query over Log Streams
 
-Sources: Grafana Loki 3.6 documentation, HTTP API reference, Log queries, Metric queries, Manage multi-tenancy, and Configuration (`limits_config` defaults) (retrieved 2026-11-02).
+Sources: Grafana Loki 3.6 documentation, Grafana Loki HTTP API, Log queries, Metric queries, Manage tenant isolation, and Grafana Loki configuration parameters (`limits_config` defaults) (retrieved 2026-11-02).
 
 ## Common Sequences
 
@@ -14,7 +14,7 @@ Before any call, confirm that the caller's expression is a log query: a stream s
 
 ## Settle the tenant
 
-Loki is multi-tenant unless configured otherwise, and then every call names the tenant (see `endpoints.md`), even when only one tenant exists. With multi-tenancy turned off, no tenant is named. Use the tenant the caller names, or the one the existing client already sends on every call. If neither says which mode applies, ask before the first call.
+Loki is multi-tenant unless configured otherwise, and then every call names the tenant (see `endpoints.md`), even when only one tenant exists. With multi-tenancy turned off, no tenant is named. Use the tenant the caller names, or the one the existing client already sends. If neither says which mode applies, ask before the first call.
 
 ## Read build information
 
@@ -61,7 +61,7 @@ Loki has no page cursor; a complete range is read with repeated range queries ov
 ## Patterns
 
 - Not documented: which entries a full page holds. Do not take them as the oldest or newest entries of the window. A full page shows only that its window holds at least the limit.
-- Timestamps are nanosecond integers carried as strings; keep them as integers when comparing them or setting slice bounds, since a float loses the last digits.
+- Timestamps are nanosecond integers carried as strings; compare them and set slice bounds as integers, since a float loses the last digits.
 - Index statistics give an approximate count that leaves out data still held by the ingesters; never report them as a match count.
 - Log lines come only from the range query; the instant query refuses a log query as a bad request.
 - Not documented: rate limits. On HTTP 429, back off and honor any `Retry-After` header.

@@ -1,6 +1,6 @@
 # Grafana Loki: Query Wiring
 
-Sources: Grafana Loki 3.6 documentation, HTTP API reference, Manage multi-tenancy, and Configuration (`limits_config` defaults) (retrieved 2026-11-02).
+Sources: Grafana Loki 3.6 documentation, Grafana Loki HTTP API, Manage tenant isolation, and Grafana Loki configuration parameters (`limits_config` defaults) (retrieved 2026-11-02).
 
 Server address and credentials come from the existing client; Loki's API has no authentication of its own, so any login is handled in front of it. With `auth_enabled: true` (the default) every call carries `X-Scope-OrgID: <tenant>`. With `auth_enabled: false` the header is not needed and the single tenant is named `fake`.
 
