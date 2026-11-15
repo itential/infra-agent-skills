@@ -95,10 +95,10 @@ the size. The full authoring rules are in [AGENTS.md](AGENTS.md).
 | [`automation-job-execution`](skills/automation-job-execution/) | AWX *(job template launch, poll, output, cancel)*, Jenkins *(build trigger; queue/state/stop details unverified)*, GitLab CI *(pipeline create, poll, job logs, cancel)*, Azure DevOps *(pipeline run, poll, logs, cancel)*, Rundeck *(job run, poll, output, abort)*, Puppet Enterprise *(orchestrator task/plan run, poll, report, stop)*, GitHub Actions *(workflow dispatch, run poll, logs, cancel)* |
 | [`infrastructure-plan-execution`](skills/infrastructure-plan-execution/) | HashiCorp Terraform CLI *(init, validate, plan, apply a saved plan, destroy plan, state and output reads, import)* |
 | [`metric-query`](skills/metric-query/) | Prometheus, Zabbix, Amazon CloudWatch *(read-only metric samples)* |
-| [`log-query`](skills/log-query/) | Splunk *(search job, poll, paged results)*, Elasticsearch *(mapping, bounded search, hit-total qualification)*, AWS CloudWatch Logs *(Logs Insights start, poll, page)*, Google Cloud Logging *(entries list, page tokens)*; all read-only |
+| [`log-query`](skills/log-query/) | Splunk *(search job, poll, paged results)*, Elasticsearch *(mapping, bounded search, hit-total qualification)*, AWS CloudWatch Logs *(Logs Insights start, poll, page)*, Google Cloud Logging *(entries list, page tokens)*, Grafana Loki *(stream check, bounded range query of log lines, window read in slices)*; all read-only |
 | [`cloud-security-group-audit`](skills/cloud-security-group-audit/) | AWS EC2 security groups, Azure network security groups, Google Cloud VPC firewall rules *(diagnostic, read-only: internet exposure, unattached groups, overlapping rules)* |
 
-**153** vendor references across **40** capabilities.
+**154** vendor references across **40** capabilities.
 
 See each skill's `references/INDEX.md` for the full vendor/platform breakdown and scope notes.
 

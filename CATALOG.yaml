@@ -355,6 +355,7 @@ skills:
       - Elasticsearch
       - AWS CloudWatch Logs
       - Google Cloud Logging
+      - Grafana Loki
     status: stable
 
   - id: metric-query
